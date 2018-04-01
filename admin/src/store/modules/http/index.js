@@ -1,8 +1,9 @@
 import axios from 'axios';
-import { BASE_URL } from './../constants/config';
+import constants from './../contants';
+import actions from './actions';
 
 const instance = axios.create({
-  baseURL: BASE_URL,
+  baseURL: constants.state.config.baseUrl,
   headers: {
     common: {
       'X-Requested-With': 'XMLHttpRequest',
@@ -20,4 +21,10 @@ instance.interceptors.request.use(function (config) {
   return Promise.reject(error);
 });
 
-export const HTTP_CLIENT = instance;
+export default {
+  namespaced: true,
+  state: {
+    instance
+  },
+  actions
+};

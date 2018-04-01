@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Admin\Auth\AuthController;
 use Illuminate\Http\Request;
+use App\DAL\LoginDAL as LoginDAL;
+use App\Exceptions\Auth\IncorrectEmailException;
+use App\Exceptions\Auth\IncorrectPasswordException;
 
 class LoginController extends AuthController
 {
@@ -15,7 +18,19 @@ class LoginController extends AuthController
             'password' => 'required'
         ]);
 
-        return response()->json(['error' => 'Unauthorized'], 401);
+        $credentials = $request->only('email', 'password');
+        $loginDAL = new LoginDAL();
+        try {
+            $user = $loginDAL->index($credentials);
+            return response()->json($user, 200);
+        } catch (IncorrectEmailException $e) {
+            $errors['email'] = $e->getMessage();
+            $code = $e->getCode();
+        } catch (IncorrectPasswordException $e) {
+            $errors['password'] = $e->getMessage();
+            $code = $e->getCode();
+        }
+        return response()->json($errors, $code);
     }
 
     protected function respondWithToken($token)
