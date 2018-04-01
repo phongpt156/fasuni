@@ -14,3 +14,12 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->group(['prefix' => 'admin', 'namespace' => 'Admin'], function () use ($router) {
+        $router->group(['prefix' => 'auth', 'namespace' => 'Auth'], function () use ($router) {
+            $router->post('login', 'LoginController@index');
+            $router->get('', 'AuthController@index');
+        });
+    });
+});
