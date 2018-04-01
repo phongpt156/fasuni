@@ -60,6 +60,8 @@ export default {
             .then(response => {
               if (response && response.status === 200 && response.data) {
                 this.setToken(response.data.api_token);
+                this.saveUserInfoToLocalStorage(response.data);
+                this.redirectToHomepage();
               }
             });
         } else {
@@ -71,6 +73,12 @@ export default {
       this.rules.email[0].message = this.errorMessage.email.required;
       this.rules.email[1].message = this.errorMessage.email.type;
       this.rules.password[0].message = this.errorMessage.password.required;
+    },
+    redirectToHomepage() {
+      this.$router.push({'name': 'Homepage'});
+    },
+    saveUserInfoToLocalStorage(user) {
+      localStorage.setItem('user', JSON.stringify(user));
     }
   },
   mounted() {

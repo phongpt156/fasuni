@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+import NotFound from '@/components/NotFound';
 import store from './../store';
 
 Vue.use(Router);
@@ -8,7 +9,8 @@ Vue.use(Router);
 export default new Router({
   mode: 'history',
   routes: [
-    ...generateRoutes(store.state.routes)
+    ...generateRoutes(store.state.routes),
+    { path: '*', component: NotFound, meta: { title: '404 Not Found' } }
   ]
 });
 

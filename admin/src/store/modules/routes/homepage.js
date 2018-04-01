@@ -4,7 +4,7 @@ import store from './../..';
 export default {
   name: 'Homepage',
   path: '/',
-  component: lazyLoading('HelloWorld'),
+  component: lazyLoading('Homepage'),
   meta: {
     title: 'Trang chủ'
   },
