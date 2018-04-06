@@ -1,4 +1,4 @@
-import lazyLoading from './lazyloading';
+import lazyLoading from './lazy-loading';
 import store from './../..';
 
 export default {

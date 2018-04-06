@@ -1,5 +1,5 @@
 import axios from 'axios';
-import constants from './../contants';
+import constants from './../constants';
 import actions from './actions';
 
 const instance = axios.create({

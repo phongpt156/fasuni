@@ -1,9 +1,8 @@
 import axios from 'axios';
-import constants from './../constants';
-import actions from './actions';
+import { BASE_URL } from './../constants';
 
-const instance = axios.create({
-  baseURL: constants.state.config.baseUrl,
+const httpClient = axios.create({
+  baseURL: BASE_URL,
   headers: {
     common: {
       'X-Requested-With': 'XMLHttpRequest',
@@ -12,7 +11,7 @@ const instance = axios.create({
   }
 });
 
-instance.interceptors.request.use(function (config) {
+httpClient.interceptors.request.use(function (config) {
   // Do something before request is sent
   config.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
   return config;
@@ -21,10 +20,4 @@ instance.interceptors.request.use(function (config) {
   return Promise.reject(error);
 });
 
-export default {
-  namespaced: true,
-  state: {
-    instance
-  },
-  actions
-};
+export default httpClient;

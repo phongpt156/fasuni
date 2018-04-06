@@ -21,7 +21,7 @@ class AuthController extends Controller
     {
         $user = $this->guard()->user();
 
-        if ($user) {
+        if ($user && $user->is_admin) {
             return response()->json($user, 200);
         }
         return response()->json([], 401);

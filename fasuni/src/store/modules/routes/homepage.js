@@ -1,5 +1,5 @@
 import lazyLoading from './lazy-loading';
-import store from './../..';
+import userService from '@/shared/services/user.service';
 
 export default {
   name: 'Homepage',
@@ -9,7 +9,7 @@ export default {
     title: 'Trang chủ'
   },
   beforeEnter(to, from, next) {
-    store.dispatch('services/auth/index')
+    userService.index()
       .then(response => {
         if (response && response.status === 401) {
           next({'name': 'Login'});

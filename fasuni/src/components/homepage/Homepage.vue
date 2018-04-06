@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import MainBody from './MainBody';
+import MainBody from './main-body/MainBody';
 
 export default {
   name: 'Homepage',
