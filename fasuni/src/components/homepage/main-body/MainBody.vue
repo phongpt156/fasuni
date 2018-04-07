@@ -41,9 +41,10 @@
       </div>
     </div>
 
-    <div>
+    <div class="mb-4">
       <product-list></product-list>
     </div>
+    <hr class="bg-dark m-0" />
   </div>
 </template>
 

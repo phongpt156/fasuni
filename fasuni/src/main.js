@@ -6,7 +6,8 @@ import router from './router';
 import { sync } from 'vuex-router-sync';
 import store from './store';
 
-require('@/assets/scripts');
+import '@/assets/scripts';
+import '@/package/material-input';
 
 Vue.config.productionTip = false;
 

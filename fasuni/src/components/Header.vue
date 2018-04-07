@@ -30,7 +30,7 @@
         </ul>
         <ul class="navbar-nav align-items-center">
           <li class="nav-item">
-            <a class="nav-link text-dark">
+            <a class="nav-link text-white bag d-flex align-items-center">
               My Bag (5)
             </a>
           </li>
@@ -45,24 +45,34 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark text-uppercase">
+            <!-- <a class="nav-link text-dark text-uppercase" data-toggle="modal" data-target="#exampleModal">
               Sign in
-            </a>
+            </a> -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Launch demo modal
+</button>
           </li>
         </ul>
       </div>
     </nav>
+    <login-form-dialog></login-form-dialog>
   </header>
 </template>
 
 <script>
+import LoginFormDialog from '@/components/shared/LoginFormDialog';
+
 export default {
+  components: {
+    LoginFormDialog
+  },
   data() {
     return {
       categories: [
         { id: 1, name: `Women's`, parent_id: 0 },
         { id: 2, name: `Men's`, parent_id: 0 }
-      ]
+      ],
+      isOpenLoginFormDialog: false
     };
   }
 };
@@ -84,19 +94,16 @@ export default {
       input {
         border-radius: 30px 0 0 30px;
         background-color: #dddddd;
-
-        &:focus {
-          box-shadow: unset;
-        }
       }
       button {
         border-radius: 0 30px 30px 0;
         background-color: #2d2d2d;
-
-        &:focus {
-          box-shadow: unset;
-        }
       }
+    }
+
+    .bag {
+      height: 50px;
+      background-color: $black;
     }
   }
 </style>

@@ -1,1 +1,2 @@
-require('bootstrap/dist/js/bootstrap.min');
+import 'bootstrap/dist/js/bootstrap.min';
+import 'jquery/dist/jquery.min';
