@@ -1,5 +1,6 @@
 <template>
-  <div class="mat-input-container" :class="{'mat-input-focus': isFocus}">
+  <div class="mat-input-container mb-4" :class="{'mat-input-focus': isFocus, 'has-error': hasError}">
+    <div class="font-weight-bold text-upppercase mb-1 mat-input-label">{{ inputLabel }}</div>
     <div class="mat-input-wrapper">
       <div class="mat-input-flex">
         <div class="mat-input-infix">
@@ -7,21 +8,16 @@
             class="mat-input-element"
             :type="type"
             :value="value"
-            @input="$emit('input', $event.target.value)"
+            :placeholder="placeholder"
+            @input="onInput($event.target.value)"
             @focus="isFocus = true"
-            @blur="isFocus = false"
-            @change="test" />
-          <span class="mat-input-placeholder-wrapper">
-            <label class="mat-input-placeholder" :class="{'mat-input-not-empty': value.length}">
-              {{ placeholder }}
-              <span class="mat-input-required-marker" v-if="required">*</span>
-            </label>
-          </span>
+            @blur="isFocus = false" />
         </div>
       </div>
       <div class="mat-input-underline">
         <span class="mat-input-ripple"></span>
       </div>
+      <div class="mat-input-error" v-if="hasError">{{ errorMessage }}</div>
     </div>
   </div>
 </template>
@@ -41,32 +37,97 @@ export default {
       default: 'text'
     },
     value: {
-      type: String
+      type: String,
+      default: ''
+    },
+    label: {
+      type: String,
+      default: ''
+    },
+    prop: {
+      type: String,
+      default: ''
     }
   },
   data() {
     return {
-      isFocus: false
+      isFocus: false,
+      isValidateWhenTyping: false,
+      errorMessage: '',
+      hasError: false,
+      validator: '',
+      errorMessages: {
+        required: '',
+        validator: ''
+      }
     };
   },
+  computed: {
+    inputLabel() {
+      return this.required ? `${this.label}*` : this.label;
+    }
+  },
   methods: {
-    test() {
+    onInput(value) {
+      this.$emit('input', value);
+      if (this.isValidateWhenTyping) {
+        this.validate(value);
+      }
+    },
+    validate(value) {
+      this.hasError = false;
 
+      if (this.required) {
+        if (value === '') {
+          this.hasError = true;
+          this.errorMessage = this.errorMessages.required;
+          return;
+        }
+      }
+      if (this.validator) {
+        if (!this.validator.test(value)) {
+          this.hasError = true;
+          this.errorMessage = this.errorMessages.validator;
+        }
+      }
     }
   }
 };
 </script>
 
 <style lang="scss">
+
   $accent-color: #3f51b5;
+  $danger-color: #f44336;
 
   .mat-input {
     &-container {
       width: 100%;
+
+      &.has-error {
+        .mat-input {
+          &-label {
+            color: $danger-color;
+          }
+          &-element {
+            caret-color: $danger-color;
+
+            &::-webkit-input-placeholder {
+              color: $danger-color;
+            }
+          }
+          &-underline {
+            background-color: $danger-color;
+
+            .mat-input-ripple {
+              background-color: $danger-color;
+            }
+          }
+        }
+      }
     }
     &-wrapper {
       position: relative;
-      padding-bottom: 1.25em;
     }
     &-flex {
       width: 100%;
@@ -76,11 +137,9 @@ export default {
     &-infix {
       width: 180px;
       position: relative;
-      padding: .4375em 0;
       min-width: 0;
       flex: auto;
       display: block;
-      border-top: .84375em solid transparent;
 
       .mat-input-element {
         width: 100%;
@@ -88,41 +147,15 @@ export default {
         padding: 0;
         outline: 0;
         max-width: 100%;
-        margin-top: -.0625em;
         caret-color: $accent-color;
         border: none;
       }
-    }
-    &-placeholder-wrapper {
-      width: 100%;
-      top: -.84375em;
-      position: absolute;
-      pointer-events: none;
-      padding-top: .84375em;
-      overflow: hidden;
-      left: 0;
-      height: 100%;
-      box-sizing: content-box;
-    }
-    &-placeholder {
-      width: 100%;
-      white-space: nowrap;
-      transition: transform .4s cubic-bezier(.25,.8,.25,1),color .4s cubic-bezier(.25,.8,.25,1),width .4s cubic-bezier(.25,.8,.25,1);
-      transform-origin: 0 0;
-      transform: perspective(100px);
-      top: 1.28125em;
-      text-overflow: ellipsis;
-      position: absolute;
-      pointer-events: none;
-      overflow: hidden;
-      left: 0;
-      color: rgba(0,0,0,.54);
     }
     &-underline {
       width: 100%;
       position: absolute;
       height: 1px;
-      bottom: 1.25em;
+      bottom: 0;
       background-color: rgba(0,0,0,.42);
 
       .mat-input-ripple {
@@ -141,9 +174,6 @@ export default {
     }
     &-focus {
       .mat-input {
-        &-placeholder {
-          transform: translateY(-1.28125em) scale(.75) perspective(100px) translateZ(.001px);
-        }
         &-ripple {
           visibility: visible;
           transition: transform .3s cubic-bezier(.25,.8,.25,1),opacity .1s cubic-bezier(.25,.8,.25,1),background-color .3s cubic-bezier(.25,.8,.25,1);
@@ -152,8 +182,11 @@ export default {
         }
       }
     }
-    &-not-empty {
-      transform: translateY(-1.28125em) scale(.75) perspective(100px) translateZ(.001px);
+    &-error {
+      position: absolute;
+      font-size: 75%;
+      color: $danger-color;
+      bottom: -17px;
     }
   }
 </style>

@@ -1,24 +1,52 @@
 <template>
-  <div class="login-form-dialog">
+  <div class="register-form-dialog">
     <modal
-      v-if="isOpenLoginFormDialog"
-      @close="$emit('update:isOpenLoginFormDialog', false)">
+      v-if="isOpenRegisterFormDialog"
+      @close="$emit('update:isOpenRegisterFormDialog', false)">
       <div slot="body" class="row m-0">
         <div class="col-6 p-0">
-          <img :src="images.loginFormBanner" alt="" class="w-100 h-100" />
+          <img :src="images.registerFormBanner" alt="" class="w-100 h-100" />
         </div>
         <div class="col-6 px-lg-5 pt-lg-3">
           <h5 class="text-center">Fasuni</h5>
-          <mat-form ref="loginForm" :model="loginForm" :rules="loginRules">
+          <mat-form>
             <div>
               <mat-input
                 label="Số điện thoại"
                 placeholder="Nhập số điện thoại của bạn"
                 :required="true"
                 type="text"
-                v-model="loginForm.phoneNumber"
-                prop="phoneNumber">
-              </mat-input>
+                v-model="phoneNumber"></mat-input>
+            </div>
+            <div>
+              <mat-input
+                label="Họ tên"
+                placeholder="Nhập họ tên đầy đủ"
+                :required="true"
+                type="text"
+                v-model="fullName"></mat-input>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <mat-select
+                  label="Tỉnh thành"
+                  placeholder="Chọn tỉnh thành"
+                  :required="true"
+                  type="text"
+                  v-model="province"></mat-select>
+              </div>
+              <div class="col-lg-6">
+                <mat-select
+                  label="Giới tính"
+                  placeholder="Chọn giới tính"
+                  :required="true"
+                  type="text"
+                  v-model="gender">
+                  <option v-for="gender in genders" :key="gender.id" slot="option" class="text-dark">
+                    {{ gender.name }}
+                  </option>
+                </mat-select>
+              </div>
             </div>
             <div>
               <mat-input
@@ -26,11 +54,9 @@
                 placeholder="Nhập mật khẩu"
                 :required="true"
                 type="password"
-                v-model="loginForm.password"
-                prop="password"></mat-input>
+                v-model="password"></mat-input>
             </div>
-            <a class="d-block text-right mb-3 text-underline forget-password-button">Quên mật khẩu</a>
-            <button type="submit" class="btn w-100 submit-button text-white">Đăng nhập</button>
+            <button type="button" class="btn w-100 submit-button text-white">Đăng ký</button>
           </mat-form>
           <p class="text-center my-2">Hoặc</p>
           <div class="social d-flex justify-content-center mb-2">
@@ -41,8 +67,8 @@
               <img :src="images.facebook" alt="" />
             </a>
           </div>
-          <p class="text-center">Bạn chưa có tài khoản?
-            <a class="register-button" @click="$emit('openRegisterFormDialog')">Đăng ký ngay</a>
+          <p class="text-center">Bạn đã có tài khoản?
+            <a class="register-button" @click="$emit('openLoginFormDialog')">Đăng nhập ngay</a>
           </p>
         </div>
       </div>
@@ -52,13 +78,14 @@
 
 <script>
 import MatInput from '@/components/shared/material/MatInput';
+import MatSelect from '@/components/shared/material/MatSelect';
 import MatForm from '@/components/shared/material/MatForm';
 import Modal from '@/components/shared/Modal';
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
 import googleIcon from '@fortawesome/fontawesome-free-brands/faGooglePlus';
-import loginFormBanner from '@/assets/images/login-form-banner.jpg';
+import registerFormBanner from '@/assets/images/register-form-banner.jpg';
 import facebookIcon from '@/assets/images/facebook-icon.svg';
-import { ERROR_MESSAGE, PATTERN } from '@/shared/constants';
+import { GENDER } from '@/shared/constants';
 
 export default {
   props: {
@@ -66,46 +93,50 @@ export default {
       type: Boolean,
       default: false
     },
-    isOpenLoginFormDialog: {
+    isOpenRegisterFormDialog: {
       type: Boolean,
       default: false
     }
   },
   components: {
     MatInput,
+    MatSelect,
     MatForm,
     FontAwesomeIcon,
     Modal
   },
   data() {
     return {
-      loginForm: {
-        phoneNumber: '',
-        password: ''
-      },
-      loginRules: {
-        phoneNumber: [
-          { required: true, message: ERROR_MESSAGE.phoneNumber.required },
-          { validator: PATTERN.phoneNumber, message: ERROR_MESSAGE.phoneNumber.format }
-        ],
-        password: [
-          { required: true, message: ERROR_MESSAGE.password.required }
-        ]
-      },
+      phoneNumber: '',
+      fullName: '',
+      province: '',
+      gender: '',
+      password: '',
       images: {
-        loginFormBanner: loginFormBanner,
+        registerFormBanner: registerFormBanner,
         facebook: facebookIcon
       },
       icons: {
         google: googleIcon
       }
     };
+  },
+  computed: {
+    genders() {
+      return GENDER;
+    }
   }
 };
 </script>
 
 <style lang="scss">
-  .login-form-dialog {
+  .register-form-dialog {
+    .modal-lg {
+      &>.row {
+        overflow-y: auto;
+        max-height: 535px;
+      }
+    }
     .submit-button {
       border-radius: 50px;
       background-color: #ff7eaf;

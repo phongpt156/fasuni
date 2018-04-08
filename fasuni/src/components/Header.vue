@@ -45,26 +45,28 @@
             </a>
           </li>
           <li class="nav-item">
-            <!-- <a class="nav-link text-dark text-uppercase" data-toggle="modal" data-target="#exampleModal">
+            <a class="nav-link text-dark text-uppercase" @click="isOpenLoginFormDialog = true">
               Sign in
-            </a> -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-  Launch demo modal
-</button>
+            </a>
           </li>
         </ul>
       </div>
     </nav>
-    <login-form-dialog></login-form-dialog>
+    <login-form-dialog :isOpenLoginFormDialog.sync="isOpenLoginFormDialog" @openRegisterFormDialog="openRegisterFormDialog"></login-form-dialog>
+    <register-form-dialog :isOpenRegisterFormDialog.sync="isOpenRegisterFormDialog" @openLoginFormDialog="openLoginFormDialog"></register-form-dialog>
   </header>
 </template>
 
 <script>
 import LoginFormDialog from '@/components/shared/LoginFormDialog';
+import RegisterFormDialog from '@/components/shared/RegisterFormDialog';
+import Modal from '@/components/shared/Modal';
 
 export default {
   components: {
-    LoginFormDialog
+    LoginFormDialog,
+    RegisterFormDialog,
+    Modal
   },
   data() {
     return {
@@ -72,8 +74,19 @@ export default {
         { id: 1, name: `Women's`, parent_id: 0 },
         { id: 2, name: `Men's`, parent_id: 0 }
       ],
-      isOpenLoginFormDialog: false
+      isOpenLoginFormDialog: false,
+      isOpenRegisterFormDialog: false
     };
+  },
+  methods: {
+    openRegisterFormDialog() {
+      this.isOpenLoginFormDialog = false;
+      this.isOpenRegisterFormDialog = true;
+    },
+    openLoginFormDialog() {
+      this.isOpenLoginFormDialog = true;
+      this.isOpenRegisterFormDialog = false;
+    }
   }
 };
 </script>

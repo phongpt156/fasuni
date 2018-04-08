@@ -8670,6 +8670,10 @@ vue-material-input@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/vue-material-input/-/vue-material-input-1.2.0.tgz#61e001ede778ad9e026c570463523decee8cd468"
 
+vue-progressbar@^0.7.4:
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/vue-progressbar/-/vue-progressbar-0.7.4.tgz#435dd9cb3707e29a1b18063afed44aeff371e606"
+
 vue-router@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.0.1.tgz#d9b05ad9c7420ba0f626d6500d693e60092cc1e9"

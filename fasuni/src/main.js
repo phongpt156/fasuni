@@ -7,7 +7,7 @@ import { sync } from 'vuex-router-sync';
 import store from './store';
 
 import '@/assets/scripts';
-import '@/package/material-input';
+import '@/package/progress-bar';
 
 Vue.config.productionTip = false;
 
@@ -19,7 +19,7 @@ router.beforeEach(async (to, from, next) => {
 });
 
 /* eslint-disable no-new */
-new Vue({
+export default new Vue({
   el: '#app',
   store,
   router,

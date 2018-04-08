@@ -1,6 +1,6 @@
 <template>
   <div class="homepage">
-    <nav class="navbar navbar-expand-lg justify-content-between py-3 px-2">
+    <nav class="navbar navbar-expand-lg justify-content-center py-3 px-2">
       <ul class="navbar-nav align-items-center breadcrumbs">
         <li class="nav-item">
           <a class="nav-link">MEN'S
@@ -16,7 +16,6 @@
         </li>
       </ul>
       <h3 class="text-uppercase font-weight-normal mb-0">Thời trang nam mùa hè</h3>
-      <div></div>
     </nav>
     <hr class="bg-dark m-0" />
     <main-body></main-body>
@@ -47,6 +46,8 @@ export default {
     background-color: #f8f7f7;
 
     .breadcrumbs {
+      position: absolute;
+      left: 0.5rem;
       font-size: $font-size-sm;
     }
   }

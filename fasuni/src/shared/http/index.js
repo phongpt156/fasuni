@@ -11,7 +11,7 @@ const httpClient = axios.create({
   }
 });
 
-httpClient.interceptors.request.use(function (config) {
+httpClient.interceptors.request.use(config => {
   // Do something before request is sent
   config.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
   return config;
