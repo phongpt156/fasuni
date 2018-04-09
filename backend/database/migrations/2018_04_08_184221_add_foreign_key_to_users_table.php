@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFacebookAccountsTable extends Migration
+class AddForeignKeyToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class CreateFacebookAccountsTable extends Migration
      */
     public function up()
     {
-        Schema::create('facebook_accounts', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreign('living_city_id')->references('id')->on('cities');
         });
     }
 
@@ -26,6 +25,8 @@ class CreateFacebookAccountsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('facebook_accounts');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign('living_city_id');
+        });
     }
 }

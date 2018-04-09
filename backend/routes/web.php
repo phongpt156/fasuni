@@ -22,4 +22,14 @@ $router->group(['prefix' => 'api'], function () use ($router) {
             $router->get('', 'AuthController@index');
         });
     });
+
+    $router->group(['prefix' => 'auth', 'namespace' => 'Auth'], function () use ($router) {
+        $router->get('', 'AuthController@index');
+        $router->post('register', 'RegisterController@index');
+        $router->post('login', 'LoginController@index');
+        $router->get('logout', 'AuthController@logout');
+    });
+    $router->group(['prefix' => 'city'], function () use ($router) {
+        $router->get('', 'CityController@index');
+    });
 });

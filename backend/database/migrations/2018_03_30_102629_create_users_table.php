@@ -21,13 +21,16 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique()->nullable();
             $table->string('password');
             $table->boolean('gender');
-            $table->integer('living_city_id')->nullable();
+            $table->unsignedInteger('living_city_id')->nullable();
             $table->string('avatar')->nullable();
             $table->string('cover')->nullable();
             $table->string('phone_number', 30)->nullable();
             $table->rememberToken();
             $table->string('api_token', 62);
             $table->boolean('is_admin')->default(0);
+            $table->integer('facebook_id')->nullable();
+            $table->string('facebook_name')->nullable();
+            $table->string('facebook_access_token')->nullable();
             $table->timestamps();
         });
     }

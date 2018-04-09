@@ -6,6 +6,6 @@ use Exception;
 
 class IncorrectEmailException extends Exception
 {
-    protected $message = 'Your email is not correct';
+    protected $message = 'Email không tồn tại';
     protected $code = 401;
 }

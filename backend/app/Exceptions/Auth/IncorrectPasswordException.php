@@ -6,6 +6,6 @@ use Exception;
 
 class IncorrectPasswordException extends Exception
 {
-    protected $message = 'Your password is not correct';
+    protected $message = 'Mật khẩu không đúng';
     protected $code = 500;
 }
