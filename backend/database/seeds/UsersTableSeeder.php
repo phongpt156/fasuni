@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use App\PackageWrapper\DateTime;
 
 class UsersTableSeeder extends Seeder
 {
@@ -20,7 +21,9 @@ class UsersTableSeeder extends Seeder
             'password' => Hash::make('123456'),
             'gender' => 1,
             'api_token' => str_random(60),
-            'is_admin' => 1
+            'is_admin' => 1,
+            'created_at' => DateTime::now(),
+            'updated_at' => DateTime::now()
         ]);
     }
 }

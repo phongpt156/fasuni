@@ -28,6 +28,10 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->post('register', 'RegisterController@index');
         $router->post('login', 'LoginController@index');
         $router->get('logout', 'AuthController@logout');
+
+        $router->group(['prefix' => 'facebook', 'namespace' => 'Facebook'], function () use ($router) {
+            $router->post('login', 'FacebookController@login');
+        });
     });
     $router->group(['prefix' => 'city'], function () use ($router) {
         $router->get('', 'CityController@index');
