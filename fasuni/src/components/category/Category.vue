@@ -1,20 +1,22 @@
 <template>
-  <div class="homepage">
+  <div class="category">
     <nav class="navbar navbar-expand-lg justify-content-center py-3 px-2">
-      <ul class="navbar-nav align-items-center breadcrumbs">
-        <li class="nav-item">
-          <a class="nav-link">MEN'S
-          </a>
-        </li> /
-        <li class="nav-item">
-          <a class="nav-link">All Clothing
-          </a>
-        </li> /
-        <li class="nav-item">
-          <a class="nav-link">T-Shirts
-          </a>
-        </li>
-      </ul>
+      <div class="d-md-block d-none breadcrumbs">
+        <ul class="navbar-nav align-items-center flex-row">
+          <li class="nav-item">
+            <a class="nav-link p-2">MEN'S
+            </a>
+          </li> /
+          <li class="nav-item">
+            <a class="nav-link p-2">All Clothing
+            </a>
+          </li> /
+          <li class="nav-item">
+            <a class="nav-link p-2">T-Shirts
+            </a>
+          </li>
+        </ul>
+      </div>
       <h3 class="text-uppercase font-weight-normal mb-0">Thời trang nam mùa hè</h3>
     </nav>
     <hr class="bg-dark m-0" />
@@ -26,28 +28,22 @@
 import MainBody from './main-body/MainBody';
 
 export default {
-  name: 'Homepage',
+  name: 'Category',
   components: {
     MainBody
   },
   data() {
     return {
     };
-  },
-  mounted() {
-    console.log(this.$route);
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
   @import '~bootstrap/scss/functions';
   @import '~bootstrap/scss/_variables';
 
-  .homepage {
-    background-color: #f8f7f7;
-
+  .category {
     .breadcrumbs {
       position: absolute;
       left: 0.5rem;

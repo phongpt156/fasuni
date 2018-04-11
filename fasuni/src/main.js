@@ -8,6 +8,7 @@ import store from './store';
 
 import '@/assets/scripts';
 import '@/package/progress-bar';
+import '@/package/carousel';
 
 Vue.config.productionTip = false;
 

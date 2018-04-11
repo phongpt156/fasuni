@@ -9,15 +9,19 @@
         </div>
         <div class="col-6 px-lg-5 pt-lg-3">
           <h5 class="text-center">Fasuni</h5>
-          <mat-form ref="loginForm" :model="loginForm" :rules="loginRules">
+          <mat-form
+            ref="loginForm"
+            :model="loginForm"
+            :rules="loginRules"
+            @submit="onSubmit">
             <div>
               <mat-input
                 label="Số điện thoại"
                 placeholder="Nhập số điện thoại của bạn"
                 :required="true"
                 type="text"
-                v-model="loginForm.phoneNumber"
-                prop="phoneNumber">
+                v-model="loginForm.phone_number"
+                prop="phone_number">
               </mat-input>
             </div>
             <div>
@@ -37,9 +41,7 @@
             <a class="d-inline-block mr-3">
               <font-awesome-icon :icon="icons.google"></font-awesome-icon>
             </a>
-            <a class="d-inline-block">
-              <img :src="images.facebook" alt="" />
-            </a>
+            <facebook-button></facebook-button>
           </div>
           <p class="text-center">Bạn chưa có tài khoản?
             <a class="register-button" @click="$emit('openRegisterFormDialog')">Đăng ký ngay</a>
@@ -56,9 +58,12 @@ import MatForm from '@/components/shared/material/MatForm';
 import Modal from '@/components/shared/Modal';
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
 import googleIcon from '@fortawesome/fontawesome-free-brands/faGooglePlus';
+import { mapMutations } from 'vuex';
 import loginFormBanner from '@/assets/images/login-form-banner.jpg';
-import facebookIcon from '@/assets/images/facebook-icon.svg';
+import FacebookButton from '@/components/shared/FacebookButton';
 import { ERROR_MESSAGE, PATTERN } from '@/shared/constants';
+import userService from '@/shared/services/user.service';
+import { reloadApp } from '@/shared/functions';
 
 export default {
   props: {
@@ -75,16 +80,17 @@ export default {
     MatInput,
     MatForm,
     FontAwesomeIcon,
-    Modal
+    Modal,
+    FacebookButton
   },
   data() {
     return {
       loginForm: {
-        phoneNumber: '',
+        phone_number: '',
         password: ''
       },
       loginRules: {
-        phoneNumber: [
+        phone_number: [
           { required: true, message: ERROR_MESSAGE.phoneNumber.required },
           { validator: PATTERN.phoneNumber, message: ERROR_MESSAGE.phoneNumber.format }
         ],
@@ -93,13 +99,36 @@ export default {
         ]
       },
       images: {
-        loginFormBanner: loginFormBanner,
-        facebook: facebookIcon
+        loginFormBanner: loginFormBanner
       },
       icons: {
         google: googleIcon
       }
     };
+  },
+  methods: {
+    ...mapMutations('auth', [
+      'setToken'
+    ]),
+    onSubmit() {
+      this.$refs.loginForm.validate();
+      if (this.$refs.loginForm.isValid) {
+        userService.login(this.loginForm)
+          .then(response => {
+            if (response.status === 200) {
+              this.setToken(response.data.api_token);
+              reloadApp();
+            } else {
+              this.addErrors(response.data.errors);
+            }
+          });
+      }
+    },
+    addErrors(errors) {
+      for (const key of Object.keys(errors)) {
+        this.$refs.loginForm.addError(key, errors[key]);
+      }
+    }
   }
 };
 </script>
@@ -118,12 +147,6 @@ export default {
         .svg-inline--fa {
           width: 35px;
           height: 35px;
-        }
-        img {
-          width: 39px;
-          top: -2px;
-          position: relative;
-          height: 39px;
         }
       }
     }

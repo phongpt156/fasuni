@@ -22,23 +22,38 @@ export default {
   },
   data() {
     return {
+      isValid: true,
+      fields: {}
     };
   },
   methods: {
     onSubmit() {
-      this.validate();
+      this.$emit('submit');
     },
     validate() {
       let focused = false;
+      let isValid = true;
 
       this.$children.forEach((childComponent, index) => {
         childComponent.isValidateWhenTyping = true;
-        childComponent.validate(childComponent.value);
-        if (childComponent.hasError && !focused) {
-          focused = true;
-          this.$refs.form[index].focus();
+        if (childComponent.validate) {
+          childComponent.validate(childComponent.value);
+          if (childComponent.hasError && !focused) {
+            isValid = false;
+            focused = true;
+            this.$refs.form[index].focus();
+          }
         }
       });
+      this.isValid = isValid;
+    },
+    addError(field, message) {
+      this.fields[field].hasError = true;
+      this.fields[field].errorMessage = message;
+      const input = this.fields[field].$el.querySelector('input');
+      if (input) {
+        input.focus();
+      }
     }
   },
   mounted() {
@@ -49,6 +64,8 @@ export default {
     for (const key of Object.keys(this.model)) {
       this.$children.forEach(childComponent => {
         if (childComponent.prop === key) {
+          this.fields[key] = childComponent;
+
           if (this.rules[key]) {
             this.rules[key].forEach(rule => {
               if (rule.required) {

@@ -5,7 +5,7 @@
   "author": "Phong <pthanhphong156@gmail.com>",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js --mode development",
+    "dev": "webpack-dev-server --https --inline --progress --config build/webpack.dev.conf.js --mode development",
     "start": "npm run dev",
     "unit": "jest --config test/unit/jest.conf.js --coverage",
     "e2e": "node test/e2e/runner.js",
@@ -24,6 +24,7 @@
     "jquery": "^3.3.1",
     "popper.js": "^1.14.1",
     "vue": "^2.5.2",
+    "vue-carousel": "^0.6.12",
     "vue-progressbar": "^0.7.4",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",

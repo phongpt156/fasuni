@@ -5,3 +5,7 @@ export function handleError(error) {
 export function getFormatPrice (price) {
   return `${price.toLocaleString()}Đ`;
 };
+
+export function reloadApp() {
+  window.location.reload();
+};

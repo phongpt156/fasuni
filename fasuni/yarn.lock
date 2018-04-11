@@ -8618,6 +8618,10 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
+vue-carousel@^0.6.12:
+  version "0.6.12"
+  resolved "https://registry.yarnpkg.com/vue-carousel/-/vue-carousel-0.6.12.tgz#bee906b15f3b97ea1e7e33d9b28c3fef1c3dd233"
+
 vue-eslint-parser@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/vue-eslint-parser/-/vue-eslint-parser-2.0.3.tgz#c268c96c6d94cfe3d938a5f7593959b0ca3360d1"
@@ -8665,10 +8669,6 @@ vue-loader@^14.2.2:
     vue-hot-reload-api "^2.2.0"
     vue-style-loader "^4.0.1"
     vue-template-es2015-compiler "^1.6.0"
-
-vue-material-input@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/vue-material-input/-/vue-material-input-1.2.0.tgz#61e001ede778ad9e026c570463523decee8cd468"
 
 vue-progressbar@^0.7.4:
   version "0.7.4"

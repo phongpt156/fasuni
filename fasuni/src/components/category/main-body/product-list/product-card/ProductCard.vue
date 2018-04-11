@@ -2,12 +2,10 @@
   <div class="product-card mt-3 px-3">
     <div class="card">
       <div class="card-header p-0">
-        <img class="card-img-top img-fluid" :src="product.image" />
+        <img class="card-img-top img-fluid" :src="product.image" @click="goToProductPage" />
         <font-awesome-icon
           :icon="icon.heart"
           class="like-button"
-          @mouseenter="hoveredLikeButton = true"
-          @mouseleave="hoveredLikeButton = false"
           @click="toggleIsLiked"></font-awesome-icon>
         <div class="product-attributes w-100">
           <div class="product-quantity-info mx-3 mb-3" v-if="currentHoverSize !== null">
@@ -67,8 +65,7 @@ export default {
   },
   data() {
     return {
-      currentHoverSize: null,
-      hoveredLikeButton: false
+      currentHoverSize: null
     };
   },
   computed: {
@@ -110,6 +107,9 @@ export default {
     },
     toggleIsLiked() {
       this.$set(this.product, 'isLiked', !this.product.isLiked);
+    },
+    goToProductPage() {
+      this.$router.push({name: 'Product'});
     }
   }
 };

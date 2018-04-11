@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://localhost:8000/api';
+export const BASE_URL = 'https://localhost/fasuni/backend/public/api';
 
 export const ERROR_MESSAGE = {
   email: {
@@ -11,6 +11,12 @@ export const ERROR_MESSAGE = {
   phoneNumber: {
     required: 'Vui lòng nhập số điện thoại.',
     format: 'Số điện thoại bạn nhập không hợp lệ.'
+  },
+  firstName: {
+    required: 'Vui lòng nhập tên của bạn'
+  },
+  lastName: {
+    required: 'Vui lòng nhập họ của bạn'
   }
 };
 
