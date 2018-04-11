@@ -37,3 +37,5 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->get('', 'CityController@index');
     });
 });
+
+$router->get('test', 'TestController@index');
