@@ -1,20 +1,34 @@
 <template>
   <header class="header fixed-top">
     <nav class="navbar navbar-expand-lg navbar-light">
-      <a class="navbar-brand h-100 d-flex align-items-center">Fasuni</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+      <a class="navbar-brand h-100 d-flex align-items-center" @click="goToHomepage">Fasuni</a>
+      <button class="navbar-toggler" type="button">
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto align-items-center category-list">
           <li
             class="nav-item dropdown"
             v-for="category in categories"
             :key="category.id">
-            <a class="nav-link dropdown-toggle text-uppercase text-dark">
+            <a class="nav-link dropdown-toggle text-uppercase text-dark" data-toggle="dropdown">
               {{ category.name }}
             </a>
+            <div class="dropdown-menu mt-0 p-4">
+              <div class="dropdown-item">
+                <ul class="navbar-nav sub-nav pr-3 d-inline-flex" v-for="category in category.children" :key="category.id">
+                  <li>
+                    <a class="h6 mb-3 d-block">{{ category.name }}</a>
+                    <ul class="navbar-nav flex-column flex-wrap" v-if="category.children.length">
+                      <li v-for="category in category.children" :key="category.id" class="mr-4 my-1">
+                        <a class="category-item">{{ category.name }}</a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-uppercase text-dark">
@@ -76,8 +90,72 @@ export default {
   data() {
     return {
       categories: [
-        { id: 1, name: `Women's`, parent_id: 0 },
-        { id: 2, name: `Men's`, parent_id: 0 }
+        {
+          id: 1,
+          name: `Women's`,
+          children: [
+            {
+              id: 3,
+              name: 'All Clothing',
+              children: [
+                {
+                  id: 4,
+                  name: 'Leather Jackets'
+                },
+                {
+                  id: 5,
+                  name: 'Coats & Jackets'
+                },
+                {
+                  id: 6,
+                  name: 'Knitwear'
+                },
+                {
+                  id: 7,
+                  name: 'Shirts'
+                },
+                {
+                  id: 8,
+                  name: 'Sweatshirts'
+                },
+                {
+                  id: 9,
+                  name: 'Hoodies'
+                },
+                {
+                  id: 10,
+                  name: 'Tailoring'
+                },
+                {
+                  id: 11,
+                  name: 'T-Shirts'
+                },
+                {
+                  id: 12,
+                  name: 'Polos'
+                },
+                {
+                  id: 13,
+                  name: 'Jeans'
+                },
+                {
+                  id: 14,
+                  name: 'Trousers'
+                },
+                {
+                  id: 15,
+                  name: 'Shorts'
+                }
+              ]
+            }
+          ],
+          isOpenSubMenu: false
+        },
+        {
+          id: 2,
+          name: `Men's`,
+          isOpenSubMenu: false
+        }
       ],
       isOpenLoginFormDialog: false,
       isOpenRegisterFormDialog: false
@@ -99,6 +177,9 @@ export default {
     ...mapMutations('auth', [
       'removeToken'
     ]),
+    goToHomepage() {
+      this.$router.push({name: 'Homepage'});
+    },
     openRegisterFormDialog() {
       this.isOpenLoginFormDialog = false;
       this.isOpenRegisterFormDialog = true;
@@ -128,6 +209,37 @@ export default {
       .dropdown-toggle {
         &:after {
           content: none;
+        }
+      }
+      .dropdown-item {
+        background-color: transparent !important;
+
+        &:active {
+          outline: none;
+          color: $black;
+        }
+      }
+      .dropdown-menu {
+        width: 100%;
+        top: 50px;
+        position: fixed;
+
+        .sub-nav {
+          .h6 {
+            font-size: $font-size-base;
+          }
+          .category-item {
+            font-size: $font-size-sm;
+            border-bottom: 1px solid transparent;
+
+            &:hover {
+              transition: border-bottom .5s ease, border-bottom .5s ease;
+              border-bottom-color: #000;
+            }
+          }
+          .navbar-nav {
+            max-height: 400px;
+          }
         }
       }
     }

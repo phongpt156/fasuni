@@ -1,6 +1,6 @@
 <template>
   <div class="px-2 product-component">
-    <ul class="navbar-nav align-items-center flex-row pt-4 pb-2">
+    <ul class="navbar-nav align-items-center flex-row pt-4 pb-2 d-md-flex d-none">
       <li class="nav-item">
         <a class="nav-link p-2">MEN'S
         </a>
@@ -22,16 +22,16 @@
       <div class="row m-0">
         <div class="col-md-8 p-0">
           <div class="row m-0">
-            <div class="col-md-6 p-2">
+            <div class="col-sm-6 p-2">
               <img src="https://images.allsaints.com/products/900/WL047C/140/WL047C-140-1.jpg" alt="" class="img-fluid" />
             </div>
-            <div class="col-md-6 p-2">
+            <div class="col-sm-6 p-2">
               <img src="https://images.allsaints.com/products/900/WL047C/140/WL047C-140-2.jpg" alt="" class="img-fluid" />
             </div>
-            <div class="col-md-6 p-2">
+            <div class="col-sm-6 p-2">
               <img src="https://images.allsaints.com/products/900/WL047C/140/WL047C-140-3.jpg" alt="" class="img-fluid" />
             </div>
-            <div class="col-md-6 p-2">
+            <div class="col-sm-6 p-2">
               <img src="https://images.allsaints.com/products/900/WL047C/140/WL047C-140-4.jpg" alt="" class="img-fluid" />
             </div>
           </div>
@@ -108,7 +108,7 @@
     <div class="mt-5">
       <p class="mb-0 text-center text-uppercase">Có thể bạn sẽ thích</p>
       <hr class="mt-0 mx-2" />
-      <carousel :perPage="4">
+      <carousel :perPageCustom="[[768, 3], [1024, 4]]">
         <slide class="px-2">
           <a class="d-block">
             <img src="https://images.allsaints.com/products/600/WL115E/5/WL115E-5-1.jpg" alt="" class="img-fluid" />
@@ -146,7 +146,7 @@
     <div class="my-5">
       <p class="mb-0 text-center text-uppercase">Xem gần đây</p>
       <hr class="mt-0 mx-2" />
-      <carousel :perPage="4">
+      <carousel :perPageCustom="[[768, 3], [1024, 4]]">
         <slide class="px-2">
           <a class="d-block">
             <img src="https://images.allsaints.com/products/600/WL115E/5/WL115E-5-1.jpg" alt="" class="img-fluid" />
@@ -271,6 +271,9 @@ export default {
       &:hover {
         text-decoration: underline !important;
       }
+    }
+    .VueCarousel-pagination {
+      display: none;
     }
   }
 </style>

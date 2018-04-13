@@ -68,9 +68,6 @@ export default {
             name: 'Kiểu dáng'
           },
           {
-            name: 'Kích cỡ'
-          },
-          {
             name: 'Size'
           },
           {

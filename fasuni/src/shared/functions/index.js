@@ -3,7 +3,10 @@ export function handleError(error) {
 };
 
 export function getFormatPrice (price) {
-  return `${price.toLocaleString()}Đ`;
+  if (price) {
+    return `${price.toLocaleString()}Đ`;
+  }
+  return price;
 };
 
 export function reloadApp() {
