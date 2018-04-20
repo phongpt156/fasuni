@@ -1,37 +1,85 @@
 <template>
   <div class="homepage">
-    <nav class="navbar navbar-expand-lg justify-content-center py-3 px-2">
-      <div class="d-md-block d-none breadcrumbs">
-        <ul class="navbar-nav align-items-center flex-row">
-          <li class="nav-item">
-            <a class="nav-link p-2">MEN'S
+    <div class="banner">
+      <img src="https://images.allsaints.com/static/1600/120418-THE-HAWAIIAN-PROJECT-HP.jpg" alt="" class="w-100" />
+    </div>
+
+    <div v-scroll-reveal.reset>
+      <div class="row mx-0" style="margin-top: 80px">
+        <div class="col-md-6">
+          <div class="w-75 m-auto">
+            <a>
+              <img src="https://images.allsaints.com/static/1600/120418-APRIL-LB-LEATHERS-WW-V2.jpg" alt="" class="img-fluid" />
             </a>
-          </li> /
-          <li class="nav-item">
-            <a class="nav-link p-2">All Clothing
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="w-75 m-auto">
+            <a>
+              <img src="https://images.allsaints.com/static/1600/120418-APRIL-LB-TSHIRTS-MW-V2.jpg" alt="" class="img-fluid" />
             </a>
-          </li> /
-          <li class="nav-item">
-            <a class="nav-link p-2">T-Shirts
-            </a>
-          </li>
-        </ul>
+          </div>
+        </div>
       </div>
-      <h3 class="text-uppercase font-weight-normal mb-0">Thời trang nam mùa hè</h3>
-    </nav>
-    <hr class="bg-dark m-0" />
-    <main-body></main-body>
+    </div>
+    <div v-scroll-reveal.reset>
+      <div class="row mx-0" style="margin-top: 80px">
+        <div class="col-md-6">
+          <div class="w-75 m-auto">
+            <a>
+              <img src="https://images.allsaints.com/static/1600/120418-APRIL-LB-JACKETS-MW-V2.jpg" alt="" class="img-fluid" />
+            </a>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="w-75 m-auto">
+            <a>
+              <img src="https://images.allsaints.com/static/1600/120418-APRIL-LB-T-SHIRTS-WW-V2.jpg" alt="" class="img-fluid" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-scroll-reveal.reset>
+      <div class="my-5">
+        <p class="mb-0 text-center text-uppercase">Sản phẩm nổi bật</p>
+        <hr class="mt-0 mx-2" />
+        <carousel :perPageCustom="[[768, 3], [1024, 4]]">
+          <slide class="px-2">
+            <a class="d-block">
+              <img src="http://pnf.vn/wp-content/uploads/2018/03/QSD.075-4-285x342.jpg" alt="" class="w-100" />
+            </a>
+          </slide>
+          <slide class="px-2">
+            <a class="d-block">
+              <img src="http://pnf.vn/wp-content/uploads/2018/03/AVL.304-4-285x342.jpg" alt="" class="w-100" />
+            </a>
+          </slide>
+          <slide class="px-2">
+            <a class="d-block">
+              <img src="http://pnf.vn/wp-content/uploads/2018/03/AVL.303-5-285x342.jpg" alt="" class="w-100" />
+            </a>
+          </slide>
+          <slide class="px-2">
+            <a class="d-block">
+              <img src="http://pnf.vn/wp-content/uploads/2018/03/QVL.304-2-285x342.jpg" alt="" class="w-100" />
+            </a>
+          </slide>
+        </carousel>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import MainBody from './main-body/MainBody';
+import { Carousel, Slide } from 'vue-carousel';
 
 export default {
-  name: 'Homepage',
   components: {
-    MainBody
+    Carousel,
+    Slide
   },
+  name: 'Homepage',
   data() {
     return {
     };

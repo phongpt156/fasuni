@@ -10,7 +10,7 @@
 
 <script>
 import '@/assets/styles/style.scss';
-import Header from '@/components/Header';
+import Header from '@/components/shared/header/Header';
 import userService from '@/shared/services/user.service';
 import { mapMutations } from 'vuex';
 

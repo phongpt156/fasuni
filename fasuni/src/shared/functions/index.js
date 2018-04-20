@@ -2,9 +2,10 @@ export function handleError(error) {
   return error.response;
 };
 
-export function getFormatPrice (price) {
+export function getFormatPrice(price) {
   if (price) {
-    return `${price.toLocaleString()}Đ`;
+    price = price.toString().replace(/\./g, '');
+    return `${Number(price).toLocaleString()} Đ`;
   }
   return price;
 };

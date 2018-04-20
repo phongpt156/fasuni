@@ -2,7 +2,7 @@
   <header class="header fixed-top">
     <nav class="navbar navbar-expand-lg navbar-light">
       <a class="navbar-brand h-100 d-flex align-items-center" @click="goToHomepage">Fasuni</a>
-      <button class="navbar-toggler" type="button">
+      <button class="navbar-toggler" type="button" @click="isOpenSidenavOverlay = !isOpenSidenavOverlay">
         <span class="navbar-toggler-icon"></span>
       </button>
 
@@ -36,10 +36,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <form class="form-inline search-form">
-              <input class="form-control text-dark" type="search" placeholder="Enter keyword" aria-label="Search">
-              <button class="btn my-2 my-sm-0 text-white" type="button">Search</button>
-            </form>
+            <search-form></search-form>
           </li>
         </ul>
         <ul class="navbar-nav align-items-center">
@@ -70,6 +67,7 @@
     </nav>
     <login-form-dialog :isOpenLoginFormDialog.sync="isOpenLoginFormDialog" @openRegisterFormDialog="openRegisterFormDialog"></login-form-dialog>
     <register-form-dialog :isOpenRegisterFormDialog.sync="isOpenRegisterFormDialog" @openLoginFormDialog="openLoginFormDialog"></register-form-dialog>
+    <sidenav-overlay v-if="isOpenSidenavOverlay" :categories="categories"></sidenav-overlay>
   </header>
 </template>
 
@@ -77,6 +75,8 @@
 import LoginFormDialog from '@/components/shared/LoginFormDialog';
 import RegisterFormDialog from '@/components/shared/RegisterFormDialog';
 import Modal from '@/components/shared/Modal';
+import SidenavOverlay from './sidenav-overlay/SidenavOverlay';
+import SearchForm from './search-form/SearchForm';
 import { mapState, mapMutations } from 'vuex';
 import { reloadApp } from '@/shared/functions';
 import userService from '@/shared/services/user.service';
@@ -85,10 +85,13 @@ export default {
   components: {
     LoginFormDialog,
     RegisterFormDialog,
-    Modal
+    Modal,
+    SidenavOverlay,
+    SearchForm
   },
   data() {
     return {
+      isOpenSidenavOverlay: false,
       categories: [
         {
           id: 1,
@@ -253,23 +256,6 @@ export default {
 
     &>.navbar {
       height: 50px;
-    }
-
-    .search-form {
-      input {
-        border-radius: 30px 0 0 30px;
-        border: 1px solid #dddee1;
-        background-color: #dddddd;
-
-        &:focus {
-          box-shadow: unset;
-        }
-      }
-      button {
-        border-radius: 0 30px 30px 0;
-        border: 1px solid #dddee1;
-        background-color: #2d2d2d;
-      }
     }
     .bag {
       height: 50px;
