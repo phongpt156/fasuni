@@ -42,7 +42,8 @@
                           <div v-for="children1 in children.children" :key="children1.id">
                             <a
                               class="p-3 pl-5 d-flex justify-content-between category-link"
-                              :class="{'custom-background': children1.children && children1.children.length && !children1.collapsed}">
+                              :class="{'custom-background': children1.children && children1.children.length && !children1.collapsed}"
+                              @click="$emit('goToCategoryPage')">
                               {{ children1.name }}
                             </a>
                           </div>

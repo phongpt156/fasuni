@@ -22,7 +22,7 @@
                     <a class="h6 mb-3 d-block font-weight-bold">{{ category.name }}</a>
                     <ul class="navbar-nav flex-column flex-wrap" v-if="category.children.length">
                       <li v-for="category in category.children" :key="category.id" class="mr-4 my-1">
-                        <a class="category-item">{{ category.name }}</a>
+                        <a class="category-item" @click="goToCategoryPage">{{ category.name }}</a>
                       </li>
                     </ul>
                   </li>
@@ -46,7 +46,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark text-uppercase">
+            <a class="nav-link text-dark text-uppercase" @click="$router.push({name: 'StoreFinder'})">
               Store Finder
             </a>
           </li>
@@ -72,7 +72,8 @@
       :categories="categories"
       @close="isOpenSidenavOverlay = false"
       v-click-outside="{outsideCallback: closeSidenavOverlay}"
-      @openLoginForm="isOpenLoginFormDialog = true"></sidenav-overlay>
+      @openLoginForm="isOpenLoginFormDialog = true"
+      @goToCategoryPage="goToCategoryPage"></sidenav-overlay>
   </header>
 </template>
 
@@ -309,6 +310,9 @@ export default {
     goToHomepage() {
       this.$router.push({name: 'Homepage'});
     },
+    goToCategoryPage() {
+      this.$router.push({name: 'Category'});
+    },
     openRegisterFormDialog() {
       this.isOpenLoginFormDialog = false;
       this.isOpenRegisterFormDialog = true;
@@ -327,7 +331,7 @@ export default {
     },
     onResize() {
       if (!window.matchMedia('(max-width: 992px)').matches && this.isOpenSidenavOverlay) {
-        this.isOpenSidenavOverlay = false;
+        this.closeSidenavOverlay();
       }
     }
   },

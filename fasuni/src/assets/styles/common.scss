@@ -26,3 +26,9 @@ a {
   font-size: 33px;
   font-family: SVN-Bear;
 }
+
+.dropdown-item {
+  &:active {
+    background-color: transparent;
+  }
+}
