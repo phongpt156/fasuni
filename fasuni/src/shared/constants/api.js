@@ -14,3 +14,7 @@ export const CITY = {
 export const FACEBOOK = {
   login: BASE_URL + '/auth/facebook/login'
 };
+
+export const GOOGLE = {
+  login: BASE_URL + '/auth/google/login'
+};

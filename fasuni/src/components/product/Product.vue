@@ -37,15 +37,15 @@
           </div>
         </div>
         <div class="col-md-4">
-          <div class="text-danger mt-2" style="line-height: normal">HOT</div>
-          <div class="text-uppercase h4">Tassel Balfern Biker</div>
-          <div class="h3 font-weight-bold">620.000đ</div>
-          <div class="d-flex color-list">
+          <div class="text-danger mt-2 font-weight-bold mb-4" style="line-height: normal">HOT</div>
+          <div class="text-uppercase h4 mb-4">Tassel Balfern Biker</div>
+          <div class="h4 mb-4">620.000 VNĐ</div>
+          <div class="d-flex color-list mb-3">
             <a style="background-color: #000000" class="mr-2 color-item d-flex align-items-center justify-content-center"><font-awesome-icon class="text-white" :icon="icons.check"></font-awesome-icon></a>
             <a style="background-color: #e96504" class="mr-2 color-item"></a>
             <a style="background-color: #00a651" class="color-item"></a>
           </div>
-          <select class="custom-select my-3" style="width: 106px">
+          <select class="custom-select my-4" style="width: 106px">
             <option>Size XS</option>
             <option value="1" selected="selected">Size S</option>
             <option value="2">Size M</option>
@@ -53,10 +53,10 @@
             <option value="4">Size XL</option>
             <option value="5">Size XXL</option>
           </select>
-          <div class="d-flex">
+          <div class="d-flex mt-2">
             <a class="mr-3 d-inline-flex align-items-center justify-content-center text-white cart px-4 py-2">
               <font-awesome-icon :icon="icons.cart" class="mr-2"></font-awesome-icon>
-              <span class="mt-1">Thêm vào giỏ</span>
+              <span class="mt-1 font-size-sm">Thêm vào giỏ</span>
             </a>
             <a
               class="d-inline-flex align-items-center justify-content-center like-button"
@@ -85,16 +85,25 @@
             <p class="mb-0 text-uppercase font-size-base">Chia sẻ</p>
             <div class="d-flex">
               <a class="mx-2">
-                <font-awesome-icon :icon="icons.facebook"></font-awesome-icon>
+                <font-awesome-icon :icon="icons.facebook" style="color: #3b5998"></font-awesome-icon>
               </a>
               <a class="mx-2">
                 <font-awesome-icon :icon="icons.instagram"></font-awesome-icon>
+                <svg width="0" height="0">
+                  <radialGradient id="rg" r="150%" cx="30%" cy="107%">
+                    <stop stop-color="#fdf497" offset="0" />
+                    <stop stop-color="#fdf497" offset="0.05" />
+                    <stop stop-color="#fd5949" offset="0.45" />
+                    <stop stop-color="#d6249f" offset="0.6" />
+                    <stop stop-color="#285AEB" offset="0.9" />
+                  </radialGradient>
+                </svg>
               </a>
               <a class="mx-2">
-                <font-awesome-icon :icon="icons.twitter"></font-awesome-icon>
+                <font-awesome-icon :icon="icons.youtube" style="color: #e52d27"></font-awesome-icon>
               </a>
               <a class="mx-2">
-                <font-awesome-icon :icon="icons.googlePlus"></font-awesome-icon>
+                <font-awesome-icon :icon="icons.googlePlus" style="color: #df4b37"></font-awesome-icon>
               </a>
             </div>
           </div>
@@ -180,7 +189,7 @@ import solidFaHeart from '@fortawesome/fontawesome-free-solid/faHeart';
 import regularFaHeart from '@fortawesome/fontawesome-free-regular/faHeart';
 import facebookIcon from '@fortawesome/fontawesome-free-brands/faFacebookSquare';
 import instagramIcon from '@fortawesome/fontawesome-free-brands/faInstagram';
-import twitterIcon from '@fortawesome/fontawesome-free-brands/faTwitter';
+import youtubeIcon from '@fortawesome/fontawesome-free-brands/faYoutube';
 import googlePlusIcon from '@fortawesome/fontawesome-free-brands/faGooglePlus';
 import { Carousel, Slide } from 'vue-carousel';
 
@@ -199,7 +208,7 @@ export default {
         regularHeart: regularFaHeart,
         facebook: facebookIcon,
         instagram: instagramIcon,
-        twitter: twitterIcon,
+        youtube: youtubeIcon,
         googlePlus: googlePlusIcon
       },
       product: {
@@ -237,8 +246,12 @@ export default {
   .product-component {
     .color-list {
       .color-item {
-        width: 30px;
-        height: 30px;
+        width: 25px;
+        height: 25px;
+
+        svg {
+          font-size: 12px;
+        }
       }
     }
     .cart {
@@ -264,6 +277,9 @@ export default {
     .font-size-base {
       font-size: $font-size-base;
     }
+    .font-size-sm {
+      font-size: $font-size-sm;
+    }
     .detail-button {
       font-size: $font-size-sm;
       color: #4d4d4d;
@@ -274,6 +290,9 @@ export default {
     }
     .VueCarousel-pagination {
       display: none;
+    }
+    .fa-instagram * {
+      fill: url(#rg);
     }
   }
 </style>

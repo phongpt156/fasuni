@@ -5,7 +5,7 @@ export function handleError(error) {
 export function getFormatPrice(price) {
   if (price) {
     price = price.toString().replace(/\./g, '');
-    return `${Number(price).toLocaleString()} Đ`;
+    return `${Number(price).toLocaleString()} VNĐ`;
   }
   return price;
 };

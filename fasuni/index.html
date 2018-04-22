@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta name="google-signin-client_id" content="493839488981-h84lbqckhj4ondu01sfc8ecfataevp3s.apps.googleusercontent.com" />
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
     <script>
       window.fbAsyncInit = function() {
@@ -27,10 +28,24 @@
         fjs.parentNode.insertBefore(js, fjs);
       }(document, 'script', 'facebook-jssdk'));
     </script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <title>fasuni</title>
   </head>
   <body>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+    <script>
+      (function () {
+        setTimeout(() => {
+          window.gapi.load('auth2', function() {
+            window.auth2 = gapi.auth2.init({
+              client_id: '493839488981-h84lbqckhj4ondu01sfc8ecfataevp3s.apps.googleusercontent.com',
+              fetch_basic_profile: true,
+              scope: 'profile'
+            });
+          });
+        })
+      })();
+    </script>
   </body>
 </html>

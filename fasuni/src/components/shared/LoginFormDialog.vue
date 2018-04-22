@@ -8,7 +8,7 @@
           <img :src="images.loginFormBanner" alt="" class="w-100 h-100" />
         </div>
         <div class="col-6 px-lg-5 pt-lg-3">
-          <h5 class="text-center">Fasuni</h5>
+          <h5 class="text-center branding-name">Fasuni</h5>
           <mat-form
             ref="loginForm"
             :model="loginForm"
@@ -37,10 +37,9 @@
             <button type="submit" class="btn w-100 submit-button text-white">Đăng nhập</button>
           </mat-form>
           <p class="text-center my-2">Hoặc</p>
+          <div class="g-signin2" data-onsuccess="onSignIn"></div>
           <div class="social d-flex justify-content-center mb-2">
-            <a class="d-inline-block mr-3">
-              <font-awesome-icon :icon="icons.google"></font-awesome-icon>
-            </a>
+            <google-button></google-button>
             <facebook-button></facebook-button>
           </div>
           <p class="text-center">Bạn chưa có tài khoản?
@@ -56,11 +55,10 @@
 import MatInput from '@/components/shared/material/MatInput';
 import MatForm from '@/components/shared/material/MatForm';
 import Modal from '@/components/shared/Modal';
-import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
-import googleIcon from '@fortawesome/fontawesome-free-brands/faGooglePlus';
 import { mapMutations } from 'vuex';
 import loginFormBanner from '@/assets/images/login-form-banner.jpg';
 import FacebookButton from '@/components/shared/FacebookButton';
+import GoogleButton from '@/components/shared/GoogleButton';
 import { ERROR_MESSAGE, PATTERN } from '@/shared/constants';
 import userService from '@/shared/services/user.service';
 import { reloadApp } from '@/shared/functions';
@@ -79,9 +77,9 @@ export default {
   components: {
     MatInput,
     MatForm,
-    FontAwesomeIcon,
     Modal,
-    FacebookButton
+    FacebookButton,
+    GoogleButton
   },
   data() {
     return {
@@ -100,9 +98,6 @@ export default {
       },
       images: {
         loginFormBanner: loginFormBanner
-      },
-      icons: {
-        google: googleIcon
       }
     };
   },

@@ -8,7 +8,7 @@
           <img :src="images.registerFormBanner" alt="" class="w-100 h-100" />
         </div>
         <div class="col-6 px-lg-5 pt-lg-3">
-          <h5 class="text-center">Fasuni</h5>
+          <h5 class="text-center branding-name">Fasuni</h5>
           <mat-form
             ref="registerForm"
             :model="registerForm"

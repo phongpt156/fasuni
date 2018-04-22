@@ -7,12 +7,13 @@ use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Exceptions\FacebookSDKException;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use App\Exceptions\Auth\ExistEmailException;
 use App\DAL\UserDAL;
 use App\Models\City;
 
 class FacebookController
 {
-    protected $fb;
+    private $fb;
 
     public function __construct()
     {
@@ -34,16 +35,16 @@ class FacebookController
         if ($cityId) {
             $data['living_city_id'] = $cityId;
         }
-        try {
-            if ($user) {
-                $user = $userDAL->update($user, $data);
-            } else {
+        if ($user) {
+            $user = $userDAL->update($user, $data);
+        } else {
+            try {
                 $user = $userDAL->store($data);
+            } catch (ExistEmailException $e) {
+                return response()->json(['error' => $e->getMessage()], $e->getCode());
             }
-
-            return response()->json($user, 200);
-        } catch (QueryException $e) {
-            return response()->json(['errors' => $e->getMessage(), 500]);
         }
+
+        return response()->json($user, 200);
     }
 }

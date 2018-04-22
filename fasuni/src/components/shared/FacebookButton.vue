@@ -1,4 +1,5 @@
 <template>
+
   <a class="d-inline-block facebook-button" @click="login">
     <img :src="images.facebook" alt="" />
   </a>
@@ -40,6 +41,8 @@ export default {
                 if (response.data && response.status === 200) {
                   this.setToken(response.data.api_token);
                   reloadApp();
+                } else if (response.data.error) {
+                  alert(response.data.error);
                 }
               });
           });

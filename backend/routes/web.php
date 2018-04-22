@@ -32,6 +32,9 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->group(['prefix' => 'facebook', 'namespace' => 'Facebook'], function () use ($router) {
             $router->post('login', 'FacebookController@login');
         });
+        $router->group(['prefix' => 'google', 'namespace' => 'Google'], function () use ($router) {
+            $router->post('login', 'GoogleController@login');
+        });
     });
     $router->group(['prefix' => 'city'], function () use ($router) {
         $router->get('', 'CityController@index');

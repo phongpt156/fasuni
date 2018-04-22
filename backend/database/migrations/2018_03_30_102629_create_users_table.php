@@ -28,10 +28,15 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->string('api_token', 62);
             $table->boolean('is_admin')->default(0);
-            $table->string('facebook_id')->nullable();
+            $table->string('facebook_id')->unique()->nullable();
             $table->string('facebook_name')->nullable();
             $table->string('facebook_access_token')->nullable();
+            $table->string('google_id')->unique()->nullable();
+            $table->string('google_name')->nullable();
+            $table->string('google_id_token')->nullable();
             $table->timestamps();
+
+            $table->foreign('living_city_id')->references('id')->on('cities');
         });
     }
 

@@ -25,6 +25,7 @@
     "popper.js": "^1.14.3",
     "vue": "^2.5.2",
     "vue-carousel": "^0.7.1",
+    "vue-perfect-scrollbar": "^0.1.0",
     "vue-progressbar": "^0.7.4",
     "vue-router": "^3.0.1",
     "vue-scroll-reveal": "^1.0.8",

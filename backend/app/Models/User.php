@@ -16,7 +16,7 @@ class User extends Model implements
 {
     use Authenticatable, Authorizable;
 
-    protected $fillable = ['name', 'first_name', 'last_name', 'email', 'password', 'gender','living_city_id', 'avatar', 'cover', 'facebook_id', 'facebook_name', 'facebook_access_token', 'api_token'];
+    protected $fillable = ['name', 'first_name', 'last_name', 'email', 'password', 'gender','living_city_id', 'avatar', 'cover', 'facebook_id', 'facebook_name', 'facebook_access_token', 'api_token', 'google_id', 'google_name', 'google_id_token'];
     protected $hidden = [
         'password', 'remember_token', 'api_token'
     ];
