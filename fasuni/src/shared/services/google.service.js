@@ -3,8 +3,8 @@ import { handleError } from './../functions';
 import { GOOGLE } from './../constants/api';
 
 export default {
-  login(data) {
-    return httpClient.post(GOOGLE.login, data)
+  login(body) {
+    return httpClient.post(GOOGLE.login, body)
       .catch(handleError);
   }
 };

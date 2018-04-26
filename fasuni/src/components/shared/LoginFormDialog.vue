@@ -129,33 +129,38 @@ export default {
 </script>
 
 <style lang="scss">
-  .login-form-dialog {
-    .submit-button {
-      border-radius: 50px;
-      background-color: #ff7eaf;
-    }
-    .fa-google-plus {
-      color: #fb5245;
-    }
-    .social {
-      a {
-        .svg-inline--fa {
-          width: 35px;
-          height: 35px;
-        }
-      }
-    }
-    .register-button {
-      color: #ff758c !important;
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/_variables';
 
-      &:hover {
-        text-decoration: underline !important;
-      }
-    }
-    .forget-password-button {
-      &:hover {
-        text-decoration: underline !important;
+.login-form-dialog {
+  font-size: $font-size-base;
+
+  .submit-button {
+    border-radius: 50px;
+    background-color: #ff7eaf;
+  }
+  .fa-google-plus {
+    color: #fb5245;
+  }
+  .social {
+    a {
+      .svg-inline--fa {
+        width: 35px;
+        height: 35px;
       }
     }
   }
+  .register-button {
+    color: #ff758c !important;
+
+    &:hover {
+      text-decoration: underline !important;
+    }
+  }
+  .forget-password-button {
+    &:hover {
+      text-decoration: underline !important;
+    }
+  }
+}
 </style>

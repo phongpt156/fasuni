@@ -15,10 +15,8 @@ Vue.use(iView);
 sync(store, router);
 
 router.beforeEach((to, from, next) => {
-  store.dispatch('setTitle', to.meta.title)
-    .then(() => {
-      next();
-    });
+  store.commit('setTitle', to.meta.title);
+  next();
 });
 
 /* eslint-disable no-new */

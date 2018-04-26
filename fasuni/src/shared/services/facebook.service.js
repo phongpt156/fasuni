@@ -3,8 +3,8 @@ import { handleError } from './../functions';
 import { FACEBOOK } from './../constants/api';
 
 export default {
-  login(data) {
-    return httpClient.post(FACEBOOK.login, data)
+  login(body) {
+    return httpClient.post(FACEBOOK.login, body)
       .catch(handleError);
   }
 };

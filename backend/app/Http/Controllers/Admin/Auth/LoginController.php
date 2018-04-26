@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Admin\Auth\AuthController;
 use Illuminate\Http\Request;
-use App\DAL\Auth\LoginDAL as LoginDAL;
+use App\DAL\Admin\Auth\LoginDAL as LoginDAL;
 use App\Exceptions\Auth\IncorrectEmailException;
 use App\Exceptions\Auth\IncorrectPasswordException;
 
@@ -31,14 +31,5 @@ class LoginController extends AuthController
             $code = $e->getCode();
         }
         return response()->json($errors, $code);
-    }
-
-    protected function respondWithToken($token)
-    {
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => $this->guard()->factory()->getTTL() * 60
-        ]);
     }
 }

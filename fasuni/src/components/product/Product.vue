@@ -274,12 +274,6 @@ export default {
     p {
       font-size: $font-size-sm;
     }
-    .font-size-base {
-      font-size: $font-size-base;
-    }
-    .font-size-sm {
-      font-size: $font-size-sm;
-    }
     .detail-button {
       font-size: $font-size-sm;
       color: #4d4d4d;
@@ -287,9 +281,6 @@ export default {
       &:hover {
         text-decoration: underline !important;
       }
-    }
-    .VueCarousel-pagination {
-      display: none;
     }
     .fa-instagram * {
       fill: url(#rg);

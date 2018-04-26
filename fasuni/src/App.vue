@@ -4,6 +4,7 @@
     <div class="body">
       <router-view></router-view>
     </div>
+    <Footer></Footer>
     <vue-progress-bar></vue-progress-bar>
   </div>
 </template>
@@ -11,6 +12,7 @@
 <script>
 import '@/assets/styles/style.scss';
 import Header from '@/components/shared/header/Header';
+import Footer from '@/components/shared/footer/Footer';
 import userService from '@/shared/services/user.service';
 import { mapMutations } from 'vuex';
 
@@ -28,7 +30,8 @@ export default {
     });
   },
   components: {
-    Header
+    Header,
+    Footer
   },
   methods: {
     ...mapMutations(['setUser']),

@@ -10,13 +10,5 @@ export default {
   login(body) {
     return httpClient.post(AUTH.login, body)
       .catch(handleError);
-  },
-  logout() {
-    return httpClient.get(AUTH.logout)
-      .catch(handleError);
-  },
-  register(body) {
-    return httpClient.post(AUTH.register, body)
-      .catch(handleError);
   }
 };

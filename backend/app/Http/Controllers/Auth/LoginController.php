@@ -23,12 +23,12 @@ class LoginController extends Controller
             $user = $loginDAL->index($credentials);
             return response()->json($user, 200);
         } catch (IncorrectPhoneNumberException $e) {
-            $errors['email'] = $e->getMessage();
+            $errors['phone_number'] = $e->getMessage();
             $code = $e->getCode();
         } catch (IncorrectPasswordException $e) {
             $errors['password'] = $e->getMessage();
             $code = $e->getCode();
         }
-        return response()->json(['errors' => $errors], $code);
+        return response()->json($errors, $code);
     }
 }

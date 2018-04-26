@@ -2,7 +2,7 @@
   <div>
     <row type="flex" justify="center">
       <i-col>
-        <i-form ref="loginForm" :model="loginForm" :rules="rules">
+        <i-form ref="loginForm" :model="loginForm" :rules="rules" @submit="onSubmit">
           <form-item prop="email">
             <i-input type="text" v-model="loginForm.email" placeholder="Email">
               <Icon type="ios-person-outline" slot="prepend"></Icon>
@@ -14,7 +14,7 @@
             </i-input>
           </form-item>
           <form-item>
-            <i-button type="primary" @click="login">Signin</i-button>
+            <i-button type="primary" @click="onSubmit">Signin</i-button>
           </form-item>
         </i-form>
       </i-col>
@@ -23,7 +23,9 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
+import { ERROR_MESSAGE } from '@/shared/constants';
+import authService from '@/shared/services/auth.service';
+import guard from '@/shared/guards';
 
 export default {
   data() {
@@ -34,33 +36,24 @@ export default {
       },
       rules: {
         email: [
-          { required: true, message: '', trigger: 'blur' },
-          { type: 'email', message: '', trigger: 'blur' }
+          { required: true, message: ERROR_MESSAGE.email.required, trigger: 'blur' },
+          { type: 'email', message: ERROR_MESSAGE.email.type, trigger: 'blur' }
         ],
         password: [
-          { required: true, message: '', trigger: 'blur' }
+          { required: true, message: ERROR_MESSAGE.password.required, trigger: 'blur' }
         ]
       }
     };
   },
-  computed: {
-    ...mapState('constants', [
-      'errorMessage'
-    ])
-  },
   methods: {
-    ...mapMutations('auth', [
-      'setToken'
-    ]),
-    login() {
+    onSubmit() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.$Message.success('Success');
-          this.$store.dispatch('services/auth/login', this.loginForm)
+          authService.login(this.loginForm)
             .then(response => {
-              if (response && response.status === 200 && response.data) {
-                this.setToken(response.data.api_token);
-                this.saveUserInfoToLocalStorage(response.data);
+              if (response.data && response.status === 200) {
+                guard.setToken(response.data.api_token);
                 this.redirectToHomepage();
               }
             });
@@ -69,20 +62,9 @@ export default {
         }
       });
     },
-    setErrorMessage() {
-      this.rules.email[0].message = this.errorMessage.email.required;
-      this.rules.email[1].message = this.errorMessage.email.type;
-      this.rules.password[0].message = this.errorMessage.password.required;
-    },
     redirectToHomepage() {
       this.$router.push({'name': 'Homepage'});
-    },
-    saveUserInfoToLocalStorage(user) {
-      localStorage.setItem('user', JSON.stringify(user));
     }
-  },
-  mounted() {
-    this.setErrorMessage();
   }
 };
 </script>
