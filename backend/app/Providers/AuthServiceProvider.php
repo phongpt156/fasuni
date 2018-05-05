@@ -34,7 +34,11 @@ class AuthServiceProvider extends ServiceProvider
             $token = '';
 
             if ($request->header('Authorization')) {
-                $token = explode(' ', $request->header('Authorization'))[1];
+                $authorizeArray = explode(' ', $request->header('Authorization'));
+                \Log::debug(count($authorizeArray));
+                if (count($authorizeArray) > 1) {
+                    $token = $authorizeArray[1];
+                }
             }
             else if ($request->input('api_token')) {
                 $token = $request->input('api_token');

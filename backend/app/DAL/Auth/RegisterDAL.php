@@ -3,6 +3,7 @@
 namespace App\DAL\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\QueryException;
 use App\Exceptions\Auth\DuplicatePhoneNumberException;
 use App\PackageWrapper\Token;
 use App\PackageWrapper\DateTime;
@@ -29,7 +30,11 @@ class RegisterDAL
         $user->created_at = $user->updated_at = $now;
         $user->api_token = (new Token)->getToken($userModel->getTable(), $userModel->getTable() . '.api_token', 60);
 
-        $user->save();
+        try {
+            $user->save();
+        } catch (QueryException $e) {
+            \Log::debug($e->getMessage());
+        }
 
         return $user->makeVisible('api_token');
     }

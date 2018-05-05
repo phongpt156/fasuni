@@ -39,6 +39,6 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->group(['prefix' => 'city'], function () use ($router) {
         $router->get('', 'CityController@index');
     });
-});
 
-$router->get('test', 'TestController@index');
+    $router->get('test', 'Admin\SaleSoftware\KiotViet\KiotVietController@sync');
+});
