@@ -21,7 +21,6 @@ class LoginDAL
             if ($isCorrectPassword) {
                 $token = (new Token)->getToken($userModel->getTable(), $userModel->getTable() . '.api_token', 60);
                 $user->api_token = $token;
-                $user->updated_at = DateTime::now();
 
                 try {
                     $user->save();

@@ -5,6 +5,7 @@ import actions from './actions';
 import mutations from './mutation';
 
 import routes from './modules/routes';
+import user from './modules/user';
 
 Vue.use(Vuex);
 
@@ -13,7 +14,8 @@ const store = new Vuex.Store({
   mutations,
   actions,
   modules: {
-    routes
+    routes,
+    user
   }
 });
 

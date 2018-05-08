@@ -2,29 +2,35 @@
 
 namespace App\Http\Controllers\Admin\SaleSoftware\KiotViet;
 
-use App\Http\HttpClient\HttpClient;
+use App\Models\Category;
 
 class CategoryController
 {
-    private $httpClient;
-
-    public function __construct(HttpClient $httpClient)
+    public function saveHierarchyCategories($categories)
     {
-        $this->httpClient = $httpClient;
-    }
+        foreach ($categories as $category) {
+            try {
+                $parentId = null;
 
-    public function getAll()
-    {
-        try {
-            $response = $this->httpClient->get('categories?pageSize=100&hierachicalData=true');
+                if (isset($category->parentId)) {
+                    $parentCategory = Category::whereKiotvietId($category->parentId)->first();
 
-            $response = $response->getBody()->getContents();
-            $response = json_decode($response);
+                    if ($parentCategory) {
+                        $parentId = $parentCategory->id;
+                    }
+                }
+                Category::updateOrCreate(
+                    ['kiotviet_id' => $category->categoryId],
+                    ['name' => $category->categoryName, 'kiotviet_id' => $category->categoryId, 'parent_id' => $parentId]
+                );
 
-            return $response->data;
-        } catch (RequestException $e) {
-            \Log::debug('Can\'t get categories: ' . $e->getMessage());
-            die('Cant\'t get categories ' . $e->getMessage());
+                if ($category->hasChild) {
+                    $this->saveHierarchyCategories($category->children);
+                }
+            } catch (QueryException $e) {
+                \Log::debug('Cannot save category: ' . $e->getMessage());
+                die('Cannot save category: ' . $e->getMessage());
+            }
         }
     }
 }

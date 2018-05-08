@@ -21,6 +21,9 @@ $router->group(['prefix' => 'api'], function () use ($router) {
             $router->post('login', 'LoginController@index');
             $router->get('', 'AuthController@index');
         });
+        $router->group(['prefix' => 'category'], function () use ($router) {
+            $router->get('', 'CategoryController@index');
+        });
     });
 
     $router->group(['prefix' => 'auth', 'namespace' => 'Auth'], function () use ($router) {

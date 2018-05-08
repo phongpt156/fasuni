@@ -5,7 +5,7 @@ export default {
   path: '/login',
   component: lazyLoading('Login'),
   meta: {
-    title: 'Đăng nhập'
+    title: 'Login'
   },
   beforeEnter(to, from, next) {
     next();

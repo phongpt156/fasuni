@@ -38,7 +38,6 @@ class AuthController extends Controller
         $user = $this->guard()->user();
         if ($user) {
             $user->api_token = null;
-            $user->updated_at = DateTime::now();
             $user->save();
             return response()->json();
         }

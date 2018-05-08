@@ -24,7 +24,6 @@ class UserDAL
 
         $user = $userModel->fill($data);
         $user->api_token = (new Token)->getToken($userModel->getTable(), $userModel->getTable() . '.api_token', 60);
-        $user->created_at = $user->updated_at = DateTime::now();
 
         try {
             $user->save();
@@ -41,7 +40,6 @@ class UserDAL
 
         $user->fill($data);
         $user->api_token = (new Token)->getToken($userModel->getTable(), $userModel->getTable() . '.api_token', 60);
-        $user->updated_at = DateTime::now();
 
         try {
             $user->save();

@@ -1,32 +1,31 @@
 <template>
-  <div class="homepage">
+  <div class="main-layout">
     <layout :class="{'is-collapsed': isCollapsed}">
       <sider collapsible :collapsed-width="78" v-model="isCollapsed" :style="{zIndex: 9999, top: 0, position: 'fixed', minHeight: '100vh', left: 0}" breakpoint="md">
-        <i-menu active-name="1-2" theme="dark" width="auto" :class="menuItemClasses">
-          <menu-item name="1-1">
-            <icon type="ios-navigate"></icon>
-            <span>Option 1</span>
-          </menu-item>
-          <menu-item name="1-2">
-            <icon type="search"></icon>
-            <span>Option 2</span>
-          </menu-item>
-          <menu-item name="1-3">
-            <icon type="settings"></icon>
-            <span>Option 3</span>
-          </menu-item>
-        </i-menu>
+        <aside-nav :isCollapsed="isCollapsed"></aside-nav>
       </sider>
       <layout>
-        <i-header :style="{zIndex: '9998', width: '100%', position: 'fixed', background: '#fff', boxShadow: '0 2px 3px 2px rgba(0,0,0,.1)'}"></i-header>
+        <i-header :style="{zIndex: '9998', width: '100%', position: 'fixed', background: '#fff', boxShadow: '0 2px 3px 2px rgba(0,0,0,.1)'}">
+          <row type="flex" justify="end">
+            <i-col pull="1">
+              <dropdown trigger="click">
+                <a v-if="user">
+                  {{ user.name }}
+                  <Icon type="arrow-down-b"></Icon>
+                </a>
+                <dropdown-menu slot="list">
+                  <dropdown-item @click.native="logout">Đăng xuất</dropdown-item>
+                </dropdown-menu>
+              </dropdown>
+            </i-col>
+          </row>
+        </i-header>
         <i-content :style="{padding: '0 16px 16px'}">
           <breadcrumb :style="{margin: '16px 0'}">
-            <breadcrumb-item>Home</breadcrumb-item>
-            <breadcrumb-item>Components</breadcrumb-item>
-            <breadcrumb-item>Layout</breadcrumb-item>
+            <breadcrumb-item>{{ $route.name }}</breadcrumb-item>
           </breadcrumb>
           <card>
-            <div style="height: 600px">Content</div>
+            <slot></slot>
           </card>
         </i-content>
       </layout>
@@ -35,19 +34,34 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+import AsideNav from '@/components/common/AsideNav';
+import guard from '@/shared/guards';
+
 export default {
-  name: 'HelloWorld',
+  components: {
+    AsideNav
+  },
   data () {
     return {
       isCollapsed: false
     };
   },
   computed: {
+    ...mapState('user', [
+      'user'
+    ]),
     menuItemClasses() {
       return [
         'menu-item',
         this.isCollapsed ? 'collapsed-menu' : ''
       ];
+    }
+  },
+  methods: {
+    logout() {
+      guard.removeToken();
+      this.$router.push({name: 'Login'});
     }
   }
 };
@@ -55,7 +69,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-.homepage {
+.main-layout {
   .ml-78 {
     margin-left: 78px !important;
   }

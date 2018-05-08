@@ -1,9 +1,11 @@
 import homePage from './homepage';
 import login from './login';
+import category from './category';
 
 const state = {
   homePage,
-  login
+  login,
+  category
 };
 
 export default {
