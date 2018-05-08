@@ -5,7 +5,7 @@ namespace App\Http\Services\KiotViet;
 use App\Http\HttpClient\HttpClient;
 use App\Exceptions\HttpClient\RequestException;
 
-class CategoryService
+class ProductService
 {
     private $httpClient;
 
@@ -17,7 +17,7 @@ class CategoryService
     public function getAll()
     {
         try {
-            $response = $this->httpClient->get('categories?pageSize=100&hierachicalData=true&orderBy=createdDate&orderDirection=asc');
+            $response = $this->httpClient->get('products?pageSize=100');
 
             $response = $response->getBody()->getContents();
             $response = json_decode($response);

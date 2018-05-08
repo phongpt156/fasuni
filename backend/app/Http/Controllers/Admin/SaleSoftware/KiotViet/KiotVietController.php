@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Admin\SaleSoftware\KiotViet;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
-use App\Models\Category;
 use App\Http\Services\KiotViet\KiotVietService;
-use App\PackageWrapper\DateTime;
 
 class KiotVietController extends Controller
 {
@@ -15,10 +13,20 @@ class KiotVietController extends Controller
     {
         $kiotVietService = new KiotVietService;
         $categories = $kiotVietService->categoryService->getAll();
+        $products = $kiotVietService->productService->getAll();
 
         $categoryController = new CategoryController;
-        $categoryController->saveHierarchyCategories($categories);
+        try {
+            $categoryController->saveHierarchyCategories($categories);
+        } catch (QueryException $e) {
+            die('Cannot save category: ' . $e->getMessage());
+        }
 
-        return $categories;
+        // $productController = new ProductController;
+        // try {
+        //     $productController->saveProducts($products);
+        // } catch (QueryException $e) {
+        //     die('Cannot save product: ' . $e->getMessage());
+        // }
     }
 }

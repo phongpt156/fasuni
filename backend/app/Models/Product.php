@@ -6,13 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    protected $fillable = ['name', 'price', 'discount_price', 'quantity', 'about', 'is_active', 'sku_id', 'gender', 'click_count', 'category_id', 'master_product_id'];
+
     public function productGroups()
     {
         return $this->hasMany(Product::class, 'master_product_id', 'id');
     }
 
-    public function featureValues()
+    public function attributeValues()
     {
-        return $this->belongsToMany(FeatureValue::class, 'product_feature_values', 'product_id', 'feature_value_id');
+        return $this->belongsToMany(AttributeValue::class, 'product_attribute_values', 'product_id', 'attribute_value_id');
     }
 }

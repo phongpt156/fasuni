@@ -6,7 +6,7 @@ use App\Models\Category;
 
 class CategoryController
 {
-    public function saveHierarchyCategories($categories)
+    public function saveHierarchyCategories(Array $categories = [])
     {
         foreach ($categories as $category) {
             try {
@@ -29,7 +29,7 @@ class CategoryController
                 }
             } catch (QueryException $e) {
                 \Log::debug('Cannot save category: ' . $e->getMessage());
-                die('Cannot save category: ' . $e->getMessage());
+                throw $e;
             }
         }
     }
