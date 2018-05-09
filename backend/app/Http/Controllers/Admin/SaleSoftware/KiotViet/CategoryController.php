@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin\SaleSoftware\KiotViet;
 
+use Illuminate\Database\QueryException;
 use App\Models\Category;
 
 class CategoryController
 {
-    public function saveHierarchyCategories(Array $categories = [])
+    public static function saveHierarchyCategories(Array $categories = [])
     {
         foreach ($categories as $category) {
             try {
@@ -21,11 +22,11 @@ class CategoryController
                 }
                 Category::updateOrCreate(
                     ['kiotviet_id' => $category->categoryId],
-                    ['name' => $category->categoryName, 'kiotviet_id' => $category->categoryId, 'parent_id' => $parentId]
+                    ['name' => $category->categoryName, 'parent_id' => $parentId]
                 );
 
                 if ($category->hasChild) {
-                    $this->saveHierarchyCategories($category->children);
+                    self::saveHierarchyCategories($category->children);
                 }
             } catch (QueryException $e) {
                 \Log::debug('Cannot save category: ' . $e->getMessage());

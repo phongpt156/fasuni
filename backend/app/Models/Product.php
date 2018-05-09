@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    protected $fillable = ['name', 'price', 'discount_price', 'quantity', 'about', 'is_active', 'sku_id', 'gender', 'click_count', 'category_id', 'master_product_id'];
+    protected $fillable = ['name', 'price', 'discount_price', 'quantity', 'about', 'is_active', 'sku_id', 'gender', 'click_count', 'category_id', 'master_product_id', 'kiotviet_id'];
 
-    public function productGroups()
+    public function subProducts()
     {
         return $this->hasMany(Product::class, 'master_product_id', 'id');
     }
@@ -16,5 +16,15 @@ class Product extends Model
     public function attributeValues()
     {
         return $this->belongsToMany(AttributeValue::class, 'product_attribute_values', 'product_id', 'attribute_value_id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class);
     }
 }

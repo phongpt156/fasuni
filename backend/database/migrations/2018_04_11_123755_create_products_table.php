@@ -25,7 +25,7 @@ class CreateProductsTable extends Migration
             $table->boolean('gender')->nullable();
             $table->integer('click_count')->defualt(0);
             $table->unsignedInteger('category_id')->nullable();
-            $table->unsignedInteger('master_product_id');
+            $table->unsignedInteger('master_product_id')->nullable();
             $table->string('kiotviet_id')->nullable();
             $table->timestamps();
 

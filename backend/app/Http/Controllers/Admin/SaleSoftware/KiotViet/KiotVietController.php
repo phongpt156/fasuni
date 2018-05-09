@@ -12,21 +12,28 @@ class KiotVietController extends Controller
     public function sync()
     {
         $kiotVietService = new KiotVietService;
-        $categories = $kiotVietService->categoryService->getAll();
-        $products = $kiotVietService->productService->getAll();
 
-        $categoryController = new CategoryController;
+        $categories = $kiotVietService->categoryService->getAll();
         try {
-            $categoryController->saveHierarchyCategories($categories);
+            CategoryController::saveHierarchyCategories($categories);
         } catch (QueryException $e) {
-            die('Cannot save category: ' . $e->getMessage());
+            die('Cannot save categories: ' . $e->getMessage());
         }
 
-        // $productController = new ProductController;
-        // try {
-        //     $productController->saveProducts($products);
-        // } catch (QueryException $e) {
-        //     die('Cannot save product: ' . $e->getMessage());
-        // }
+        $products = $kiotVietService->productService->getAll();
+        try {
+            // reverse products to save from oldest to newest product
+            ProductController::saveProducts(array_reverse($products));
+        } catch (QueryException $e) {
+            die('Cannot save products: ' . $e->getMessage());
+        }
+
+        $customers = $kiotVietService->customerService->getAll();
+        try {
+            CustomerController::saveCustomers($customers);
+        } catch (QueryException $e) {
+            die('Cannot save customers: ' . $e->getMessage());
+        }
+        \Log::debug($customers);
     }
 }
