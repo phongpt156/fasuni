@@ -3,7 +3,6 @@
     <i-table
       :data="products"
       :columns="columns"
-      height="730"
       :loading="loading">
     </i-table>
     <div class="mt-3" v-if="hasPagination">
@@ -132,6 +131,9 @@ export default {
     a {
       transition: unset;
     }
+  }
+  .ivu-table-expanded-cell {
+    padding: 20px;
   }
 }
 </style>

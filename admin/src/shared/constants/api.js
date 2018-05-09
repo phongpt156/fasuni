@@ -16,3 +16,7 @@ export const PRODUCT = {
 export const ATTRIBUTE = {
   getAll: BASE_URL + '/attribute'
 };
+
+export const CUSTOMER = {
+  getAll: BASE_URL + '/customer'
+};

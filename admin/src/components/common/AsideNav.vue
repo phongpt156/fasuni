@@ -26,6 +26,9 @@ export default {
         },
         {
           name: 'Product'
+        },
+        {
+          name: 'Customer'
         }
       ]
     };

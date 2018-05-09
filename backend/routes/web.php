@@ -30,6 +30,9 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->group(['prefix' => 'attribute'], function () use ($router) {
             $router->get('', 'AttributeController@index');
         });
+        $router->group(['prefix' => 'customer'], function () use ($router) {
+            $router->get('', 'CustomerController@index');
+        });
     });
 
     $router->group(['prefix' => 'auth', 'namespace' => 'Auth'], function () use ($router) {

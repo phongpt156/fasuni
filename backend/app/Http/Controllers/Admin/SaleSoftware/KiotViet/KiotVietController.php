@@ -34,6 +34,8 @@ class KiotVietController extends Controller
         } catch (QueryException $e) {
             die('Cannot save customers: ' . $e->getMessage());
         }
-        \Log::debug($customers);
+
+        $orders = $kiotVietService->orderService->getAll();
+        \Log::debug($orders);
     }
 }

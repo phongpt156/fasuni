@@ -24,8 +24,8 @@ class ProductService
 
             return $response->data;
         } catch (RequestException $e) {
-            \Log::debug('Can\'t get categories: ' . $e->getMessage());
-            die('Cant\'t get categories ' . $e->getMessage());
+            \Log::debug('Can\'t get products: ' . $e->getMessage());
+            die('Cant\'t get products ' . $e->getMessage());
         }
     }
 }

@@ -5,7 +5,7 @@ namespace App\Http\Services\KiotViet;
 use App\Http\HttpClient\HttpClient;
 use App\Exceptions\HttpClient\RequestException;
 
-class CustomerService
+class OrderService
 {
     private $httpClient;
 
@@ -17,15 +17,15 @@ class CustomerService
     public function getAll()
     {
         try {
-            $response = $this->httpClient->get('customers?pageSize=100&orderBy=createdDate&orderDirection=Asc');
+            $response = $this->httpClient->get('orders');
 
             $response = $response->getBody()->getContents();
             $response = json_decode($response);
 
             return $response->data;
         } catch (RequestException $e) {
-            \Log::debug('Can\'t get customers: ' . $e->getMessage());
-            die('Cant\'t get customers ' . $e->getMessage());
+            \Log::debug('Can\'t get orders: ' . $e->getMessage());
+            die('Cant\'t get orders ' . $e->getMessage());
         }
     }
 }

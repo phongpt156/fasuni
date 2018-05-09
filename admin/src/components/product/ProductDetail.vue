@@ -1,7 +1,7 @@
 <template>
   <div class="product-detail">
     <h6 class="text-primary mb-2">{{ product.name }}</h6>
-    <div class="d-flex">
+    <div class="d-lg-flex">
       <div class="mr-4 product-image">
         <a v-if="selectedImage">
           <img :src="selectedImage.original" alt="" />
@@ -16,34 +16,34 @@
           </div>
         </i-col>
       </row>
-      <div class="mr-4 text-nowrap">
+      <div class="mr-4 text-nowrap" v-if="productAttributes(product).length">
         <h6 class="mb-2 text-primary">Thuộc tính:</h6>
         <p v-for="attribute in productAttributes(product)" :key="attribute.id">
-          {{ attribute.name }}: {{ attribute.values[0].name }}
+          <span class="text-primary">{{ attribute.name }}:</span> {{ attribute.values[0].name }}
         </p>
       </div>
       <div v-if="product.sub_products && product.sub_products.length" class="w-100">
         <h6 class="mb-2 text-primary">Sản phẩm cùng loại:</h6>
         <collapse v-model="collapse" accordion>
           <panel v-for="subProduct in product.sub_products" :key="subProduct.id" :name="subProduct.name">
-            {{ subProduct.name }}
+            <span class="text-primary">{{ subProduct.name }}</span>
             <div slot="content">
               <div class="d-flex">
                 <div class="product-image mr-4" v-if="subProduct.images">
                   <img :src="subProduct.images[0].original" alt="" />
                 </div>
-                <div class="mr-4">
-                  <p>Mã sản phẩm: {{ subProduct.sku_id || subProduct.id }}</p>
-                  <p>Nhóm sản phẩm: {{ subProduct.category && subProduct.category.name || '&lt;&lt;Trống&gt;&gt;' }}</p>
-                  <p>Giá bán: {{ subProduct.price | getFormatPrice }}</p>
-                  <p>Tồn kho: {{ subProduct.quantity }}</p>
-                </div>
                 <div>
-                  <h6>Thuộc tính:</h6>
-                  <p v-for="attribute in productAttributes(subProduct)" :key="attribute.id">
-                    {{ attribute.name }}: {{ attribute.values[0].name }}
-                  </p>
+                  <p><span class="text-primary">Mã sản phẩm:</span> {{ subProduct.sku_id || subProduct.id }}</p>
+                  <p><span class="text-primary">Nhóm sản phẩm:</span> {{ subProduct.category && subProduct.category.name || '&lt;&lt;Trống&gt;&gt;' }}</p>
+                  <p><span class="text-primary">Giá bán:</span> {{ subProduct.price | getFormatPrice }}</p>
+                  <p><span class="text-primary">Tồn kho:</span> {{ subProduct.quantity }}</p>
                 </div>
+              </div>
+              <div v-if="productAttributes(subProduct).length" class="mt-2">
+                <h6><span class="text-primary">Thuộc tính:</span></h6>
+                <p v-for="attribute in productAttributes(subProduct)" :key="attribute.id">
+                  <span class="text-primary">{{ attribute.name }}:</span> {{ attribute.values[0].name }}
+                </p>
               </div>
             </div>
           </panel>
