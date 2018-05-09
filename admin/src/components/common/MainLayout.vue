@@ -34,9 +34,8 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 import AsideNav from '@/components/common/AsideNav';
-import guard from '@/shared/guards';
 
 export default {
   components: {
@@ -59,8 +58,15 @@ export default {
     }
   },
   methods: {
+    ...mapMutations('user', [
+      'setUser'
+    ]),
+    ...mapMutations('auth', [
+      'removeToken'
+    ]),
     logout() {
-      guard.removeToken();
+      this.removeToken();
+      this.setUser(null);
       this.$router.push({name: 'Login'});
     }
   }

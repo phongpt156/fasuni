@@ -3,11 +3,11 @@ import authService from '@/shared/services/auth.service';
 import store from '@/store';
 
 export default {
-  name: 'Homepage',
-  path: '/',
-  component: lazyLoading('homepage/Homepage'),
+  name: 'Product',
+  path: '/product',
+  component: lazyLoading('product/Product'),
   meta: {
-    title: 'Homepage',
+    title: 'Product',
     layout: 'MainLayout'
   },
   beforeEnter(to, from, next) {

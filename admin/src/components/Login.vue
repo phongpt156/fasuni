@@ -9,7 +9,7 @@
             </i-input>
           </form-item>
           <form-item prop="password">
-            <i-input type="text" v-model="loginForm.password" placeholder="Password">
+            <i-input type="password" v-model="loginForm.password" placeholder="Password">
               <icon type="ios-locked-outline" slot="prepend"></icon>
             </i-input>
           </form-item>
@@ -25,7 +25,7 @@
 <script>
 import { ERROR_MESSAGE } from '@/shared/constants';
 import authService from '@/shared/services/auth.service';
-import guard from '@/shared/guards';
+import { mapMutations } from 'vuex';
 
 export default {
   data() {
@@ -46,6 +46,9 @@ export default {
     };
   },
   methods: {
+    ...mapMutations('auth', [
+      'setToken'
+    ]),
     onSubmit() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
@@ -53,7 +56,7 @@ export default {
           authService.login(this.loginForm)
             .then(response => {
               if (response.data && response.status === 200) {
-                guard.setToken(response.data.api_token);
+                this.setToken(response.data.api_token);
                 this.redirectToHomepage();
               }
             });

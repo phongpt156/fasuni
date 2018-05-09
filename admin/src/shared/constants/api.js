@@ -8,3 +8,11 @@ export const AUTH = {
 export const CATEGORY = {
   getAll: BASE_URL + '/category'
 };
+
+export const PRODUCT = {
+  getAll: BASE_URL + '/product'
+};
+
+export const ATTRIBUTE = {
+  getAll: BASE_URL + '/attribute'
+};

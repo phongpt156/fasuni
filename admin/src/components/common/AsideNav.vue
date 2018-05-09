@@ -23,6 +23,9 @@ export default {
         },
         {
           name: 'Category'
+        },
+        {
+          name: 'Product'
         }
       ]
     };

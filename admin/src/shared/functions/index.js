@@ -5,3 +5,11 @@ export function handleError(error) {
 export function reloadApp() {
   window.location.reload();
 };
+
+export function getFormatPrice(price) {
+  if (price) {
+    price = price.toString().replace(/\./g, '');
+    return `${Number(price).toLocaleString()} VNĐ`;
+  }
+  return price;
+};

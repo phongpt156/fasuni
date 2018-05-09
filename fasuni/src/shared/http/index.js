@@ -13,7 +13,11 @@ const httpClient = axios.create({
 
 httpClient.interceptors.request.use(config => {
   // Do something before request is sent
-  config.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+  const token = localStorage.getItem('token');
+
+  if (token) {
+    config.headers.common['Authorization'] = `Bearer ${token}`;
+  }
   return config;
 }, function (error) {
   // Do something with request error

@@ -1,9 +1,9 @@
 export default {
-  getToken() {
-    return localStorage.getItem('token');
-  },
-  setToken(token) {
+  setToken(state, token) {
     localStorage.setItem('token', token);
+  },
+  getToken(state) {
+    localStorage.getItem('token');
   },
   removeToken() {
     localStorage.removeItem('token');
