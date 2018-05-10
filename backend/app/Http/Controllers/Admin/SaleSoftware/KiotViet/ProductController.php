@@ -3,14 +3,16 @@
 namespace App\Http\Controllers\Admin\SaleSoftware\KiotViet;
 
 use Illuminate\Database\QueryException;
+use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Attribute;
 use App\Models\AttributeValue;
 use App\Models\ProductAttributeValue;
 use App\Models\ProductImage;
+use App\Models\Branch;
 
-class ProductController
+class ProductController extends Controller
 {
     public static function saveProducts(Array $products = [])
     {
@@ -25,6 +27,14 @@ class ProductController
                 $product->category_id = $category->id;
             }
 
+            $product->branch_id = null;
+            if (isset($kiotVietProduct->branchId)) {
+                $branch = Branch::whereKiotvietId($kiotVietProduct->branchId)->first();
+                if ($branch) {
+                    $product->branch_id = $branch->id;
+                }
+            }
+
             if (isset($kiotVietProduct->masterProductId)) {
                 $masterProduct = Product::whereKiotvietId($kiotVietProduct->masterProductId)->first();
 
@@ -35,13 +45,14 @@ class ProductController
 
             $product->name = $kiotVietProduct->name;
             $product->price = $kiotVietProduct->basePrice;
-            $product->sku_id = $kiotVietProduct->code;
+            $product->code = $kiotVietProduct->code;
             $product->kiotviet_id = $kiotVietProduct->id;
+            $product->is_active = $kiotVietProduct->isActive;
 
             try {
                 $product = Product::updateOrCreate(
                     ['kiotviet_id' => $product->kiotviet_id],
-                    ['name' => $product->name, 'price' => $product->price, 'sku_id' => $product->sku_id, 'category_id' => $product->category_id, 'master_product_id' => $product->master_product_id]
+                    ['name' => $product->name, 'price' => $product->price, 'code' => $product->code, 'category_id' => $product->category_id, 'master_product_id' => $product->master_product_id, 'branch_id' => $product->branch_id, 'is_active' => $product->is_active]
                 );
             } catch (QueryException $e) {
                 \Log::debug('Cannot save product: ' . $e->getMessage());

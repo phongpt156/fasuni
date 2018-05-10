@@ -17,7 +17,7 @@ class OrderService
     public function getAll()
     {
         try {
-            $response = $this->httpClient->get('orders');
+            $response = $this->httpClient->get('orders?includePayment=true');
 
             $response = $response->getBody()->getContents();
             $response = json_decode($response);
@@ -25,7 +25,7 @@ class OrderService
             return $response->data;
         } catch (RequestException $e) {
             \Log::debug('Can\'t get orders: ' . $e->getMessage());
-            die('Cant\'t get orders ' . $e->getMessage());
+            die('Can\'t get orders: ' . $e->getMessage());
         }
     }
 }

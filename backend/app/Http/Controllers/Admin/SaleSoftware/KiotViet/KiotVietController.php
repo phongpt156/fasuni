@@ -13,6 +13,13 @@ class KiotVietController extends Controller
     {
         $kiotVietService = new KiotVietService;
 
+        $branches = $kiotVietService->branchService->getAll();
+        try {
+            BranchController::saveBranches($branches);
+        } catch (QueryException $e) {
+            die('Cannot save branches: ' . $e->getMessage());
+        }
+
         $categories = $kiotVietService->categoryService->getAll();
         try {
             CategoryController::saveHierarchyCategories($categories);
@@ -35,7 +42,19 @@ class KiotVietController extends Controller
             die('Cannot save customers: ' . $e->getMessage());
         }
 
+        $employees = $kiotVietService->employeeService->getAll();
+        try {
+            EmployeeController::saveEmployees($employees);
+        } catch (QueryException $e) {
+            die('Cannot save employees: ' . $e->getMessage());
+        }
+
         $orders = $kiotVietService->orderService->getAll();
-        \Log::debug($orders);
+        // \Log::debug($orders);
+        try {
+            OrderController::saveOrders($orders);
+        } catch (QueryException $e) {
+            die('Cannot save orders: ' . $e->getMessage());
+        }
     }
 }

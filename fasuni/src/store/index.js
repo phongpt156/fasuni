@@ -5,6 +5,7 @@ import mutations from './mutations';
 import actions from './actions';
 import routes from './modules/routes';
 import auth from './modules/auth';
+import cart from './modules/cart';
 
 Vue.use(Vuex);
 
@@ -19,7 +20,8 @@ const store = new Vuex.Store({
   actions,
   modules: {
     routes,
-    auth
+    auth,
+    cart
   }
 });
 

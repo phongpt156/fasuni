@@ -24,23 +24,23 @@
       </div>
     </div>
     <div v-scroll-reveal.reset>
-      <div class="d-flex">
-        <div class="pr-1 pl-2">
-          <div class="pb-1 h-50">
+      <div class="row mx-0">
+        <div class="pr-2 pl-3 col-md-4">
+          <div class="pb-2 h-50">
             <a class="d-block h-100"><img :src="images.collection1" alt="" class="w-100 h-100" /></a>
           </div>
-          <div class="pt-1 h-50">
+          <div class="pt-2 h-50">
             <a class="d-block h-100"><img :src="images.collection2" alt="" class="w-100 h-100" /></a>
           </div>
         </div>
-        <div class="px-1">
+        <div class="px-2 col-md-4">
           <a class="d-block h-100"><img :src="images.collection3" alt="" class="w-100 h-100" /></a>
         </div>
-        <div class="pl-1 pr-2">
+        <div class="pl-2 pr-3 col-md-4">
           <div class="pb-1 h-50">
             <a class="d-block h-100"><img :src="images.collection4" alt="" class="w-100 h-100" /></a>
           </div>
-          <div class="pt-1 h-50">
+          <div class="pt-2 h-50">
             <a class="d-block h-100"><img :src="images.collection5" alt="" class="w-100 h-100" /></a>
           </div>
         </div>
@@ -288,7 +288,7 @@ export default {
 
     .post-info {
       border-top: unset !important;
-      border: 1px solid #636363;
+      border: 2px solid #636363;
     }
     .read-more {
       &:hover {

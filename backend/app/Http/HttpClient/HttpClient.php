@@ -22,7 +22,7 @@ class HttpClient
 
             return $response;
         } catch (GuzzleRequestException $e) {
-            throw new RequestException($e->getMessage());
+            throw new RequestException($e->getResponse()->getBody());
         }
     }
 
@@ -33,7 +33,7 @@ class HttpClient
 
             return $response;
         } catch (GuzzleRequestException $e) {
-            throw new RequestException($e->getMessage());
+            throw new RequestException($e->getResponse()->getBody());
         }
     }
 }

@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Admin\SaleSoftware\KiotViet;
 
 use Illuminate\Database\QueryException;
+use App\Http\Controllers\Controller;
 use App\Models\Category;
 
-class CategoryController
+class CategoryController extends Controller
 {
     public static function saveHierarchyCategories(Array $categories = [])
     {

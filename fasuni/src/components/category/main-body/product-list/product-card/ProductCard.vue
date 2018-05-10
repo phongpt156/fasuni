@@ -1,5 +1,5 @@
 <template>
-  <div class="product-card mt-3 px-3">
+  <div class="product-card">
     <div class="card">
       <div class="card-header p-0">
         <img class="card-img-top img-fluid" :src="product.image" @click="goToProductPage" />

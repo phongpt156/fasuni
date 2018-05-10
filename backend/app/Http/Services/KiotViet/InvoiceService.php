@@ -5,7 +5,7 @@ namespace App\Http\Services\KiotViet;
 use App\Http\HttpClient\HttpClient;
 use App\Exceptions\HttpClient\RequestException;
 
-class ProductService
+class InvoiceService
 {
     private $httpClient;
 
@@ -17,15 +17,15 @@ class ProductService
     public function getAll()
     {
         try {
-            $response = $this->httpClient->get('products?pageSize=100&includeRemoveIds=true');
+            $response = $this->httpClient->get('invoices?pageSize=100&includePayment=true&includeOrderDelivery=true');
 
             $response = $response->getBody()->getContents();
             $response = json_decode($response);
 
             return $response->data;
         } catch (RequestException $e) {
-            \Log::debug('Can\'t get products: ' . $e->getMessage());
-            die('Cant\'t get products ' . $e->getMessage());
+            \Log::debug('Can\'t get invoices: ' . $e->getMessage());
+            die('Can\'t get invoices: ' . $e->getMessage());
         }
     }
 }

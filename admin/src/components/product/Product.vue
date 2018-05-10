@@ -51,7 +51,7 @@ export default {
         },
         {
           title: 'Mã sản phẩm',
-          key: 'sku_id',
+          key: 'code',
           sortable: true
         },
         {

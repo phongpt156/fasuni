@@ -22,11 +22,14 @@ class CreateCustomersTable extends Migration
             $table->string('address')->nullable();
             $table->string('email')->nullable();
             $table->boolean('gender')->nullable();
-            $table->string('code')->nullable();
+            $table->string('code')->unique();
             $table->unsignedInteger('living_city_id')->nullable();
             $table->unsignedInteger('user_id')->nullable();
             $table->string('kiotviet_id')->nullable();
             $table->timestamps();
+
+            $table->foreign('living_city_id')->references('id')->on('cities');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
         });
     }
 

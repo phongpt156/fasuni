@@ -39,7 +39,7 @@
         <div class="col-md-4">
           <div class="text-danger mt-2 font-weight-bold mb-4" style="line-height: normal">HOT</div>
           <div class="text-uppercase h4 mb-4">Tassel Balfern Biker</div>
-          <div class="h4 mb-4">620.000 VNĐ</div>
+          <div class="h5 mb-4">620.000 VNĐ</div>
           <div class="d-flex color-list mb-3">
             <a style="background-color: #000000" class="mr-2 color-item d-flex align-items-center justify-content-center"><font-awesome-icon class="text-white" :icon="icons.check"></font-awesome-icon></a>
             <a style="background-color: #e96504" class="mr-2 color-item"></a>
@@ -79,7 +79,7 @@
             <p class="mb-0">- See our size guide for more details.</p>
           </div>
           <hr />
-          <p class="mb-0 text-uppercase font-size-base"><a>Size Guide</a></p>
+          <p class="mb-0 text-uppercase font-size-base"><a @click="isOpenSizeGuideDialog = true">Size Guide</a></p>
           <hr />
           <div class="d-flex justify-content-between">
             <p class="mb-0 text-uppercase font-size-base">Chia sẻ</p>
@@ -109,7 +109,7 @@
           </div>
           <hr />
           <p class="mb-2 text-uppercase font-size-base">Show us your style</p>
-          <p class="mb-2">Share your Fasuni look using #FASUNI or upload <u>here</u> to be featured on fasuni.vn</p>
+          <p class="mb-2">Share your Fasuni look using #FASUNI or upload <u><a>here</a></u> to be featured on fasuni.vn</p>
           <p class="mb-0 text-uppercase">#Fasuni</p>
         </div>
       </div>
@@ -178,6 +178,7 @@
         </slide>
       </carousel>
     </div>
+    <size-guide-dialog :isOpenSizeGuideDialog.sync="isOpenSizeGuideDialog"></size-guide-dialog>
   </div>
 </template>
 
@@ -192,12 +193,14 @@ import instagramIcon from '@fortawesome/fontawesome-free-brands/faInstagram';
 import youtubeIcon from '@fortawesome/fontawesome-free-brands/faYoutube';
 import googlePlusIcon from '@fortawesome/fontawesome-free-brands/faGooglePlus';
 import { Carousel, Slide } from 'vue-carousel';
+import SizeGuideDialog from './SizeGuideDialog';
 
 export default {
   components: {
     FontAwesomeIcon,
     Carousel,
-    Slide
+    Slide,
+    SizeGuideDialog
   },
   data() {
     return {
@@ -213,7 +216,8 @@ export default {
       },
       product: {
         isLiked: false
-      }
+      },
+      isOpenSizeGuideDialog: false
     };
   },
   computed: {

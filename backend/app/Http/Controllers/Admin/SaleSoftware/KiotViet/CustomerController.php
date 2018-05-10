@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin\SaleSoftware\KiotViet;
 
+use App\Http\Controllers\Controller;
+use Illuminate\Database\QueryException;
 use App\Models\Customer;
 
-class CustomerController
+class CustomerController extends Controller
 {
     public static function saveCustomers($customers)
     {
