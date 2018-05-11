@@ -19,6 +19,8 @@ class CreateBranchesTable extends Migration
             $table->string('phone_number')->nullable();
             $table->string('email')->nullable();
             $table->string('address')->nullable();
+            $table->float('latitude', 10, 6)->nullable();
+            $table->float('longtitude', 10, 6)->nullable();
             $table->string('kiotviet_id')->nullable();
             $table->timestamps();
         });

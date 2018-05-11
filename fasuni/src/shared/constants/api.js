@@ -18,3 +18,11 @@ export const FACEBOOK = {
 export const GOOGLE = {
   login: BASE_URL + '/auth/google/login'
 };
+
+export const CATEGORY = {
+  getAll: BASE_URL + '/category'
+};
+
+export const PRODUCT = {
+  getAll: BASE_URL + '/product'
+};

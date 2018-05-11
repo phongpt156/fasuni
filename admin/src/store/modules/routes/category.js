@@ -16,7 +16,7 @@ export default {
     } else {
       authService.index()
         .then(response => {
-          if (response.status === 401) {
+          if (!response || response.status === 401) {
             store.commit('auth/removeToken');
             next({name: 'Login'});
           } else {

@@ -1,15 +1,21 @@
 <template>
   <div class="product-list">
     <div class="row mx-2 mt-2">
-      <div v-for="product in products" :key="product.id" class="col-xl-3 col-sm-6 px-2 my-2">
-        <product-card :product="product"></product-card>
-      </div>
+      <template v-if="loading">
+        Loading...
+      </template>
+      <template v-else>
+        <div v-for="product in products" :key="product.id" class="col-xl-3 col-sm-6 px-2 my-2">
+          <product-card :product="product"></product-card>
+        </div>
+      </template>
     </div>
   </div>
 </template>
 
 <script>
 import ProductCard from './product-card/ProductCard';
+import productService from '@/shared/services/product.service';
 
 export default {
   name: 'ProductList',
@@ -18,6 +24,7 @@ export default {
   },
   data() {
     return {
+      loading: true,
       products: [
         {
           id: 1,
@@ -513,6 +520,20 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    getProducts(page = 1) {
+      productService.getAll(page)
+        .then(response => {
+          if (response && response.status === 200 && response.data) {
+            this.products = response.data.data;
+            this.loading = false;
+          }
+        });
+    }
+  },
+  mounted() {
+    this.getProducts(1);
   }
 };
 </script>

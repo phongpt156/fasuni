@@ -15,8 +15,9 @@ class CreateInvoicesTable extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('code')->unique();
+            $table->string('code')->nullable();
             $table->unsignedInteger('order_id')->nullable();
+            $table->string('kiotviet_id')->nullable();
             $table->timestamps();
 
             $table->foreign('order_id')->references('id')->on('orders');

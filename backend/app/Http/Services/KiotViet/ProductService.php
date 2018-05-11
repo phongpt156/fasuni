@@ -17,7 +17,7 @@ class ProductService
     public function getAll()
     {
         try {
-            $response = $this->httpClient->get('products?pageSize=100&includeRemoveIds=true');
+            $response = $this->httpClient->get('products?pageSize=100&includeRemoveIds=true&includeInventory=true');
 
             $response = $response->getBody()->getContents();
             $response = json_decode($response);

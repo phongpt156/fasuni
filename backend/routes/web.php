@@ -51,6 +51,12 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->group(['prefix' => 'city'], function () use ($router) {
         $router->get('', 'CityController@index');
     });
+    $router->group(['prefix' => 'category'], function () use ($router) {
+        $router->get('', 'CategoryController@index');
+    });
+    $router->group(['prefix' => 'product'], function () use ($router) {
+        $router->get('', 'ProductController@index');
+    });
 
     $router->get('test', 'Admin\SaleSoftware\KiotViet\KiotVietController@sync');
 });

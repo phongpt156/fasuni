@@ -2,12 +2,14 @@
   <div class="product-card">
     <div class="card">
       <div class="card-header p-0">
-        <img class="card-img-top img-fluid" :src="product.image" @click="goToProductPage" />
+        <template v-if="product.images && product.images.length">
+          <img class="card-img-top img-fluid" :src="product.images[0].original" @click="goToProductPage" />
+        </template>
         <font-awesome-icon
           :icon="icon.heart"
           class="like-button"
           @click="toggleIsLiked"></font-awesome-icon>
-        <div class="product-attributes w-100">
+        <!-- <div class="product-attributes w-100">
           <div class="product-quantity-info mx-3 mb-3" v-if="currentHoverSize !== null">
             <div class="bg-white py-2 text-center">
               {{ productSizeQuantityStatus }}
@@ -23,9 +25,9 @@
               {{ size.name }}
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
-      <div class="card-body px-1 py-1">
+      <!-- <div class="card-body px-1 py-1">
         <div class="d-flex">
           <div class="text-uppercase name">{{ product.name }}</div>
           <div class="ml-auto font-weight-bold price pl-3">{{ priceFormat(product.price) }}</div>
@@ -39,7 +41,7 @@
             :style="{'background-color': color.code}">
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

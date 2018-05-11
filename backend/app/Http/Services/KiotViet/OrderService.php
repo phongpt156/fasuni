@@ -17,7 +17,7 @@ class OrderService
     public function getAll()
     {
         try {
-            $response = $this->httpClient->get('orders?includePayment=true');
+            $response = $this->httpClient->get('orders?includePayment=true&orderBy=createdDate&orderDirection=Asc');
 
             $response = $response->getBody()->getContents();
             $response = json_decode($response);

@@ -11,6 +11,7 @@ use App\Models\AttributeValue;
 use App\Models\ProductAttributeValue;
 use App\Models\ProductImage;
 use App\Models\Branch;
+use App\Models\Inventory;
 
 class ProductController extends Controller
 {
@@ -27,14 +28,6 @@ class ProductController extends Controller
                 $product->category_id = $category->id;
             }
 
-            $product->branch_id = null;
-            if (isset($kiotVietProduct->branchId)) {
-                $branch = Branch::whereKiotvietId($kiotVietProduct->branchId)->first();
-                if ($branch) {
-                    $product->branch_id = $branch->id;
-                }
-            }
-
             if (isset($kiotVietProduct->masterProductId)) {
                 $masterProduct = Product::whereKiotvietId($kiotVietProduct->masterProductId)->first();
 
@@ -44,15 +37,16 @@ class ProductController extends Controller
             }
 
             $product->name = $kiotVietProduct->name;
-            $product->price = $kiotVietProduct->basePrice;
+            $product->base_price = $kiotVietProduct->basePrice;
             $product->code = $kiotVietProduct->code;
             $product->kiotviet_id = $kiotVietProduct->id;
             $product->is_active = $kiotVietProduct->isActive;
+            $product->quantity =  $kiotVietProduct->inventories[0];
 
             try {
                 $product = Product::updateOrCreate(
                     ['kiotviet_id' => $product->kiotviet_id],
-                    ['name' => $product->name, 'price' => $product->price, 'code' => $product->code, 'category_id' => $product->category_id, 'master_product_id' => $product->master_product_id, 'branch_id' => $product->branch_id, 'is_active' => $product->is_active]
+                    ['name' => $product->name, 'base_price' => $product->base_price, 'weight' => optional($product)->weight, 'code' => $product->code, 'category_id' => $product->category_id, 'master_product_id' => $product->master_product_id, 'is_active' => $product->is_active]
                 );
             } catch (QueryException $e) {
                 \Log::debug('Cannot save product: ' . $e->getMessage());
@@ -67,10 +61,14 @@ class ProductController extends Controller
             if (isset($kiotVietProduct->images)) {
                 self::saveImages($kiotVietProduct->images, $product->id);
             }
+
+            if (isset($kiotVietProduct->inventories)) {
+                self::saveInventories($kiotVietProduct->inventories, $product->id);
+            }
         }
     }
 
-    public static function saveImages($images, $productId)
+    public static function saveImages(Array $images, int $productId)
     {
         foreach ($images as $image) {
             try {
@@ -85,7 +83,7 @@ class ProductController extends Controller
         }
     }
 
-    public static function saveAttributes($attributes, $productId)
+    public static function saveAttributes(Array $attributes, int $productId)
     {
         foreach ($attributes as $kiotVietAttribute) {
             $attributeName = ucfirst(mb_strtolower($kiotVietAttribute->attributeName));
@@ -114,6 +112,30 @@ class ProductController extends Controller
                 );
             } catch (QueryException $e) {
                 \Log::debug('Cannot save product attribute value: ' . $e->getMessage());
+                throw $e;
+            }
+        }
+    }
+
+    public static function saveInventories(Array $inventories, int $productId)
+    {
+        foreach ($inventories as $inventory) {
+            $branchId = null;
+            $branch = Branch::whereKiotvietId($inventory->branchId)->first();
+            if ($branch) {
+                $branchId = $branch->id;
+            } else {
+                \Log::debug('Branch ' . $inventory->branchName . ' not found');
+                throw new Exception('Branch ' . $inventory->branchName . ' not found');
+            }
+
+            try {
+                Inventory::updateOrCreate(
+                    ['product_id' => $productId, 'branch_id' => $branchId],
+                    ['sale_price' => $inventory->cost, 'quantity' => $inventory->onHand]
+                );
+            } catch (QueryException $e) {
+                \Log::debug('Cannot save inventory: ' . $e->getMessage());
                 throw $e;
             }
         }

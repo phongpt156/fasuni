@@ -9,7 +9,7 @@ use App\Models\Employee;
 
 class EmployeeController extends Controller
 {
-    public static function saveEmployees($employees)
+    public static function saveEmployees(Array $employees)
     {
         foreach ($employees as $employee) {
             try {

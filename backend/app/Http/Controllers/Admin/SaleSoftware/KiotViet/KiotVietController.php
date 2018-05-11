@@ -50,11 +50,17 @@ class KiotVietController extends Controller
         }
 
         $orders = $kiotVietService->orderService->getAll();
-        // \Log::debug($orders);
         try {
             OrderController::saveOrders($orders);
         } catch (QueryException $e) {
             die('Cannot save orders: ' . $e->getMessage());
+        }
+
+        $invoices = $kiotVietService->invoiceService->getAll();
+        try {
+            InvoiceController::saveInvoices($invoices);
+        } catch (QueryException $e) {
+            die('Cannot save invoices: ' . $e->getMessage());
         }
     }
 }

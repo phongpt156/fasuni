@@ -8,7 +8,7 @@ use App\Models\Customer;
 
 class CustomerController extends Controller
 {
-    public static function saveCustomers($customers)
+    public static function saveCustomers(Array $customers)
     {
         foreach ($customers as $customer) {
             try {

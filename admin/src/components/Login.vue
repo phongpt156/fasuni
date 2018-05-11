@@ -55,7 +55,7 @@ export default {
           this.$Message.success('Success');
           authService.login(this.loginForm)
             .then(response => {
-              if (response.data && response.status === 200) {
+              if (response && response.data && response.status === 200) {
                 this.setToken(response.data.api_token);
                 this.redirectToHomepage();
               }

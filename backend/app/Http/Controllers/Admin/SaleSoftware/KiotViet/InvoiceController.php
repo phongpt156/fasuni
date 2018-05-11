@@ -4,69 +4,85 @@ namespace App\Http\Controllers\Admin\SaleSoftware\KiotViet;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Database\QueryException;
+use App\Models\Invoice;
 use App\Models\Order;
-use App\Models\Employee;
+use App\Models\InvoicePayment;
+use App\Models\Payment;
 use App\Models\Customer;
+use App\Models\Branch;
 use App\Models\OrderDetail;
 use App\Models\Product;
-use App\Models\Branch;
-use App\Models\Payment;
-use App\Models\Invoice;
-use App\Models\InvoicePayment;
 
-class OrderController extends Controller
+class InvoiceController extends Controller
 {
-    public static function saveOrders(Array $orders = [])
+    public static function saveInvoices(Array $invoices)
     {
-        foreach ($orders as $order) {
-            $employee = Employee::whereKiotvietId($order->soldById)->first();
-            if ($employee) {
-                $employeeId = $employee->id;
-            } else {
-                $employeeId = null;
-            }
-
+        \Log::debug($invoices);
+        foreach ($invoices as $invoice) {
             $customerId = null;
-            if (isset($order->customerId)) {
-                $customer = Customer::whereKiotvietId($order->customerId)->first();
+            if (isset($invoice->customerId)) {
+                $customer = Customer::whereKiotvietId($invoice->customerId)->first();
                 if ($customer) {
                     $customerId = $customer->id;
                 }
             }
 
+            $employeeId = null;
+            if (isset($invoice->soldById)) {
+                $employee = Customer::whereKiotvietId($invoice->soldById)->first();
+                if ($employee) {
+                    $employeeId = $employee->id;
+                }
+            }
+
             $branchId = null;
-            if (isset($order->branchId)) {
-                $branch = Branch::whereKiotvietId($order->branchId)->first();
+            if (isset($invoice->branchId)) {
+                $branch = Branch::whereKiotvietId($invoice->branchId)->first();
                 if ($branch) {
                     $branchId = $branch->id;
                 }
             }
 
-            if (isset($order->discount)) {
-                $discount = $order->discount;
+            if (!isset($invoice->orderId)) {
+                $orderKiotvietId = $invoice->id;
             } else {
-                $discount = 0;
+                $orderKiotvietId = $invoice->orderId;
             }
-            
+
+            $discountPrice = 0;
+            if (isset($invoice->discount)) {
+                $discountPrice = $invoice->discount;
+            }
+
+            $order = Order::whereKiotvietId($orderKiotvietId)->first();
+            if (!$order) {
+                $order = new Order;
+                $order->code = $invoice->code;
+                $order->kiotviet_id = $orderKiotvietId;
+            }
+            $order->total_price = $invoice->total;
+            $order->discount_price = $discountPrice;
+            $order->source = 'KiotViet';
+            $order->status_id = 3;
+            $order->customer_id = $customerId;
+            $order->employee_id = $employeeId;
+            $order->branch_id = $branchId;
 
             try {
-                $savedOrder = Order::updateOrCreate(
-                    ['kiotviet_id' => $order->id],
-                    ['code' => $order->code, 'total_price' => $order->total, 'discount_price' => $discount, 'source' => 'KiotViet', 'status_id' => $order->status, 'customer_id' => $customerId, 'employee_id' => $employeeId, 'branch_id' => $branchId]
-                );
+                $order->save();
             } catch (QueryException $e) {
                 \Log::debug('Cannot save order: ' . $e->getMessage());
                 throw $e;
             }
 
-            if (isset($order->orderDetails)) {
-                self::saveOrderDetails($order->orderDetails, $savedOrder->id);
+            if (isset($invoice->invoiceDetails)) {
+                self::saveOrderDetails($invoice->invoiceDetails, $order->id);
             }
 
-            $invoice = self::saveInvoice($savedOrder->id);            
+            $savedInvoice = self::saveInvoice($invoice, $order->id);
 
-            if (isset($order->payments)) {
-                self::savePayments($order->payments, $invoice->id);
+            if (isset($invoice->payments)) {
+                self::savePayments($invoice->payments, $savedInvoice->id);
             }
         }
     }
@@ -77,10 +93,15 @@ class OrderController extends Controller
             $product = Product::whereKiotvietId($orderDetail->productId)->first();
 
             if ($product) {
+                $discount = 0;
+
+                if (isset($orderDetail->discount)) {
+                    $discount = $orderDetail->discount;
+                }
                 try {
                     OrderDetail::updateOrCreate(
                         ['product_id' => $product->id, 'order_id' => $orderId],
-                        ['quantity' => $orderDetail->quantity, 'price' => $orderDetail->price, 'discount_price' => $orderDetail->discount]
+                        ['quantity' => $orderDetail->quantity, 'price' => $orderDetail->price, 'discount_price' => $discount]
                     );
                 } catch (QueryException $e) {
                     \Log::debug('Cannot save order detail: ' . $e->getMessage());
@@ -88,16 +109,16 @@ class OrderController extends Controller
                 }
             } else {
                 \Log::debug('Không tìm thấy sản phẩm có mã sản phẩm là: ' . $product->productCode);
-                throw new Exception('Không tìm thấy sản phẩm có mã sản phẩm là: ' . $product->productCode);
             }
         }
     }
 
-    public static function saveInvoice($orderId)
+    public static function saveInvoice($invoice, $orderId)
     {
         try {
             $invoice = Invoice::updateOrCreate(
-                ['order_id' => $orderId]
+                ['order_id' => $orderId],
+                ['code' => $invoice->code, 'kiotviet_id' => $invoice->id]
             );
 
             return $invoice;

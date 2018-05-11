@@ -60,11 +60,25 @@ export default {
           sortable: true
         },
         {
-          title: 'Giá bán',
-          key: 'price',
+          title: 'Giá gốc',
+          key: 'base_price',
           sortable: true,
           render: (h, params) => {
-            return h('span', getFormatPrice(params.row.price));
+            return h('span', getFormatPrice(params.row.base_price));
+          }
+        },
+        {
+          title: 'Giá bán',
+          key: 'inventories',
+          sortable: true,
+          sortMethod: (a, b, type) => {
+            if (type === 'asc') {
+              return a[0].sale_price - b[0].sale_price;
+            }
+            return b[0].sale_price - a[0].sale_price;
+          },
+          render: (h, params) => {
+            return h('span', getFormatPrice(params.row.inventories[0].sale_price));
           }
         },
         {
@@ -74,7 +88,14 @@ export default {
         },
         {
           title: 'Nhóm sản phẩm',
-          key: 'category.name',
+          key: 'category',
+          sortable: true,
+          sortMethod: (a, b, type) => {
+            if (type === 'asc') {
+              return a.name - b.name;
+            }
+            return b.name - a.name;
+          },
           render: (h, params) => {
             return h('span', params.row.category && params.row.category.name);
           }

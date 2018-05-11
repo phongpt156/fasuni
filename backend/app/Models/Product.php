@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    protected $fillable = ['name', 'price', 'discount_price', 'quantity', 'about', 'is_active', 'code', 'gender', 'click_count', 'category_id', 'master_product_id', 'kiotviet_id', 'branch_id'];
+    protected $fillable = ['name', 'base_price', 'discount_price', 'quantity', 'about', 'weight', 'is_active', 'code', 'gender', 'click_count', 'category_id', 'master_product_id', 'kiotviet_id', 'branch_id'];
+    public $appends = ['quantity'];
 
     public function subProducts()
     {
@@ -26,5 +27,15 @@ class Product extends Model
     public function images()
     {
         return $this->hasMany(ProductImage::class);
+    }
+
+    public function inventories()
+    {
+        return $this->hasMany(Inventory::class);
+    }
+
+    public function getQuantityAttribute()
+    {
+        return $this->inventories()->sum('quantity');
     }
 }
