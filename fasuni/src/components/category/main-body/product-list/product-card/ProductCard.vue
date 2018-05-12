@@ -1,15 +1,18 @@
 <template>
-  <div class="product-card">
-    <div class="card">
+  <div class="product-card h-100">
+    <div class="card h-100">
       <div class="card-header p-0">
         <template v-if="product.images && product.images.length">
-          <img class="card-img-top img-fluid" :src="product.images[0].original" @click="goToProductPage" />
+          <div class="image-wrapper image-43-50">
+            <img class="card-img-top img-fluid" :src="product.images[0].original" @click="goToProductPage" />
+          </div>
         </template>
+        <!-- <img class="card-img-top img-fluid" :src="product.image" @click="goToProductPage" /> -->
         <font-awesome-icon
           :icon="icon.heart"
           class="like-button"
           @click="toggleIsLiked"></font-awesome-icon>
-        <!-- <div class="product-attributes w-100">
+        <div class="product-attributes w-100">
           <div class="product-quantity-info mx-3 mb-3" v-if="currentHoverSize !== null">
             <div class="bg-white py-2 text-center">
               {{ productSizeQuantityStatus }}
@@ -17,31 +20,32 @@
           </div>
           <div class="size-list w-100 justify-content-center py-1 d-none">
             <div
-              v-for="size in product.sizes"
+              v-for="size in sizes"
               :key="size.id"
               class="px-2 size-item"
               @mouseenter="enterProductSize(size)"
               @mouseleave="leaveProductSize">
-              {{ size.name }}
+                {{ size.name }}
             </div>
           </div>
-        </div> -->
+        </div>
       </div>
-      <!-- <div class="card-body px-1 py-1">
+      <div class="card-body px-1 py-1">
         <div class="d-flex">
           <div class="text-uppercase name">{{ product.name }}</div>
           <div class="ml-auto font-weight-bold price pl-3">{{ priceFormat(product.price) }}</div>
         </div>
         <div class="d-flex align-items-center">
-          <div
-            v-for="(color, index) in product.colors"
-            :key="color.id"
-            class="color mr-2"
-            :class="{active: index === 0}"
-            :style="{'background-color': color.code}">
-          </div>
+          <a v-for="color in colors" :key="color.id">
+            <div
+              class="color mr-2"
+              :class="{active: currentColor === color}"
+              @click="selectColor(color)"
+              :style="{'background-color': color.value}">
+            </div>
+          </a>
         </div>
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
@@ -67,7 +71,8 @@ export default {
   },
   data() {
     return {
-      currentHoverSize: null
+      currentHoverSize: null,
+      currentColor: null
     };
   },
   computed: {
@@ -91,18 +96,58 @@ export default {
       if (this.currentHoverSize !== null) {
         let status = `Size ${this.currentHoverSize.name}`;
 
-        if (this.currentHoverSize.quantity) {
-          status += ' - Còn hàng';
+        if (this.currentHoverSize.product.total_quantity) {
+          status += ` - Còn hàng(${this.currentHoverSize.product.total_quantity})`;
         } else {
           status += ' - Đã hết hàng';
         }
         return status;
       }
+    },
+    colors() {
+      const colors = [];
+
+      if (this.product.color) {
+        colors.push(this.product.color);
+      }
+      this.product.sub_products.forEach(subProduct => {
+        if (subProduct.color) {
+          const existColor = colors.find(color => color.id === subProduct.color.id);
+
+          if (!existColor) {
+            colors.push(subProduct.color);
+          }
+        }
+      });
+
+      return colors;
+    },
+    sizes() {
+      const sizes = [];
+
+      if (this.currentColor) {
+        if (this.product.size && this.product.color && this.product.color.id === this.currentColor.id) {
+          const size = Object.assign({}, this.product.size);
+          size.product = this.product;
+          sizes.push(size);
+        }
+
+        this.product.sub_products.forEach(subProduct => {
+          if (subProduct.size && subProduct.color && subProduct.color.id === this.currentColor.id) {
+            const size = Object.assign({}, subProduct.size);
+            size.product = subProduct;
+            sizes.push(size);
+          }
+        });
+      }
+
+      return sizes;
     }
   },
   methods: {
     enterProductSize(size) {
       this.currentHoverSize = size;
+      this.currentHoverSize.total_quantity = size.product.total_quantity;
     },
     leaveProductSize() {
       this.currentHoverSize = null;
@@ -112,6 +157,14 @@ export default {
     },
     goToProductPage() {
       this.$router.push({name: 'Product'});
+    },
+    selectColor(color) {
+      this.currentColor = color;
+    }
+  },
+  mounted() {
+    if (this.colors.length) {
+      this.currentColor = this.colors[0];
     }
   }
 };

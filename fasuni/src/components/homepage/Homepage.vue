@@ -49,7 +49,7 @@
     <div v-scroll-reveal.reset class="pt-5">
       <div class="py-5">
         <p class="mb-0 text-center text-uppercase font-weight-bold">Sản phẩm nổi bật</p>
-        <hr class="mt-0" />
+        <hr class="mt-0 mx-2" />
         <carousel :perPageCustom="[[768, 3], [1024, 4]]" class="top-product px-5">
           <slide class="px-2">
             <div>

@@ -36,15 +36,18 @@
     <!-- built files will be auto injected -->
     <script>
       (function () {
-        setTimeout(() => {
-          window.gapi.load('auth2', function() {
-            window.auth2 = gapi.auth2.init({
-              client_id: '493839488981-h84lbqckhj4ondu01sfc8ecfataevp3s.apps.googleusercontent.com',
-              fetch_basic_profile: true,
-              scope: 'profile'
+        const loadGoogleApiInterval = setInterval(() => {
+          if (window.gapi) {
+            window.gapi.load('auth2', function() {
+              window.auth2 = gapi.auth2.init({
+                client_id: '493839488981-h84lbqckhj4ondu01sfc8ecfataevp3s.apps.googleusercontent.com',
+                fetch_basic_profile: true,
+                scope: 'profile'
+              });
             });
-          });
-        })
+            clearInterval(loadGoogleApiInterval);
+          }
+        }, 50)
       })();
     </script>
   </body>

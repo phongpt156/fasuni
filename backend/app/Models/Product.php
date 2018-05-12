@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     protected $fillable = ['name', 'base_price', 'discount_price', 'quantity', 'about', 'weight', 'is_active', 'code', 'gender', 'click_count', 'category_id', 'master_product_id', 'kiotviet_id', 'branch_id'];
-    public $appends = ['quantity'];
+    protected $appends = ['total_quantity'];
 
     public function subProducts()
     {
@@ -34,8 +34,22 @@ class Product extends Model
         return $this->hasMany(Inventory::class);
     }
 
-    public function getQuantityAttribute()
+    public function getTotalQuantityAttribute()
     {
-        return $this->inventories()->sum('quantity');
+        return (int)$this->inventories()->sum('quantity');
+    }
+
+    public function getSizeAttribute()
+    {
+        return $this->attributeValues()->whereHas('attribute', function ($query) {
+            $query->where('name', 'Size');
+        })->first();
+    }
+
+    public function getColorAttribute()
+    {
+        return $this->attributeValues()->whereHas('attribute', function ($query) {
+            $query->where('name', 'Màu sắc');
+        })->first();
     }
 }

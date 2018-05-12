@@ -2,7 +2,7 @@
   <div class="category">
     <nav class="navbar navbar-expand-lg justify-content-center py-3 px-2">
       <div class="d-md-block d-none breadcrumbs">
-        <!-- <ul class="navbar-nav align-items-center flex-row">
+        <ul class="navbar-nav align-items-center flex-row">
           <li class="nav-item">
             <a class="nav-link p-2">MEN'S
             </a>
@@ -15,7 +15,7 @@
             <a class="nav-link p-2">T-Shirts
             </a>
           </li>
-        </ul> -->
+        </ul>
       </div>
       <h3 class="text-uppercase font-weight-normal mb-0">Thời trang nam mùa hè</h3>
     </nav>

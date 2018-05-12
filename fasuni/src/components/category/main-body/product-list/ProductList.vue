@@ -522,7 +522,7 @@ export default {
     };
   },
   methods: {
-    getProducts(page = 1) {
+    getProducts(page) {
       productService.getAll(page)
         .then(response => {
           if (response && response.status === 200 && response.data) {
@@ -534,6 +534,11 @@ export default {
   },
   mounted() {
     this.getProducts(1);
+    document.addEventListener('scroll', function () {
+      console.log(document.documentElement.scrollTop);
+    }, {
+      passive: true
+    });
   }
 };
 </script>

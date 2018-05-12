@@ -59,7 +59,7 @@ export default {
 
 <style lang="scss">
   .app {
-    padding-top: 50px;
+    padding-top: 3.125rem;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
