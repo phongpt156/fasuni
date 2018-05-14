@@ -24,5 +24,6 @@ export const CATEGORY = {
 };
 
 export const PRODUCT = {
-  getAll: BASE_URL + '/product'
+  getAll: BASE_URL + '/product',
+  getOne: BASE_URL + '/product/'
 };

@@ -183,13 +183,13 @@ export default {
   }
   table {
     text-transform: uppercase;
-    font-size: 12px;
-    border-spacing: 9px 0;
+    font-size: .8rem;
+    border-spacing: .6rem 0;
     border-collapse: separate;
 
     th {
       text-align: center;
-      padding: 20px;
+      padding: 1.3rem;
       font-weight: 400;
       font-family: 'Times New Roman';
       background-color: #f5f5f5;
@@ -200,7 +200,7 @@ export default {
       tr {
         td {
           text-align: center;
-          padding: 10px;
+          padding: .6rem;
           background-color: #f5f5f5;
         }
         &:nth-child(odd) {

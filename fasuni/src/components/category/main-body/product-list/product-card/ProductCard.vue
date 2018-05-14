@@ -2,11 +2,14 @@
   <div class="product-card h-100">
     <div class="card h-100">
       <div class="card-header p-0">
-        <template v-if="product.images && product.images.length">
-          <div class="image-wrapper image-43-50">
-            <img class="card-img-top img-fluid" :src="product.images[0].original" @click="goToProductPage" />
-          </div>
-        </template>
+        <div class="image-wrapper image-43-50">
+          <template v-if="product.images && product.images.length">
+            <img class="card-img-top img-fluid" :src="product.images[0].original" @click="goToProductPage(product)" />
+          </template>
+          <template v-else>
+            <img :alt="product.name">
+          </template>
+        </div>
         <!-- <img class="card-img-top img-fluid" :src="product.image" @click="goToProductPage" /> -->
         <font-awesome-icon
           :icon="icon.heart"
@@ -33,7 +36,7 @@
       <div class="card-body px-1 py-1">
         <div class="d-flex">
           <div class="text-uppercase name">{{ product.name }}</div>
-          <div class="ml-auto font-weight-bold price pl-3">{{ priceFormat(product.price) }}</div>
+          <div class="ml-auto price pl-3">{{ product.inventories[0].sale_price | priceFormat }}</div>
         </div>
         <div class="d-flex align-items-center">
           <a v-for="color in colors" :key="color.id">
@@ -51,13 +54,16 @@
 </template>
 
 <script>
-import { getFormatPrice } from '@/shared/functions';
+import { priceFormat } from '@/filters';
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
 import solidFaHeart from '@fortawesome/fontawesome-free-solid/faHeart';
 import regularFaHeart from '@fortawesome/fontawesome-free-regular/faHeart';
 
 export default {
   name: 'ProductCard',
+  filters: {
+    priceFormat
+  },
   props: {
     product: {
       type: Object,
@@ -88,9 +94,6 @@ export default {
       return {
         heart
       };
-    },
-    priceFormat() {
-      return (price) => getFormatPrice(price);
     },
     productSizeQuantityStatus() {
       if (this.currentHoverSize !== null) {
@@ -155,8 +158,8 @@ export default {
     toggleIsLiked() {
       this.$set(this.product, 'isLiked', !this.product.isLiked);
     },
-    goToProductPage() {
-      this.$router.push({name: 'Product'});
+    goToProductPage(product) {
+      this.$router.push({name: 'Product', params: {slug: product.slug}});
     },
     selectColor(color) {
       this.currentColor = color;

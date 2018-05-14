@@ -17,7 +17,6 @@ class InvoiceController extends Controller
 {
     public static function saveInvoices(Array $invoices)
     {
-        \Log::debug($invoices);
         foreach ($invoices as $invoice) {
             $customerId = null;
             if (isset($invoice->customerId)) {

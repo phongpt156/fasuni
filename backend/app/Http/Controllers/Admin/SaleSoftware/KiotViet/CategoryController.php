@@ -23,7 +23,7 @@ class CategoryController extends Controller
                 }
                 Category::updateOrCreate(
                     ['kiotviet_id' => $category->categoryId],
-                    ['name' => $category->categoryName, 'parent_id' => $parentId]
+                    ['name' => $category->categoryName, 'parent_id' => $parentId, 'slug' => str_slug($category->categoryName)]
                 );
 
                 if ($category->hasChild) {

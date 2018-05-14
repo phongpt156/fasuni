@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    protected $fillable = ['name', 'base_price', 'discount_price', 'quantity', 'about', 'weight', 'is_active', 'code', 'gender', 'click_count', 'category_id', 'master_product_id', 'kiotviet_id', 'branch_id'];
+    protected $fillable = ['name', 'base_price', 'discount_price', 'quantity', 'about', 'weight', 'slug', 'is_active', 'code', 'gender', 'click_count', 'category_id', 'master_product_id', 'kiotviet_id', 'branch_id'];
     protected $appends = ['total_quantity'];
 
     public function subProducts()

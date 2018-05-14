@@ -18,6 +18,7 @@ class ProductController extends Controller
             'subProducts.inventories'
         )
             ->whereNull('master_product_id')
+            ->whereIsActive(true)
             ->orderBy('created_at', 'desc')
             ->paginate(12);
 
@@ -29,5 +30,27 @@ class ProductController extends Controller
         });
 
         return response()->json($products, 200);
+    }
+
+    public function show($slug)
+    {
+        $product = Product::with(
+                'category',
+                'images',
+                'inventories',
+                'subProducts.images',
+                'subProducts.category',
+                'subProducts.inventories'
+            )
+            ->whereSlug($slug)
+            ->whereNull('master_product_id')
+            ->whereIsActive(true)
+            ->first()
+            ->append('size', 'color');
+
+        $product->subProducts->each(function ($subProduct) {
+            $subProduct->append('size', 'color');
+        });
+        return response()->json($product, 200);
     }
 }

@@ -12,60 +12,73 @@ use App\Models\ProductAttributeValue;
 use App\Models\ProductImage;
 use App\Models\Branch;
 use App\Models\Inventory;
+use App\Http\Services\KiotViet\KiotVietService;
 
 class ProductController extends Controller
 {
-    public static function saveProducts(Array $products = [])
+    public static function saveProducts(Array $kiotVietProducts = [])
     {
-        foreach ($products as $kiotVietProduct) {
-            $product = Product::whereKiotvietId($kiotVietProduct->id)->first();
-            if (!$product) {
-                $product = new Product;
+        foreach ($kiotVietProducts as $kiotVietProduct) {
+            self::saveProduct($kiotVietProduct);
+        }
+    }
+
+    public static function saveProduct($kiotVietProduct)
+    {
+        $product = Product::whereKiotvietId($kiotVietProduct->id)->first();
+        if (!$product) {
+            $product = new Product;
+        }
+
+        $category = Category::whereKiotvietId($kiotVietProduct->categoryId)->first();
+        if ($category) {
+            $product->category_id = $category->id;
+        }
+
+        if (isset($kiotVietProduct->masterProductId)) {
+            $masterProduct = Product::whereKiotvietId($kiotVietProduct->masterProductId)->first();
+
+            if (!$masterProduct) {
+                $kiotVietService = new KiotVietService;
+                $masterProduct = $kiotVietService->productService->getOne($kiotVietProduct->masterProductId);
+                $masterProduct = self::saveProduct($masterProduct);
             }
-
-            $category = Category::whereKiotvietId($kiotVietProduct->categoryId)->first();
-            if ($category) {
-                $product->category_id = $category->id;
-            }
-
-            if (isset($kiotVietProduct->masterProductId)) {
-                $masterProduct = Product::whereKiotvietId($kiotVietProduct->masterProductId)->first();
-
-                if ($masterProduct) {
-                    $product->master_product_id = $masterProduct->id;
-                }
-            }
-
-            $product->name = $kiotVietProduct->name;
-            $product->base_price = $kiotVietProduct->basePrice;
-            $product->code = $kiotVietProduct->code;
-            $product->kiotviet_id = $kiotVietProduct->id;
-            $product->is_active = $kiotVietProduct->isActive;
-            $product->quantity =  $kiotVietProduct->inventories[0];
-
-            try {
-                $product = Product::updateOrCreate(
-                    ['kiotviet_id' => $product->kiotviet_id],
-                    ['name' => $product->name, 'base_price' => $product->base_price, 'weight' => optional($product)->weight, 'code' => $product->code, 'category_id' => $product->category_id, 'master_product_id' => $product->master_product_id, 'is_active' => $product->is_active]
-                );
-            } catch (QueryException $e) {
-                \Log::debug('Cannot save product: ' . $e->getMessage());
-                throw $e;
-            }
-
-
-            if (isset($kiotVietProduct->attributes)) {
-                self::saveAttributes($kiotVietProduct->attributes, $product->id);
-            }
-
-            if (isset($kiotVietProduct->images)) {
-                self::saveImages($kiotVietProduct->images, $product->id);
-            }
-
-            if (isset($kiotVietProduct->inventories)) {
-                self::saveInventories($kiotVietProduct->inventories, $product->id);
+            if ($masterProduct) {
+                $product->master_product_id = $masterProduct->id;
             }
         }
+
+        $product->name = $kiotVietProduct->name;
+        $product->base_price = $kiotVietProduct->basePrice;
+        $product->code = $kiotVietProduct->code;
+        $product->kiotviet_id = $kiotVietProduct->id;
+        $product->is_active = $kiotVietProduct->isActive;
+        $product->quantity =  $kiotVietProduct->inventories[0];
+
+        try {
+            $product = Product::updateOrCreate(
+                ['kiotviet_id' => $product->kiotviet_id],
+                ['name' => $product->name, 'base_price' => $product->base_price, 'weight' => optional($product)->weight, 'code' => $product->code, 'slug' => str_slug($product->name), 'category_id' => $product->category_id, 'master_product_id' => $product->master_product_id, 'is_active' => $product->is_active]
+            );
+        } catch (QueryException $e) {
+            \Log::debug('Cannot save product: ' . $e->getMessage());
+            throw $e;
+        }
+
+
+        if (isset($kiotVietProduct->attributes)) {
+            self::saveAttributes($kiotVietProduct->attributes, $product->id);
+        }
+
+        if (isset($kiotVietProduct->images)) {
+            self::saveImages($kiotVietProduct->images, $product->id);
+        }
+
+        if (isset($kiotVietProduct->inventories)) {
+            self::saveInventories($kiotVietProduct->inventories, $product->id);
+        }
+
+        return $product;
     }
 
     public static function saveImages(Array $images, int $productId)

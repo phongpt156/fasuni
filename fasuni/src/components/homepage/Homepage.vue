@@ -248,6 +248,9 @@ export default {
         company6
       }
     };
+  },
+  created() {
+    document.documentElement.scrollTo(0, 0);
   }
 };
 </script>

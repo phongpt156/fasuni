@@ -56,6 +56,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     });
     $router->group(['prefix' => 'product'], function () use ($router) {
         $router->get('', 'ProductController@index');
+        $router->get('{slug}', 'ProductController@show');
     });
 
     $router->get('test', 'Admin\SaleSoftware\KiotViet\KiotVietController@sync');
