@@ -3,8 +3,8 @@
     <div class="card h-100">
       <div class="card-header p-0">
         <div class="image-wrapper image-43-50">
-          <template v-if="product.images && product.images.length">
-            <img class="card-img-top img-fluid" :src="product.images[0].original" @click="goToProductPage(product)" />
+          <template v-if="images && images.length">
+            <img class="card-img-top img-fluid" :src="images[0].original" @click="goToProductPage(product)" />
           </template>
           <template v-else>
             <img :alt="product.name">
@@ -27,7 +27,8 @@
               :key="size.id"
               class="px-2 size-item"
               @mouseenter="enterProductSize(size)"
-              @mouseleave="leaveProductSize">
+              @mouseleave="leaveProductSize"
+              @click="addProductToCart({images, product: size.product})">
                 {{ size.name }}
             </div>
           </div>
@@ -58,6 +59,7 @@ import { priceFormat } from '@/filters';
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
 import solidFaHeart from '@fortawesome/fontawesome-free-solid/faHeart';
 import regularFaHeart from '@fortawesome/fontawesome-free-regular/faHeart';
+import { mapMutations } from 'vuex';
 
 export default {
   name: 'ProductCard',
@@ -145,9 +147,28 @@ export default {
       }
 
       return sizes;
+    },
+    images() {
+      let images = [];
+
+      this.sizes.some(size => {
+        if (size.product.images && size.product.images.length) {
+          images = size.product.images;
+          return true;
+        }
+      });
+
+      if (!images.length && this.product.images && this.product.images.length) {
+        images.push(this.product.images[0]);
+      }
+
+      return images;
     }
   },
   methods: {
+    ...mapMutations('cart', {
+      addProductToCart: 'add'
+    }),
     enterProductSize(size) {
       this.currentHoverSize = size;
       this.currentHoverSize.total_quantity = size.product.total_quantity;
@@ -159,7 +180,13 @@ export default {
       this.$set(this.product, 'isLiked', !this.product.isLiked);
     },
     goToProductPage(product) {
-      this.$router.push({name: 'Product', params: {slug: product.slug}});
+      const query = {};
+
+      if (this.currentColor) {
+        query.color = this.currentColor.id;
+      }
+
+      this.$router.push({name: 'Product', params: {slug: product.slug}, query});
     },
     selectColor(color) {
       this.currentColor = color;
@@ -175,64 +202,64 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-  @import '~bootstrap/scss/functions';
-  @import '~bootstrap/scss/_variables';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/_variables';
 
-  .product-card {
-    font-size: $font-size-sm;
-    .price {
-      white-space: nowrap;
-    }
-    .color {
-      width: 13px;
-      height: 13px;
-      border: 1px solid $black;
+.product-card {
+  font-size: $font-size-sm;
+  .price {
+    white-space: nowrap;
+  }
+  .color {
+    width: 13px;
+    height: 13px;
+    border: 1px solid $black;
 
-      &.active {
-        width: 18px;
-        height: 18px;
-      }
+    &.active {
+      width: 18px;
+      height: 18px;
     }
-    .card {
+  }
+  .card {
+    &:hover {
+      box-shadow: 0 2px 7px rgba(0,0,0,.15);
+    }
+
+    .card-header {
+      position: relative;
+      cursor: pointer;
+
       &:hover {
-        box-shadow: 0 2px 7px rgba(0,0,0,.15);
+        .size-list {
+          display: flex !important;
+        }
       }
 
-      .card-header {
-        position: relative;
-        cursor: pointer;
+      .product-attributes {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+      }
+      .size-list {
+        background-color: rgba(255, 255, 255, .8);
+
+        .size-item {
+          &:hover {
+            font-weight: $font-weight-bold;
+          }
+        }
+      }
+      .like-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 20px;
 
         &:hover {
-          .size-list {
-            display: flex !important;
-          }
-        }
-
-        .product-attributes {
-          position: absolute;
-          left: 0;
-          bottom: 0;
-        }
-        .size-list {
-          background-color: rgba(255, 255, 255, .8);
-
-          .size-item {
-            &:hover {
-              font-weight: $font-weight-bold;
-            }
-          }
-        }
-        .like-button {
-          position: absolute;
-          top: 10px;
-          right: 10px;
-          font-size: 20px;
-
-          &:hover {
-            color: #707070;
-          }
+          color: #707070;
         }
       }
     }
   }
+}
 </style>

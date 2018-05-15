@@ -77,32 +77,32 @@ export default {
 </script>
 
 <style lang="scss">
-  @import '~bootstrap/scss/functions';
-  @import '~bootstrap/scss/_variables';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/_variables';
 
-  .collection {
-    background-color: $white;
+.collection {
+  background-color: $white;
 
-    hr {
-      border: 1px solid $black;
+  hr {
+    border: 1px solid $black;
+  }
+
+  .product-item {
+    width: calc(100% / 5);
+
+    &:hover {
+      img {
+        opacity: 0.7
+      }
+      .product-name {
+        visibility: visible;
+      }
     }
 
-    .product-item {
-      width: calc(100% / 5);
-
-      &:hover {
-        img {
-          opacity: 0.7
-        }
-        .product-name {
-          visibility: visible;
-        }
-      }
-
-      .product-name {
-        font-size: $font-size-sm;
-        visibility: hidden;
-      }
+    .product-name {
+      font-size: $font-size-sm;
+      visibility: hidden;
     }
   }
+}
 </style>

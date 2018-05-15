@@ -35,25 +35,25 @@ export default {
 </script>
 
 <style lang="scss">
-  @import '~bootstrap/scss/functions';
-  @import '~bootstrap/scss/_variables';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/_variables';
 
-  .lookbook {
-    hr {
-      border-top: 1px solid $black;
-    }
-    .description {
-      color: #252525;
-    }
-    .view-archive-button {
-      transition: all .3s ease-in-out 0s;
-      border: 1px solid #4d4d4d;
+.lookbook {
+  hr {
+    border-top: 1px solid $black;
+  }
+  .description {
+    color: #252525;
+  }
+  .view-archive-button {
+    transition: all .3s ease-in-out 0s;
+    border: 1px solid #4d4d4d;
 
-      &:hover {
-        color: $white !important;
-        border-color: $black;
-        background-color: $black;
-      }
+    &:hover {
+      color: $white !important;
+      border-color: $black;
+      background-color: $black;
     }
   }
+}
 </style>

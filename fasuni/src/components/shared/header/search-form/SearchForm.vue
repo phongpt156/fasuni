@@ -37,7 +37,7 @@ export default {
       display: inline-block;
       border-radius: 0 30px 30px 0;
       border: 1px solid #dddee1;
-      background-color: #2d2d2d;
+      background-color: rgba(45, 45, 45, .8);
     }
   }
 </style>

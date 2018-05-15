@@ -26,7 +26,7 @@
         <div class="row m-0">
           <div class="col-md-8 p-0">
             <div class="row m-0">
-              <div class="col-sm-6 p-2" v-for="image in product.images" :key="image.id">
+              <div class="col-sm-6 p-2" v-for="image in images" :key="image.id">
                 <div class="image-wrapper image-43-50">
                   <img :src="image.original" :alt="product.name" class="img-fluid" />
                 </div>
@@ -37,17 +37,18 @@
             <div class="text-danger mt-2 font-weight-bold mb-4" style="line-height: normal">HOT</div>
             <div class="text-uppercase h4 mb-4">{{ product.name }}</div>
             <template v-if="product.inventories">
-              <div class="h5 mb-4">{{ product.inventories[0].sale_price | priceFormat }}</div>
+              <div class="h5 mb-4 product-price">{{ product.inventories[0].sale_price | priceFormat }}</div>
             </template>
             <div class="d-flex color-list mb-3">
-              <a
+              <router-link
                 v-for="color in colors"
                 :key="color.id"
                 :style="{backgroundColor: color.value}"
+                :to="{name: 'Product', params: {slug: product.slug}, query: {color: color.id}}"
                 class="mr-2 color-item d-flex align-items-center justify-content-center"
-                @click="selectColor(color)">
-                <font-awesome-icon class="text-white" :icon="icons.check" v-if="currentColor === color"></font-awesome-icon>
-              </a>
+                @click.native="selectColor(color)">
+                <font-awesome-icon class="text-white" :icon="icons.check" v-if="currentColor && currentColor.id === color.id"></font-awesome-icon>
+              </router-link>
             </div>
             <select class="custom-select my-4" style="width: 106px" v-if="sizes.length">
               <option v-for="size in sizes" :key="size.id" :value="size.id">{{ size.name }}</option>
@@ -156,9 +157,21 @@
         <hr class="mt-0 mx-2" />
         <carousel :perPageCustom="perPageCustom" v-if="recentlyViewedProducts.length">
           <slide class="px-2 recently-view-product" v-for="product in recentlyViewedProducts" :key="product.id">
-            <a class="d-block image-wrapper image-43-50" @click="goToProductPage(product)">
-              <img :src="product.images[0].original" alt="" />
-            </a>
+            <template v-if="product.id === selectedProduct || product.color">
+              <router-link
+                class="d-block image-wrapper image-43-50"
+                :to="{name: 'Product', params: {slug: product.slug}, query: {color: product.color.id}}"
+                @click.native="selectColor(product.color)">
+                <img :src="product.images[0].original" alt="" />
+              </router-link>
+            </template>
+            <template v-else>
+              <router-link
+                class="d-block image-wrapper image-43-50"
+                :to="{name: 'Product', params: {slug: product.slug}}">
+                <img :src="product.images[0].original" alt="" />
+              </router-link>
+            </template>
           </slide>
         </carousel>
       </div>
@@ -210,19 +223,21 @@ export default {
         isLiked: false
       },
       isOpenSizeGuideDialog: false,
-      currentColor: null,
       recentlyViewedProducts: [],
       loading: true
     };
   },
   watch: {
     slug(newValue) {
-      this.onLoad(newValue);
+      this.onLoad();
     }
   },
   computed: {
     slug() {
       return this.$route.params.slug;
+    },
+    color() {
+      return this.$route.query.color;
     },
     heartIcon() {
       let heart;
@@ -257,6 +272,11 @@ export default {
 
       return colors;
     },
+    currentColor() {
+      const color = this.colors.find(color => color.id === Number(this.$route.query.color));
+
+      return color;
+    },
     sizes() {
       const sizes = [];
 
@@ -278,14 +298,30 @@ export default {
 
       return sizes;
     },
-    perPageCustom() {
-      if (this.recentlyViewedProducts.length >= 4) {
-        return [[768, 3], [1024, 4]];
-      } else if (this.recentlyViewedProducts.length >= 2 && this.recentlyViewedProducts.length < 4) {
-        return [[768, 3], [1024, 4]];
-      } else {
-        return [[768, 3], [1024, 4]];
+    images() {
+      let images = [];
+
+      this.sizes.some(size => {
+        if (size.product.images && size.product.images.length) {
+          images = size.product.images;
+          return true;
+        }
+      });
+
+      if (!images.length && this.product.images && this.product.images.length) {
+        images.push(this.product.images[0]);
       }
+
+      return images;
+    },
+    perPageCustom() {
+      return [[768, 3], [1024, 4]];
+    },
+    selectedProduct() {
+      if (this.sizes.length && this.sizes.length) {
+        return this.sizes[0].product;
+      }
+      return this.product;
     }
   },
   methods: {
@@ -304,19 +340,24 @@ export default {
       });
     },
     selectColor(color) {
-      this.currentColor = color;
+      this.goToProductPage(this.product, this.currentColor);
+      this.formatRecentlyViewedProducts();
+      this.scrollTop();
     },
     formatRecentlyViewedProducts() {
       let products = this.getRecentlyViewedProducts();
 
       if (products) {
         products = JSON.parse(products);
+        this.recentlyViewedProducts = [];
+
         products.forEach(product => {
-          if (product.id !== this.product.id) {
+          if (product.id !== this.selectedProduct.id) {
             this.recentlyViewedProducts.push({
               id: product.id,
               images: product.images,
-              slug: product.slug
+              slug: product.slug,
+              color: product.color
             });
           }
         });
@@ -331,26 +372,30 @@ export default {
     },
     saveRecentlyViewedProducts() {
       const product = {};
-      product.id = this.product.id;
-      product.images = this.product.images;
-      product.slug = this.product.slug;
+      product.id = this.selectedProduct.id;
+      product.images = this.images;
+      product.slug = this.selectedProduct.slug;
+      product.color = this.currentColor;
 
       const products = JSON.parse(JSON.stringify(this.recentlyViewedProducts));
       products.unshift(product);
 
       localStorage.setItem('recently_viewed', JSON.stringify(products));
     },
-    goToProductPage(product) {
-      this.$router.push({name: 'Product', params: {slug: product.slug}});
+    goToProductPage(product, color) {
+      const query = {};
+
+      if (color) {
+        query.color = color.id;
+      }
+
+      this.$router.push({name: 'Product', params: {slug: product.slug}, query});
     },
     async onLoad() {
       this.loading = true;
       this.scrollTop();
       this.recentlyViewedProducts = [];
       await this.getProduct(this.$route.params.slug);
-      if (this.colors.length) {
-        this.currentColor = this.colors[0];
-      }
       this.formatRecentlyViewedProducts();
       this.loading = false;
     },
@@ -418,6 +463,9 @@ export default {
   }
   .recently-view-product {
     max-width: 50%;
+  }
+  .product-price {
+    font-size: 1.1rem;
   }
   @media screen and (min-width: 768px) {
     .recently-view-product {

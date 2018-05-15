@@ -149,11 +149,16 @@
         </carousel>
       </div>
     </div>
-    <div v-scroll-reveal.reset class="pt-5">
+    <div v-scroll-reveal.reset class="pt-5 companion">
       <div class="py-5">
-        <p class="mb-0 text-center text-uppercase font-weight-bold">Nhà đồng hành</p>
+        <p class="mb-0 text-center text-uppercase font-weight-bold ">Nhà đồng hành</p>
         <hr class="mt-0 mx-2" />
         <div class="d-flex">
+          <div class="px-5" style="flex-grow: 1">
+            <a class="d-block image-wrapper image-1-1" href="https://mayphuongthao.com/" target="_blank">
+              <img src="https://mayphuongthao.com/wp-content/uploads/2017/09/logo-mayphuongthao.png" alt="" />
+            </a>
+          </div>
           <div class="px-5" style="flex-grow: 1">
             <a class="d-block image-wrapper image-1-1">
               <img :src="images.company1" alt="" />
@@ -297,6 +302,11 @@ export default {
       &:hover {
         text-decoration: underline;
       }
+    }
+  }
+  .companion {
+    img {
+      object-fit: contain;
     }
   }
 }

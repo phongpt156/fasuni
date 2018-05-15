@@ -171,85 +171,85 @@ export default {
 </script>
 
 <style lang="scss">
-  @import '~bootstrap/scss/functions';
-  @import '~bootstrap/scss/_variables';
-  @import '~bootstrap/scss/bootstrap-grid';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/_variables';
+@import '~bootstrap/scss/bootstrap-grid';
 
-  .lookbook-archive {
-    hr {
-      border-top: 1px solid $black;
-    }
-    .description {
-      color: #252525;
-    }
-    .view-archive {
-      position: relative;
-    }
-    .view-archive-button {
-      transition: all .3s ease-in-out 0s;
-      position: relative;
-      font-size: $font-size-base;
-      border: 1px solid #4d4d4d;
+.lookbook-archive {
+  hr {
+    border-top: 1px solid $black;
+  }
+  .description {
+    color: #252525;
+  }
+  .view-archive {
+    position: relative;
+  }
+  .view-archive-button {
+    transition: all .3s ease-in-out 0s;
+    position: relative;
+    font-size: $font-size-base;
+    border: 1px solid #4d4d4d;
 
-      &:hover {
-        color: $white !important;
-        border-color: $black;
-        background-color: $black;
-      }
-    }
-    fieldset {
-      border-top: 1px solid #4d4d4d;
-    }
-    legend {
-      width: auto;
-    }
-    .lookbook-item {
-      position: relative;
-      cursor: pointer;
-
-      &:hover {
-        &:after {
-          transition: opacity .15s ease 0s;
-          opacity: 1;
-        }
-
-        .view-now-button {
-          visibility: visible;
-        }
-      }
-      &:after {
-        width: 100%;
-        top: 0;
-        transition: opacity .22s ease .22s;
-        position: absolute;
-        opacity: 0;
-        left: 0;
-        height: 100%;
-        display: block;
-        content: "";
-        background: none repeat scroll 0 0 rgba(0, 0, 0, 0.35);
-      }
-
-      .content {
-        z-index: 1000;
-        top: 0;
-        transition: all linear .2s;
-        right: -1px;
-        position: absolute;
-        overflow: hidden;
-        left: 0;
-        color: rgba(255, 255, 255, .8);
-        bottom: -1px;
-      }
-      .view-now-button {
-        visibility: hidden;
-      }
-    }
-
-    @include media-breakpoint-up(md) {
-      .max-md-950-height {
-        max-height: 950px;
-      }
+    &:hover {
+      color: $white !important;
+      border-color: $black;
+      background-color: $black;
     }
   }
+  fieldset {
+    border-top: 1px solid #4d4d4d;
+  }
+  legend {
+    width: auto;
+  }
+  .lookbook-item {
+    position: relative;
+    cursor: pointer;
+
+    &:hover {
+      &:after {
+        transition: opacity .15s ease 0s;
+        opacity: 1;
+      }
+
+      .view-now-button {
+        visibility: visible;
+      }
+    }
+    &:after {
+      width: 100%;
+      top: 0;
+      transition: opacity .22s ease .22s;
+      position: absolute;
+      opacity: 0;
+      left: 0;
+      height: 100%;
+      display: block;
+      content: "";
+      background: none repeat scroll 0 0 rgba(0, 0, 0, 0.35);
+    }
+
+    .content {
+      z-index: 1000;
+      top: 0;
+      transition: all linear .2s;
+      right: -1px;
+      position: absolute;
+      overflow: hidden;
+      left: 0;
+      color: rgba(255, 255, 255, .8);
+      bottom: -1px;
+    }
+    .view-now-button {
+      visibility: hidden;
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    .max-md-950-height {
+      max-height: 950px;
+    }
+  }
+}
 </style>

@@ -19,7 +19,7 @@
       </div>
       <h3 class="text-uppercase font-weight-normal mb-0">Thời trang nam mùa hè</h3>
     </nav>
-    <hr class="bg-dark m-0" />
+    <hr class="hr m-0" />
     <main-body></main-body>
   </div>
 </template>
@@ -48,6 +48,10 @@ export default {
       position: absolute;
       left: 0.5rem;
       font-size: $font-size-sm;
+    }
+    .hr {
+      border-top: 1.5px solid rgba(0, 0, 0, 0.1);
+      background-color: rgba(45, 45, 45, .2);
     }
   }
 </style>

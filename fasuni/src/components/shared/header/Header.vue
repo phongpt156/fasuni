@@ -40,10 +40,11 @@
           </li>
         </ul>
         <ul class="navbar-nav align-items-center">
-          <li class="nav-item">
-            <a class="nav-link text-white bag d-flex align-items-center">
-              My Bag (5)
+          <li class="nav-item bag">
+            <a class="nav-link text-white d-flex align-items-center" @click="isOpenCart = !isOpenCart">
+              My Bag ({{ products.length }})
             </a>
+            <cart v-if="isOpenCart"></cart>
           </li>
           <li class="nav-item">
             <a class="nav-link text-dark text-uppercase" @click="$router.push({name: 'StoreFinder'})">
@@ -83,6 +84,7 @@ import RegisterFormDialog from '@/components/shared/RegisterFormDialog';
 import Modal from '@/components/shared/Modal';
 import SidenavOverlay from './sidenav-overlay/SidenavOverlay';
 import SearchForm from './search-form/SearchForm';
+import Cart from './cart/Cart';
 import { mapState, mapMutations } from 'vuex';
 import { reloadApp } from '@/shared/functions';
 import userService from '@/shared/services/user.service';
@@ -94,7 +96,8 @@ export default {
     RegisterFormDialog,
     Modal,
     SidenavOverlay,
-    SearchForm
+    SearchForm,
+    Cart
   },
   directives: {
     clickOutside
@@ -102,6 +105,7 @@ export default {
   data() {
     return {
       isOpenSidenavOverlay: false,
+      isOpenCart: false,
       categories: [
         {
           id: 1,
@@ -290,6 +294,9 @@ export default {
   },
   computed: {
     ...mapState(['user']),
+    ...mapState('cart', [
+      'products'
+    ]),
     userName() {
       if (this.user.facebook_name) {
         return this.user.facebook_name;
@@ -306,6 +313,9 @@ export default {
   methods: {
     ...mapMutations('auth', [
       'removeToken'
+    ]),
+    ...mapMutations('cart', [
+      'getCartFromStorage'
     ]),
     goToHomepage() {
       this.$router.push({name: 'Homepage'});
@@ -329,6 +339,9 @@ export default {
     closeSidenavOverlay() {
       this.isOpenSidenavOverlay = false;
     },
+    closeCart() {
+      this.isOpenCart = false;
+    },
     onResize() {
       if (!window.matchMedia('(max-width: 992px)').matches && this.isOpenSidenavOverlay) {
         this.closeSidenavOverlay();
@@ -336,70 +349,75 @@ export default {
     }
   },
   mounted() {
+    this.getCartFromStorage();
     window.addEventListener('resize', this.onResize.bind(this));
   }
 };
 </script>
 
 <style lang="scss">
-  @import '~bootstrap/scss/functions';
-  @import '~bootstrap/scss/_variables';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/_variables';
 
-  .header {
-    font-size: 0.7rem;
-    background-color: #fefdfd;
+.header {
+  font-size: 0.7rem;
+  background-color: #fefdfd;
 
-    .category-list {
-      .dropdown-toggle {
-        &:after {
-          content: none;
-        }
-      }
-      .dropdown-item {
-        background-color: transparent !important;
-
-        &:active {
-          outline: none;
-          color: $black;
-        }
-      }
-      .dropdown-menu {
-        width: 100%;
-        top: 50px;
-        position: fixed;
-        border: none;
-
-        .sub-nav {
-          .h6 {
-            font-size: $font-size-base;
-          }
-          .category-item {
-            font-size: $font-size-sm;
-            border-bottom: 1px solid transparent;
-
-            &:hover {
-              transition: border-bottom .5s ease, border-bottom .5s ease;
-              border-bottom-color: #000;
-            }
-          }
-          .navbar-nav {
-            max-height: 400px;
-          }
-        }
+  .category-list {
+    .dropdown-toggle {
+      &:after {
+        content: none;
       }
     }
+    .dropdown-item {
+      background-color: transparent !important;
 
-    .navbar-brand {
-      margin-top: -7px;
-      line-height: normal;
+      &:active {
+        outline: none;
+        color: $black;
+      }
     }
+    .dropdown-menu {
+      width: 100%;
+      top: 50px;
+      position: fixed;
+      border: none;
 
-    &>.navbar {
-      height: 50px;
-    }
-    .bag {
-      height: 50px;
-      background-color: $black;
+      .sub-nav {
+        .h6 {
+          font-size: $font-size-base;
+        }
+        .category-item {
+          font-size: $font-size-sm;
+          border-bottom: 1px solid transparent;
+
+          &:hover {
+            transition: border-bottom .5s ease, border-bottom .5s ease;
+            border-bottom-color: #000;
+          }
+        }
+        .navbar-nav {
+          max-height: 400px;
+        }
+      }
     }
   }
+
+  .navbar-brand {
+    margin-top: -7px;
+    line-height: normal;
+  }
+
+  &>.navbar {
+    height: 50px;
+  }
+  .bag {
+    position: relative;
+
+    &>a {
+      height: 50px;
+      background-color: rgba(45,45,45,.8);
+    }
+  }
+}
 </style>
