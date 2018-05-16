@@ -12,8 +12,9 @@ export default {
       }
       product.quantity = 1;
       state.products.unshift(product);
-      this.commit('cart/saveCartToStorage');
     }
+    this.commit('cart/saveCartToStorage');
+    this.commit('cart/setIsOpenCartDialog', true);
   },
   remove(state, index) {
     state.products.splice(index, 1);
@@ -31,5 +32,9 @@ export default {
   },
   saveCartToStorage(state) {
     localStorage.setItem('cart', JSON.stringify(state.products));
+  },
+  setIsOpenCartDialog(state, value) {
+    console.log(value);
+    state.isOpenCartDialog = value;
   }
 };

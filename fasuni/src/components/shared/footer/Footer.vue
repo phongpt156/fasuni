@@ -26,7 +26,7 @@
         <p class="font-weight-bold text-uppercase text-white mt-3">Đăng ký tư vấn</p>
         <p class="mb-0 text-uppercase text-white font-size-sm">Gửi thông tin cho chúng tôi</p>
         <form class="form-inline search-form py-2">
-          <input class="form-control text-dark">
+          <input class="form-control text-dark" />
           <button class="btn my-2 my-sm-0 text-white" type="button">Gửi</button>
         </form>
         <div class="d-flex social">

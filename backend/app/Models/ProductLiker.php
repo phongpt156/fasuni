@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasCompositePrimaryKey;
 
-class OrderDetail extends Model
+class ProductLiker extends Model
 {
     use HasCompositePrimaryKey;
 
-    protected $primaryKey = ['product_id', 'order_id'];
-    protected $fillable = ['product_id', 'order_id', 'quantity', 'price', 'discount_price'];
+    protected $primaryKey = ['product_id', 'user_id'];
+    protected $fillable = ['product_id', 'user_id', 'liked'];
     public $incrementing = false;
 }

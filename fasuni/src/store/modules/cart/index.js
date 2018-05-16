@@ -1,7 +1,8 @@
 import mutations from './mutations';
 
 const state = {
-  products: []
+  products: [],
+  isOpenCartDialog: false
 };
 
 export default {

@@ -27,3 +27,8 @@ export const PRODUCT = {
   getAll: BASE_URL + '/product',
   getOne: BASE_URL + '/product/'
 };
+
+export const USER_PRODUCT_COMMUNICATION = {
+  like: BASE_URL + '/like-product/',
+  dislike: BASE_URL + '/dislike-product/'
+};

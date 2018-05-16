@@ -28,16 +28,16 @@
             <div class="row m-0">
               <div class="col-sm-6 p-2" v-for="image in images" :key="image.id">
                 <div class="image-wrapper image-43-50">
-                  <img :src="image.original" :alt="product.name" class="img-fluid" />
+                  <img :src="image.original" :alt="selectedProduct.name" class="img-fluid" />
                 </div>
               </div>
             </div>
           </div>
           <div class="col-md-4">
             <div class="text-danger mt-2 font-weight-bold mb-4" style="line-height: normal">HOT</div>
-            <div class="text-uppercase h4 mb-4">{{ product.name }}</div>
+            <div class="text-uppercase h4 mb-4">{{ selectedProduct.name }}</div>
             <template v-if="product.inventories">
-              <div class="h5 mb-4 product-price">{{ product.inventories[0].sale_price | priceFormat }}</div>
+              <div class="h5 mb-4 product-price">{{ selectedProduct.inventories[0].sale_price | priceFormat }}</div>
             </template>
             <div class="d-flex color-list mb-3">
               <router-link
@@ -50,20 +50,20 @@
                 <font-awesome-icon class="text-white" :icon="icons.check" v-if="currentColor && currentColor.id === color.id"></font-awesome-icon>
               </router-link>
             </div>
-            <select class="custom-select my-4" style="width: 106px" v-if="sizes.length">
-              <option v-for="size in sizes" :key="size.id" :value="size.id">{{ size.name }}</option>
+            <select class="custom-select my-4" style="width: 106px" v-if="sizes.length" v-model="selectedSize">
+              <option v-for="size in sizes" :key="size.id" :value="size">{{ size.name }}</option>
             </select>
             <div class="d-flex mt-2">
-              <a class="mr-3 d-inline-flex align-items-center justify-content-center text-white cart px-4 py-2">
+              <a class="mr-3 d-inline-flex align-items-center justify-content-center text-white cart px-4 py-2" @click="addProductToCart({images, product: selectedSize.product})">
                 <font-awesome-icon :icon="icons.cart" class="mr-2"></font-awesome-icon>
                 <span class="mt-1 font-size-sm">Thêm vào giỏ</span>
               </a>
               <a
                 class="d-inline-flex align-items-center justify-content-center like-button"
-                @click="toggleIsLiked">
+                @click="toggleLiked">
                 <font-awesome-icon
                   :icon="icons.solidHeart"
-                  v-if="product.isLiked"></font-awesome-icon>
+                  v-if="selectedProduct.liked"></font-awesome-icon>
                 <font-awesome-icon
                   :icon="icons.regularHeart"
                   v-else></font-awesome-icon>
@@ -195,6 +195,8 @@ import SizeGuideDialog from './SizeGuideDialog';
 import productService from '@/shared/services/product.service';
 import { priceFormat } from '@/filters';
 import Spinner from '@/components/shared/spinner/Spinner';
+import userProductCommunication from '@/shared/services/user-product-communication.service';
+import { mapState, mapMutations } from 'vuex';
 
 export default {
   components: {
@@ -219,12 +221,11 @@ export default {
         youtube: youtubeIcon,
         googlePlus: googlePlusIcon
       },
-      product: {
-        isLiked: false
-      },
+      product: {},
       isOpenSizeGuideDialog: false,
       recentlyViewedProducts: [],
-      loading: true
+      loading: true,
+      selectedSize: ''
     };
   },
   watch: {
@@ -233,6 +234,7 @@ export default {
     }
   },
   computed: {
+    ...mapState(['user']),
     slug() {
       return this.$route.params.slug;
     },
@@ -242,7 +244,7 @@ export default {
     heartIcon() {
       let heart;
 
-      if (this.product.isLiked) {
+      if (this.selectedselectedProduct.liked) {
         heart = solidFaHeart;
       } else {
         heart = regularFaHeart;
@@ -318,15 +320,33 @@ export default {
       return [[768, 3], [1024, 4]];
     },
     selectedProduct() {
-      if (this.sizes.length && this.sizes.length) {
+      if (this.sizes && this.sizes.length) {
         return this.sizes[0].product;
       }
       return this.product;
     }
   },
   methods: {
-    toggleIsLiked() {
-      this.product.isLiked = !this.product.isLiked;
+    ...mapMutations('cart', {
+      addProductToCart: 'add'
+    }),
+    toggleLiked() {
+      if (this.user) {
+        this.selectedProduct.liked = !this.selectedProduct.liked;
+        if (this.selectedProduct.liked) {
+          userProductCommunication.like(this.selectedProduct.id)
+            .then(response => {
+              // console.log(response);
+            });
+        } else {
+          userProductCommunication.dislike(this.selectedProduct.id)
+            .then(response => {
+              // console.log(response);
+            });
+        }
+      } else {
+        alert('Hãy đăng nhập trước');
+      }
     },
     getProduct(slug) {
       return new Promise(resolve => {
@@ -342,6 +362,7 @@ export default {
     selectColor(color) {
       this.goToProductPage(this.product, this.currentColor);
       this.formatRecentlyViewedProducts();
+      this.setSelectedSize();
       this.scrollTop();
     },
     formatRecentlyViewedProducts() {
@@ -397,10 +418,16 @@ export default {
       this.recentlyViewedProducts = [];
       await this.getProduct(this.$route.params.slug);
       this.formatRecentlyViewedProducts();
+      this.setSelectedSize();
       this.loading = false;
     },
     scrollTop() {
       document.documentElement.scrollTo(0, 0);
+    },
+    setSelectedSize() {
+      if (this.sizes.length) {
+        this.selectedSize = this.sizes[0];
+      }
     }
   },
   created() {

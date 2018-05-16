@@ -43,4 +43,9 @@ class AuthController extends Controller
         }
         return response()->json([], 500);
     }
+
+    public function user()
+    {
+        return $this->guard()->user();
+    }
 }

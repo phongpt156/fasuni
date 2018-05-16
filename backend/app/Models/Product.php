@@ -3,11 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Auth\AuthController;
 
 class Product extends Model
 {
     protected $fillable = ['name', 'base_price', 'discount_price', 'quantity', 'about', 'weight', 'slug', 'is_active', 'code', 'gender', 'click_count', 'category_id', 'master_product_id', 'kiotviet_id', 'branch_id'];
     protected $appends = ['total_quantity'];
+    private $userId;
 
     public function subProducts()
     {
@@ -34,6 +37,16 @@ class Product extends Model
         return $this->hasMany(Inventory::class);
     }
 
+    public function productLiker()
+    {
+        return $this->hasMany(ProductLiker::class);
+    }
+
+    public function getLikedAttribute()
+    {
+        return $this->productLiker()->whereUserId($this->userId)->exists();
+    }
+
     public function getTotalQuantityAttribute()
     {
         return (int)$this->inventories()->sum('quantity');
@@ -51,5 +64,10 @@ class Product extends Model
         return $this->attributeValues()->whereHas('attribute', function ($query) {
             $query->where('name', 'Màu sắc');
         })->first();
+    }
+
+    public function setUserId(int $userId)
+    {
+        $this->userId = $userId;
     }
 }

@@ -41,10 +41,10 @@
         </ul>
         <ul class="navbar-nav align-items-center">
           <li class="nav-item bag">
-            <a class="nav-link text-white d-flex align-items-center" @click="isOpenCart = !isOpenCart">
+            <a class="nav-link text-white d-flex align-items-center" @click="toggleIsOpenCartDialog">
               My Bag ({{ products.length }})
             </a>
-            <cart v-if="isOpenCart"></cart>
+            <cart-dialog v-if="isOpenCartDialog"></cart-dialog>
           </li>
           <li class="nav-item">
             <a class="nav-link text-dark text-uppercase" @click="$router.push({name: 'StoreFinder'})">
@@ -74,7 +74,8 @@
       @close="isOpenSidenavOverlay = false"
       v-click-outside="{outsideCallback: closeSidenavOverlay}"
       @openLoginForm="isOpenLoginFormDialog = true"
-      @goToCategoryPage="goToCategoryPage"></sidenav-overlay>
+      @goToCategoryPage="goToCategoryPage">
+    </sidenav-overlay>
   </header>
 </template>
 
@@ -84,7 +85,7 @@ import RegisterFormDialog from '@/components/shared/RegisterFormDialog';
 import Modal from '@/components/shared/Modal';
 import SidenavOverlay from './sidenav-overlay/SidenavOverlay';
 import SearchForm from './search-form/SearchForm';
-import Cart from './cart/Cart';
+import CartDialog from '@/components/shared/cart-dialog/CartDialog';
 import { mapState, mapMutations } from 'vuex';
 import { reloadApp } from '@/shared/functions';
 import userService from '@/shared/services/user.service';
@@ -97,7 +98,7 @@ export default {
     Modal,
     SidenavOverlay,
     SearchForm,
-    Cart
+    CartDialog
   },
   directives: {
     clickOutside
@@ -105,7 +106,6 @@ export default {
   data() {
     return {
       isOpenSidenavOverlay: false,
-      isOpenCart: false,
       categories: [
         {
           id: 1,
@@ -295,7 +295,8 @@ export default {
   computed: {
     ...mapState(['user']),
     ...mapState('cart', [
-      'products'
+      'products',
+      'isOpenCartDialog'
     ]),
     userName() {
       if (this.user.facebook_name) {
@@ -315,7 +316,8 @@ export default {
       'removeToken'
     ]),
     ...mapMutations('cart', [
-      'getCartFromStorage'
+      'getCartFromStorage',
+      'setIsOpenCartDialog'
     ]),
     goToHomepage() {
       this.$router.push({name: 'Homepage'});
@@ -339,8 +341,11 @@ export default {
     closeSidenavOverlay() {
       this.isOpenSidenavOverlay = false;
     },
+    toggleIsOpenCartDialog () {
+      this.setIsOpenCartDialog(!this.isOpenCartDialog);
+    },
     closeCart() {
-      this.isOpenCart = false;
+      this.setIsOpenCartDialog(false);
     },
     onResize() {
       if (!window.matchMedia('(max-width: 992px)').matches && this.isOpenSidenavOverlay) {

@@ -58,6 +58,8 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->get('', 'ProductController@index');
         $router->get('{slug}', 'ProductController@show');
     });
+    $router->get('like-product/{id}', 'ProductLikerController@like');
+    $router->get('dislike-product/{id}', 'ProductLikerController@dislike');
 
     $router->get('test', 'Admin\SaleSoftware\KiotViet\KiotVietController@sync');
 });

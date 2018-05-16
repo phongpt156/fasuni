@@ -14,7 +14,7 @@
         <font-awesome-icon
           :icon="icon.heart"
           class="like-button"
-          @click="toggleIsLiked"></font-awesome-icon>
+          @click="toggleLiked"></font-awesome-icon>
         <div class="product-attributes w-100">
           <div class="product-quantity-info mx-3 mb-3" v-if="currentHoverSize !== null">
             <div class="bg-white py-2 text-center">
@@ -59,7 +59,8 @@ import { priceFormat } from '@/filters';
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
 import solidFaHeart from '@fortawesome/fontawesome-free-solid/faHeart';
 import regularFaHeart from '@fortawesome/fontawesome-free-regular/faHeart';
-import { mapMutations } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
+import userProductCommunication from '@/shared/services/user-product-communication.service';
 
 export default {
   name: 'ProductCard',
@@ -84,10 +85,11 @@ export default {
     };
   },
   computed: {
+    ...mapState(['user']),
     icon() {
       let heart;
 
-      if (this.product.isLiked) {
+      if (this.product.liked) {
         heart = solidFaHeart;
       } else {
         heart = regularFaHeart;
@@ -176,8 +178,23 @@ export default {
     leaveProductSize() {
       this.currentHoverSize = null;
     },
-    toggleIsLiked() {
-      this.$set(this.product, 'isLiked', !this.product.isLiked);
+    toggleLiked() {
+      if (this.user) {
+        this.$set(this.product, 'liked', !this.product.liked);
+        if (this.product.liked) {
+          userProductCommunication.like(this.product.id)
+            .then(response => {
+              // console.log(response);
+            });
+        } else {
+          userProductCommunication.dislike(this.product.id)
+            .then(response => {
+              // console.log(response);
+            });
+        }
+      } else {
+        alert('Hãy đăng nhập trước');
+      }
     },
     goToProductPage(product) {
       const query = {};
