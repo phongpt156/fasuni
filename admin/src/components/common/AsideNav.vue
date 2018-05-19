@@ -29,6 +29,12 @@ export default {
         },
         {
           name: 'Customer'
+        },
+        {
+          name: 'Collection'
+        },
+        {
+          name: 'Lookbook'
         }
       ]
     };

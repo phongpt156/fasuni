@@ -7,10 +7,12 @@ import store from './store';
 import { sync } from 'vuex-router-sync';
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
+import Toasted from 'vue-toasted';
 
 Vue.config.productionTip = false;
 
 Vue.use(iView);
+Vue.use(Toasted);
 
 sync(store, router);
 

@@ -20,3 +20,7 @@ export const ATTRIBUTE = {
 export const CUSTOMER = {
   getAll: BASE_URL + '/customer'
 };
+
+export const KIOTVIET = {
+  sync: BASE_URL + '/kiotviet/sync'
+};

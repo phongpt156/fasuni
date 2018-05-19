@@ -33,6 +33,9 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->group(['prefix' => 'customer'], function () use ($router) {
             $router->get('', 'CustomerController@index');
         });
+        $router->group(['prefix' => 'kiotviet', 'namespace' => 'SaleSoftware\KiotViet'], function () use ($router) {
+            $router->get('sync', 'KiotVietController@sync');
+        });
     });
 
     $router->group(['prefix' => 'auth', 'namespace' => 'Auth'], function () use ($router) {
