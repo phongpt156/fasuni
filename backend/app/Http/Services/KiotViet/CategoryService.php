@@ -16,16 +16,11 @@ class CategoryService
 
     public function getAll()
     {
-        try {
-            $response = $this->httpClient->get('categories?pageSize=100&hierachicalData=true&orderBy=createdDate&orderDirection=asc');
+        $response = $this->httpClient->get('categories?pageSize=100&hierachicalData=true&orderBy=createdDate&orderDirection=asc');
 
-            $response = $response->getBody()->getContents();
-            $response = json_decode($response);
+        $response = $response->getBody()->getContents();
+        $response = json_decode($response);
 
-            return $response->data;
-        } catch (RequestException $e) {
-            \Log::debug('Can\'t get categories: ' . $e->getMessage());
-            die('Cant\'t get categories ' . $e->getMessage());
-        }
+        return $response->data;
     }
 }

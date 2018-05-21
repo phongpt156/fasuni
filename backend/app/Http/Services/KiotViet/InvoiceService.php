@@ -16,16 +16,11 @@ class InvoiceService
 
     public function getAll()
     {
-        try {
-            $response = $this->httpClient->get('invoices?pageSize=100&includePayment=true&includeOrderDelivery=true');
+        $response = $this->httpClient->get('invoices?pageSize=100&includePayment=true&includeOrderDelivery=true');
 
-            $response = $response->getBody()->getContents();
-            $response = json_decode($response);
+        $response = $response->getBody()->getContents();
+        $response = json_decode($response);
 
-            return $response->data;
-        } catch (RequestException $e) {
-            \Log::debug('Can\'t get invoices: ' . $e->getMessage());
-            die('Can\'t get invoices: ' . $e->getMessage());
-        }
+        return $response->data;
     }
 }

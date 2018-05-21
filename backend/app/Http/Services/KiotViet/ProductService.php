@@ -16,17 +16,12 @@ class ProductService
 
     public function getAll()
     {
-        try {
-            $response = $this->httpClient->get('products?pageSize=100&includeRemoveIds=true&includeInventory=true');
+        $response = $this->httpClient->get('products?pageSize=100&includeRemoveIds=true&includeInventory=true');
 
-            $response = $response->getBody()->getContents();
-            $response = json_decode($response);
+        $response = $response->getBody()->getContents();
+        $response = json_decode($response);
 
-            return $response->data;
-        } catch (RequestException $e) {
-            \Log::debug('Can\'t get products: ' . $e->getMessage());
-            die('Cant\'t get products ' . $e->getMessage());
-        }
+        return $response->data;
     }
 
     public function getOne($id)

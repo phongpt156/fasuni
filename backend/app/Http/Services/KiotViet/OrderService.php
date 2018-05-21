@@ -16,16 +16,11 @@ class OrderService
 
     public function getAll()
     {
-        try {
-            $response = $this->httpClient->get('orders?includePayment=true&orderBy=createdDate&orderDirection=Asc');
+        $response = $this->httpClient->get('orders?includePayment=true&orderBy=createdDate&orderDirection=Asc');
 
-            $response = $response->getBody()->getContents();
-            $response = json_decode($response);
+        $response = $response->getBody()->getContents();
+        $response = json_decode($response);
 
-            return $response->data;
-        } catch (RequestException $e) {
-            \Log::debug('Can\'t get orders: ' . $e->getMessage());
-            die('Can\'t get orders: ' . $e->getMessage());
-        }
+        return $response->data;
     }
 }

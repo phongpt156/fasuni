@@ -11,8 +11,8 @@ class KiotVietService
     private const RETAILER = 'abcdefghijkl';
     private const API_BASE = 'https://public.kiotapi.com';
     private const TOKEN_URI = 'https://id.kiotviet.vn/connect/token';
-    private const CLIENT_ID = '56cf0157-1f94-4e49-9505-45647a50eeb9';
-    private const CLIENT_SECRET = '3DB23B827F5F3104667FEBB72A2C79D7BCBA53C8';
+    private const CLIENT_ID = '2a38df33-fa36-4b56-8c0e-db1b6b26531a';
+    private const CLIENT_SECRET = '67499F21DE0A6695804056E6ED49E8BD49253EB1';
     private $httpClient;
     private $accessTokenHttpClient;
     private $accesstoken;

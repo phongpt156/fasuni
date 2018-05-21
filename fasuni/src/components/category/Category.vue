@@ -28,6 +28,11 @@
 import MainBody from './main-body/MainBody';
 
 export default {
+  created() {
+    if (!this.$route.params.type) {
+      this.$router.push({name: 'Category', params: {type: 'newest'}});
+    }
+  },
   name: 'Category',
   components: {
     MainBody

@@ -557,7 +557,7 @@ export default {
     }
   },
   mounted() {
-    this.getProducts(1);
+    this.getProducts(this.$route.params.type, 1);
     document.addEventListener('scroll', this.onScroll, {
       passive: true
     });

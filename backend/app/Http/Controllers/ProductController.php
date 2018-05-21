@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Auth\AuthController;
 use App\Models\Product;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $authController = new AuthController(new Auth);
         $user = $authController->user();
@@ -27,9 +28,22 @@ class ProductController extends Controller
 
         $products = Product::with($appends)
             ->whereNull('master_product_id')
-            ->whereIsActive(true)
-            ->orderBy('created_at', 'desc')
-            ->paginate(12);
+            ->whereIsActive(true);
+
+        switch ($request->type) {
+            case 'newest': {
+                $products = $products->orderBy('created_at', 'desc');
+                break;
+            }
+            case 'best-seller': {
+                $products = $products->orderBy('buy_count', 'desc');
+            }
+            case 'most-like': {
+                $products = $products->orderBy('like_count', 'desc');
+            }
+        }
+
+        $products = $products->paginate(12);
 
         $products->each(function ($product) use ($user) {
             $product->append('size', 'color');

@@ -16,16 +16,11 @@ class EmployeeService
 
     public function getAll()
     {
-        try {
-            $response = $this->httpClient->get('users?pageSize=100&orderBy=createdDate&orderDirection=Asc&includeRemoveIds=true');
+        $response = $this->httpClient->get('users?pageSize=100&orderBy=createdDate&orderDirection=Asc&includeRemoveIds=true');
 
-            $response = $response->getBody()->getContents();
-            $response = json_decode($response);
+        $response = $response->getBody()->getContents();
+        $response = json_decode($response);
 
-            return $response->data;
-        } catch (RequestException $e) {
-            \Log::debug('Can\'t get employees: ' . $e->getMessage());
-            die('Cant\'t get employees ' . $e->getMessage());
-        }
+        return $response->data;
     }
 }
