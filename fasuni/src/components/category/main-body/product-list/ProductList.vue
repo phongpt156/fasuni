@@ -524,11 +524,11 @@ export default {
     };
   },
   methods: {
-    getProducts(page) {
+    getProducts(type, page) {
       if (!this.loading) {
         this.loading = true;
 
-        productService.getAll(page)
+        productService.getAll(type, page)
           .then(response => {
             if (response && response.status === 200 && response.data) {
               if (this.products.length) {
@@ -552,7 +552,7 @@ export default {
       const footerHeight = document.querySelector('.footer').offsetHeight;
 
       if (document.documentElement.scrollTop + window.innerHeight >= document.documentElement.scrollHeight - footerHeight) {
-        this.getProducts(this.pagination.current + 1);
+        this.getProducts(this.$route.params.type, this.pagination.current + 1);
       }
     }
   },

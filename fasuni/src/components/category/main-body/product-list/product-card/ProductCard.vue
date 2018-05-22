@@ -1,10 +1,10 @@
 <template>
-  <div class="product-card h-100">
+  <div class="product-card h-100" @click="goToProductPage(product)">
     <div class="card h-100">
       <div class="card-header p-0">
         <div class="image-wrapper image-43-50">
           <template v-if="images && images.length">
-            <img class="card-img-top img-fluid" :src="images[0].original" @click="goToProductPage(product)" />
+            <img class="card-img-top img-fluid" :src="images[0].original" />
           </template>
           <template v-else>
             <img :alt="product.name">

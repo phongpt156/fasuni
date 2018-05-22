@@ -35,6 +35,10 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         });
         $router->group(['prefix' => 'kiotviet', 'namespace' => 'SaleSoftware\KiotViet'], function () use ($router) {
             $router->get('sync', 'KiotVietController@sync');
+            $router->get('register-webhook', 'KiotVietController@registerWebhook');
+        });
+        $router->group(['prefix' => 'webhook', 'namespace' => 'Webhook'], function () use ($router) {
+            $router->post('callback', 'WebhookController@handlePayload');
         });
     });
 

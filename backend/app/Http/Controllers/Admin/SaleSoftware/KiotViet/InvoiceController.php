@@ -12,25 +12,26 @@ use App\Models\Customer;
 use App\Models\Branch;
 use App\Models\OrderDetail;
 use App\Models\Product;
+use App\Models\Employee;
 
 class InvoiceController extends Controller
 {
     public static function saveInvoices(Array $invoices)
     {
         foreach ($invoices as $invoice) {
+            $employeeId = null;
+            if (isset($invoice->soldById)) {
+                $employee = Employee::whereKiotvietId($invoice->soldById)->first();
+                if ($employee) {
+                    $employeeId = $employee->id;
+                }
+            }
+
             $customerId = null;
             if (isset($invoice->customerId)) {
                 $customer = Customer::whereKiotvietId($invoice->customerId)->first();
                 if ($customer) {
                     $customerId = $customer->id;
-                }
-            }
-
-            $employeeId = null;
-            if (isset($invoice->soldById)) {
-                $employee = Customer::whereKiotvietId($invoice->soldById)->first();
-                if ($employee) {
-                    $employeeId = $employee->id;
                 }
             }
 
@@ -42,43 +43,33 @@ class InvoiceController extends Controller
                 }
             }
 
-            if (!isset($invoice->orderId)) {
-                $orderKiotvietId = $invoice->id;
-            } else {
-                $orderKiotvietId = $invoice->orderId;
+            $orderId = null;
+            if (isset($invoice->orderId)) {
+                $order = Order::whereKiotvietId($invoice->orderId)->first();
+                if ($order) {
+                    $orderId = $order->id;
+                }
             }
 
-            $discountPrice = 0;
             if (isset($invoice->discount)) {
-                $discountPrice = $invoice->discount;
+                $discount = $invoice->discount;
+            } else {
+                $discount = 0;
             }
-
-            $order = Order::whereKiotvietId($orderKiotvietId)->first();
-            if (!$order) {
-                $order = new Order;
-                $order->code = $invoice->code;
-                $order->kiotviet_id = $orderKiotvietId;
-            }
-            $order->total_price = $invoice->total;
-            $order->discount_price = $discountPrice;
-            $order->source = 'KiotViet';
-            $order->status_id = 3;
-            $order->customer_id = $customerId;
-            $order->employee_id = $employeeId;
-            $order->branch_id = $branchId;
 
             try {
-                $order->save();
+                $savedInvoice = Invoice::updateOrCreate(
+                    ['kiotviet_id' => $invoice->id],
+                    ['code' => $invoice->code, 'total_price' => $invoice->total, 'discount_price' => $discount, 'source' => 'KiotViet', 'customer_id' => $customerId, 'employee_id' => $employeeId, 'branch_id' => $branchId, 'order_id' => $orderId]
+                );
             } catch (QueryException $e) {
-                \Log::debug('Cannot save order: ' . $e->getMessage());
+                \Log::debug('Cannot save invoice: ' . $e->getMessage());
                 throw $e;
             }
 
             if (isset($invoice->invoiceDetails)) {
-                self::saveOrderDetails($invoice->invoiceDetails, $order->id);
+                self::saveInvoiceDetails($invoice->invoiceDetails, $savedInvoice->id);
             }
-
-            $savedInvoice = self::saveInvoice($invoice, $order->id);
 
             if (isset($invoice->payments)) {
                 self::savePayments($invoice->payments, $savedInvoice->id);
@@ -86,44 +77,30 @@ class InvoiceController extends Controller
         }
     }
 
-    public static function saveOrderDetails(Array $orderDetails = [], int $orderId)
+    public static function saveInvoiceDetails(Array $invoiceDetails = [], int $invoiceId)
     {
-        foreach ($orderDetails as $orderDetail) {
-            $product = Product::whereKiotvietId($orderDetail->productId)->first();
+        foreach ($invoiceDetails as $invoiceDetail) {
+            $product = Product::whereKiotvietId($invoiceDetail->productId)->first();
 
             if ($product) {
-                $discount = 0;
-
-                if (isset($orderDetail->discount)) {
-                    $discount = $orderDetail->discount;
+                if (isset($invoiceDetail->discount)) {
+                    $discount = $invoice->discount;
+                } else {
+                    $discount = 0;
                 }
+
                 try {
-                    OrderDetail::updateOrCreate(
-                        ['product_id' => $product->id, 'order_id' => $orderId],
-                        ['quantity' => $orderDetail->quantity, 'price' => $orderDetail->price, 'discount_price' => $discount]
+                    InvoiceDetail::updateOrCreate(
+                        ['product_id' => $product->id, 'invoice_id' => $invoiceId],
+                        ['quantity' => $invoiceDetail->quantity, 'price' => $invoiceDetail->price, 'discount_price' => $discount]
                     );
                 } catch (QueryException $e) {
                     \Log::debug('Cannot save order detail: ' . $e->getMessage());
                     throw $e;
                 }
             } else {
-                \Log::debug('Không tìm thấy sản phẩm có mã sản phẩm là: ' . $product->productCode);
+                \Log::debug('Không tìm thấy sản phẩm có mã sản phẩm là: ' . $invoiceDetail->productCode . ' hoặc sản phẩm đã bị xóa');
             }
-        }
-    }
-
-    public static function saveInvoice($invoice, $orderId)
-    {
-        try {
-            $invoice = Invoice::updateOrCreate(
-                ['order_id' => $orderId],
-                ['code' => $invoice->code, 'kiotviet_id' => $invoice->id]
-            );
-
-            return $invoice;
-        } catch (QueryException $e) {
-            \Log::debug('Cannot save invoice: ' . $e->getMessage());
-            throw $e;
         }
     }
 
@@ -138,7 +115,7 @@ class InvoiceController extends Controller
                     ['amount' => $kiotVietPayment->amount, 'code' => $kiotVietPayment->code, 'invoice_id' => $invoiceId, 'payment_id' => $payment->id]
                 );
             } catch (QueryException $e) {
-                \Log::debug('Cannot save order payment: ' . $e->getMessage());
+                \Log::debug('Cannot save invoice payment: ' . $e->getMessage());
                 throw $e;
             }
         }

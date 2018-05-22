@@ -90,4 +90,14 @@ class KiotVietController extends Controller
 
         return response()->json(['status' => 'Success'], 200);
     }
+
+    public function registerWebhook()
+    {
+        $kiotVietService = new KiotVietService;
+        try {
+            $kiotVietService->webhookService->register();
+        } catch (RequestException $e) {
+            \Log::debug('Cannot register webhook: ' . $e->getMessage());
+        }
+    }
 }

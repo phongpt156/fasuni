@@ -8,7 +8,7 @@ use App\Http\HttpClient\HttpClient;
 class KiotVietService
 {
     private const NAME = 'KiotViet';
-    private const RETAILER = 'abcdefghijkl';
+    private const RETAILER = 'fasuni';
     private const API_BASE = 'https://public.kiotapi.com';
     private const TOKEN_URI = 'https://id.kiotviet.vn/connect/token';
     private const CLIENT_ID = '2a38df33-fa36-4b56-8c0e-db1b6b26531a';

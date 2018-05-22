@@ -17,12 +17,12 @@ class CreateInvoicePaymentsTable extends Migration
             $table->increments('id');
             $table->float('amount', 12, 3)->default(0)->nullable();
             $table->string('code')->unique();
-            $table->unsignedInteger('invoice_id')->nullable();
+            $table->unsignedInteger('invoice_id');
             $table->unsignedInteger('payment_id')->nullable();
             $table->string('kiotviet_id')->nullable();
             $table->timestamps();
 
-            $table->foreign('invoice_id')->references('id')->on('invoices')->onDelete('set null');
+            $table->foreign('invoice_id')->references('id')->on('invoices')->onDelete('cascade');
             $table->foreign('payment_id')->references('id')->on('payments')->onDelete('set null');
         });
     }

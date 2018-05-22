@@ -44,6 +44,7 @@ class ProductController extends Controller
         }
 
         $products = $products->paginate(12);
+        $products->appends($request->except('page'))->links();
 
         $products->each(function ($product) use ($user) {
             $product->append('size', 'color');
