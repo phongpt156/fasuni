@@ -5,7 +5,6 @@ namespace App\DAL;
 use Illuminate\Database\QueryException;
 use App\Exceptions\Auth\ExistEmailException;
 use App\Models\User;
-use App\PackageWrapper\DateTime;
 use App\PackageWrapper\Token;
 
 class UserDAL

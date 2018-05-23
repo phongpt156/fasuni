@@ -16,10 +16,9 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->float('base_price', 12, 3);
-            $table->float('discount_price', 12, 3)->default(0);
+            $table->float('sale_price', 12, 3);
+            $table->float('discount_price', 12, 3);
             $table->mediumInteger('weight')->nullable();
-            $table->mediumInteger('quantity')->default(0);
             $table->mediumText('description')->nullable();
             $table->boolean('is_active')->default(1);
             $table->string('code')->unique();

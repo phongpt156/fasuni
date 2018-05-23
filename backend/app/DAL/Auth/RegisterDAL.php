@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\QueryException;
 use App\Exceptions\Auth\DuplicatePhoneNumberException;
 use App\PackageWrapper\Token;
-use App\PackageWrapper\DateTime;
 
 class RegisterDAL
 {

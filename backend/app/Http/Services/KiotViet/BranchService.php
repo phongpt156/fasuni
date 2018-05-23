@@ -15,11 +15,11 @@ class BranchService
 
     public function getAll()
     {
-            $response = $this->httpClient->get('branches?pageSize=100&includeRemoveIds=true&orderBy=createdDate&orderDirection=asc');
+        $response = $this->httpClient->get('branches?pageSize=100&includeRemoveIds=true&orderBy=createdDate&orderDirection=asc');
 
-            $response = $response->getBody()->getContents();
-            $response = json_decode($response);
+        $response = $response->getBody()->getContents();
+        $response = json_decode($response);
 
-            return $response->data;
+        return $response->data;
     }
 }

@@ -16,20 +16,58 @@ class WebhookService
 
     public function register()
     {
-        $options = [
-            'json' => [
-                'Webhook' => [
-                    'Type' => 'customer',
-                    'Url' => 'http://154ca4ae.ngrok.io/api/admin/webhook/callback',
-                    'IsActive' => true
-                ]
+        $webhooks = [
+            [
+                'type' => 'customer.update',
+                'url' => 'http://505308fa.ngrok.io/api/admin/kiotviet/webhook/customer/update?noecho'
+            ],
+            [
+                'type' => 'customer.delete',
+                'url' => 'http://505308fa.ngrok.io/api/admin/kiotviet/webhook/customer/destroy?noecho'
+            ],
+            [
+                'type' => 'product.update',
+                'url' => 'http://505308fa.ngrok.io/api/admin/kiotviet/webhook/product/update?noecho'
+            ],
+            [
+                'type' => 'product.delete',
+                'url' => 'http://505308fa.ngrok.io/api/admin/kiotviet/webhook/product/destroy?noecho'
+            ],
+            [
+                'type' => 'stock.update',
+                'url' => 'http://505308fa.ngrok.io/api/admin/kiotviet/webhook/inventory/update?noecho'
+            ],
+            [
+                'type' => 'order.update',
+                'url' => 'http://505308fa.ngrok.io/api/admin/kiotviet/webhook/order/update?noecho'
+            ],
+            [
+                'type' => 'invoice.update',
+                'url' => 'http://505308fa.ngrok.io/api/admin/kiotviet/webhook/invoice/update?noecho'
             ]
         ];
-        $response = $this->httpClient->post('webhooks', $options);
 
-        $response = $response->getBody()->getContents();
-        $response = json_decode($response);
+        foreach ($webhooks as $webhook) {
+            $options = [
+                'json' => [
+                    'Webhook' => [
+                        'Type' => $webhook['type'],
+                        'Url' => $webhook['url'],
+                        'IsActive' => true
+                    ]
+                ]
+            ];
+            $response = $this->httpClient->post('webhooks', $options);
 
-        return $response->data;
+            $response = $response->getBody()->getContents();
+            \Log::debug($response);
+            $response = json_decode($response);
+        }
+        
+        // $response = $this->httpClient->get('webhooks');
+        // $response = $response->getBody()->getContents();
+        // \Log::debug($response);
+
+        // return $response->data;
     }
 }

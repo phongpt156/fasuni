@@ -180,7 +180,7 @@ class CitiesTableSeeder extends Seeder
                 'updated_at' => DateTime::now()
             ],
             [
-                'name' => 'Thừa Thiên - Huế',
+                'name' => 'Thừa Thiên Huế',
                 'created_at' => DateTime::now(),
                 'updated_at' => DateTime::now()
             ],

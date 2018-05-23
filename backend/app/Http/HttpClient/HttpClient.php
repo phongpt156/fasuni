@@ -36,4 +36,15 @@ class HttpClient
             throw new RequestException($e->getResponse()->getBody());
         }
     }
+
+    public function delete($url, $options = [])
+    {
+        try {
+            $response = $this->client->delete($url, $options);
+
+            return $response;
+        } catch (GuzzleRequestException $e) {
+            throw new RequestException($e->getResponse()->getBody());
+        }
+    }
 }

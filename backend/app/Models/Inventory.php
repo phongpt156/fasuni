@@ -10,6 +10,6 @@ class Inventory extends Model
     use HasCompositePrimaryKey;
 
     protected $primaryKey = ['product_id', 'branch_id'];
-    protected $fillable = ['product_id', 'branch_id', 'sale_price', 'quantity'];
+    protected $fillable = ['product_id', 'branch_id', 'purchase_price', 'quantity'];
     public $incrementing = false;
 }

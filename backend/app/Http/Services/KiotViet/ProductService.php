@@ -26,16 +26,11 @@ class ProductService
 
     public function getOne($id)
     {
-        try {
-            $response = $this->httpClient->get('products/' . $id);
+        $response = $this->httpClient->get('products/' . $id);
 
-            $response = $response->getBody()->getContents();
-            $response = json_decode($response);
+        $response = $response->getBody()->getContents();
+        $response = json_decode($response);
 
-            return $response;
-        } catch (RequestException $e) {
-            \Log::debug('Can\'t get products: ' . $e->getMessage());
-            die('Cant\'t get products ' . $e->getMessage());
-        }
+        return $response;
     }
 }

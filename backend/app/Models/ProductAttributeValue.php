@@ -9,7 +9,7 @@ class ProductAttributeValue extends Model
 {
     use HasCompositePrimaryKey;
 
-    protected $primaryKey = ['product_id', 'branch_id'];
+    protected $primaryKey = ['product_id', 'attribute_value_id'];
     protected $fillable = ['product_id', 'attribute_value_id'];
     public $incrementing = false;
 }

@@ -23,4 +23,14 @@ class CategoryService
 
         return $response->data;
     }
+
+    public function getOne($id)
+    {
+        $response = $this->httpClient->get('categories/' . $id);
+
+        $response = $response->getBody()->getContents();
+        $response = json_decode($response);
+
+        return $response;
+    }
 }

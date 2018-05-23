@@ -35,10 +35,28 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         });
         $router->group(['prefix' => 'kiotviet', 'namespace' => 'SaleSoftware\KiotViet'], function () use ($router) {
             $router->get('sync', 'KiotVietController@sync');
+            $router->get('sync-locations', 'KiotVietController@syncLocations');
             $router->get('register-webhook', 'KiotVietController@registerWebhook');
-        });
-        $router->group(['prefix' => 'webhook', 'namespace' => 'Webhook'], function () use ($router) {
-            $router->post('callback', 'WebhookController@handlePayload');
+
+            $router->group(['prefix' => 'webhook', 'namespace' => 'Webhook'], function () use ($router) {
+                $router->group(['prefix' => 'customer'], function () use ($router) {
+                    $router->post('update', 'CustomerController@update');
+                    $router->post('destroy', 'CustomerController@destroy');
+                });
+                $router->group(['prefix' => 'product'], function () use ($router) {
+                    $router->post('update', 'ProductController@update');
+                    $router->post('destroy', 'ProductController@destroy');
+                });
+                $router->group(['prefix' => 'inventory'], function () use ($router) {
+                    $router->post('update', 'InventoryController@update');
+                });
+                $router->group(['prefix' => 'order'], function () use ($router) {
+                    $router->post('update', 'OrderController@update');
+                });
+                $router->group(['prefix' => 'invoice'], function () use ($router) {
+                    $router->post('update', 'InvoiceController@update');
+                });
+            });
         });
     });
 

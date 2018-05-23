@@ -16,49 +16,29 @@ use App\Http\Services\KiotViet\KiotVietService;
 
 class ProductController extends Controller
 {
-    public static function saveProducts(Array $kiotVietProducts = [])
+    private $kiotVietService;
+
+    public function __construct(KiotVietService $kiotVietService)
+    {
+        $this->kiotVietService = $kiotVietService;
+    }
+
+    public function saveProducts(Array $kiotVietProducts = [])
     {
         foreach ($kiotVietProducts as $kiotVietProduct) {
-            self::saveProduct($kiotVietProduct);
+            $this->saveProduct($kiotVietProduct);
         }
     }
 
-    public static function saveProduct($kiotVietProduct)
+    public function saveProduct(Object $kiotVietProduct)
     {
-        $product = Product::whereKiotvietId($kiotVietProduct->id)->first();
-        if (!$product) {
-            $product = new Product;
-        }
-
-        $category = Category::whereKiotvietId($kiotVietProduct->categoryId)->first();
-        if ($category) {
-            $product->category_id = $category->id;
-        }
-
-        if (isset($kiotVietProduct->masterProductId)) {
-            $masterProduct = Product::whereKiotvietId($kiotVietProduct->masterProductId)->first();
-
-            if (!$masterProduct) {
-                $kiotVietService = new KiotVietService;
-                $masterProduct = $kiotVietService->productService->getOne($kiotVietProduct->masterProductId);
-                $masterProduct = self::saveProduct($masterProduct);
-            }
-            if ($masterProduct) {
-                $product->master_product_id = $masterProduct->id;
-            }
-        }
-
-        $product->name = $kiotVietProduct->name;
-        $product->base_price = $kiotVietProduct->basePrice;
-        $product->code = $kiotVietProduct->code;
-        $product->kiotviet_id = $kiotVietProduct->id;
-        $product->is_active = $kiotVietProduct->isActive;
-        $product->quantity =  $kiotVietProduct->inventories[0];
+        $categoryId = $this->getCategoryId($kiotVietProduct->categoryId);
+        $masterProductId = $this->getMasterProductId($kiotVietProduct);
 
         try {
             $product = Product::updateOrCreate(
-                ['kiotviet_id' => $product->kiotviet_id],
-                ['name' => $product->name, 'base_price' => $product->base_price, 'weight' => optional($product)->weight, 'code' => $product->code, 'slug' => str_slug($product->name), 'category_id' => $product->category_id, 'master_product_id' => $product->master_product_id, 'is_active' => $product->is_active]
+                ['kiotviet_id' => $kiotVietProduct->id],
+                ['name' => $kiotVietProduct->name, 'sale_price' => $kiotVietProduct->basePrice, 'weight' => optional($kiotVietProduct)->weight, 'code' => $kiotVietProduct->code, 'slug' => str_slug($kiotVietProduct->name), 'category_id' => $categoryId, 'master_product_id' => $masterProductId, 'is_active' => $kiotVietProduct->isActive]
             );
         } catch (QueryException $e) {
             \Log::debug('Cannot save product: ' . $e->getMessage());
@@ -67,21 +47,51 @@ class ProductController extends Controller
 
 
         if (isset($kiotVietProduct->attributes)) {
-            self::saveAttributes($kiotVietProduct->attributes, $product->id);
+            $this->saveAttributes($kiotVietProduct->attributes, $product->id);
         }
 
         if (isset($kiotVietProduct->images)) {
-            self::saveImages($kiotVietProduct->images, $product->id);
+            $this->saveImages($kiotVietProduct->images, $product->id);
         }
 
         if (isset($kiotVietProduct->inventories)) {
-            self::saveInventories($kiotVietProduct->inventories, $product->id);
+            $this->saveInventories($kiotVietProduct->inventories, $product->id);
         }
 
         return $product;
     }
 
-    public static function saveImages(Array $images, int $productId)
+    public function getCategoryId(int $kiotVietId)
+    {
+        $category = Category::whereKiotvietId($kiotVietId)->first();
+
+        if (!$category) {
+            $category = $this->kiotVietService->categoryService->getOne($kiotVietId);
+            $categoryController = new CategoryController($this->kiotVietService);
+            $category = $categoryController->saveCategory($category);
+        }
+
+        return $category->id;
+    }
+
+    public function getMasterProductId(Object $product)
+    {
+        $id = null;
+
+        if (isset($product->masterProductId)) {
+            $masterProduct = Product::whereKiotvietId($product->masterProductId)->first();
+
+            if (!$masterProduct) {
+                $masterProduct = $this->kiotVietService->productService->getOne($product->masterProductId);
+                $masterProduct = self::saveProduct($masterProduct);
+            }
+            $id = $masterProduct->id;
+        }
+
+        return $id;
+    }
+
+    public function saveImages(Array $images, int $productId)
     {
         foreach ($images as $image) {
             try {
@@ -96,7 +106,7 @@ class ProductController extends Controller
         }
     }
 
-    public static function saveAttributes(Array $attributes, int $productId)
+    public function saveAttributes(Array $attributes, int $productId)
     {
         foreach ($attributes as $kiotVietAttribute) {
             $attributeName = ucfirst(mb_strtolower($kiotVietAttribute->attributeName));
@@ -130,27 +140,43 @@ class ProductController extends Controller
         }
     }
 
-    public static function saveInventories(Array $inventories, int $productId)
+    public function saveInventories(Array $inventories, int $productId)
     {
         foreach ($inventories as $inventory) {
-            $branchId = null;
-            $branch = Branch::whereKiotvietId($inventory->branchId)->first();
-            if ($branch) {
-                $branchId = $branch->id;
-            } else {
-                \Log::debug('Branch ' . $inventory->branchName . ' not found');
-                throw new Exception('Branch ' . $inventory->branchName . ' not found');
-            }
+            $branchId = $this->getBranchId($inventory->branchId);
 
             try {
                 Inventory::updateOrCreate(
                     ['product_id' => $productId, 'branch_id' => $branchId],
-                    ['sale_price' => $inventory->cost, 'quantity' => $inventory->onHand]
+                    ['purchase_price' => $inventory->cost, 'quantity' => $inventory->onHand]
                 );
             } catch (QueryException $e) {
                 \Log::debug('Cannot save inventory: ' . $e->getMessage());
                 throw $e;
             }
         }
+    }
+
+    public function getBranchId($kiotVietId)
+    {
+        $id = null;
+
+        $branch = Branch::whereKiotvietId($kiotVietId)->first();
+        if ($branch) {
+            $id = $branch->id;
+        } else {
+            try {
+                $branches = $this->kiotVietService->branchService->getAll();
+                BranchController::saveBranches($branches);
+            } catch (RequestException $e) {
+                \Log::debug('Cannot get branches: ' . $e->getMessage());
+                throw $e;
+            }
+
+            $branch = Branch::whereKiotvietId($kiotVietId)->first();
+            $id = $branch->id;
+        }
+
+        return $id;
     }
 }

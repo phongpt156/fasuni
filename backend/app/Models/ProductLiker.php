@@ -10,6 +10,6 @@ class ProductLiker extends Model
     use HasCompositePrimaryKey;
 
     protected $primaryKey = ['product_id', 'user_id'];
-    protected $fillable = ['product_id', 'user_id', 'liked'];
+    protected $fillable = ['product_id', 'user_id'];
     public $incrementing = false;
 }
