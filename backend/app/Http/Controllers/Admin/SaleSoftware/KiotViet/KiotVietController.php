@@ -62,6 +62,16 @@ class KiotVietController extends Controller
         }
     }
 
+    public function deleteWebhooks()
+    {
+        try {
+            $this->kiotVietService->webhookService->deleteAll();
+        } catch (RequestException $e) {
+            \Log::error('Cannot delete webhook: ' . $e->getMessage());
+            return response()->json(['error' => 'Cannot delete webhook: ' . json_decode($e->getMessage())->responseStatus->message], 500);
+        }
+    }
+
     public function syncLocations()
     {
         ini_set('max_execution_time', 0);

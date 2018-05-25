@@ -70,4 +70,38 @@ class WebhookService
 
         // return $response->data;
     }
+
+    public function deleteAll()
+    {
+        try {
+            $response = $this->httpClient->get('webhooks');
+            $response = json_decode($response->getBody()->getContents());
+
+            $webhooks = $response->data;
+
+            foreach ($webhooks as $webhook) {
+                try {
+                    $this->httpClient->delete('webhooks/' . $webhook->id);
+                } catch (RequestException $e) {
+                    \Log::error(['error' => 'Cannot delete webhook: ' . $e->getMessage()]);
+                    if (is_object(json_decode($e->getMessage()))) {
+                        response()->json(['error' => 'Cannot delete webhook: ' . json_decode($e->getMessage())->ResponseStatus->Message], 500)->send();
+                    } else {
+                        response()->json(['error' => 'Cannot delete webhook: ' . $e->getMessage()], 500)->send();
+                    }
+
+                    die;
+                }
+            }
+        } catch (RequestException $e) {
+            \Log::error(['error' => 'Cannot get webhooks: ' . $e->getMessage()]);
+            if (is_object(json_decode($e->getMessage()))) {
+                response()->json(['error' => 'Cannot get webhooks: ' . json_decode($e->getMessage())->ResponseStatus->Message], 500)->send();
+            } else {
+                response()->json(['error' => 'Cannot get webhooks: ' . $e->getMessage()], 500)->send();
+            }
+
+            die;
+        }
+    }
 }

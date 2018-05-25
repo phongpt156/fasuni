@@ -37,6 +37,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
             $router->get('sync', 'KiotVietController@sync');
             $router->get('sync-locations', 'KiotVietController@syncLocations');
             $router->get('register-webhook', 'KiotVietController@registerWebhook');
+            $router->delete('delete-webhooks', 'KiotVietController@deleteWebhooks');
 
             $router->group(['prefix' => 'webhook', 'namespace' => 'Webhook'], function () use ($router) {
                 $router->group(['prefix' => 'customer'], function () use ($router) {
