@@ -17,8 +17,9 @@ class BranchController extends Controller
                     ['name' => $branch->branchName, 'phone_number' => optional($branch)->contactNumber, 'email' => optional($branch)->email, 'address' => optional($branch)->address]
                 );
             } catch (QueryException $e) {
-                \Log::debug('Cannot save branch: ' . $e->getMessage());
-                throw $e;
+                \Log::error('Cannot save branch: ' . $e->getMessage());
+                response()->json(['error' => 'Cannot save branches' . $e->getMessage()], 500)->send();
+                die;
             }
         }
     }

@@ -41,7 +41,7 @@ class ProductController extends Controller
                 ['name' => $kiotVietProduct->name, 'sale_price' => $kiotVietProduct->basePrice, 'weight' => optional($kiotVietProduct)->weight, 'code' => $kiotVietProduct->code, 'slug' => str_slug($kiotVietProduct->name), 'category_id' => $categoryId, 'master_product_id' => $masterProductId, 'is_active' => $kiotVietProduct->isActive]
             );
         } catch (QueryException $e) {
-            \Log::debug('Cannot save product: ' . $e->getMessage());
+            \Log::error('Cannot save product: ' . $e->getMessage());
             throw $e;
         }
 
@@ -100,7 +100,7 @@ class ProductController extends Controller
                     ['product_id' => $productId]
                 );
             } catch (QueryException $e) {
-                \Log::debug('Cannot save product image: ' . $e->getMessage());
+                \Log::error('Cannot save product image: ' . $e->getMessage());
                 throw $e;
             }
         }
@@ -115,7 +115,7 @@ class ProductController extends Controller
                     ['name' => $attributeName]
                 );
             } catch (QueryException $e) {
-                \Log::debug('Cannot save attribute: ' . $e->getMessage());
+                \Log::error('Cannot save attribute: ' . $e->getMessage());
                 throw $e;
             }
 
@@ -125,7 +125,7 @@ class ProductController extends Controller
                     ['attribute_id' => $attribute->id]
                 );
             } catch (QueryException $e) {
-                \Log::debug('Cannot save attribute value: ' . $e->getMessage());
+                \Log::error('Cannot save attribute value: ' . $e->getMessage());
                 throw $e;
             }
 
@@ -134,7 +134,7 @@ class ProductController extends Controller
                     ['product_id' => $productId, 'attribute_value_id' => $attributeValue->id]
                 );
             } catch (QueryException $e) {
-                \Log::debug('Cannot save product attribute value: ' . $e->getMessage());
+                \Log::error('Cannot save product attribute value: ' . $e->getMessage());
                 throw $e;
             }
         }
@@ -151,7 +151,7 @@ class ProductController extends Controller
                     ['purchase_price' => $inventory->cost, 'quantity' => $inventory->onHand]
                 );
             } catch (QueryException $e) {
-                \Log::debug('Cannot save inventory: ' . $e->getMessage());
+                \Log::error('Cannot save inventory: ' . $e->getMessage());
                 throw $e;
             }
         }
@@ -169,7 +169,7 @@ class ProductController extends Controller
                 $branches = $this->kiotVietService->branchService->getAll();
                 BranchController::saveBranches($branches);
             } catch (RequestException $e) {
-                \Log::debug('Cannot get branches: ' . $e->getMessage());
+                \Log::error('Cannot get branches: ' . $e->getMessage());
                 throw $e;
             }
 

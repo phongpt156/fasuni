@@ -63,7 +63,7 @@ class InvoiceController extends Controller
                     ['code' => $invoice->code, 'total_price' => $invoice->total, 'discount_price' => $discount, 'source' => 'KiotViet', 'customer_id' => $customerId, 'employee_id' => $employeeId, 'branch_id' => $branchId, 'order_id' => $orderId]
                 );
             } catch (QueryException $e) {
-                \Log::debug('Cannot save invoice: ' . $e->getMessage());
+                \Log::error('Cannot save invoice: ' . $e->getMessage());
                 throw $e;
             }
 
@@ -95,11 +95,11 @@ class InvoiceController extends Controller
                         ['quantity' => $invoiceDetail->quantity, 'price' => $invoiceDetail->price, 'discount_price' => $discount]
                     );
                 } catch (QueryException $e) {
-                    \Log::debug('Cannot save order detail: ' . $e->getMessage());
+                    \Log::error('Cannot save order detail: ' . $e->getMessage());
                     throw $e;
                 }
             } else {
-                \Log::debug('Không tìm thấy sản phẩm có mã sản phẩm là: ' . $invoiceDetail->productCode . ' hoặc sản phẩm đã bị xóa');
+                \Log::error('Không tìm thấy sản phẩm có mã sản phẩm là: ' . $invoiceDetail->productCode . ' hoặc sản phẩm đã bị xóa');
             }
         }
     }
@@ -115,7 +115,7 @@ class InvoiceController extends Controller
                     ['amount' => $kiotVietPayment->amount, 'code' => $kiotVietPayment->code, 'invoice_id' => $invoiceId, 'payment_id' => $payment->id]
                 );
             } catch (QueryException $e) {
-                \Log::debug('Cannot save invoice payment: ' . $e->getMessage());
+                \Log::error('Cannot save invoice payment: ' . $e->getMessage());
                 throw $e;
             }
         }

@@ -60,13 +60,13 @@ class WebhookService
             $response = $this->httpClient->post('webhooks', $options);
 
             $response = $response->getBody()->getContents();
-            \Log::debug($response);
+            \Log::error($response);
             $response = json_decode($response);
         }
         
         // $response = $this->httpClient->get('webhooks');
         // $response = $response->getBody()->getContents();
-        // \Log::debug($response);
+        // \Log::error($response);
 
         // return $response->data;
     }

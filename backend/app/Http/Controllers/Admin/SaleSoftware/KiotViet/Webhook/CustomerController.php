@@ -25,7 +25,7 @@ class CustomerController extends WebhookController
                         ['name' => $customer['Name'], 'gender' => $customer['Gender'], 'phone_number' => $customer['ContactNumber'], 'address' => $customer['Address'], 'email' => optional($customer)->email, 'code' => $customer['Code']]
                     );
                 } catch (QueryException $e) {
-                    \Log::debug('Cannot save customer: ' . $e->getMessage());
+                    \Log::error('Cannot save customer: ' . $e->getMessage());
                     return response()->json(['error' => 'Cannot save customers' . $e->getMessage()], 200);
                 }
             }

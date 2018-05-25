@@ -27,7 +27,7 @@ class UserDAL
         try {
             $user->save();
         } catch (QueryException $e) {
-            \Log::debug($e->getMessage());
+            \Log::error($e->getMessage());
         }
 
         return $user->makeVisible('api_token');
@@ -43,7 +43,7 @@ class UserDAL
         try {
             $user->save();
         } catch (QueryException $e) {
-            \Log::debug($e->getMessage());
+            \Log::error($e->getMessage());
         }
 
         return $user->makeVisible('api_token');

@@ -33,8 +33,9 @@ class CategoryController extends Controller
                 ['name' => $category->categoryName, 'parent_id' => $parentId, 'slug' => str_slug($category->categoryName)]
             );
         } catch (QueryException $e) {
-            \Log::debug('Cannot save category: ' . $e->getMessage());
-            throw $e;
+            \Log::error('Cannot save category: ' . $e->getMessage());
+            response()->json(['error' => 'Cannot save categories' . $e->getMessage()], 500)->send();
+            die;
         }
 
         if (isset($category->hasChild) && $category->hasChild) {

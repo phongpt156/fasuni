@@ -16,12 +16,23 @@ class CategoryService
 
     public function getAll()
     {
-        $response = $this->httpClient->get('categories?pageSize=100&hierachicalData=true&orderBy=createdDate&orderDirection=asc');
+        try {
+            $response = $this->httpClient->get('categories?pageSize=100&hierachicalData=true&orderBy=createdDate&orderDirection=asc');
 
-        $response = $response->getBody()->getContents();
-        $response = json_decode($response);
+            $response = $response->getBody()->getContents();
+            $response = json_decode($response);
 
-        return $response->data;
+            return $response->data;
+        } catch (RequestException $e) {
+            \Log::error('Cannot get categories: ' . $e->getMessage());
+            if (is_object(json_decode($e->getMessage()))) {
+                response()->json(['error' => 'Cannot get categories: ' . json_decode($e->getMessage())->ResponseStatus->Message], 500);
+            } else {
+                response()->json(['error' => 'Cannot get categories: ' . $e->getMessage()], 500)->send();
+            }
+
+            die;
+        }
     }
 
     public function getOne($id)
