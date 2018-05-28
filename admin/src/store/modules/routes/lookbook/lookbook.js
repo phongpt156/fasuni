@@ -3,30 +3,13 @@ import authService from '@/shared/services/auth.service';
 import store from '@/store';
 
 export default {
+  name: 'Lookbook',
   path: '/loobook',
-  component: lazyLoading('lookbook/index'),
-  children: [
-    {
-      name: 'Lookbook',
-      path: '',
-      component: lazyLoading('lookbook/Lookbook'),
-      meta: {
-        title: 'Lookbook',
-        layout: 'MainLayout',
-        parent: 'Lookbook'
-      }
-    },
-    {
-      name: 'AddLookbook',
-      path: 'add',
-      component: lazyLoading('lookbook/AddLookbook'),
-      meta: {
-        title: 'Add Lookbook',
-        layout: 'MainLayout',
-        parent: 'Lookbook'
-      }
-    }
-  ],
+  component: lazyLoading('lookbook/Lookbook'),
+  meta: {
+    title: 'Lookbook',
+    layout: 'MainLayout'
+  },
   beforeEnter(to, from, next) {
     if (store.state.user.user) {
       next();

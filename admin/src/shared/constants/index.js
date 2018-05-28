@@ -1,4 +1,5 @@
 export const BASE_URL = 'https://localhost/fasuni/backend/public/api/admin';
+export const IMAGES_URL = 'https://localhost/fasuni/backend/public/images';
 
 export const ERROR_MESSAGE = {
   email: {

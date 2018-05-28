@@ -32,7 +32,7 @@ class KiotVietController extends Controller
 {
     private $kiotVietService;
 
-    public function __construct(KiotvietService $kiotVietService)
+    public function __construct(KiotVietService $kiotVietService)
     {
         $this->kiotVietService = $kiotVietService;
     }
@@ -52,26 +52,6 @@ class KiotVietController extends Controller
         return response()->json(['status' => 'Success'], 200);
     }
 
-    public function registerWebhook()
-    {
-        try {
-            $this->kiotVietService->webhookService->register();
-        } catch (RequestException $e) {
-            \Log::error('Cannot register webhook: ' . $e->getMessage());
-            return response()->json(['error' => 'Cannot register webhook: ' . json_decode($e->getMessage())->responseStatus->message], 500);
-        }
-    }
-
-    public function deleteWebhooks()
-    {
-        try {
-            $this->kiotVietService->webhookService->deleteAll();
-        } catch (RequestException $e) {
-            \Log::error('Cannot delete webhook: ' . $e->getMessage());
-            return response()->json(['error' => 'Cannot delete webhook: ' . json_decode($e->getMessage())->responseStatus->message], 500);
-        }
-    }
-
     public function syncLocations()
     {
         ini_set('max_execution_time', 0);
@@ -80,7 +60,12 @@ class KiotVietController extends Controller
             $locations = $this->kiotVietService->getLocations()->Data;
         } catch (RequestException $e) {
             \Log::error('Cannot get locations: ' . $e->getMessage());
-            return response()->json(['error' => 'Cannot get locations: ' . json_decode($e->getMessage())->responseStatus->message], 500);
+            $message = json_decode($e->getMessage());
+
+            if (isset($message->ResponseStatus)) {
+                return response()->json(['error' => 'Cannot get locations: ' . json_decode($e->getMessage())->ResponseStatus->Message], 500);
+            }
+            return response()->json(['error' => 'Cannot get locations: ' . $message->responseStatus->message], 500);
         }
 
         foreach ($locations as $location) {
@@ -105,7 +90,12 @@ class KiotVietController extends Controller
             $wards = $this->kiotVietService->getWards()->Data;
         } catch (RequestException $e) {
             \Log::error('Cannot get wards: ' . $e->getMessage());
-            return response()->json(['error' => 'Cannot get wards: ' . json_decode($e->getMessage())->responseStatus->message], 500);
+            $message = json_decode($e->getMessage());
+
+            if (isset($message->ResponseStatus)) {
+                return response()->json(['error' => 'Cannot get wards: ' . json_decode($e->getMessage())->ResponseStatus->Message], 500);
+            }
+            return response()->json(['error' => 'Cannot get wards: ' . $message->responseStatus->message], 500);
         }
 
         foreach ($wards as $ward) {
@@ -118,6 +108,7 @@ class KiotVietController extends Controller
                 );
             } catch (QueryException $e) {
                 \Log::error('Cannot save ward: ' . $e->getMessage());
+                return response()->json(['error' => 'Cannot save ward: ' . $e->getMessage()], 500);
                 die('Cannot save ward: ' . $e->getMessage());
             }
         }
@@ -222,7 +213,7 @@ class KiotVietController extends Controller
 
         if (!$category) {
             $category = $this->kiotVietService->categoryService->getOne($kiotVietId);
-            $this->saveCategory($category);
+            $category = $this->saveCategory($category);
         }
 
         return $category->id;
@@ -631,7 +622,7 @@ class KiotVietController extends Controller
         try {
             $savedInvoice = Invoice::updateOrCreate(
                 ['kiotviet_id' => $invoice->id],
-                ['code' => $invoice->code, 'total_price' => $invoice->total, 'discount_price' => $discount, 'source' => 'KiotViet', 'customer_id' => $customerId, 'employee_id' => $employeeId, 'branch_id' => $branchId, 'order_id' => $orderId]
+                ['code' => $invoice->code, 'total_price' => $invoice->total, 'discount_price' => $discount, 'customer_id' => $customerId, 'employee_id' => $employeeId, 'branch_id' => $branchId, 'order_id' => $orderId]
             );
         } catch (QueryException $e) {
             \Log::error('Cannot save invoice: ' . $e->getMessage());

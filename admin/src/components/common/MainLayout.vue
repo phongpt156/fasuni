@@ -22,7 +22,7 @@
         </i-header>
         <i-content :style="{padding: '0 16px 16px'}">
           <breadcrumb :style="{margin: '16px 0'}">
-            <breadcrumb-item>{{ $route.name }}</breadcrumb-item>
+            <breadcrumb-item>{{ $route.meta.title }}</breadcrumb-item>
           </breadcrumb>
           <card>
             <slot></slot>

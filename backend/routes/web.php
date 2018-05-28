@@ -15,6 +15,16 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
+$router->get('/images/{filename}', function ($filename) use ($router) {
+    $path = config('path.images') . $filename;
+
+    if (Illuminate\Support\Facades\File::exists($path)) {
+        $contentType = Illuminate\Support\Facades\File::mimeType($path);
+
+        return response(Illuminate\Support\Facades\File::get($path), 200)->header('Content-Type', $contentType);
+    }
+});
+
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->group(['prefix' => 'admin', 'namespace' => 'Admin'], function () use ($router) {
         $router->group(['prefix' => 'auth', 'namespace' => 'Auth'], function () use ($router) {
@@ -33,13 +43,17 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->group(['prefix' => 'customer'], function () use ($router) {
             $router->get('', 'CustomerController@index');
         });
+        $router->group(['prefix' => 'image'], function () use ($router) {
+            $router->post('upload', 'ImageController@upload');
+        });
         $router->group(['prefix' => 'kiotviet', 'namespace' => 'SaleSoftware\KiotViet'], function () use ($router) {
             $router->get('sync', 'KiotVietController@sync');
             $router->get('sync-locations', 'KiotVietController@syncLocations');
-            $router->get('register-webhook', 'KiotVietController@registerWebhook');
-            $router->delete('delete-webhooks', 'KiotVietController@deleteWebhooks');
 
             $router->group(['prefix' => 'webhook', 'namespace' => 'Webhook'], function () use ($router) {
+                $router->get('register', 'WebhookController@register');
+                $router->delete('delete-all', 'WebhookController@deleteAll');
+
                 $router->group(['prefix' => 'customer'], function () use ($router) {
                     $router->post('update', 'CustomerController@update');
                     $router->post('destroy', 'CustomerController@destroy');

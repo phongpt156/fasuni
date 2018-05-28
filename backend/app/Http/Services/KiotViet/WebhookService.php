@@ -19,31 +19,31 @@ class WebhookService
         $webhooks = [
             [
                 'type' => 'customer.update',
-                'url' => 'http://505308fa.ngrok.io/api/admin/kiotviet/webhook/customer/update?noecho'
+                'url' => 'http://e83892e8.ngrok.io/api/admin/kiotviet/webhook/customer/update?noecho'
             ],
             [
                 'type' => 'customer.delete',
-                'url' => 'http://505308fa.ngrok.io/api/admin/kiotviet/webhook/customer/destroy?noecho'
+                'url' => 'http://e83892e8.ngrok.io/api/admin/kiotviet/webhook/customer/destroy?noecho'
             ],
             [
                 'type' => 'product.update',
-                'url' => 'http://505308fa.ngrok.io/api/admin/kiotviet/webhook/product/update?noecho'
+                'url' => 'http://e83892e8.ngrok.io/api/admin/kiotviet/webhook/product/update?noecho'
             ],
             [
                 'type' => 'product.delete',
-                'url' => 'http://505308fa.ngrok.io/api/admin/kiotviet/webhook/product/destroy?noecho'
+                'url' => 'http://e83892e8.ngrok.io/api/admin/kiotviet/webhook/product/destroy?noecho'
             ],
             [
                 'type' => 'stock.update',
-                'url' => 'http://505308fa.ngrok.io/api/admin/kiotviet/webhook/inventory/update?noecho'
+                'url' => 'http://e83892e8.ngrok.io/api/admin/kiotviet/webhook/inventory/update?noecho'
             ],
             [
                 'type' => 'order.update',
-                'url' => 'http://505308fa.ngrok.io/api/admin/kiotviet/webhook/order/update?noecho'
+                'url' => 'http://e83892e8.ngrok.io/api/admin/kiotviet/webhook/order/update?noecho'
             ],
             [
                 'type' => 'invoice.update',
-                'url' => 'http://505308fa.ngrok.io/api/admin/kiotviet/webhook/invoice/update?noecho'
+                'url' => 'http://e83892e8.ngrok.io/api/admin/kiotviet/webhook/invoice/update?noecho'
             ]
         ];
 
@@ -57,16 +57,23 @@ class WebhookService
                     ]
                 ]
             ];
-            $response = $this->httpClient->post('webhooks', $options);
 
-            $response = $response->getBody()->getContents();
-            \Log::error($response);
-            $response = json_decode($response);
+            try {
+                $response = $this->httpClient->post('webhooks', $options);
+
+                $response = $response->getBody()->getContents();
+                $response = json_decode($response);
+            } catch (RequestException $e) {
+                \Log::error('Cannot register webhook: ' . $e->getMessage());
+                if (is_object(json_decode($e->getMessage()))) {
+                    response()->json(['error' => 'Cannot register webhook: ' . json_decode($e->getMessage())->responseStatus->message], 500)->send();
+                } else {
+                    response()->json(['error' => 'Cannot register webhook: ' . $e->getMessage()], 500)->send();
+                }
+
+                die;
+            }
         }
-        
-        // $response = $this->httpClient->get('webhooks');
-        // $response = $response->getBody()->getContents();
-        // \Log::error($response);
 
         // return $response->data;
     }
@@ -83,7 +90,7 @@ class WebhookService
                 try {
                     $this->httpClient->delete('webhooks/' . $webhook->id);
                 } catch (RequestException $e) {
-                    \Log::error(['error' => 'Cannot delete webhook: ' . $e->getMessage()]);
+                    \Log::error('Cannot delete webhook: ' . $e->getMessage());
                     if (is_object(json_decode($e->getMessage()))) {
                         response()->json(['error' => 'Cannot delete webhook: ' . json_decode($e->getMessage())->ResponseStatus->Message], 500)->send();
                     } else {
@@ -94,7 +101,7 @@ class WebhookService
                 }
             }
         } catch (RequestException $e) {
-            \Log::error(['error' => 'Cannot get webhooks: ' . $e->getMessage()]);
+            \Log::error('Cannot get webhooks: ' . $e->getMessage());
             if (is_object(json_decode($e->getMessage()))) {
                 response()->json(['error' => 'Cannot get webhooks: ' . json_decode($e->getMessage())->ResponseStatus->Message], 500)->send();
             } else {

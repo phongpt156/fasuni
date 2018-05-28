@@ -85,6 +85,7 @@ $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(Barryvdh\Cors\ServiceProvider::class);
 $app->register(Dirape\Token\TokenServiceProvider::class);
 
+$app->configure('path');
 
 /*
 |--------------------------------------------------------------------------

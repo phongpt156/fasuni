@@ -24,3 +24,7 @@ export const CUSTOMER = {
 export const KIOTVIET = {
   sync: BASE_URL + '/kiotviet/sync'
 };
+
+export const IMAGE = {
+  upload: BASE_URL + '/image/upload'
+};

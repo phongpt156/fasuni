@@ -80,21 +80,25 @@ class ProductController extends Controller
             ->whereSlug($slug)
             ->whereNull('master_product_id')
             ->whereIsActive(true)
-            ->first()
-            ->append('size', 'color');
+            ->first();
 
-        if ($user) {
-            $product->setUserId($user->id);
-            $product->append('liked');
+        if (!is_null($product)) {
+            $product = $product->append('size', 'color');
+
+            if ($user) {
+                $product->setUserId($user->id);
+                $product->append('liked');
+            }
+    
+            $product->subProducts->each(function ($subProduct) use ($user) {
+                $subProduct->append('size', 'color');
+                if ($user) {
+                    $subProduct->setUserId($user->id);
+                    $subProduct->append('liked');
+                }
+            });
         }
 
-        $product->subProducts->each(function ($subProduct) use ($user) {
-            $subProduct->append('size', 'color');
-            if ($user) {
-                $subProduct->setUserId($user->id);
-                $subProduct->append('liked');
-            }
-        });
         return response()->json($product, 200);
     }
 }

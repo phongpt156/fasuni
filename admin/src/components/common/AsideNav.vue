@@ -1,6 +1,6 @@
 <template>
   <i-menu :active-name="currentRouteName" theme="dark" width="auto" :class="menuItemClasses">
-    <menu-item :name="route.name" v-for="route in routes" :key="route.name" @click.native="navigate(route)">
+    <menu-item :name="route.name" v-for="route in routes" :key="route.meta && route.meta.parent ? route.meta.parent : route.name" @click.native="navigate(route)">
       <icon type="ios-navigate"></icon>
       <span>{{ route.name }}</span>
     </menu-item>
@@ -47,6 +47,9 @@ export default {
       ];
     },
     currentRouteName() {
+      if (this.$route.meta && this.$route.meta.parent) {
+        return this.$route.meta.parent;
+      }
       return this.$route.name;
     }
   },
@@ -62,10 +65,6 @@ export default {
 .menu-item {
   .router-link {
     color: #fff;
-
-    &-exact-active {
-      color: #2d8cf0;
-    }
   }
 }
 </style>

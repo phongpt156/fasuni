@@ -2,7 +2,7 @@
   <div>
     <row type="flex" justify="center">
       <i-col>
-        <i-form ref="loginForm" :model="loginForm" :rules="rules" @submit="onSubmit">
+        <i-form ref="loginForm" :model="loginForm" :rules="rules" @submit.native.prevent>
           <form-item prop="email">
             <i-input type="text" v-model="loginForm.email" placeholder="Email">
               <Icon type="ios-person-outline" slot="prepend"></Icon>

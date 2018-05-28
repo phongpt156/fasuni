@@ -4,178 +4,183 @@
       <spinner :loading="loading"></spinner>
     </div>
     <div v-else>
-      <ul class="navbar-nav align-items-center flex-row pt-4 pb-2 d-md-flex d-none">
-        <li class="nav-item">
-          <a class="nav-link p-2">MEN'S
-          </a>
-        </li> /
-        <li class="nav-item">
-          <a class="nav-link p-2">All Clothing
-          </a>
-        </li> /
-        <li class="nav-item">
-          <a class="nav-link p-2">Áo mùa hè
-          </a>
-        </li> /
-        <li class="nav-item">
-          <a class="nav-link p-2">Áo sơ mi
-          </a>
-        </li>
-      </ul>
-      <div>
-        <div class="row m-0">
-          <div class="col-md-8 p-0">
-            <div class="row m-0">
-              <div class="col-sm-6 p-2" v-for="image in images" :key="image.id">
-                <div class="image-wrapper image-43-50">
-                  <img :src="image.original" :alt="selectedProduct.name" class="img-fluid" />
+      <template v-if="product.id">
+        <ul class="navbar-nav align-items-center flex-row pt-4 pb-2 d-md-flex d-none">
+          <li class="nav-item">
+            <a class="nav-link p-2">MEN'S
+            </a>
+          </li> /
+          <li class="nav-item">
+            <a class="nav-link p-2">All Clothing
+            </a>
+          </li> /
+          <li class="nav-item">
+            <a class="nav-link p-2">Áo mùa hè
+            </a>
+          </li> /
+          <li class="nav-item">
+            <a class="nav-link p-2">Áo sơ mi
+            </a>
+          </li>
+        </ul>
+        <div>
+          <div class="row m-0">
+            <div class="col-md-8 p-0">
+              <div class="row m-0">
+                <div class="col-sm-6 p-2" v-for="image in images" :key="image.id">
+                  <div class="image-wrapper image-43-50">
+                    <img :src="image.original" :alt="selectedProduct.name" class="img-fluid" />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="col-md-4">
-            <div class="text-danger mt-2 font-weight-bold mb-4" style="line-height: normal">HOT</div>
-            <div class="text-uppercase h4 mb-4">{{ selectedProduct.name }}</div>
-            <template v-if="product.inventories">
-              <div class="h5 mb-4 product-price">{{ selectedProduct.inventories[0].sale_price | priceFormat }}</div>
-            </template>
-            <div class="d-flex color-list mb-3">
-              <router-link
-                v-for="color in colors"
-                :key="color.id"
-                :style="{backgroundColor: color.value}"
-                :to="{name: 'Product', params: {slug: product.slug}, query: {color: color.id}}"
-                class="mr-2 color-item d-flex align-items-center justify-content-center"
-                @click.native="selectColor(color)">
-                <font-awesome-icon class="text-white" :icon="icons.check" v-if="currentColor && currentColor.id === color.id"></font-awesome-icon>
-              </router-link>
-            </div>
-            <select class="custom-select my-4" style="width: 106px" v-if="sizes.length" v-model="selectedSize">
-              <option v-for="size in sizes" :key="size.id" :value="size">{{ size.name }}</option>
-            </select>
-            <div class="d-flex mt-2">
-              <a class="mr-3 d-inline-flex align-items-center justify-content-center text-white cart px-4 py-2" @click="addProductToCart({images, product: selectedSize.product})">
-                <font-awesome-icon :icon="icons.cart" class="mr-2"></font-awesome-icon>
-                <span class="mt-1 font-size-sm">Thêm vào giỏ</span>
-              </a>
-              <a
-                class="d-inline-flex align-items-center justify-content-center like-button"
-                @click="toggleLiked">
-                <font-awesome-icon
-                  :icon="icons.solidHeart"
-                  v-if="selectedProduct.liked"></font-awesome-icon>
-                <font-awesome-icon
-                  :icon="icons.regularHeart"
-                  v-else></font-awesome-icon>
-              </a>
-            </div>
-            <hr />
-            <div class="info">
-              <p class="mb-1 font-size-base">Thông tin</p>
-              <p>Our best selling Balfern Biker Jacket receives a statement update this season with fringe tassels running across the back and front. Complete with our signature zip detailing, it's crafted from soft sheep nappa leather that gets more supple with each wear.</p>
-              <p class="mb-1 font-size-base">Regular fit.</p>
-              <p class="mb-0">- Fits true to size, take your normal size.</p>
-              <p class="mb-0">- Model is 5'8" / 173cm, size UK 10.</p>
-              <p class="mb-0">- See our size guide for more details.</p>
-            </div>
-            <hr />
-            <p class="mb-0 text-uppercase font-size-base"><a @click="isOpenSizeGuideDialog = true">Size Guide</a></p>
-            <hr />
-            <div class="d-flex justify-content-between">
-              <p class="mb-0 text-uppercase font-size-base">Chia sẻ</p>
-              <div class="d-flex">
-                <a class="mx-2">
-                  <font-awesome-icon :icon="icons.facebook" style="color: #3b5998"></font-awesome-icon>
+            <div class="col-md-4">
+              <div class="text-danger mt-2 font-weight-bold mb-4" style="line-height: normal">HOT</div>
+              <div class="text-uppercase h4 mb-4">{{ selectedProduct.name }}</div>
+              <template v-if="product.inventories">
+                <div class="h5 mb-4 product-price">{{ selectedProduct.inventories[0].sale_price | priceFormat }}</div>
+              </template>
+              <div class="d-flex color-list mb-3">
+                <router-link
+                  v-for="color in colors"
+                  :key="color.id"
+                  :style="{backgroundColor: color.value}"
+                  :to="{name: 'Product', params: {slug: product.slug}, query: {color: color.id}}"
+                  class="mr-2 color-item d-flex align-items-center justify-content-center"
+                  @click.native="selectColor(color)">
+                  <font-awesome-icon class="text-white" :icon="icons.check" v-if="currentColor && currentColor.id === color.id"></font-awesome-icon>
+                </router-link>
+              </div>
+              <select class="custom-select my-4" style="width: 106px" v-if="sizes.length" v-model="selectedSize">
+                <option v-for="size in sizes" :key="size.id" :value="size">{{ size.name }}</option>
+              </select>
+              <div class="d-flex mt-2">
+                <a class="mr-3 d-inline-flex align-items-center justify-content-center text-white cart px-4 py-2" @click="addProductToCart({images, product: selectedSize.product})">
+                  <font-awesome-icon :icon="icons.cart" class="mr-2"></font-awesome-icon>
+                  <span class="mt-1 font-size-sm">Thêm vào giỏ</span>
                 </a>
-                <a class="mx-2">
-                  <font-awesome-icon :icon="icons.instagram"></font-awesome-icon>
-                  <svg width="0" height="0">
-                    <radialGradient id="rg" r="150%" cx="30%" cy="107%">
-                      <stop stop-color="#fdf497" offset="0" />
-                      <stop stop-color="#fdf497" offset="0.05" />
-                      <stop stop-color="#fd5949" offset="0.45" />
-                      <stop stop-color="#d6249f" offset="0.6" />
-                      <stop stop-color="#285AEB" offset="0.9" />
-                    </radialGradient>
-                  </svg>
-                </a>
-                <a class="mx-2">
-                  <font-awesome-icon :icon="icons.youtube" style="color: #e52d27"></font-awesome-icon>
-                </a>
-                <a class="mx-2">
-                  <font-awesome-icon :icon="icons.googlePlus" style="color: #df4b37"></font-awesome-icon>
+                <a
+                  class="d-inline-flex align-items-center justify-content-center like-button"
+                  @click="toggleLiked">
+                  <font-awesome-icon
+                    :icon="icons.solidHeart"
+                    v-if="selectedProduct.liked"></font-awesome-icon>
+                  <font-awesome-icon
+                    :icon="icons.regularHeart"
+                    v-else></font-awesome-icon>
                 </a>
               </div>
+              <hr />
+              <div class="info">
+                <p class="mb-1 font-size-base">Thông tin</p>
+                <p>Our best selling Balfern Biker Jacket receives a statement update this season with fringe tassels running across the back and front. Complete with our signature zip detailing, it's crafted from soft sheep nappa leather that gets more supple with each wear.</p>
+                <p class="mb-1 font-size-base">Regular fit.</p>
+                <p class="mb-0">- Fits true to size, take your normal size.</p>
+                <p class="mb-0">- Model is 5'8" / 173cm, size UK 10.</p>
+                <p class="mb-0">- See our size guide for more details.</p>
+              </div>
+              <hr />
+              <p class="mb-0 text-uppercase font-size-base"><a @click="isOpenSizeGuideDialog = true">Size Guide</a></p>
+              <hr />
+              <div class="d-flex justify-content-between">
+                <p class="mb-0 text-uppercase font-size-base">Chia sẻ</p>
+                <div class="d-flex">
+                  <a class="mx-2">
+                    <font-awesome-icon :icon="icons.facebook" style="color: #3b5998"></font-awesome-icon>
+                  </a>
+                  <a class="mx-2">
+                    <font-awesome-icon :icon="icons.instagram"></font-awesome-icon>
+                    <svg width="0" height="0">
+                      <radialGradient id="rg" r="150%" cx="30%" cy="107%">
+                        <stop stop-color="#fdf497" offset="0" />
+                        <stop stop-color="#fdf497" offset="0.05" />
+                        <stop stop-color="#fd5949" offset="0.45" />
+                        <stop stop-color="#d6249f" offset="0.6" />
+                        <stop stop-color="#285AEB" offset="0.9" />
+                      </radialGradient>
+                    </svg>
+                  </a>
+                  <a class="mx-2">
+                    <font-awesome-icon :icon="icons.youtube" style="color: #e52d27"></font-awesome-icon>
+                  </a>
+                  <a class="mx-2">
+                    <font-awesome-icon :icon="icons.googlePlus" style="color: #df4b37"></font-awesome-icon>
+                  </a>
+                </div>
+              </div>
+              <hr />
+              <p class="mb-2 text-uppercase font-size-base">Show us your style</p>
+              <p class="mb-2">Share your Fasuni look using #FASUNI or upload <u><a>here</a></u> to be featured on fasuni.vn</p>
+              <p class="mb-0 text-uppercase">#Fasuni</p>
             </div>
-            <hr />
-            <p class="mb-2 text-uppercase font-size-base">Show us your style</p>
-            <p class="mb-2">Share your Fasuni look using #FASUNI or upload <u><a>here</a></u> to be featured on fasuni.vn</p>
-            <p class="mb-0 text-uppercase">#Fasuni</p>
           </div>
         </div>
-      </div>
-      <div class="mt-5">
-        <p class="mb-0 text-center text-uppercase">Có thể bạn sẽ thích</p>
-        <hr class="mt-0 mx-2" />
-        <carousel :perPageCustom="[[768, 3], [1024, 4]]">
-          <slide class="px-2">
-            <a class="d-block">
-              <img src="https://images.allsaints.com/products/600/WL115E/5/WL115E-5-1.jpg" alt="" class="img-fluid" />
-            </a>
-            <p class="font-size-base text-upper-case my-1">Figure Crew As Long As You Love Me</p>
-            <p class="mb-1">Our new Grace Zip Jeans Are Crafted from premium stretch den...</p>
-            <a class="detail-button">Chi tiết >></a>
-          </slide>
-          <slide class="px-2">
-            <a class="d-block">
-              <img src="https://images.allsaints.com/products/600/WL333N/5335/WL333N-5335-1.jpg" alt="" class="img-fluid" />
-            </a>
-            <p class="font-size-base text-upper-case my-1">Figure Crew As Long As You Love Me</p>
-            <p class="mb-1">Our new Grace Zip Jeans Are Crafted from premium stretch den...</p>
-            <a class="detail-button">Chi tiết >></a>
-          </slide>
-          <slide class="px-2">
-            <a class="d-block">
-              <img src="https://images.allsaints.com/products/600/WL047C/140/WL047C-140-1.jpg" alt="" class="img-fluid" />
-            </a>
-            <p class="font-size-base text-upper-case my-1">Figure Crew As Long As You Love Me</p>
-            <p class="mb-1">Our new Grace Zip Jeans Are Crafted from premium stretch den...</p>
-            <a class="detail-button">Chi tiết >></a>
-          </slide>
-          <slide class="px-2">
-            <a class="d-block">
-              <img src="https://images.allsaints.com/products/600/WL027N/226/WL027N-226-1.jpg" alt="" class="img-fluid" />
-            </a>
-            <p class="font-size-base text-upper-case my-1">Figure Crew As Long As You Love Me</p>
-            <p class="mb-1">Our new Grace Zip Jeans Are Crafted from premium stretch den...</p>
-            <a class="detail-button">Chi tiết >></a>
-          </slide>
-        </carousel>
-      </div>
-      <div class="py-5">
-        <p class="mb-0 text-center text-uppercase">Xem gần đây</p>
-        <hr class="mt-0 mx-2" />
-        <carousel :perPageCustom="perPageCustom" v-if="recentlyViewedProducts.length">
-          <slide class="px-2 recently-view-product" v-for="product in recentlyViewedProducts" :key="product.id">
-            <template v-if="product.id === selectedProduct || product.color">
-              <router-link
-                class="d-block image-wrapper image-43-50"
-                :to="{name: 'Product', params: {slug: product.slug}, query: {color: product.color.id}}"
-                @click.native="selectColor(product.color)">
-                <img :src="product.images[0].original" alt="" />
-              </router-link>
-            </template>
-            <template v-else>
-              <router-link
-                class="d-block image-wrapper image-43-50"
-                :to="{name: 'Product', params: {slug: product.slug}}">
-                <img :src="product.images[0].original" alt="" />
-              </router-link>
-            </template>
-          </slide>
-        </carousel>
-      </div>
-      <size-guide-dialog :isOpenSizeGuideDialog.sync="isOpenSizeGuideDialog"></size-guide-dialog>
+        <div class="mt-5">
+          <p class="mb-0 text-center text-uppercase">Có thể bạn sẽ thích</p>
+          <hr class="mt-0 mx-2" />
+          <carousel :perPageCustom="[[768, 3], [1024, 4]]">
+            <slide class="px-2">
+              <a class="d-block">
+                <img src="https://images.allsaints.com/products/600/WL115E/5/WL115E-5-1.jpg" alt="" class="img-fluid" />
+              </a>
+              <p class="font-size-base text-upper-case my-1">Figure Crew As Long As You Love Me</p>
+              <p class="mb-1">Our new Grace Zip Jeans Are Crafted from premium stretch den...</p>
+              <a class="detail-button">Chi tiết >></a>
+            </slide>
+            <slide class="px-2">
+              <a class="d-block">
+                <img src="https://images.allsaints.com/products/600/WL333N/5335/WL333N-5335-1.jpg" alt="" class="img-fluid" />
+              </a>
+              <p class="font-size-base text-upper-case my-1">Figure Crew As Long As You Love Me</p>
+              <p class="mb-1">Our new Grace Zip Jeans Are Crafted from premium stretch den...</p>
+              <a class="detail-button">Chi tiết >></a>
+            </slide>
+            <slide class="px-2">
+              <a class="d-block">
+                <img src="https://images.allsaints.com/products/600/WL047C/140/WL047C-140-1.jpg" alt="" class="img-fluid" />
+              </a>
+              <p class="font-size-base text-upper-case my-1">Figure Crew As Long As You Love Me</p>
+              <p class="mb-1">Our new Grace Zip Jeans Are Crafted from premium stretch den...</p>
+              <a class="detail-button">Chi tiết >></a>
+            </slide>
+            <slide class="px-2">
+              <a class="d-block">
+                <img src="https://images.allsaints.com/products/600/WL027N/226/WL027N-226-1.jpg" alt="" class="img-fluid" />
+              </a>
+              <p class="font-size-base text-upper-case my-1">Figure Crew As Long As You Love Me</p>
+              <p class="mb-1">Our new Grace Zip Jeans Are Crafted from premium stretch den...</p>
+              <a class="detail-button">Chi tiết >></a>
+            </slide>
+          </carousel>
+        </div>
+        <div class="py-5">
+          <p class="mb-0 text-center text-uppercase">Xem gần đây</p>
+          <hr class="mt-0 mx-2" />
+          <carousel :perPageCustom="perPageCustom" v-if="recentlyViewedProducts.length">
+            <slide class="px-2 recently-view-product" v-for="product in recentlyViewedProducts" :key="product.id">
+              <template v-if="product.id === selectedProduct || product.color">
+                <router-link
+                  class="d-block image-wrapper image-43-50"
+                  :to="{name: 'Product', params: {slug: product.slug}, query: {color: product.color.id}}"
+                  @click.native="selectColor(product.color)">
+                  <img v-if="product.images && product.images.length" :src="product.images[0].original" alt="" />
+                </router-link>
+              </template>
+              <template v-else>
+                <router-link
+                  class="d-block image-wrapper image-43-50"
+                  :to="{name: 'Product', params: {slug: product.slug}}">
+                  <img v-if="product.images && product.images.length" :src="product.images[0].original" alt="" />
+                </router-link>
+              </template>
+            </slide>
+          </carousel>
+        </div>
+        <size-guide-dialog :isOpenSizeGuideDialog.sync="isOpenSizeGuideDialog"></size-guide-dialog>
+      </template>
+      <h1 v-else style="min-height: 66.2vh" class="d-flex align-items-center justify-content-center">
+        Không tìm thấy sản phẩm
+      </h1>
     </div>
   </div>
 </template>
