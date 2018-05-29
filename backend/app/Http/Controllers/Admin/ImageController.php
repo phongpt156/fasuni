@@ -6,17 +6,34 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Queue;
 use Intervention\Image\ImageManager as Image;
-use App\Jobs\CompressImage;
+use App\Utility\ImageUtility;
+use Illuminate\Support\Facades\File;
 
 class ImageController extends Controller
 {
     public function upload(Request $request)
     {
-        $path = config('path.images') . $request->file->getClientOriginalName();
-        (new Image)->make($request->file)->save($path);
+        ini_set('max_execution_time', 0);
 
-        Queue::push(new CompressImage($path, $path));
+        if ($request->has('file')) {
+            $path = config('path.images') . $request->file->getClientOriginalName();
 
-        return response()->json(['url' => $request->file->getClientOriginalName()], 200);
+            File::put($path, File::get($request->file));
+            ImageUtility::compress($path, $path);
+
+            return response()->json(['url' => $request->file->getClientOriginalName()], 200);
+        }
+
+        return response()->json(['error' => 'File not found!'], 500);
+    }
+
+    public function delete($url)
+    {
+        $path = config('path.images') . $url;
+        $path = urldecode($path);
+
+        if (File::exists($path)) {
+            File::delete($path);
+        }
     }
 }

@@ -17,6 +17,18 @@ $router->get('/', function () use ($router) {
 
 $router->get('/images/{filename}', function ($filename) use ($router) {
     $path = config('path.images') . $filename;
+    $path = urldecode($path);
+
+    if (Illuminate\Support\Facades\File::exists($path)) {
+        $contentType = Illuminate\Support\Facades\File::mimeType($path);
+
+        return response(Illuminate\Support\Facades\File::get($path), 200)->header('Content-Type', $contentType);
+    }
+});
+
+$router->get('/images/lookbooks/{size}/{filename}', function ($size, $filename) use ($router) {
+    $path = config('path.images') . DIRECTORY_SEPARATOR . 'lookbooks' . DIRECTORY_SEPARATOR . $size . DIRECTORY_SEPARATOR . $filename;
+    $path = urldecode($path);
 
     if (Illuminate\Support\Facades\File::exists($path)) {
         $contentType = Illuminate\Support\Facades\File::mimeType($path);
@@ -36,6 +48,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         });
         $router->group(['prefix' => 'product'], function () use ($router) {
             $router->get('', 'ProductController@index');
+            $router->get('search', 'ProductController@search');
         });
         $router->group(['prefix' => 'attribute'], function () use ($router) {
             $router->get('', 'AttributeController@index');
@@ -45,6 +58,12 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         });
         $router->group(['prefix' => 'image'], function () use ($router) {
             $router->post('upload', 'ImageController@upload');
+            $router->delete('delete/{url}', 'ImageController@delete');
+        });
+        $router->group(['prefix' => 'lookbook'], function () use ($router) {
+            $router->get('', 'LookbookController@index');
+            $router->post('', 'LookbookController@store');
+            $router->get('get-prepare-save-name', 'LookbookController@getPrepareSaveName');
         });
         $router->group(['prefix' => 'kiotviet', 'namespace' => 'SaleSoftware\KiotViet'], function () use ($router) {
             $router->get('sync', 'KiotVietController@sync');

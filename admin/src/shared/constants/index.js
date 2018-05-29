@@ -1,5 +1,5 @@
 export const BASE_URL = 'https://localhost/fasuni/backend/public/api/admin';
-export const IMAGES_URL = 'https://localhost/fasuni/backend/public/images';
+export const IMAGE_URL = 'https://localhost/fasuni/backend/public/images';
 
 export const ERROR_MESSAGE = {
   email: {
@@ -18,6 +18,11 @@ export const ERROR_MESSAGE = {
   },
   lastName: {
     required: 'Vui lòng nhập họ của bạn'
+  },
+  lookbook: {
+    name: {
+      required: 'Vui lòng nhập tên lookbook'
+    }
   }
 };
 

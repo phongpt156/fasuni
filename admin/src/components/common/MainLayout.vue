@@ -4,7 +4,7 @@
       <sider collapsible :collapsed-width="78" v-model="isCollapsed" :style="{zIndex: 9999, top: 0, position: 'fixed', minHeight: '100vh', left: 0}" breakpoint="md">
         <aside-nav :isCollapsed="isCollapsed"></aside-nav>
       </sider>
-      <layout>
+      <layout style="min-height: calc(100vh - 64px);">
         <i-header :style="{zIndex: '9998', width: '100%', position: 'fixed', background: '#fff', boxShadow: '0 2px 3px 2px rgba(0,0,0,.1)'}">
           <row type="flex" justify="end">
             <i-col pull="1">

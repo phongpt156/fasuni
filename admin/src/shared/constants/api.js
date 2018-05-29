@@ -10,7 +10,8 @@ export const CATEGORY = {
 };
 
 export const PRODUCT = {
-  getAll: BASE_URL + '/product'
+  getAll: BASE_URL + '/product',
+  search: BASE_URL + '/product/search'
 };
 
 export const ATTRIBUTE = {
@@ -26,5 +27,12 @@ export const KIOTVIET = {
 };
 
 export const IMAGE = {
-  upload: BASE_URL + '/image/upload'
+  upload: BASE_URL + '/image/upload',
+  delete: BASE_URL + '/image/delete/'
+};
+
+export const LOOKBOOK = {
+  getAll: BASE_URL + '/lookbook',
+  store: BASE_URL + '/lookbook',
+  getPrepareSaveName: BASE_URL + '/lookbook/get-prepare-save-name'
 };

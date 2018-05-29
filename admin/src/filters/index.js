@@ -7,3 +7,7 @@ export function formatGender(gender) {
     return GENDER.female.name;
   }
 };
+
+export function encodeURI(uri) {
+  return window.encodeURI(uri);
+};

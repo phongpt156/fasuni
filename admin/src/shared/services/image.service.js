@@ -4,7 +4,11 @@ import { IMAGE } from './../constants/api';
 
 export default {
   upload() {
-    return httpClient.get(IMAGE.upload)
+    return httpClient.post(IMAGE.upload)
+      .catch(handleError);
+  },
+  delete(url) {
+    return httpClient.delete(`${IMAGE.delete}${url}`)
       .catch(handleError);
   }
 };

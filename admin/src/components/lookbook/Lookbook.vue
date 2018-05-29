@@ -13,22 +13,55 @@
 </template>
 
 <script>
+import lookbookService from '@/shared/services/lookbook.service';
+import ResponsiveImage from '@/components/common/ResponsiveImage';
+
 export default {
+  components: {
+    ResponsiveImage
+  },
   data() {
     return {
       loading: false,
       lookbooks: [],
       columns: [
         {
-          title: 'Tên lookbook',
+          title: 'Tên',
           key: 'name',
           sortable: true
+        },
+        {
+          title: 'Ảnh',
+          render: (h, params) => {
+            return h('div', {
+              attrs: {
+                class: 'py-5'
+              }
+            }, [h(ResponsiveImage, {
+              props: {
+                sm: params.row.small_image,
+                md: params.row.medium_image,
+                lg: params.row.large_image,
+                thumbnail: params.row.thumbnail
+              }
+            })]);
+          }
         }
       ]
     };
   },
+  methods: {
+    getLookbooks() {
+      lookbookService.getAll()
+        .then(response => {
+          if (response && response.status === 200 && response.data) {
+            this.lookbooks = response.data;
+          }
+        });
+    }
+  },
   mounted() {
-    console.log(this.$route);
+    this.getLookbooks();
   }
 };
 </script>

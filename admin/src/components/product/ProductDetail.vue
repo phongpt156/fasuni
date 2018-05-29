@@ -10,7 +10,7 @@
       <row class="mr-4">
         <i-col v-for="image in product.images" :key="image.id" class="mb-2">
           <div class="thumbnail">
-            <a @click="selectImage(image)">
+            <a @click="selectImage(image)" v-if="image">
               <img :src="image.original" alt="" :class="{'selected': image === selectedImage}" />
             </a>
           </div>
@@ -29,7 +29,7 @@
             <span class="text-primary">{{ subProduct.name }}</span>
             <div slot="content">
               <div class="d-flex">
-                <div class="product-image mr-4" v-if="subProduct.images">
+                <div class="product-image mr-4" v-if="subProduct.images && subProduct.images.length">
                   <img :src="subProduct.images[0].original" alt="" />
                 </div>
                 <div>

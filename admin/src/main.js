@@ -6,12 +6,13 @@ import router from './router';
 import store from './store';
 import { sync } from 'vuex-router-sync';
 import iView from 'iview';
+import locale from 'iview/dist/locale/en-US';
 import 'iview/dist/styles/iview.css';
 import Toasted from 'vue-toasted';
 
 Vue.config.productionTip = false;
 
-Vue.use(iView);
+Vue.use(iView, { locale });
 Vue.use(Toasted);
 
 sync(store, router);
