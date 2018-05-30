@@ -7,8 +7,8 @@ export default {
     return httpClient.get(`${PRODUCT.getAll}?type=${type}&page=${page}`)
       .catch(handleError);
   },
-  getOne(slug) {
-    return httpClient.get(`${PRODUCT.getOne}${slug}`)
+  getOne(id) {
+    return httpClient.get(`${PRODUCT.getOne}${id}`)
       .catch(handleError);
   }
 };

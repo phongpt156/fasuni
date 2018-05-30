@@ -64,7 +64,7 @@ class ProductController extends Controller
         return response()->json($products, 200);
     }
 
-    public function show($slug)
+    public function show($id)
     {
         $authController = new AuthController(new Auth);
         $user = $authController->user();
@@ -77,7 +77,7 @@ class ProductController extends Controller
                 'subProducts.category',
                 'subProducts.inventories'
             )
-            ->whereSlug($slug)
+            ->whereId($id)
             ->whereNull('master_product_id')
             ->whereIsActive(true)
             ->first();

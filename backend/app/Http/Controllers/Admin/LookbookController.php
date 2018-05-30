@@ -32,6 +32,7 @@ class LookbookController extends Controller
 
         $lookbook = new Lookbook;
         $lookbook->name = $request->name;
+        $lookbook->gender = $request->gender;
         $lookbook->original_image = $request->image;
         $lookbook->small_image = 'lookbooks/sm/' . $request->image;
         $lookbook->medium_image = 'lookbooks/md/' . $request->image;

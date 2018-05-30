@@ -1,6 +1,6 @@
 <template>
   <div class="lookbook">
-    <p class="h5 text-center mb-0 py-4 text-uppercase">Women's Lookbook // March 2018</p>
+    <p class="h5 text-center mb-0 py-4 text-uppercase">{{ title }}</p>
     <hr class="m-0" />
     <p class="text-center mb-0 py-3 description">Our collection. Styled our way. Every Month. Hover/Tap on a look you like to shop the items featured.</p>
     <div class="d-flex justify-content-center pb-3">
@@ -16,6 +16,7 @@
 
 <script>
 import LookbookList from './lookbook-list/LookbookList';
+import { GENDER } from '@/shared/constants';
 
 export default {
   components: {
@@ -25,6 +26,34 @@ export default {
     return {
 
     };
+  },
+  computed: {
+    title() {
+      let title = '';
+
+      if (this.gender === GENDER.male.id) {
+        title += 'Men\'s Lookbook // ';
+      } else if (Number(this.gender) === GENDER.female.id) {
+        title += 'Women\'s Lookbook // ';
+      }
+      title += `Tháng ${this.month} ${this.year}`;
+
+      return title;
+    },
+    month() {
+      return this.$route.params.month;
+    },
+    year() {
+      return this.$route.params.year;
+    },
+    gender() {
+      return this.$route.params.gender;
+    }
+  },
+  watch: {
+    month(newValue, oldValue) {
+      console.log(newValue);
+    }
   },
   methods: {
     goToLookbookArchive() {

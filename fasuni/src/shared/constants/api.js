@@ -32,3 +32,8 @@ export const USER_PRODUCT_COMMUNICATION = {
   like: BASE_URL + '/like-product/',
   dislike: BASE_URL + '/dislike-product/'
 };
+
+export const LOOKBOOK = {
+  getMaleMonthListSnapshot: BASE_URL + '/lookbook/get-male-month-list-snapshot',
+  getFemaleMonthListSnapshot: BASE_URL + '/lookbook/get-female-month-list-snapshot'
+};

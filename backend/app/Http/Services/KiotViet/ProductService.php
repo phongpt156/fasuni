@@ -21,6 +21,7 @@ class ProductService
 
             $response = $response->getBody()->getContents();
             $response = json_decode($response);
+            \Log::debug(collect($response)->toArray());
 
             return $response->data;
         } catch (RequestException $e) {

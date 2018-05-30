@@ -1,15 +1,15 @@
 <template>
-  <div class="product-card h-100" @click="goToProductPage(product)">
+  <div class="product-card h-100">
     <div class="card h-100">
       <div class="card-header p-0">
-        <div class="image-wrapper image-43-50">
+        <router-link class="image-wrapper image-standard d-block" :to="{name: 'Product', params: {id: product.id}}">
           <template v-if="images && images.length">
             <img class="card-img-top img-fluid" :src="images[0].original" />
           </template>
           <template v-else>
             <img :alt="product.name">
           </template>
-        </div>
+        </router-link>
         <!-- <img class="card-img-top img-fluid" :src="product.image" @click="goToProductPage" /> -->
         <font-awesome-icon
           :icon="icon.heart"
@@ -37,7 +37,7 @@
       <div class="card-body px-1 py-1">
         <div class="d-flex">
           <div class="text-uppercase name">{{ product.name }}</div>
-          <div class="ml-auto price pl-3">{{ product.inventories[0].sale_price | priceFormat }}</div>
+          <div class="ml-auto price pl-3">{{ product.sale_price | priceFormat }}</div>
         </div>
         <div class="d-flex align-items-center">
           <a v-for="color in colors" :key="color.id">
@@ -104,7 +104,7 @@ export default {
         let status = `Size ${this.currentHoverSize.name}`;
 
         if (this.currentHoverSize.product.total_quantity) {
-          status += ` - Còn hàng(${this.currentHoverSize.product.total_quantity})`;
+          status += ` - Còn hàng`;
         } else {
           status += ' - Đã hết hàng';
         }
@@ -182,28 +182,13 @@ export default {
       if (this.user) {
         this.$set(this.product, 'liked', !this.product.liked);
         if (this.product.liked) {
-          userProductCommunication.like(this.product.id)
-            .then(response => {
-              // console.log(response);
-            });
+          userProductCommunication.like(this.product.id);
         } else {
-          userProductCommunication.dislike(this.product.id)
-            .then(response => {
-              // console.log(response);
-            });
+          userProductCommunication.dislike(this.product.id);
         }
       } else {
         alert('Hãy đăng nhập trước');
       }
-    },
-    goToProductPage(product) {
-      const query = {};
-
-      if (this.currentColor) {
-        query.color = this.currentColor.id;
-      }
-
-      this.$router.push({name: 'Product', params: {slug: product.slug}, query});
     },
     selectColor(color) {
       this.currentColor = color;

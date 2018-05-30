@@ -1,7 +1,7 @@
 <template>
   <div class="lookbook-item">
     <div>
-      <img :src="lookbook.image" class="img-fluid" />
+      <img :src="lookbook.image" class="w-100 h-100" />
     </div>
     <div class="product-list-wrapper">
       <div class="d-flex align-items-center justify-content-center h-100">

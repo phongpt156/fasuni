@@ -23,7 +23,6 @@
                     <ul class="navbar-nav flex-column flex-wrap" v-if="category.children.length">
                       <li v-for="category in category.children" :key="category.id" class="mr-4 my-1">
                         <router-link class="category-item"
-                          @click="goToCategoryPage"
                           :to="{name: 'Category', params: {slug: category.slug}}">{{ category.name }}
                         </router-link>
                       </li>
@@ -34,9 +33,35 @@
             </div>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle text-uppercase text-dark">
-              Studio's
+            <a class="nav-link dropdown-toggle text-uppercase text-dark" data-toggle="dropdown">
+              Studio
             </a>
+            <div class="dropdown-menu mt-0 p-4 shadow-sm">
+              <div class="dropdown-item px-5">
+                <ul class="navbar-nav sub-nav pr-5 d-inline-flex">
+                  <li class="mr-4 my-1">
+                    <a class="h6 mb-3 d-block font-weight-bold">Women's Lookbook</a>
+                    <ul class="navbar-nav flex-column flex-wrap" v-if="lookbookMonthList.female.length">
+                      <li v-for="(month, index) in lookbookMonthList.female" :key="index" class="mr-4 my-1">
+                        <router-link class="category-item"
+                          :to="{name: 'Lookbook', params: {gender: genders.female.id, year: month.year, month: month.month}}">Tháng {{ month.month }}
+                        </router-link>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="mr-4 my-1">
+                    <a class="h6 mb-3 d-block font-weight-bold">Men's Lookbook</a>
+                    <ul class="navbar-nav flex-column flex-wrap" v-if="lookbookMonthList.male.length">
+                      <li v-for="(month, index) in lookbookMonthList.male" :key="index" class="mr-4 my-1">
+                        <router-link class="category-item"
+                          :to="{name: 'Lookbook', params: {gender: genders.male.id, year: month.year, month: month.month}}">Tháng {{ month.month }}
+                        </router-link>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </li>
           <li class="nav-item">
             <search-form></search-form>
@@ -91,9 +116,11 @@ import SearchForm from './search-form/SearchForm';
 import CartDialog from '@/components/shared/cart-dialog/CartDialog';
 import { mapState, mapMutations } from 'vuex';
 import { reloadApp } from '@/shared/functions';
-import userService from '@/shared/services/user.service';
 import { clickOutside } from '@/directives';
+import userService from '@/shared/services/user.service';
 import categoryService from '@/shared/services/category.service';
+import lookbookService from '@/shared/services/lookbook.service';
+import { GENDER } from '@/shared/constants';
 
 export default {
   components: {
@@ -293,7 +320,11 @@ export default {
         // }
       ],
       isOpenLoginFormDialog: false,
-      isOpenRegisterFormDialog: false
+      isOpenRegisterFormDialog: false,
+      lookbookMonthList: {
+        male: [],
+        female: []
+      }
     };
   },
   computed: {
@@ -302,6 +333,9 @@ export default {
       'products',
       'isOpenCartDialog'
     ]),
+    genders() {
+      return GENDER;
+    },
     userName() {
       if (this.user.facebook_name) {
         return this.user.facebook_name;
@@ -363,11 +397,29 @@ export default {
             this.categories = response.data;
           }
         });
+    },
+    getMaleMonthListSnapshot() {
+      lookbookService.getMaleMonthListSnapshot()
+        .then(response => {
+          if (response && response.status === 200 && response.data) {
+            this.lookbookMonthList.male = response.data.data;
+          }
+        });
+    },
+    getFemaleMonthListSnapshot() {
+      lookbookService.getFemaleMonthListSnapshot()
+        .then(response => {
+          if (response && response.status === 200 && response.data) {
+            this.lookbookMonthList.female = response.data.data;
+          }
+        });
     }
   },
   mounted() {
     this.getCategories();
     this.getCartFromStorage();
+    this.getMaleMonthListSnapshot();
+    this.getFemaleMonthListSnapshot();
     window.addEventListener('resize', this.onResize.bind(this));
   }
 };

@@ -4,14 +4,14 @@
       <div v-for="product in products" :key="product.id" class="mb-3">
         <div class="row mx-0">
           <div class="col-5 px-0">
-            <div class="image-wrapper image-43-50 px-0 h-100">
+            <div class="image-wrapper image-standard px-0 h-100">
               <template v-if="product.images && product.images.length">
                 <img :src="product.images[0].original" alt="" />
               </template>
             </div>
           </div>
           <div class="col-7 p-2 right">
-            <p class="mb-0"><router-link :to="{name: 'Product', params: {slug: product.slug}}">{{ product.name }}</router-link></p>
+            <p class="mb-0"><router-link :to="{name: 'Product', params: {id: product.id}}">{{ product.name }}</router-link></p>
             <p class="mb-0">Size: {{ product.size.name }}</p>
             <p class="mb-0">Số lượng: {{ product.quantity }}</p>
             <p class="mb-0">Tổng tiền: {{ totalPrice(product) | priceFormat }}</p>
@@ -44,13 +44,13 @@ export default {
       'products'
     ]),
     totalPrice: () => product => {
-      return product.inventories[0].sale_price * product.quantity;
+      return product.sale_price * product.quantity;
     },
     totalBagPrice() {
       let total = 0;
 
       this.products.forEach(product => {
-        total += product.inventories[0].sale_price * product.quantity;
+        total += product.sale_price * product.quantity;
       });
 
       return total;

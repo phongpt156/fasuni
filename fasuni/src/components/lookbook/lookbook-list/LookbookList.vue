@@ -4,7 +4,7 @@
       <div
         v-for="lookbook in lookbooks"
         :key="lookbook.id"
-        class="col-md-4 col-sm-6 p-2">
+        class="col-md-3 col-sm-6 p-2">
         <lookbook-item :lookbook="lookbook">
         </lookbook-item>
       </div>

@@ -28,7 +28,7 @@
             <div class="col-md-8 p-0">
               <div class="row m-0">
                 <div class="col-sm-6 p-2" v-for="image in images" :key="image.id">
-                  <div class="image-wrapper image-43-50">
+                  <div class="image-wrapper image-standard">
                     <img :src="image.original" :alt="selectedProduct.name" class="img-fluid" />
                   </div>
                 </div>
@@ -38,14 +38,14 @@
               <div class="text-danger mt-2 font-weight-bold mb-4" style="line-height: normal">HOT</div>
               <div class="text-uppercase h4 mb-4">{{ selectedProduct.name }}</div>
               <template v-if="product.inventories">
-                <div class="h5 mb-4 product-price">{{ selectedProduct.inventories[0].sale_price | priceFormat }}</div>
+                <div class="h5 mb-4 product-price">{{ selectedProduct.sale_price | priceFormat }}</div>
               </template>
               <div class="d-flex color-list mb-3">
                 <router-link
                   v-for="color in colors"
                   :key="color.id"
                   :style="{backgroundColor: color.value}"
-                  :to="{name: 'Product', params: {slug: product.slug}, query: {color: color.id}}"
+                  :to="{name: 'Product', params: {id: product.id}, query: {color: color.id}}"
                   class="mr-2 color-item d-flex align-items-center justify-content-center"
                   @click.native="selectColor(color)">
                   <font-awesome-icon class="text-white" :icon="icons.check" v-if="currentColor && currentColor.id === color.id"></font-awesome-icon>
@@ -160,16 +160,16 @@
             <slide class="px-2 recently-view-product" v-for="product in recentlyViewedProducts" :key="product.id">
               <template v-if="product.id === selectedProduct || product.color">
                 <router-link
-                  class="d-block image-wrapper image-43-50"
-                  :to="{name: 'Product', params: {slug: product.slug}, query: {color: product.color.id}}"
+                  class="d-block image-wrapper image-standard"
+                  :to="{name: 'Product', params: {id: product.id}, query: {color: product.color.id}}"
                   @click.native="selectColor(product.color)">
                   <img v-if="product.images && product.images.length" :src="product.images[0].original" alt="" />
                 </router-link>
               </template>
               <template v-else>
                 <router-link
-                  class="d-block image-wrapper image-43-50"
-                  :to="{name: 'Product', params: {slug: product.slug}}">
+                  class="d-block image-wrapper image-standard"
+                  :to="{name: 'Product', params: {id: product.id}}">
                   <img v-if="product.images && product.images.length" :src="product.images[0].original" alt="" />
                 </router-link>
               </template>
@@ -234,14 +234,14 @@ export default {
     };
   },
   watch: {
-    slug(newValue) {
+    id(newValue) {
       this.onLoad();
     }
   },
   computed: {
     ...mapState(['user']),
-    slug() {
-      return this.$route.params.slug;
+    id() {
+      return this.$route.params.id;
     },
     color() {
       return this.$route.query.color;
@@ -353,9 +353,9 @@ export default {
         alert('Hãy đăng nhập trước');
       }
     },
-    getProduct(slug) {
+    getProduct(id) {
       return new Promise(resolve => {
-        productService.getOne(slug)
+        productService.getOne(id)
           .then(response => {
             if (response && response.status === 200 && response.data) {
               this.product = response.data;
@@ -382,7 +382,6 @@ export default {
             this.recentlyViewedProducts.push({
               id: product.id,
               images: product.images,
-              slug: product.slug,
               color: product.color
             });
           }
@@ -400,7 +399,6 @@ export default {
       const product = {};
       product.id = this.selectedProduct.id;
       product.images = this.images;
-      product.slug = this.selectedProduct.slug;
       product.color = this.currentColor;
 
       const products = JSON.parse(JSON.stringify(this.recentlyViewedProducts));
@@ -415,13 +413,13 @@ export default {
         query.color = color.id;
       }
 
-      this.$router.push({name: 'Product', params: {slug: product.slug}, query});
+      this.$router.push({name: 'Product', params: {id: product.id}, query});
     },
     async onLoad() {
       this.loading = true;
       this.scrollTop();
       this.recentlyViewedProducts = [];
-      await this.getProduct(this.$route.params.slug);
+      await this.getProduct(this.$route.params.id);
       this.formatRecentlyViewedProducts();
       this.setSelectedSize();
       this.loading = false;

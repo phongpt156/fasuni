@@ -115,7 +115,11 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     });
     $router->group(['prefix' => 'product'], function () use ($router) {
         $router->get('', 'ProductController@index');
-        $router->get('{slug}', 'ProductController@show');
+        $router->get('{id}', 'ProductController@show');
+    });
+    $router->group(['prefix' => 'lookbook'], function () use ($router) {
+        $router->get('get-male-month-list-snapshot', 'LookbookController@getMaleMonthListSnapshot');
+        $router->get('get-female-month-list-snapshot', 'LookbookController@getFemaleMonthListSnapshot');
     });
     $router->get('like-product/{id}', 'ProductLikerController@like');
     $router->get('dislike-product/{id}', 'ProductLikerController@dislike');

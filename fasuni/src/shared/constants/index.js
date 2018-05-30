@@ -1,4 +1,5 @@
 export const BASE_URL = 'https://localhost/fasuni/backend/public/api';
+// export const BASE_URL = 'https://8bed004b.ngrok.io/api';
 
 export const ERROR_MESSAGE = {
   email: {
