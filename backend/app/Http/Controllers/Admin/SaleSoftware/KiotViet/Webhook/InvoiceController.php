@@ -74,9 +74,13 @@ class InvoiceController extends WebhookController
 
     public function saveInvoiceDetails(Array $invoiceDetails = [], int $invoiceId, $kiotVietController)
     {
+        $oldProductIds = InvoiceDetail::whereInvoiceId($orderId)->get()->pluck('product_id')->toArray();
+        $newProductIds = [];
+
         foreach ($invoiceDetails as $invoiceDetail) {
             try {
                 $productId = $kiotVietController->getProductId($invoiceDetail['ProductId']);
+                array_push($newProductIds, $productId);
 
                 try {
                     InvoiceDetail::updateOrCreate(
@@ -90,6 +94,17 @@ class InvoiceController extends WebhookController
                 }
             } catch (RequestException $e) {
                 \Log::error('Không tìm thấy sản phẩm có mã sản phẩm là: ' . $invoiceDetail['ProductCode'] . ' hoặc sản phẩm đã bị xóa');
+            }
+        }
+
+        $removeIds = array_diff($oldProductIds, $newProductIds);
+        if (count($removeIds)) {
+            try {
+                InvoiceDetail::whereInvoiceId($orderId)->whereIn('product_id', $removeIds)->delete();
+            } catch (QueryException $e) {
+                \Log::error('Cannot delete invoice details: ' . $e->getMessage());
+                response()->json(['error' => 'Cannot delete invoice details: ' . $e->getMessage()], 500)->send();
+                die;
             }
         }
     }

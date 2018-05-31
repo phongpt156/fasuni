@@ -22,7 +22,7 @@ class CreateCategoriesTable extends Migration
             $table->string('kiotviet_id')->nullable();
             $table->timestamps();
 
-            $table->foreign('parent_id')->references('id')->on('categories');
+            $table->foreign('parent_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 

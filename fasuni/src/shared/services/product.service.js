@@ -10,5 +10,9 @@ export default {
   getOne(id) {
     return httpClient.get(`${PRODUCT.getOne}${id}`)
       .catch(handleError);
+  },
+  getByCategory(filters, page = 1) {
+    return httpClient.get(`${PRODUCT.getByCategory}${filters.category}?type=${filters.type}&page=${page}`)
+      .catch(handleError);
   }
 };

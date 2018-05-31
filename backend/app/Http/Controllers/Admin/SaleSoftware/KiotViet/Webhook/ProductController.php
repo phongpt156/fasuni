@@ -58,6 +58,19 @@ class ProductController extends WebhookController
 
     public function saveImages(Array $images = [], int $productId)
     {
+        $oldProductImages = ProductImage::whereProductId($productId)->get()->pluck('original')->toArray();
+        $removeImages = array_diff($oldProductImages, $images);
+
+        if (count($removeImages)) {
+            try {
+                ProductImage::whereIn('original', $removeImages)->delete();
+            } catch (QueryException $e) {
+                \Log::error('Cannot delete product images: ' . $e->getMessage());
+                response()->json(['error' => 'Cannot delete product images: ' . $e->getMessage()], 500)->send();
+                die;
+            }
+        }
+
         foreach ($images as $image) {
             try {
                 ProductImage::updateOrCreate(
@@ -74,6 +87,24 @@ class ProductController extends WebhookController
 
     public function saveAttributes(Array $attributes = [], int $productId)
     {
+        $oldAttributeValues = AttributeValue::whereHas('products', function ($query) use ($productId) {
+            $query->where('id', $productId);
+        })->get()->pluck('name')->toArray();
+        $newAttributeValues = collect($attributes)->pluck('attributeValue')->toArray();
+        $removeAttributeValues = array_diff($oldAttributeValues, $newAttributeValues);
+
+        if (count($removeAttributeValues)) {
+            try {
+                ProductAttributeValue::whereProductId($productId)->whereHas('attributeValue', function ($query) use ($removeAttributeValues) {
+                    $query->whereIn('name', $removeAttributeValues);
+                })->delete();
+            } catch (QueryException $e) {
+                \Log::error('Cannot delete product attributes: ' . $e->getMessage());
+                response()->json(['error' => 'Cannot delete product attributes: ' . $e->getMessage()], 500)->send();
+                die;
+            }
+        }
+
         foreach ($attributes as $kiotVietAttribute) {
             $attributeName = ucfirst(mb_strtolower($kiotVietAttribute['AttributeName']));
             try {
@@ -111,8 +142,12 @@ class ProductController extends WebhookController
 
     public function saveInventories(Array $inventories = [], int $productId, $kiotVietController)
     {
+        $newBranchIds = [];
+        $oldBranchIds = Inventory::whereProductId($productId)->get()->pluck('branch_id')->toArray();
+
         foreach ($inventories as $inventory) {
             $branchId = $kiotVietController->getBranchId($inventory['BranchId']);
+            array_push($newBranchIds, $branchId);
 
             try {
                 Inventory::updateOrCreate(
@@ -122,6 +157,17 @@ class ProductController extends WebhookController
             } catch (QueryException $e) {
                 \Log::error('Cannot save inventory: ' . $e->getMessage());
                 response()->json(['error' => 'Cannot save inventory: ' . $e->getMessage()], 500)->send();
+                die;
+            }
+        }
+
+        $removeIds = array_diff($oldBranchIds, $newBranchIds);
+        if (count($removeIds)) {
+            try {
+                Inventory::whereProductId($productId)->whereIn('branch_id', $removeIds)->delete();
+            } catch (QueryException $e) {
+                \Log::error('Cannot delete inventories: ' . $e->getMessage());
+                response()->json(['error' => 'Cannot delete inventories: ' . $e->getMessage()], 500)->send();
                 die;
             }
         }

@@ -71,7 +71,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
             $router->group(['prefix' => 'webhook', 'namespace' => 'Webhook'], function () use ($router) {
                 $router->get('register', 'WebhookController@register');
-                $router->delete('delete-all', 'WebhookController@deleteAll');
+                $router->get('delete-all', 'WebhookController@deleteAll');
 
                 $router->group(['prefix' => 'customer'], function () use ($router) {
                     $router->post('update', 'CustomerController@update');
@@ -116,10 +116,15 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->group(['prefix' => 'product'], function () use ($router) {
         $router->get('', 'ProductController@index');
         $router->get('{id}', 'ProductController@show');
+        $router->get('category/{category}', 'ProductController@getByCategory');
     });
     $router->group(['prefix' => 'lookbook'], function () use ($router) {
         $router->get('get-male-month-list-snapshot', 'LookbookController@getMaleMonthListSnapshot');
         $router->get('get-female-month-list-snapshot', 'LookbookController@getFemaleMonthListSnapshot');
+    });
+    $router->group(['prefix' => 'attribute-value'], function () use ($router) {
+        $router->get('color', 'AttributeValueController@getColors');
+        $router->get('size', 'AttributeValueController@getSizes');
     });
     $router->get('like-product/{id}', 'ProductLikerController@like');
     $router->get('dislike-product/{id}', 'ProductLikerController@dislike');

@@ -14,15 +14,18 @@ class InvoiceService
         $this->httpClient = $httpClient;
     }
 
-    public function getAll()
+    public function getAll($page = 1)
     {
+        $perPage = 100;
+        $current = ($page - 1) * 100 + 1;
+
         try {
-            $response = $this->httpClient->get('invoices?pageSize=100&includePayment=true&includeOrderDelivery=true');
+            $response = $this->httpClient->get('invoices?pageSize=' . $perPage . '&includePayment=true&includeOrderDelivery=true&currentItem=' . $current);
 
             $response = $response->getBody()->getContents();
             $response = json_decode($response);
 
-            return $response->data;
+            return $response;
         } catch (RequestException $e) {
             \Log::error('Cannot get invoices: ' . $e->getMessage());
             if (is_object(json_decode($e->getMessage()))) {

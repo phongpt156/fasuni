@@ -14,15 +14,18 @@ class OrderService
         $this->httpClient = $httpClient;
     }
 
-    public function getAll()
+    public function getAll($page = 1)
     {
+        $perPage = 100;
+        $current = ($page - 1) * 100 + 1;
+
         try {
-            $response = $this->httpClient->get('orders?includePayment=true&orderBy=createdDate&orderDirection=Asc');
+            $response = $this->httpClient->get('orders?pageSize=' . $perPage . '&includePayment=true&orderBy=createdDate&orderDirection=Asc&currentItem=' . $current);
 
             $response = $response->getBody()->getContents();
             $response = json_decode($response);
 
-            return $response->data;
+            return $response;
         } catch (RequestException $e) {
             \Log::error('Cannot get orders: ' . $e->getMessage());
             if (is_object(json_decode($e->getMessage()))) {

@@ -25,7 +25,8 @@ export const CATEGORY = {
 
 export const PRODUCT = {
   getAll: BASE_URL + '/product',
-  getOne: BASE_URL + '/product/'
+  getOne: BASE_URL + '/product/',
+  getByCategory: BASE_URL + '/product/category/'
 };
 
 export const USER_PRODUCT_COMMUNICATION = {
@@ -36,4 +37,9 @@ export const USER_PRODUCT_COMMUNICATION = {
 export const LOOKBOOK = {
   getMaleMonthListSnapshot: BASE_URL + '/lookbook/get-male-month-list-snapshot',
   getFemaleMonthListSnapshot: BASE_URL + '/lookbook/get-female-month-list-snapshot'
+};
+
+export const ATTRIBUTE_VALUE = {
+  getColors: BASE_URL + '/attribute-value/color',
+  getSizes: BASE_URL + '/attribute-value/size'
 };

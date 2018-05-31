@@ -13,9 +13,9 @@
             Sắp xếp theo
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownSortMenuButton">
-            <a class="dropdown-item">Mới nhất</a>
-            <a class="dropdown-item">Mua nhiều nhất</a>
-            <a class="dropdown-item">Thích nhiều nhất</a>
+            <a class="dropdown-item" @click="type = 'newest'">Mới nhất</a>
+            <a class="dropdown-item" @click="type = 'best-seller'">Mua nhiều nhất</a>
+            <a class="dropdown-item" @click="type = 'most-like'">Thích nhiều nhất</a>
           </div>
         </div>
         <button
@@ -28,21 +28,23 @@
         </button>
         <div class="d-flex flex-wrap" v-if="isOpenFilter">
           <div v-for="child in filterButton.children" :key="child.name" class="mr-2">
-            <button
-              class="btn btn-secondary dropdown-toggle button d-flex justify-content-between align-items-center mt-3"
-              type="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false">
-              {{ child.name }}
-            </button>
+            <div class="mt-3">
+              <multi-select
+                :options="child.children"
+                :placeholder="child.name"
+                label="name"
+                v-model="child.selectedList"
+                distinct="id"
+                track-by="id">
+              </multi-select>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
     <div class="mb-4">
-      <product-list></product-list>
+      <product-list :selectedType="type" :selectedColors="filterButton.children.colors.selectedList" :selectedSizes="filterButton.children.sizes.selectedList"></product-list>
     </div>
     <hr class="bg-dark m-0" />
   </div>
@@ -50,30 +52,32 @@
 
 <script>
 import ProductList from './product-list/ProductList';
+import attributeValueService from '@/shared/services/attribute-value.service';
+import MultiSelect from '@/components/shared/multi-select/MultiSelect';
 
 export default {
   name: 'Body',
   components: {
-    ProductList
+    ProductList,
+    MultiSelect
   },
   data() {
     return {
+      type: 'newest',
       filterButton: {
         name: 'Bộ lọc',
-        children: [
-          {
-            name: 'Màu sắc'
+        children: {
+          colors: {
+            name: 'Màu sắc',
+            children: [],
+            selectedList: []
           },
-          {
-            name: 'Kiểu dáng'
-          },
-          {
-            name: 'Size'
-          },
-          {
-            name: 'Phong cách'
+          sizes: {
+            name: 'Size',
+            children: [],
+            selectedList: []
           }
-        ]
+        }
       },
       isOpenFilter: false
     };
@@ -81,7 +85,40 @@ export default {
   methods: {
     toggleIsOpenFilter() {
       this.isOpenFilter = !this.isOpenFilter;
+    },
+    getColors() {
+      attributeValueService.getColors()
+        .then(response => {
+          if (response && response.status === 200 && response.data) {
+            this.filterButton.children.colors.children = response.data;
+          }
+        });
+    },
+    getSizes() {
+      attributeValueService.getSizes()
+        .then(response => {
+          if (response && response.status === 200 && response.data) {
+            this.filterButton.children.sizes.children = response.data;
+          }
+        });
+    },
+    parseColorsFromUrl() {
+      const colors = this.$route.query.colors;
+
+      if (colors) {
+        let ids = colors.split(',');
+        this.filterButton.children.colors.children.forEach(color => {
+          if (ids.indexOf(color.id) !== -1) {
+            this.filterButton.children.colors.selectedList.push(color.id);
+          }
+        });
+      }
     }
+  },
+  mounted() {
+    this.getColors();
+    this.getSizes();
+    this.parseColorsFromUrl();
   }
 };
 </script>

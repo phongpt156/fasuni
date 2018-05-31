@@ -14,16 +14,18 @@ class ProductService
         $this->httpClient = $httpClient;
     }
 
-    public function getAll()
+    public function getAll($page = 1)
     {
+        $perPage = 100;
+        $current = ($page - 1) * 100 + 1;
+
         try {
-            $response = $this->httpClient->get('products?pageSize=100&includeRemoveIds=true&includeInventory=true');
+            $response = $this->httpClient->get('products?pageSize=' . $perPage . '&includeRemoveIds=true&includeInventory=true&currentItem=' . $current);
 
             $response = $response->getBody()->getContents();
             $response = json_decode($response);
-            \Log::debug(collect($response)->toArray());
 
-            return $response->data;
+            return $response;
         } catch (RequestException $e) {
             \Log::error('Cannot get products: ' . $e->getMessage());
             if (is_object(json_decode($e->getMessage()))) {

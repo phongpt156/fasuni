@@ -34,7 +34,6 @@ export default {
     localStorage.setItem('cart', JSON.stringify(state.products));
   },
   setIsOpenCartDialog(state, value) {
-    console.log(value);
     state.isOpenCartDialog = value;
   }
 };

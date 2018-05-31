@@ -14,15 +14,18 @@ class CategoryService
         $this->httpClient = $httpClient;
     }
 
-    public function getAll()
+    public function getAll($page = 1)
     {
+        $perPage = 100;
+        $current = ($page - 1) * 100 + 1;
+
         try {
-            $response = $this->httpClient->get('categories?pageSize=100&hierachicalData=true&orderBy=createdDate&orderDirection=asc');
+            $response = $this->httpClient->get('categories?pageSize=' . $perPage . '&hierachicalData=true&orderBy=createdDate&orderDirection=asc&currentItem=' . $current);
 
             $response = $response->getBody()->getContents();
             $response = json_decode($response);
 
-            return $response->data;
+            return $response;
         } catch (RequestException $e) {
             \Log::error('Cannot get categories: ' . $e->getMessage());
             if (is_object(json_decode($e->getMessage()))) {

@@ -118,8 +118,32 @@ class KiotVietController extends Controller
 
     public function syncBranches()
     {
-        $branches = $this->kiotVietService->branchService->getAll();
+        $response = $this->kiotVietService->branchService->getAll();
+
+        if (isset($response->removeIds)) {
+            $this->deleteBranches($response->removeIds);
+        }
+
+        $branches = $response->data;
         $this->saveBranches($branches);
+
+        $totalPage = ceil($response->total / $response->pageSize);
+
+        for ($i = 2; $i <= $totalPage; $i++) {
+            $branches = $this->kiotVietService->branchService->getAll($i)->data;
+            $this->saveBranches($branches);
+        }
+    }
+
+    public function deleteBranches(Array $ids = [])
+    {
+        try {
+            Branch::whereIn('kiotviet_id', $ids)->delete();
+        } catch (QueryException $e) {
+            \Log::error('Cannot delete branches: ' . $e->getMessage());
+            response()->json(['error' => 'Cannot delete branches: ' . $e->getMessage()], 500)->send();
+            die;
+        }
     }
 
     public function saveBranches(Array $branches = [])
@@ -151,8 +175,7 @@ class KiotVietController extends Controller
         if ($branch) {
             $id = $branch->id;
         } else {
-            $branches = $this->kiotVietService->branchService->getAll();
-            $this->saveBranches($branches);
+            $this->syncBranches();
 
             $branch = Branch::whereKiotvietId($kiotVietId)->first();
             $id = $branch->id;
@@ -163,8 +186,31 @@ class KiotVietController extends Controller
 
     public function syncCategories()
     {
-        $categories = $this->kiotVietService->categoryService->getAll();
+        $response = $this->kiotVietService->categoryService->getAll();
+
+        if (isset($response->removeIds)) {
+            $this->deleteCategories($response->removeIds);
+        }
+
+        $categories = $response->data;
         $this->saveHierarchyCategories($categories);
+
+        $totalPage = ceil($response->total / $response->pageSize);
+
+        for ($i = 2; $i <= $totalPage; $i++) {
+            $categories = $this->kiotVietService->categoryService->getAll($i)->data;
+            $this->saveHierarchyCategories($categories);
+        }
+    }
+
+    public function deleteCategories(Array $ids = []) {
+        try {
+            Category::whereIn('kiotviet_id', $ids)->delete();
+        } catch (QueryException $e) {
+            \Log::error('Cannot delete categories: ' . $e->getMessage());
+            response()->json(['error' => 'Cannot delete categories: ' . $e->getMessage()], 500)->send();
+            die;
+        }
     }
 
     public function saveHierarchyCategories(Array $categories = [])
@@ -221,9 +267,32 @@ class KiotVietController extends Controller
 
     public function syncProducts()
     {
-        $products = $this->kiotVietService->productService->getAll();
+        $response = $this->kiotVietService->productService->getAll();
+
+        if (isset($response->removeIds)) {
+            $this->deleteProducts($response->removeIds);
+        }
+
+        $products = $response->data;
         // reverse products to save from oldest to newest product because kiotviet not order product by date
         $this->saveProducts(array_reverse($products));
+
+        $totalPage = ceil($response->total / $response->pageSize);
+        for ($i = 2; $i <= $totalPage; $i++) {
+            $products = $this->kiotVietService->productService->getAll($i)->data;
+            $this->saveProducts(array_reverse($products));
+        }
+    }
+
+    public function deleteProducts(Array $ids = [])
+    {
+        try {
+            Product::whereIn('kiotviet_id', $ids)->delete();
+        } catch (QueryException $e) {
+            \Log::error('Cannot delete products: ' . $e->getMessage());
+            response()->json(['error' => 'Cannot delete products: ' . $e->getMessage()], 500)->send();
+            die;
+        }
     }
 
     public function saveProducts(Array $products = [])
@@ -262,7 +331,7 @@ class KiotVietController extends Controller
             $this->saveInventories($product->inventories, $savedProduct->id);
         }
 
-        return $product;
+        return $savedProduct;
     }
 
     public function getMasterProductId(Object $product)
@@ -295,6 +364,19 @@ class KiotVietController extends Controller
 
     public function saveImages(Array $images = [], int $productId)
     {
+        $oldProductImages = ProductImage::whereProductId($productId)->get()->pluck('original')->toArray();
+        $removeImages = array_diff($oldProductImages, $images);
+
+        if (count($removeImages)) {
+            try {
+                ProductImage::whereIn('original', $removeImages)->delete();
+            } catch (QueryException $e) {
+                \Log::error('Cannot delete product images: ' . $e->getMessage());
+                response()->json(['error' => 'Cannot delete product images: ' . $e->getMessage()], 500)->send();
+                die;
+            }
+        }
+
         foreach ($images as $image) {
             try {
                 ProductImage::updateOrCreate(
@@ -311,6 +393,25 @@ class KiotVietController extends Controller
 
     public function saveAttributes(Array $attributes = [], int $productId)
     {
+        $oldAttributeValues = AttributeValue::whereHas('products', function ($query) use ($productId) {
+            $query->where('id', $productId);
+        })->get()->pluck('name')->toArray();
+
+        $newAttributeValues = collect($attributes)->pluck('attributeValue')->toArray();
+        $removeAttributeValues = array_diff($oldAttributeValues, $newAttributeValues);
+
+        if (count($removeAttributeValues)) {
+            try {
+                ProductAttributeValue::whereProductId($productId)->whereHas('attributeValue', function ($query) use ($removeAttributeValues) {
+                    $query->whereIn('name', $removeAttributeValues);
+                })->delete();
+            } catch (QueryException $e) {
+                \Log::error('Cannot delete product attributes: ' . $e->getMessage());
+                response()->json(['error' => 'Cannot delete product attributes: ' . $e->getMessage()], 500)->send();
+                die;
+            }
+        }
+
         foreach ($attributes as $kiotVietAttribute) {
             $attributeName = ucfirst(mb_strtolower($kiotVietAttribute->attributeName));
             try {
@@ -339,8 +440,8 @@ class KiotVietController extends Controller
                     ['product_id' => $productId, 'attribute_value_id' => $attributeValue->id]
                 );
             } catch (QueryException $e) {
-                \Log::error('Cannot save product attribute value: ' . $e->getMessage());
-                response()->json(['error' => 'Cannot save product attribute value: ' . $e->getMessage()], 500)->send();
+                \Log::error('Cannot save product attribute values: ' . $e->getMessage());
+                response()->json(['error' => 'Cannot save product attribute values: ' . $e->getMessage()], 500)->send();
                 die;
             }
         }
@@ -348,8 +449,12 @@ class KiotVietController extends Controller
 
     public function saveInventories(Array $inventories = [], int $productId)
     {
+        $newBranchIds = [];
+        $oldBranchIds = Inventory::whereProductId($productId)->get()->pluck('branch_id')->toArray();
+
         foreach ($inventories as $inventory) {
             $branchId = $this->getBranchId($inventory->branchId);
+            array_push($newBranchIds, $branchId);
 
             try {
                 Inventory::updateOrCreate(
@@ -362,12 +467,46 @@ class KiotVietController extends Controller
                 die;
             }
         }
+
+        $removeIds = array_diff($oldBranchIds, $newBranchIds);
+        if (count($removeIds)) {
+            try {
+                Inventory::whereProductId($productId)->whereIn('branch_id', $removeIds)->delete();
+            } catch (QueryException $e) {
+                \Log::error('Cannot delete inventories: ' . $e->getMessage());
+                response()->json(['error' => 'Cannot delete inventories: ' . $e->getMessage()], 500)->send();
+                die;
+            }
+        }
     }
 
     public function syncCustomers()
     {
-        $customers = $this->kiotVietService->customerService->getAll();
+        $response = $this->kiotVietService->customerService->getAll();
+
+        if (isset($response->removeIds)) {
+            $this->deleteCustomers($response->removeIds);
+        }
+
+        $customers = $response->data;
         $this->saveCustomers($customers);
+
+        $totalPage = ceil($response->total / $response->pageSize);
+        for ($i = 2; $i <= $totalPage; $i++) {
+            $customers = $this->kiotVietService->customerService->getAll($i)->data;
+            $this->saveCustomers($customers);
+        }
+    }
+
+    public function deleteCustomers(Array $ids = [])
+    {
+        try {
+            Customer::whereIn('kiotviet_id', $ids)->delete();
+        } catch (QueryException $e) {
+            \Log::error('Cannot delete customers: ' . $e->getMessage());
+            response()->json(['error' => 'Cannot delete customers: ' . $e->getMessage()], 500)->send();
+            die;
+        }
     }
 
     public function saveCustomers(Array $customers = [])
@@ -428,8 +567,31 @@ class KiotVietController extends Controller
 
     public function syncEmployees()
     {
-        $employees = $this->kiotVietService->employeeService->getAll();
+        $response = $this->kiotVietService->employeeService->getAll();
+
+        if (isset($response->removeIds)) {
+            $this->deleteEmployees($response->removeIds);
+        }
+
+        $employees = $response->data;
         $this->saveEmployees($employees);
+
+        $totalPage = ceil($response->total / $response->pageSize);
+        for ($i = 2; $i <= $totalPage; $i++) {
+            $employees = $this->kiotVietService->employeeService->getAll($i)->data;
+            $this->saveEmployees($employees);
+        }
+    }
+
+    public function deleteEmployees(Array $ids = [])
+    {
+        try {
+            Employee::whereIn('kiotviet_id', $ids)->delete();
+        } catch (QueryException $e) {
+            \Log::error('Cannot delete employees: ' . $e->getMessage());
+            response()->json(['error' => 'Cannot delete employees: ' . $e->getMessage()], 500)->send();
+            die;
+        }
     }
 
     public function saveEmployees(Array $employees = [])
@@ -467,8 +629,7 @@ class KiotVietController extends Controller
         if ($employee) {
             $id = $employee->id;
         } else {
-            $employees = $this->kiotVietService->employeeService->getAll();
-            $this->saveEmployees($employees);
+            $this->syncEmployees();
 
             $employee = Employee::whereKiotvietId($kiotVietId)->first();
             if ($employee) {
@@ -481,8 +642,31 @@ class KiotVietController extends Controller
 
     public function syncOrders()
     {
-        $orders = $this->kiotVietService->orderService->getAll();
+        $response = $this->kiotVietService->orderService->getAll();
+
+        if (isset($response->removeIds)) {
+            $this->deleteOrders($response->removeIds);
+        }
+
+        $orders = $response->data;
         $this->saveOrders($orders);
+
+        $totalPage = ceil($response->total / $response->pageSize);
+        for ($i = 2; $i <= $totalPage; $i++) {
+            $orders = $this->kiotVietService->orderService->getAll($i)->data;
+            $this->saveOrders($orders);
+        }
+    }
+
+    public function deleteOrders(Array $ids = [])
+    {
+        try {
+            Order::whereIn('kiotviet_id', $ids)->delete();
+        } catch (QueryException $e) {
+            \Log::error('Cannot delete orders: ' . $e->getMessage());
+            response()->json(['error' => 'Cannot delete orders: ' . $e->getMessage()], 500)->send();
+            die;
+        }
     }
 
     public function saveOrders(Array $orders = [])
@@ -537,9 +721,13 @@ class KiotVietController extends Controller
 
     public function saveOrderDetails(Array $orderDetails = [], int $orderId)
     {
+        $oldProductIds = OrderDetail::whereOrderId($orderId)->get()->pluck('product_id')->toArray();
+        $newProductIds = [];
+
         foreach ($orderDetails as $orderDetail) {
             try {
                 $productId = $this->getProductId($orderDetail->productId);
+                array_push($newProductIds, $productId);
 
                 try {
                     OrderDetail::updateOrCreate(
@@ -553,6 +741,17 @@ class KiotVietController extends Controller
                 }
             } catch (RequestException $e) {
                 \Log::error('Không tìm thấy sản phẩm có mã sản phẩm là: ' . $orderDetail->productCode . ' hoặc sản phẩm đã bị xóa');
+            }
+        }
+
+        $removeIds = array_diff($oldProductIds, $newProductIds);
+        if (count($removeIds)) {
+            try {
+                OrderDetail::whereOrderId($orderId)->whereIn('product_id', $removeIds)->delete();
+            } catch (QueryException $e) {
+                \Log::error('Cannot delete order details: ' . $e->getMessage());
+                response()->json(['error' => 'Cannot delete order details: ' . $e->getMessage()], 500)->send();
+                die;
             }
         }
     }
@@ -577,8 +776,31 @@ class KiotVietController extends Controller
 
     public function syncInvoices()
     {
-        $invoices = $this->kiotVietService->invoiceService->getAll();
+        $response = $this->kiotVietService->invoiceService->getAll();
+
+        if (isset($response->removeIds)) {
+            $this->deleteInvoices($response->removeIds);
+        }
+
+        $invoices = $response->data;
         $this->saveInvoices($invoices);
+
+        $totalPage = ceil($response->total / $response->pageSize);
+        for ($i = 2; $i <= $totalPage; $i++) {
+            $invoices = $this->kiotVietService->invoiceService->getAll($i)->data;
+            $this->saveInvoices($invoices);
+        }
+    }
+
+    public function deleteInvoices(Array $ids = [])
+    {
+        try {
+            Invoice::whereIn('kiotviet_id', $ids)->delete();
+        } catch (QueryException $e) {
+            \Log::error('Cannot delete invoices: ' . $e->getMessage());
+            response()->json(['error' => 'Cannot delete invoices: ' . $e->getMessage()], 500)->send();
+            die;
+        }
     }
 
     public function saveInvoices(Array $invoices = [])
@@ -640,9 +862,13 @@ class KiotVietController extends Controller
 
     public function saveInvoiceDetails(Array $invoiceDetails = [], int $invoiceId)
     {
+        $oldProductIds = InvoiceDetail::whereInvoiceId($orderId)->get()->pluck('product_id')->toArray();
+        $newProductIds = [];
+
         foreach ($invoiceDetails as $invoiceDetail) {
             try {
                 $productId = $this->getProductId($invoiceDetail->productId);
+                array_push($newProductIds, $productId);
 
                 try {
                     InvoiceDetail::updateOrCreate(
@@ -656,6 +882,17 @@ class KiotVietController extends Controller
                 }
             } catch (RequestException $e) {
                 \Log::error('Không tìm thấy sản phẩm có mã sản phẩm là: ' . $invoiceDetail->productCode . ' hoặc sản phẩm đã bị xóa');
+            }
+        }
+
+        $removeIds = array_diff($oldProductIds, $newProductIds);
+        if (count($removeIds)) {
+            try {
+                InvoiceDetail::whereInvoiceId($orderId)->whereIn('product_id', $removeIds)->delete();
+            } catch (QueryException $e) {
+                \Log::error('Cannot delete invoice details: ' . $e->getMessage());
+                response()->json(['error' => 'Cannot delete invoice details: ' . $e->getMessage()], 500)->send();
+                die;
             }
         }
     }

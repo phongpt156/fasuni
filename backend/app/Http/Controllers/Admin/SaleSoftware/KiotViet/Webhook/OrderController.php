@@ -67,9 +67,13 @@ class OrderController extends WebhookController
 
     public function saveOrderDetails(Array $orderDetails = [], int $orderId, $kiotVietController)
     {
+        $oldProductIds = OrderDetail::whereOrderId($orderId)->get()->pluck('product_id')->toArray();
+        $newProductIds = [];
+
         foreach ($orderDetails as $orderDetail) {
             try {
                 $productId = $kiotVietController->getProductId($orderDetail['ProductId']);
+                array_push($newProductIds, $productId);
 
                 try {
                     OrderDetail::updateOrCreate(
@@ -83,6 +87,17 @@ class OrderController extends WebhookController
                 }
             } catch (RequestException $e) {
                 \Log::error('Không tìm thấy sản phẩm có mã sản phẩm là: ' . $orderDetail['ProductCode'] . ' hoặc sản phẩm đã bị xóa');
+            }
+        }
+
+        $removeIds = array_diff($oldProductIds, $newProductIds);
+        if (count($removeIds)) {
+            try {
+                OrderDetail::whereOrderId($orderId)->whereIn('product_id', $removeIds)->delete();
+            } catch (QueryException $e) {
+                \Log::error('Cannot delete order details: ' . $e->getMessage());
+                response()->json(['error' => 'Cannot delete order details: ' . $e->getMessage()], 500)->send();
+                die;
             }
         }
     }

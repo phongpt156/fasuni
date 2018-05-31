@@ -87,7 +87,7 @@
                 <a class="dropdown-item" @click="logout">Đăng xuất</a>
               </div>
             </a>
-            <a class="nav-link text-dark text-uppercase" @click="isOpenLoginFormDialog = true" v-else>
+            <a class="nav-link text-dark text-uppercase" @click="openLoginFormDialog" v-else>
               Sign in
             </a>
           </li>
@@ -110,7 +110,6 @@
 <script>
 import LoginFormDialog from '@/components/shared/LoginFormDialog';
 import RegisterFormDialog from '@/components/shared/RegisterFormDialog';
-import Modal from '@/components/shared/Modal';
 import SidenavOverlay from './sidenav-overlay/SidenavOverlay';
 import SearchForm from './search-form/SearchForm';
 import CartDialog from '@/components/shared/cart-dialog/CartDialog';
@@ -126,7 +125,6 @@ export default {
   components: {
     LoginFormDialog,
     RegisterFormDialog,
-    Modal,
     SidenavOverlay,
     SearchForm,
     CartDialog
