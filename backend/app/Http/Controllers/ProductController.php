@@ -120,10 +120,48 @@ class ProductController extends Controller
 
         $products = Product::with($appends)
             ->whereNull('master_product_id')
-            ->whereHas('category', function ($query) use ($category) {
-                $query->whereSlug($category);
+            ->where(function ($query) use ($category) {
+                $query->whereHas('category', function ($query) use ($category) {
+                    $query->whereSlug($category);
+                })
+                ->orWhereHas('category.parent', function ($query) use ($category) {
+                    $query->whereSlug($category);
+                })
+                ->orWhereHas('category.parent.parent', function ($query) use ($category) {
+                    $query->whereSlug($category);
+                });
             })
             ->whereIsActive(true);
+
+        if ($request->has('colors')) {
+            $colors = explode(',', $request->colors);
+
+            $products = $products->where(function ($query) use ($colors) {
+                $query->whereHas('productAttributeValues', function ($query) use ($colors) {
+                    $query->whereIn('attribute_value_id', $colors);
+                })
+                ->orWhereHas('subProducts', function ($query) use ($colors) {
+                    $query->whereHas('productAttributeValues', function ($query) use ($colors) {
+                        $query->whereIn('attribute_value_id', $colors);
+                    });
+                });
+            });
+        }
+
+        if ($request->has('sizes')) {
+            $sizes = explode(',', $request->sizes);
+
+            $products = $products->where(function ($query) use ($sizes) {
+                $query->whereHas('productAttributeValues', function ($query) use ($sizes) {
+                    $query->whereIn('attribute_value_id', $sizes);
+                })
+                ->orWhereHas('subProducts', function ($query) use ($sizes) {
+                    $query->whereHas('productAttributeValues', function ($query) use ($sizes) {
+                        $query->whereIn('attribute_value_id', $sizes);
+                    });
+                });
+            });
+        }
 
         if ($request->has('type')) {
             $type = $request->type;

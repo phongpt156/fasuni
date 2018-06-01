@@ -102,7 +102,9 @@ export default {
 
         productService.getByCategory({
           category: this.category,
-          type: this.type
+          type: this.type,
+          colors: this.colors,
+          sizes: this.sizes
         }, page)
           .then(response => {
             if (response && response.status === 200 && response.data) {

@@ -20,7 +20,8 @@ export const GOOGLE = {
 };
 
 export const CATEGORY = {
-  getAll: BASE_URL + '/category'
+  getAll: BASE_URL + '/category',
+  getHierachyCategory: BASE_URL + '/category/hierachy/'
 };
 
 export const PRODUCT = {

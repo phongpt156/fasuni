@@ -13,4 +13,11 @@ class CategoryController extends Controller
 
         return response()->json($categories, 200);
     }
+
+    public function getHierachyCategory($slug)
+    {
+        $category = Category::with('parent', 'parent.parent')->whereSlug($slug)->first();
+
+        return response()->json($category, 200);
+    }
 }

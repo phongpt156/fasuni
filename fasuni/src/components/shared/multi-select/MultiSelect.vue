@@ -1,6 +1,5 @@
 <template>
   <div class="multi-select" v-click-outside="{outsideCallback: closeOptionList}">
-    {{ value }}
     <div class="placeholder d-flex justify-content-between align-items-center" @click="isOpenOptionList = !isOpenOptionList">{{ placeholder }}</div>
 
     <ul class="option-list p-0 m-0 w-100 bg-white" v-if="isOpenOptionList">

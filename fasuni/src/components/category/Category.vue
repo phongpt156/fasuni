@@ -3,16 +3,16 @@
     <nav class="navbar navbar-expand-lg justify-content-center py-3 px-2">
       <div class="d-md-block d-none breadcrumbs">
         <ul class="navbar-nav align-items-center flex-row">
-          <li class="nav-item">
-            <a class="nav-link p-2">MEN'S
+          <li class="nav-item" v-if="category && category.parent && category.parent.parent">
+            <a class="nav-link p-2">{{ category.parent.parent.name }}
             </a>
           </li> /
-          <li class="nav-item">
-            <a class="nav-link p-2">All Clothing
+          <li class="nav-item" v-if="category && category.parent">
+            <a class="nav-link p-2">{{ category.parent.name }}
             </a>
           </li> /
-          <li class="nav-item">
-            <a class="nav-link p-2">T-Shirts
+          <li class="nav-item font-weight-bold" v-if="category">
+            <a class="nav-link p-2">{{ category.name }}
             </a>
           </li>
         </ul>
@@ -26,6 +26,7 @@
 
 <script>
 import MainBody from './main-body/MainBody';
+import categoryService from '@/shared/services/category.service';
 
 export default {
   created() {
@@ -39,7 +40,31 @@ export default {
   },
   data() {
     return {
+      category: {}
     };
+  },
+  computed: {
+    slug() {
+      return this.$route.params.slug;
+    }
+  },
+  watch: {
+    slug() {
+      this.getHierachyCategory();
+    }
+  },
+  methods: {
+    getHierachyCategory() {
+      categoryService.getHierachyCategory(this.slug)
+        .then(response => {
+          if (response && response.status === 200 && response.data) {
+            this.category = response.data;
+          }
+        });
+    }
+  },
+  mounted() {
+    this.getHierachyCategory();
   }
 };
 </script>

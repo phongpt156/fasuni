@@ -42,6 +42,11 @@ class Product extends Model
         return $this->hasMany(ProductLiker::class);
     }
 
+    public function productAttributeValues()
+    {
+        return $this->hasMany(ProductAttributeValue::class);
+    }
+
     public function getLikedAttribute()
     {
         return $this->productLiker()->whereUserId($this->userId)->exists();

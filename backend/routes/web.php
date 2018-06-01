@@ -24,6 +24,7 @@ $router->get('/images/{filename}', function ($filename) use ($router) {
 
         return response(Illuminate\Support\Facades\File::get($path), 200)->header('Content-Type', $contentType);
     }
+    abort(401);
 });
 
 $router->get('/images/lookbooks/{size}/{filename}', function ($size, $filename) use ($router) {
@@ -112,6 +113,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     });
     $router->group(['prefix' => 'category'], function () use ($router) {
         $router->get('', 'CategoryController@index');
+        $router->get('hierachy/{slug}', 'CategoryController@getHierachyCategory');
     });
     $router->group(['prefix' => 'product'], function () use ($router) {
         $router->get('', 'ProductController@index');

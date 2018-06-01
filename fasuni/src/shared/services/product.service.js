@@ -12,7 +12,20 @@ export default {
       .catch(handleError);
   },
   getByCategory(filters, page = 1) {
-    return httpClient.get(`${PRODUCT.getByCategory}${filters.category}?type=${filters.type}&page=${page}`)
+    let url = `${PRODUCT.getByCategory}${filters.category}`;
+    if (!filters.type) {
+      filters.type = 'newest';
+    }
+    url += `?type=${filters.type}`;
+    if (filters.colors) {
+      url += `&colors=${filters.colors}`;
+    }
+    if (filters.sizes) {
+      url += `&sizes=${filters.sizes}`;
+    }
+    url += `&page=${page}`;
+
+    return httpClient.get(url)
       .catch(handleError);
   }
 };
