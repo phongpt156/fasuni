@@ -542,10 +542,12 @@ class KiotVietController extends Controller
         }
 
         try {
-            Customer::updateOrCreate(
+            $savedCustomer = Customer::updateOrCreate(
                 ['kiotviet_id' => $customer->id],
                 ['name' => $customer->name, 'birthday' => $birthday, 'gender' => optional($customer)->gender, 'phone_number' => optional($customer)->contactNumber, 'address' => optional($customer)->address, 'email' => optional($customer)->email, 'code' => optional($customer)->code, 'living_city_id' => $cityId, 'district_id' => $districtId]
             );
+
+            return $savedCustomer;
         } catch (QueryException $e) {
             \Log::error('Cannot save customer: ' . $e->getMessage());
             response()->json(['error' => 'Cannot save customer: ' . $e->getMessage()], 500)->send();
@@ -559,7 +561,7 @@ class KiotVietController extends Controller
 
         if (!$customer) {
             $customer = $this->kiotVietService->customerService->getOne($kiotVietId);
-            $this->saveCustomer($customer);
+            $customer = $this->saveCustomer($customer);
         }
 
         return $customer->id;

@@ -3,17 +3,10 @@
     <nav class="navbar navbar-expand-lg justify-content-center py-3 px-2">
       <div class="d-md-block d-none breadcrumbs">
         <ul class="navbar-nav align-items-center flex-row">
-          <li class="nav-item" v-if="category && category.parent && category.parent.parent">
-            <a class="nav-link p-2">{{ category.parent.parent.name }}
-            </a>
-          </li> /
-          <li class="nav-item" v-if="category && category.parent">
-            <a class="nav-link p-2">{{ category.parent.name }}
-            </a>
-          </li> /
-          <li class="nav-item font-weight-bold" v-if="category">
-            <a class="nav-link p-2">{{ category.name }}
-            </a>
+          <li class="nav-item d-flex align-items-center" v-for="(breadcrumb, index) in breadcrumbs" :key="breadcrumb.id">
+            <div class="nav-link p-2" :class="{'font-weight-bold': index + 1 === breadcrumbsLength}">{{ breadcrumb.name }}
+            </div>
+            <span v-if="index + 1 < breadcrumbsLength">/</span>
           </li>
         </ul>
       </div>
@@ -40,31 +33,50 @@ export default {
   },
   data() {
     return {
-      category: {}
+      category: {},
+      breadcrumbs: []
     };
   },
   computed: {
     slug() {
       return this.$route.params.slug;
+    },
+    breadcrumbsLength() {
+      return this.breadcrumbs.length;
     }
   },
   watch: {
-    slug() {
-      this.getHierachyCategory();
+    slug(newValue) {
+      this.getHierachyCategory(newValue);
+    },
+    category(newValue) {
+      this.setBreadcrumbs(newValue);
     }
   },
   methods: {
-    getHierachyCategory() {
-      categoryService.getHierachyCategory(this.slug)
+    getHierachyCategory(slug) {
+      categoryService.getHierachyCategory(slug)
         .then(response => {
           if (response && response.status === 200 && response.data) {
             this.category = response.data;
           }
         });
+    },
+    setBreadcrumbs(category) {
+      let tmp = JSON.parse(JSON.stringify(this.category));
+
+      while (tmp) {
+        this.breadcrumbs.unshift({
+          id: tmp.id,
+          name: tmp.name
+        });
+
+        tmp = tmp.parent;
+      }
     }
   },
   mounted() {
-    this.getHierachyCategory();
+    this.getHierachyCategory(this.slug);
   }
 };
 </script>

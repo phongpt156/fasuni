@@ -18,6 +18,7 @@ export default {
   },
   remove(state, index) {
     state.products.splice(index, 1);
+    this.commit('cart/saveCartToStorage');
   },
   setProducts(state, products) {
     state.products = products;

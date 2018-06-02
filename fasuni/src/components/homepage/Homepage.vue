@@ -27,6 +27,7 @@
       <div class="row mx-0 px-5">
         <div class="pl-2 pr-0 col-md-4">
           <a class="d-block h-100"><img :src="images.collection3" alt="" class="w-100 h-100" /></a>
+          <h3 class="text-center mt-2">Campaign</h3>
         </div>
         <div class="pr-2 pl-3 col-md-4">
           <div class="pb-2 h-50">
@@ -35,6 +36,7 @@
           <div class="pt-2 h-50">
             <a class="d-block h-100"><img :src="images.collection2" alt="" class="w-100 h-100" /></a>
           </div>
+          <h3 class="text-center mt-2">Lookbook Nữ</h3>
         </div>
         <div class="px-2 col-md-4">
           <div class="pb-1 h-50">
@@ -43,6 +45,7 @@
           <div class="pt-2 h-50">
             <a class="d-block h-100"><img :src="images.collection5" alt="" class="w-100 h-100" /></a>
           </div>
+          <h3 class="text-center mt-2">Lookbook Nam</h3>
         </div>
       </div>
     </div>

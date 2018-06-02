@@ -17,13 +17,22 @@ class ProductController extends Controller
 
     public function search(Request $request)
     {
-        $products = Product::with('images')->whereNull('master_product_id');
+
+        $product = new Product;
+
+        $products = Product::with('images')
+            ->whereIsActive(true);
 
         if ($request->has('name')) {
-            $products = $products->where('name', 'LIKE', '%' . $request->name . '%');
+            $products = $products->where('name', 'LIKE', '%' . $request->name . '%')
+            ->orWhere('code', 'LIKE', '%' . $request->name . '%');
         }
 
-        $products = $products->orderBy('created_at', 'desc')->get();
+        $products = $products->get();
+
+        $products->each(function ($product) {
+            $product->append('size', 'color');
+        });
 
         return response()->json($products, 200);
     }

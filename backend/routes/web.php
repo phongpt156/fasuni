@@ -11,10 +11,6 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
-});
-
 $router->get('/images/{filename}', function ($filename) use ($router) {
     $path = config('path.images') . $filename;
     $path = urldecode($path);
@@ -117,8 +113,9 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     });
     $router->group(['prefix' => 'product'], function () use ($router) {
         $router->get('', 'ProductController@index');
-        $router->get('{id}', 'ProductController@show');
         $router->get('category/{category}', 'ProductController@getByCategory');
+        $router->get('relevant/{id}', 'ProductController@getRelevant');
+        $router->get('{id}', 'ProductController@show');
     });
     $router->group(['prefix' => 'lookbook'], function () use ($router) {
         $router->get('get-male-month-list-snapshot', 'LookbookController@getMaleMonthListSnapshot');
@@ -133,3 +130,20 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
     $router->get('test', 'Admin\SaleSoftware\KiotViet\KiotVietController@sync');
 });
+
+$router->get('/static/{type}/{file}', function ($type, $file) use ($router) {
+    $path = resource_path('web/dist/static/' . $type . '/' . $file);
+
+    if (Illuminate\Support\Facades\File::exists($path)) {
+        $contentType = Illuminate\Support\Facades\File::mimeType($path);
+
+        if ($type === 'css') {
+            $contentType = 'text/css';
+        }
+
+        return response(Illuminate\Support\Facades\File::get($path), 200)->header('Content-Type', $contentType);
+    }
+});
+
+$router->get('/{any:.*}', 'HomeController@index');
+// $router->get('/', 'HomeController@index');

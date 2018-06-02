@@ -6,21 +6,17 @@
     <div v-else>
       <template v-if="product.id">
         <ul class="navbar-nav align-items-center flex-row pt-4 pb-2 d-md-flex d-none">
-          <li class="nav-item">
-            <a class="nav-link p-2">MEN'S
-            </a>
-          </li> /
-          <li class="nav-item">
-            <a class="nav-link p-2">All Clothing
-            </a>
-          </li> /
-          <li class="nav-item">
-            <a class="nav-link p-2">Áo mùa hè
-            </a>
-          </li> /
-          <li class="nav-item">
-            <a class="nav-link p-2">Áo sơ mi
-            </a>
+          <li class="nav-item d-flex align-items-center" v-for="(breadcrumb, index) in breadcrumbs" :key="breadcrumb.id">
+            <router-link class="nav-link p-2" v-if="index + 1 === breadcrumbsLength" :to="{name: 'Category', params: {slug: breadcrumb.slug}}">{{ breadcrumb.name }}
+            </router-link>
+            <div class="nav-link p-2" v-else>{{ breadcrumb.name }}
+            </div>
+            <span>/</span>
+          </li>
+          <li class="nav-item d-flex align-items-center">
+            <div class="nav-link p-2 font-weight-bold">
+              {{ selectedProduct.name }}
+            </div>
           </li>
         </ul>
         <div>
@@ -48,14 +44,19 @@
                   :to="{name: 'Product', params: {id: product.id}, query: {color: color.id}}"
                   class="mr-2 color-item d-flex align-items-center justify-content-center"
                   @click.native="selectColor(color)">
-                  <font-awesome-icon class="text-white" :icon="icons.check" v-if="currentColor && currentColor.id === color.id"></font-awesome-icon>
+                  <font-awesome-icon class="text-white" :class="{'text-dark': !color.value}" :icon="icons.check" v-if="currentColor && currentColor.id === color.id"></font-awesome-icon>
                 </router-link>
               </div>
-              <select class="custom-select my-4" style="width: 106px" v-if="sizes.length" v-model="selectedSize">
+              <div class="d-flex size-list">
+                <a class="size-item px-2 py-1 d-flex justify-content-center align-items-center mr-2" v-for="size in sizes" :key="size.id" :class="{empty: !size.product.inventories || !size.product.inventories.length || !size.product.inventories[0].quantity, selected: selectedSize.id === size.id}" @click="selectSize(size)">
+                  {{ size.name }}
+                </a>
+              </div>
+              <!-- <select class="custom-select my-4" style="width: 106px" v-if="sizes.length" v-model="selectedSize">
                 <option v-for="size in sizes" :key="size.id" :value="size">{{ size.name }}</option>
-              </select>
+              </select> -->
               <div class="d-flex mt-2">
-                <a class="mr-3 d-inline-flex align-items-center justify-content-center text-white cart px-4 py-2" @click="addProductToCart({images, product: selectedSize.product})">
+                <a class="mr-3 d-inline-flex align-items-center justify-content-center cart px-4 py-2" @click="addProductToCart({images, product: selectedSize.product})" :class="{'can-buy': selectedSize.id, 'text-white': selectedSize.id}">
                   <font-awesome-icon :icon="icons.cart" class="mr-2"></font-awesome-icon>
                   <span class="mt-1 font-size-sm">Thêm vào giỏ</span>
                 </a>
@@ -119,37 +120,12 @@
           <p class="mb-0 text-center text-uppercase">Có thể bạn sẽ thích</p>
           <hr class="mt-0 mx-2" />
           <carousel :perPageCustom="[[768, 3], [1024, 4]]">
-            <slide class="px-2">
-              <a class="d-block">
-                <img src="https://images.allsaints.com/products/600/WL115E/5/WL115E-5-1.jpg" alt="" class="img-fluid" />
+            <slide class="px-2" v-for="product in relevantProducts" :key="product.id">
+              <a class="d-block image-wrapper image-standard">
+                <img :src="product.images[0].original" alt="" class="img-fluid" v-if="product.images && product.images.length" />
               </a>
-              <p class="font-size-base text-upper-case my-1">Figure Crew As Long As You Love Me</p>
-              <p class="mb-1">Our new Grace Zip Jeans Are Crafted from premium stretch den...</p>
-              <a class="detail-button">Chi tiết >></a>
-            </slide>
-            <slide class="px-2">
-              <a class="d-block">
-                <img src="https://images.allsaints.com/products/600/WL333N/5335/WL333N-5335-1.jpg" alt="" class="img-fluid" />
-              </a>
-              <p class="font-size-base text-upper-case my-1">Figure Crew As Long As You Love Me</p>
-              <p class="mb-1">Our new Grace Zip Jeans Are Crafted from premium stretch den...</p>
-              <a class="detail-button">Chi tiết >></a>
-            </slide>
-            <slide class="px-2">
-              <a class="d-block">
-                <img src="https://images.allsaints.com/products/600/WL047C/140/WL047C-140-1.jpg" alt="" class="img-fluid" />
-              </a>
-              <p class="font-size-base text-upper-case my-1">Figure Crew As Long As You Love Me</p>
-              <p class="mb-1">Our new Grace Zip Jeans Are Crafted from premium stretch den...</p>
-              <a class="detail-button">Chi tiết >></a>
-            </slide>
-            <slide class="px-2">
-              <a class="d-block">
-                <img src="https://images.allsaints.com/products/600/WL027N/226/WL027N-226-1.jpg" alt="" class="img-fluid" />
-              </a>
-              <p class="font-size-base text-upper-case my-1">Figure Crew As Long As You Love Me</p>
-              <p class="mb-1">Our new Grace Zip Jeans Are Crafted from premium stretch den...</p>
-              <a class="detail-button">Chi tiết >></a>
+              <p class="font-size-base text-upper-case my-1">{{ product.name }}</p>
+              <router-link class="detail-button" :to="{name: 'Product', params: {id: product.id}, query: {colors: product.color.id}}">Chi tiết >></router-link>
             </slide>
           </carousel>
         </div>
@@ -198,6 +174,7 @@ import googlePlusIcon from '@fortawesome/fontawesome-free-brands/faGooglePlus';
 import { Carousel, Slide } from 'vue-carousel';
 import SizeGuideDialog from './SizeGuideDialog';
 import productService from '@/shared/services/product.service';
+import categoryService from '@/shared/services/category.service';
 import { priceFormat } from '@/filters';
 import Spinner from '@/components/shared/spinner/Spinner';
 import userProductCommunication from '@/shared/services/user-product-communication.service';
@@ -230,13 +207,11 @@ export default {
       isOpenSizeGuideDialog: false,
       recentlyViewedProducts: [],
       loading: true,
-      selectedSize: ''
+      selectedSize: {},
+      breadcrumbs: [],
+      category: {},
+      relevantProducts: []
     };
-  },
-  watch: {
-    id(newValue) {
-      this.onLoad();
-    }
   },
   computed: {
     ...mapState(['user']),
@@ -280,7 +255,11 @@ export default {
       return colors;
     },
     currentColor() {
-      const color = this.colors.find(color => color.id === Number(this.$route.query.color));
+      let color = this.colors.find(color => color.id === Number(this.$route.query.color));
+
+      if (!color && this.colors.length) {
+        color = this.colors[0];
+      }
 
       return color;
     },
@@ -329,6 +308,27 @@ export default {
         return this.sizes[0].product;
       }
       return this.product;
+    },
+    breadcrumbsLength() {
+      return this.breadcrumbs.length;
+    },
+    categorySlug() {
+      if (this.selectedProduct && this.selectedProduct.category) {
+        return this.selectedProduct.category.slug;
+      }
+      return '';
+    }
+  },
+  watch: {
+    id(newValue) {
+      this.onLoad();
+    },
+    categorySlug(newValue) {
+      this.getHierachyCategory(newValue);
+    },
+    category(newValue) {
+      this.setBreadcrumbs(newValue);
+      this.getRelevantProducts(this.id, newValue.slug, 1);
     }
   },
   methods: {
@@ -339,15 +339,9 @@ export default {
       if (this.user) {
         this.selectedProduct.liked = !this.selectedProduct.liked;
         if (this.selectedProduct.liked) {
-          userProductCommunication.like(this.selectedProduct.id)
-            .then(response => {
-              // console.log(response);
-            });
+          userProductCommunication.like(this.selectedProduct.id);
         } else {
-          userProductCommunication.dislike(this.selectedProduct.id)
-            .then(response => {
-              // console.log(response);
-            });
+          userProductCommunication.dislike(this.selectedProduct.id);
         }
       } else {
         alert('Hãy đăng nhập trước');
@@ -358,6 +352,10 @@ export default {
         productService.getOne(id)
           .then(response => {
             if (response && response.status === 200 && response.data) {
+              if (!response.data.id) {
+                this.removeRecentlyViewedProduct(Number(this.$route.params.id));
+              }
+
               this.product = response.data;
               resolve();
             }
@@ -367,7 +365,6 @@ export default {
     selectColor(color) {
       this.goToProductPage(this.product, this.currentColor);
       this.formatRecentlyViewedProducts();
-      this.setSelectedSize();
       this.scrollTop();
     },
     formatRecentlyViewedProducts() {
@@ -378,7 +375,7 @@ export default {
         this.recentlyViewedProducts = [];
 
         products.forEach(product => {
-          if (product.id !== this.selectedProduct.id) {
+          if (product.id && product.id !== this.selectedProduct.id) {
             this.recentlyViewedProducts.push({
               id: product.id,
               images: product.images,
@@ -406,6 +403,22 @@ export default {
 
       localStorage.setItem('recently_viewed', JSON.stringify(products));
     },
+    removeRecentlyViewedProduct(id) {
+      let products = this.getRecentlyViewedProducts();
+
+      if (products) {
+        products = JSON.parse(products);
+
+        for (const i of Object.keys(products)) {
+          if (products[i].id === id) {
+            products.splice(i, 1);
+            break;
+          }
+        }
+      }
+
+      localStorage.setItem('recently_viewed', JSON.stringify(products));
+    },
     goToProductPage(product, color) {
       const query = {};
 
@@ -421,16 +434,42 @@ export default {
       this.recentlyViewedProducts = [];
       await this.getProduct(this.$route.params.id);
       this.formatRecentlyViewedProducts();
-      this.setSelectedSize();
       this.loading = false;
     },
     scrollTop() {
       document.documentElement.scrollTo(0, 0);
     },
-    setSelectedSize() {
-      if (this.sizes.length) {
-        this.selectedSize = this.sizes[0];
+    getHierachyCategory(slug) {
+      categoryService.getHierachyCategory(slug)
+        .then(response => {
+          if (response && response.status === 200 && response.data) {
+            this.category = response.data;
+          }
+        });
+    },
+    setBreadcrumbs(category) {
+      let tmp = JSON.parse(JSON.stringify(this.category));
+
+      while (tmp) {
+        this.breadcrumbs.unshift({
+          id: tmp.id,
+          name: tmp.name,
+          slug: tmp.slug
+        });
+
+        tmp = tmp.parent;
       }
+    },
+    selectSize(size) {
+      this.selectedSize = size;
+    },
+    getRelevantProducts(id, categorySlug, page = 1) {
+      productService.getRelevant(id, categorySlug, page)
+        .then(response => {
+          if (response && response.status === 200 && response.data) {
+            this.relevantProducts = response.data.data;
+          }
+        });
     }
   },
   created() {
@@ -447,6 +486,9 @@ export default {
 @import '~bootstrap/scss/_variables';
 
 .product-component {
+  a {
+    color: #212529;
+  }
   .custom-select {
     cursor: pointer;
   }
@@ -454,6 +496,7 @@ export default {
     .color-item {
       width: 25px;
       height: 25px;
+      border: 2px solid #000;
 
       svg {
         font-size: 12px;
@@ -461,8 +504,16 @@ export default {
     }
   }
   .cart {
-    height: 45px;
-    background-color: #1d1e1e;
+    &.can-buy {
+      height: 45px;
+      background-color: #1d1e1e;
+    }
+    &:not(.can-buy) {
+      pointer-events: none;
+      color: #707070 !important;
+      border: 1px solid #cecece;
+      background-color: #eee;
+    }
   }
   .like-button {
     width: 45px;
@@ -496,6 +547,25 @@ export default {
   }
   .product-price {
     font-size: 1.1rem;
+  }
+  .size-item {
+    width: 35px;
+    height: 35px;
+    font-size: .9rem;
+    border: 1px solid #000;
+
+    &.empty {
+      cursor: auto;
+      color: #ccc !important;
+      border: none;
+    }
+    &:hover {
+      border-width: 2px;
+    }
+    &.selected {
+      color: #fff !important;
+      background-color: #000;
+    }
   }
   @media screen and (min-width: 768px) {
     .recently-view-product {

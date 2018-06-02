@@ -2,7 +2,7 @@
   <div class="product-card h-100">
     <div class="card h-100">
       <div class="card-header p-0">
-        <router-link class="image-wrapper image-standard d-block" :to="{name: 'Product', params: {id: product.id}}">
+        <router-link class="image-wrapper image-standard d-block" :to="{name: 'Product', params: {id: sizes[0].product.id}, query: {color: sizes[0].product.color.id, size: sizes[0].id}}" v-if="sizes && sizes.length">
           <template v-if="images && images.length">
             <img class="card-img-top img-fluid" :src="images[0].original" />
           </template>
@@ -10,7 +10,6 @@
             <img :alt="product.name">
           </template>
         </router-link>
-        <!-- <img class="card-img-top img-fluid" :src="product.image" @click="goToProductPage" /> -->
         <font-awesome-icon
           :icon="icon.heart"
           class="like-button"

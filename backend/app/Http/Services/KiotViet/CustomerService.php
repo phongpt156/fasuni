@@ -20,7 +20,7 @@ class CustomerService
         $current = ($page - 1) * 100 + 1;
 
         try {
-            $response = $this->httpClient->get('customers?pageSize=' . $perPage . '&orderBy=createdDate&orderDirection=Asc&currentItem=' . $current);
+            $response = $this->httpClient->get('customers?pageSize=' . $perPage . '&includeRemoveIds=true&orderBy=createdDate&orderDirection=Asc&currentItem=' . $current);
 
             $response = $response->getBody()->getContents();
             $response = json_decode($response);

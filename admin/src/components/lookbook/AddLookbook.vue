@@ -47,8 +47,15 @@
             :custom-label="customLabel">
             <template slot="option" slot-scope="props">
               <div class="d-flex align-items-center">
-                <span class="mr-4">{{ props.option.name }}</span>
-                <img class="option__image" :src="props.option.images[0].original" :alt="props.option.name" style="width: 75px; height: 75px">
+                <img class="mr-2" :src="props.option.images[0].original" :alt="props.option.name" style="width: 75px; height: 75px" v-if="props.option.images && props.option.images.length" />
+                <span class="mr-4">{{props.option.code }} - {{ props.option.name }}
+                  <template v-if="props.option.color">
+                    - {{ props.option.color.name }}
+                  </template>
+                  <template v-if="props.option.size">
+                    - {{ props.option.size.name }}
+                  </template>
+                </span>
               </div>
             </template>
           </multiselect>
@@ -108,7 +115,7 @@ export default {
   },
   computed: {
     customLabel: () => option => {
-      return `${option.name}`;
+      return `${option.code} - ${option.name}`;
     },
     genders() {
       return GENDER;

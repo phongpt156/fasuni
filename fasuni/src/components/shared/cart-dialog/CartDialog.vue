@@ -1,8 +1,11 @@
 <template>
   <div class="cart-dialog bg-white p-3 shadow">
     <div class="product-list">
-      <div v-for="product in products" :key="product.id" class="mb-3">
-        <div class="row mx-0">
+      <div v-for="(product, index) in products" :key="product.id" class="mb-3">
+        <div class="row mx-0 product-item">
+          <div class="remove" @click="removeProductFromCart(index)">
+            <a href="#" aria-label="Close Account Info Modal Box">&times;</a>
+          </div>
           <div class="col-5 px-0">
             <div class="image-wrapper image-standard px-0 h-100">
               <template v-if="product.images && product.images.length">
@@ -28,7 +31,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 import { priceFormat } from '@/filters';
 
 export default {
@@ -55,6 +58,11 @@ export default {
 
       return total;
     }
+  },
+  methods: {
+    ...mapMutations('cart', {
+      removeProductFromCart: 'remove'
+    })
   }
 };
 </script>
@@ -67,7 +75,9 @@ export default {
   top: 60px;
   right: 0;
   position: absolute;
+  overflow: auto;
   min-width: 14vw;
+  max-height: 70vh;
   font-size: .75rem;
   border: 1px solid $black;
 
@@ -84,6 +94,21 @@ export default {
     border-radius: 4px;
     border: 0;
     background-color: #007138;
+  }
+  .product-item {
+    position: relative;
+
+    .remove {
+      z-index: 1000;
+      right: 0;
+      position: absolute;
+      font-size: 1rem;
+      color: #212529;
+
+      a:hover {
+        text-decoration: none;
+      }
+    }
   }
 }
 </style>

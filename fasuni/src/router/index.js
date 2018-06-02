@@ -10,7 +10,7 @@ export default new Router({
   mode: 'history',
   routes: [
     ...generateRoutes(store.state.routes),
-    { path: '*', component: NotFound, meta: { title: '404 Not Found' } }
+    { path: '*', component: NotFound, meta: { title: '404 Not Found' }, redirect: { name: 'Homepage' } }
   ]
 });
 

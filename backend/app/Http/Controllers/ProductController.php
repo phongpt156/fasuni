@@ -208,4 +208,38 @@ class ProductController extends Controller
 
         return response()->json($products, 200);
     }
+
+    public function getRelevant($id, Request $request)
+    {
+        $products = [];
+
+        if ($request->has('category')) {
+            $category = $request->category;
+
+            $products = Product::with('images')
+            ->whereNull('master_product_id')
+            ->where(function ($query) use ($category) {
+                $query->whereHas('category', function ($query) use ($category) {
+                    $query->whereSlug($category);
+                })
+                ->orWhereHas('category.parent', function ($query) use ($category) {
+                    $query->whereSlug($category);
+                })
+                ->orWhereHas('category.parent.parent', function ($query) use ($category) {
+                    $query->whereSlug($category);
+                });
+            })
+            ->where('id', '!=', $id)
+            ->whereIsActive(true)
+            ->paginate(16);
+
+            $products->appends($request->except('page'))->links();
+
+            $products->each(function ($product) {
+                $product->append('size', 'color');
+            });
+        }
+
+        return response()->json($products, 200);
+    }
 }

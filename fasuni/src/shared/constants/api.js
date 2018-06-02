@@ -27,7 +27,8 @@ export const CATEGORY = {
 export const PRODUCT = {
   getAll: BASE_URL + '/product',
   getOne: BASE_URL + '/product/',
-  getByCategory: BASE_URL + '/product/category/'
+  getByCategory: BASE_URL + '/product/category/',
+  getRelevant: BASE_URL + '/product/relevant/'
 };
 
 export const USER_PRODUCT_COMMUNICATION = {
