@@ -17,7 +17,7 @@ class ImageUtility
 
     public static function resize($imagePath, $destination)
     {
-        $source = config('path.images') . $imagePath;
+        $source = storage_path('app/images/' . $imagePath);
 
         $smPath = $destination . 'sm' . DIRECTORY_SEPARATOR . $imagePath;
         $mdPath = $destination . 'md' . DIRECTORY_SEPARATOR . $imagePath;

@@ -1,7 +1,7 @@
 <template>
   <div class="cart px-sm-5">
     <h1 class="text-center">Giỏ hàng của bạn</h1>
-    <div class="px-md-5 my-5" v-if="products.length">
+    <div class="px-md-5 mt-5" v-if="products.length">
       <table class="w-100 px-2 text-center">
         <thead>
           <tr>
@@ -87,7 +87,7 @@ export default {
     inputQuantity(product, $event) {
       const quantity = Number($event.target.value);
 
-      if (Number.isInteger(quantity) && quantity > 0) {
+      if (Number.isInteger(quantity) && quantity >= 0 && quantity <= 10000) {
         $event.target.value = quantity;
         this.onChangeQuantity(product, quantity);
       } else {
@@ -199,6 +199,7 @@ export default {
   .payment {
     width: 12%;
     padding: 10px;
+    outline: none;
     cursor: pointer;
     color: #fff;
     border-radius: 4px;

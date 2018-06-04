@@ -450,6 +450,7 @@ export default {
     },
     setBreadcrumbs(category) {
       let tmp = JSON.parse(JSON.stringify(this.category));
+      this.setBreadcrumbs = [];
 
       while (tmp) {
         this.breadcrumbs.unshift({

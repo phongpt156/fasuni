@@ -12,7 +12,7 @@
 */
 
 $router->get('/images/{filename}', function ($filename) use ($router) {
-    $path = config('path.images') . $filename;
+    $path = storage_path('app/images/' . $filename);
     $path = urldecode($path);
 
     if (Illuminate\Support\Facades\File::exists($path)) {
@@ -24,7 +24,7 @@ $router->get('/images/{filename}', function ($filename) use ($router) {
 });
 
 $router->get('/images/lookbooks/{size}/{filename}', function ($size, $filename) use ($router) {
-    $path = config('path.images') . DIRECTORY_SEPARATOR . 'lookbooks' . DIRECTORY_SEPARATOR . $size . DIRECTORY_SEPARATOR . $filename;
+    $path = storage_path('app/images/lookbooks/' . $size . '/' . $filename);
     $path = urldecode($path);
 
     if (Illuminate\Support\Facades\File::exists($path)) {
@@ -120,6 +120,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->group(['prefix' => 'lookbook'], function () use ($router) {
         $router->get('get-male-month-list-snapshot', 'LookbookController@getMaleMonthListSnapshot');
         $router->get('get-female-month-list-snapshot', 'LookbookController@getFemaleMonthListSnapshot');
+        $router->get('get-lookbooks-of-month/{gender}/{year}/{month}', 'LookbookController@getLookbooksOfMonth');
     });
     $router->group(['prefix' => 'attribute-value'], function () use ($router) {
         $router->get('color', 'AttributeValueController@getColors');
@@ -146,4 +147,3 @@ $router->get('/static/{type}/{file}', function ($type, $file) use ($router) {
 });
 
 $router->get('/{any:.*}', 'HomeController@index');
-// $router->get('/', 'HomeController@index');

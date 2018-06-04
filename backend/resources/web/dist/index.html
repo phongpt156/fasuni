@@ -1,0 +1,34 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=google-signin-client_id content=493839488981-h84lbqckhj4ondu01sfc8ecfataevp3s.apps.googleusercontent.com><link href="https://fonts.googleapis.com/css?family=Roboto" rel=stylesheet><script>window.fbAsyncInit = function() {
+        window.FB.init({
+          appId: '2091371807815202',
+          cookie: true,
+          xfbml: true,
+          version: 'v2.12'
+        });
+        window.FB.AppEvents.logPageView();
+      };
+
+      (function(d, s, id) {
+        let js;
+        let fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+          return;
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = 'https://connect.facebook.net/en_US/sdk.js';
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));</script><script src=https://apis.google.com/js/platform.js async defer=defer></script><title>fasuni</title><link href=/fasuni/backend/public/static/css/app.9b4c06e12ee56bb0fa507e490a36dd45.css rel=stylesheet></head><body><div id=app></div><script>(function () {
+        const loadGoogleApiInterval = setInterval(() => {
+          if (window.gapi) {
+            window.gapi.load('auth2', function() {
+              window.auth2 = gapi.auth2.init({
+                client_id: '493839488981-h84lbqckhj4ondu01sfc8ecfataevp3s.apps.googleusercontent.com',
+                fetch_basic_profile: true,
+                scope: 'profile'
+              });
+            });
+            clearInterval(loadGoogleApiInterval);
+          }
+        }, 50)
+      })();</script><script type=text/javascript src=/fasuni/backend/public/static/js/manifest.0eb7d9ca11527db15211.js></script><script type=text/javascript src=/fasuni/backend/public/static/js/vendor.69a7fdf21eceeb4391bc.js></script><script type=text/javascript src=/fasuni/backend/public/static/js/app.3990ab53274fc57d73c9.js></script></body></html>

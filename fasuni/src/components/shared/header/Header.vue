@@ -70,13 +70,13 @@
         <ul class="navbar-nav align-items-center">
           <li class="nav-item bag">
             <a class="nav-link text-white d-flex align-items-center" @click="toggleIsOpenCartDialog">
-              My Bag ({{ products.length }})
+              Giỏ hàng ({{ products.length }})
             </a>
             <cart-dialog v-if="isOpenCartDialog"></cart-dialog>
           </li>
           <li class="nav-item">
             <a class="nav-link text-dark text-uppercase" @click="$router.push({name: 'StoreFinder'})">
-              Store Finder
+              Cửa hàng
             </a>
           </li>
           <li class="nav-item dropdown">
@@ -88,7 +88,7 @@
               </div>
             </a>
             <a class="nav-link text-dark text-uppercase" @click="openLoginFormDialog" v-else>
-              Sign in
+              Đăng nhập
             </a>
           </li>
         </ul>

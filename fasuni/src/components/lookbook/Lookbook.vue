@@ -50,11 +50,6 @@ export default {
       return this.$route.params.gender;
     }
   },
-  watch: {
-    month(newValue, oldValue) {
-      console.log(newValue);
-    }
-  },
   methods: {
     goToLookbookArchive() {
       this.$router.push({name: 'LookbookArchive'});
@@ -68,6 +63,8 @@ export default {
 @import '~bootstrap/scss/_variables';
 
 .lookbook {
+  min-height: calc(100vh - 322px);
+
   hr {
     border-top: 1px solid $black;
   }

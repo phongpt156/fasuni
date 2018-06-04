@@ -26,7 +26,7 @@ export default {
 <style lang="scss">
 .map-responsive {
   position: relative;
-  padding-bottom: 44.9%;
+  padding-bottom: calc(100vh - 322px);
   overflow: hidden;
   height: 0;
 

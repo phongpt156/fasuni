@@ -1,9 +1,12 @@
 <template>
   <div class="product-list">
     <div class="row mx-2 mt-2">
-      <div v-for="product in products" :key="product.id" class="col-xl-3 col-sm-6 px-2 my-2" v-if="products.length">
-        <product-card :product="product"></product-card>
-      </div>
+      <template v-if="products.length">
+        <div v-for="product in products" :key="product.id" class="col-xl-3 col-sm-6 px-2 my-2">
+          <product-card :product="product"></product-card>
+        </div>
+      </template>
+      <h3 v-else class="text-center col-12">Không tìm thấy sản phẩm</h3>
       <div class="w-100 d-flex justify-content-center">
         <spinner class="mt-3" :loading="loading"></spinner>
       </div>
@@ -110,9 +113,12 @@ export default {
             if (response && response.status === 200 && response.data) {
               if (this.products.length) {
                 this.products = this.products.concat(response.data.data);
-              } else {
+              } else if (response.data.data) {
                 this.products = response.data.data;
+              } else {
+                this.products = [];
               }
+
               if (!response.data.next_page_url) {
                 document.removeEventListener('scroll', this.onScroll);
               }

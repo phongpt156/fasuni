@@ -96,6 +96,7 @@ export default {
   }
   .payment {
     padding: 10px;
+    outline: none;
     cursor: pointer;
     color: $white;
     border-radius: 4px;

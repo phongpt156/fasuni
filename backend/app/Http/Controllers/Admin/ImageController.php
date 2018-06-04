@@ -16,7 +16,7 @@ class ImageController extends Controller
         ini_set('max_execution_time', 0);
 
         if ($request->has('file')) {
-            $path = config('path.images') . $request->file->getClientOriginalName();
+            $path = storage_path('app/images/' . $request->file->getClientOriginalName());
 
             File::put($path, File::get($request->file));
             ImageUtility::compress($path, $path);
@@ -29,7 +29,7 @@ class ImageController extends Controller
 
     public function delete($url)
     {
-        $path = config('path.images') . $url;
+        $path = storage_path('app/images/' . $url);
         $path = urldecode($path);
 
         if (File::exists($path)) {

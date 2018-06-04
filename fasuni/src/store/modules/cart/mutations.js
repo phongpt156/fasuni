@@ -38,7 +38,9 @@ export default {
     state.isOpenCartDialog = value;
   },
   updateQuantity(state, {product, quantity}) {
-    product.quantity = quantity;
-    this.commit('cart/saveCartToStorage');
+    if (quantity >= 0 && quantity <= 10000) {
+      product.quantity = quantity;
+      this.commit('cart/saveCartToStorage');
+    }
   }
 };

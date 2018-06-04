@@ -1,6 +1,9 @@
 <template>
   <div class="lookbook-list">
-    <div class="row mx-0">
+    <div class="d-flex justify-content-center py-5" v-if="loading">
+      <spinner :loading="loading"></spinner>
+    </div>
+    <div class="row mx-0" v-else>
       <div
         v-for="lookbook in lookbooks"
         :key="lookbook.id"
@@ -15,14 +18,17 @@
 <script>
 import LookbookItem from './lookbook-item/LookbookItem';
 import lookbookService from '@/shared/services/lookbook.service';
+import Spinner from '@/components/shared/spinner/Spinner';
 
 export default {
   components: {
-    LookbookItem
+    LookbookItem,
+    Spinner
   },
   data() {
     return {
-      lookbooks: []
+      lookbooks: [],
+      loading: true
     };
   },
   computed: {
@@ -36,13 +42,28 @@ export default {
       return this.$route.params.gender;
     }
   },
+  watch: {
+    gender() {
+      this.getLookbooks();
+    },
+    month() {
+      this.getLookbooks();
+    },
+    year() {
+      this.getLookbooks();
+    }
+  },
   methods: {
     getLookbooks() {
+      this.loading = true;
+      this.lookbooks = [];
+
       lookbookService.getLookbooksOfMonth(this.gender, this.year, this.month)
         .then(response => {
           if (response && response.status === 200 && response.data) {
             this.lookbooks = response.data;
           }
+          this.loading = false;
         });
     }
   },

@@ -20,7 +20,7 @@ class LookbookController extends Controller
 
     public function store(Request $request)
     {
-        $lookbookPath = config('path.images') . 'lookbooks' . DIRECTORY_SEPARATOR;
+        $lookbookPath = storage_path('app/images/lookbooks/' . $request->file->getClientOriginalName());;
 
         $originalPath = $lookbookPath . 'original';
         $smPath = 'lookbooks/sm/';

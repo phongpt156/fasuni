@@ -64,6 +64,7 @@ export default {
     },
     setBreadcrumbs(category) {
       let tmp = JSON.parse(JSON.stringify(this.category));
+      this.breadcrumbs = [];
 
       while (tmp) {
         this.breadcrumbs.unshift({
@@ -82,18 +83,20 @@ export default {
 </script>
 
 <style lang="scss">
-  @import '~bootstrap/scss/functions';
-  @import '~bootstrap/scss/_variables';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/_variables';
 
-  .category {
-    .breadcrumbs {
-      position: absolute;
-      left: 0.5rem;
-      font-size: $font-size-sm;
-    }
-    .hr {
-      border-top: 1.5px solid rgba(0, 0, 0, 0.1);
-      background-color: rgba(45, 45, 45, .2);
-    }
+.category {
+  min-height: calc(100vh - 322px);
+
+  .breadcrumbs {
+    position: absolute;
+    left: 0.5rem;
+    font-size: $font-size-sm;
   }
+  .hr {
+    border-top: 1.5px solid rgba(0, 0, 0, 0.1);
+    background-color: rgba(45, 45, 45, .2);
+  }
+}
 </style>
