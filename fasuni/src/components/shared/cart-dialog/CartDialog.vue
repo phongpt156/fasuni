@@ -1,32 +1,39 @@
 <template>
   <div class="cart-dialog bg-white p-3 shadow">
-    <div class="product-list">
-      <div v-for="(product, index) in products" :key="product.id" class="mb-3">
-        <div class="row mx-0 product-item">
-          <div class="remove" @click="removeProductFromCart(index)">
-            <a href="#" aria-label="Close Account Info Modal Box">&times;</a>
-          </div>
-          <div class="col-5 px-0">
-            <div class="image-wrapper image-standard px-0 h-100">
-              <template v-if="product.images && product.images.length">
-                <img :src="product.images[0].original" alt="" />
-              </template>
+    <template v-if="products.length">
+      <div class="product-list">
+        <div v-for="(product, index) in products" :key="product.id" class="mb-3">
+          <div class="row mx-0 product-item">
+            <div class="remove" @click="removeProductFromCart(index)">
+              <a>&times;</a>
+            </div>
+            <div class="col-5 px-0">
+              <div class="image-wrapper image-standard px-0 h-100">
+                <template v-if="product.images && product.images.length">
+                  <img :src="product.images[0].original" alt="" />
+                </template>
+              </div>
+            </div>
+            <div class="col-7 p-2 right">
+              <p class="mb-0"><router-link :to="{name: 'Product', params: {id: product.id}, query: product.color ? {color: product.color.id} : {}}">{{ product.name }}</router-link></p>
+              <p class="mb-0">Size: {{ product.size.name }}</p>
+              <p class="mb-0">Số lượng: {{ product.quantity }}</p>
+              <p class="mb-0">Tổng tiền: {{ totalPrice(product) | priceFormat }}</p>
             </div>
           </div>
-          <div class="col-7 p-2 right">
-            <p class="mb-0"><router-link :to="{name: 'Product', params: {id: product.id}, query: product.color ? {color: product.color.id} : {}}">{{ product.name }}</router-link></p>
-            <p class="mb-0">Size: {{ product.size.name }}</p>
-            <p class="mb-0">Số lượng: {{ product.quantity }}</p>
-            <p class="mb-0">Tổng tiền: {{ totalPrice(product) | priceFormat }}</p>
-          </div>
         </div>
+        <div class="mb-3">
+          <router-link :to="{name: 'Cart'}">Xem giỏ hàng ({{ products.length }} sản phẩm)</router-link>
+          <p class="mb-0">Tổng tiền: {{ totalBagPrice | priceFormat }}</p>
+        </div>
+        <button class="payment w-100">Thanh toán</button>
       </div>
-      <div class="mb-3">
-        <a>Xem giỏ hàng ({{ products.length }} sản phẩm)</a>
-        <p class="mb-0">Tổng tiền: {{ totalBagPrice | priceFormat }}</p>
+    </template>
+    <template v-else>
+      <div class="p-4 d-flex align-items-center justify-content-center">
+        Giỏ hàng trống
       </div>
-      <button class="payment w-100">Thanh toán</button>
-    </div>
+    </template>
   </div>
 </template>
 

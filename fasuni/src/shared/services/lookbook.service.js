@@ -10,5 +10,9 @@ export default {
   getFemaleMonthListSnapshot() {
     return httpClient.get(LOOKBOOK.getFemaleMonthListSnapshot)
       .catch(handleError);
+  },
+  getLookbooksOfMonth(gender, year, month) {
+    return httpClient.get(`${LOOKBOOK.getLookbooksOfMonth}${gender}/${year}/${month}`)
+      .catch(handleError);
   }
 };

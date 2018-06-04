@@ -123,6 +123,7 @@
             <slide class="px-2" v-for="product in relevantProducts" :key="product.id">
               <a class="d-block image-wrapper image-standard">
                 <img :src="product.images[0].original" alt="" class="img-fluid" v-if="product.images && product.images.length" />
+                <img :alt="product.name" class="img-fluid" v-else />
               </a>
               <p class="font-size-base text-upper-case my-1">{{ product.name }}</p>
               <router-link class="detail-button" :to="{name: 'Product', params: {id: product.id}, query: {colors: product.color.id}}">Chi tiết >></router-link>

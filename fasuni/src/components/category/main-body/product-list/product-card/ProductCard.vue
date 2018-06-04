@@ -2,14 +2,17 @@
   <div class="product-card h-100">
     <div class="card h-100">
       <div class="card-header p-0">
-        <router-link class="image-wrapper image-standard d-block" :to="{name: 'Product', params: {id: sizes[0].product.id}, query: {color: sizes[0].product.color.id, size: sizes[0].id}}" v-if="sizes && sizes.length">
-          <template v-if="images && images.length">
+        <template v-if="sizes && sizes.length">
+          <router-link class="image-wrapper image-standard d-block" :to="{name: 'Product', params: {id: sizes[0].product.id}, query: {color: sizes[0].product.color.id}}">
             <img class="card-img-top img-fluid" :src="images[0].original" />
-          </template>
-          <template v-else>
-            <img :alt="product.name">
-          </template>
-        </router-link>
+          </router-link>
+        </template>
+        <template v-else>
+          <a class="image-wrapper image-standard d-block">
+            <img class="card-img-top img-fluid" :src="images[0].original" :alt="product.name" v-if="images && images.length" />
+            <img class="card-img-top img-fluid" :alt="product.name" v-else />
+          </a>
+        </template>
         <font-awesome-icon
           :icon="icon.heart"
           class="like-button"

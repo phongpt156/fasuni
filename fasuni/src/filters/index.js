@@ -5,3 +5,7 @@ export function priceFormat(price) {
 
   return formattedPrice;
 };
+
+export function encodeURI(uri) {
+  return window.encodeURI(uri);
+};

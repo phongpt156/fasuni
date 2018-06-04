@@ -36,5 +36,9 @@ export default {
   },
   setIsOpenCartDialog(state, value) {
     state.isOpenCartDialog = value;
+  },
+  updateQuantity(state, {product, quantity}) {
+    product.quantity = quantity;
+    this.commit('cart/saveCartToStorage');
   }
 };

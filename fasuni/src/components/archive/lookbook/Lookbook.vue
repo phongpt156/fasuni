@@ -1,6 +1,6 @@
 <template>
   <div class="lookbook-archive">
-    <p class="h5 text-center mb-0 py-4 text-uppercase">{{ title }}</p>
+    <p class="h5 text-center mb-0 py-4 text-uppercase">The Lookbook</p>
     <hr class="m-0" />
     <p class="text-center mb-0 py-3 description">The Lookbook by month. A curated journal of collections, past and present. Choose a Lookbook below to browse and shop the featured items</p>
     <div>
@@ -78,7 +78,6 @@
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
 import angleDownIcon from '@fortawesome/fontawesome-free-solid/faAngleDown';
 import angleRightIcon from '@fortawesome/fontawesome-free-solid/faAngleRight';
-import { GENDER } from '@/shared/constants';
 
 export default {
   components: {
@@ -163,20 +162,6 @@ export default {
         }
       ]
     };
-  },
-  computed: {
-    title() {
-      let title = '';
-
-      if (this.$route.params.gender === GENDER.male.id) {
-        title += 'Men\'s Lookbook // ';
-      } else if (this.$route.params.gender === GENDER.female.id) {
-        title += 'Women\'s Lookbook // ';
-      }
-      title += `Tháng ${this.$route.params.month} ${this.$route.params.year}`;
-
-      return title;
-    }
   },
   mounted() {
     this.currentMonthLookbook = this.lookbooks[0];

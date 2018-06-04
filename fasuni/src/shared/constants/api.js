@@ -38,7 +38,8 @@ export const USER_PRODUCT_COMMUNICATION = {
 
 export const LOOKBOOK = {
   getMaleMonthListSnapshot: BASE_URL + '/lookbook/get-male-month-list-snapshot',
-  getFemaleMonthListSnapshot: BASE_URL + '/lookbook/get-female-month-list-snapshot'
+  getFemaleMonthListSnapshot: BASE_URL + '/lookbook/get-female-month-list-snapshot',
+  getLookbooksOfMonth: BASE_URL + '/lookbook/get-lookbooks-of-month/'
 };
 
 export const ATTRIBUTE_VALUE = {

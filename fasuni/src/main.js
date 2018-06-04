@@ -8,7 +8,6 @@ import store from './store';
 
 import '@/assets/scripts';
 import '@/package/progress-bar';
-// import '@/package/modal';
 import '@/package/scroll-reveal';
 
 Vue.config.productionTip = false;

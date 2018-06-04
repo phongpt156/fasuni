@@ -50,7 +50,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: './',
+    assetsPublicPath: process.env.NODE_ENV === 'production' ? '/fasuni/backend/public/' : '/',
 
     /**
      * Source Maps

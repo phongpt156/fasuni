@@ -1,7 +1,7 @@
 <template>
   <div class="lookbook-item">
     <div>
-      <img :src="lookbook.image" class="w-100 h-100" />
+      <responsive-image :lg="lookbook.large_image" :md="lookbook.medium_image" :sm="lookbook.small_image" :thumbnail="lookbook.thumbnail" image-class="w-100 h-100" ></responsive-image>
     </div>
     <div class="product-list-wrapper">
       <div class="d-flex align-items-center justify-content-center h-100">
@@ -9,10 +9,13 @@
           <p class="h4 text-uppercase">{{ lookbook.name }}</p>
           <hr class="w-25" />
           <a>
-            <div v-for="product in lookbook.products" :key="product.id" class="product-item">
-                <span class="product-name mr-2">{{ product.name }}</span>
-              <span class="font-weight-bold">{{ priceFormat(product.price) }}</span>
-            </div>
+            <router-link v-for="product in lookbook.products" :key="product.id" class="product-item d-block" :to="{name: 'Product', params: {id: product.id}, query: {color: product.color.id}}">
+              <template v-if="product.size">
+                {{ product.size.id }}
+              </template>
+              <span class="product-name mr-2">{{ product.name }}</span>
+              <span class="font-weight-bold">{{ priceFormat(product.sale_price) }}</span>
+            </router-link>
           </a>
         </div>
       </div>
@@ -22,8 +25,12 @@
 
 <script>
 import { getFormatPrice } from '@/shared/functions';
+import ResponsiveImage from '@/components/shared/responsive-image/ResponsiveImage';
 
 export default {
+  components: {
+    ResponsiveImage
+  },
   props: {
     lookbook: {
       type: Object,
@@ -89,6 +96,8 @@ export default {
       bottom: -1px;
 
       .product-item {
+        color: hsla(0,0%,100%,.8);
+
         &:hover {
           color: $white;
         }
@@ -96,6 +105,11 @@ export default {
     }
     hr {
       border-top: 2px solid #f6f5f5;
+    }
+    a {
+      &:hover {
+        text-decoration: none;
+      }
     }
   }
 </style>

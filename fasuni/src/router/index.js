@@ -7,10 +7,13 @@ import NotFound from '@/components/NotFound';
 Vue.use(Router);
 
 export default new Router({
+  base: process.env.NODE_ENV === 'production' ? '/fasuni/backend/public' : '/',
   mode: 'history',
   routes: [
     ...generateRoutes(store.state.routes),
-    { path: '*', component: NotFound, meta: { title: '404 Not Found' }, redirect: { name: 'Homepage' } }
+    {
+      path: '*', component: NotFound, meta: { title: '404 Not Found' }
+    }
   ]
 });
 
