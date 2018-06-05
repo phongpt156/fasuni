@@ -1,6 +1,6 @@
 <template>
   <div class="mat-select-container mb-4" :class="{'mat-select-focus': isFocus, 'mat-select-default': value === ''}">
-    <div class="font-weight-bold text-upppercase mb-1">{{ inputLabel }}</div>
+    <div class="font-weight-bold text-uppercase mb-1">{{ inputLabel }}</div>
     <div class="mat-select-wrapper">
       <div class="mat-select-flex">
         <div class="mat-select-infix">

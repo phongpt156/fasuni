@@ -133,7 +133,7 @@ export default {
 @import '~bootstrap/scss/_variables';
 
 .login-form-dialog {
-  font-size: $font-size-base;
+  font-size: $font-size-sm;
 
   .submit-button {
     border-radius: 50px;

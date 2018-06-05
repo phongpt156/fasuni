@@ -217,7 +217,7 @@ export default {
 @import '~bootstrap/scss/_variables';
 
 .register-form-dialog {
-  font-size: $font-size-base;
+  font-size: $font-size-sm;
 
   .modal-lg {
     &>.row {

@@ -1,6 +1,6 @@
 <template>
   <div class="mat-input-container mb-4" :class="{'mat-input-focus': isFocus, 'has-error': hasError}">
-    <div class="font-weight-bold text-upppercase mb-1 mat-input-label">{{ inputLabel }}</div>
+    <div class="font-weight-bold text-uppercase mb-1 mat-input-label">{{ inputLabel }}</div>
     <div class="mat-input-wrapper">
       <div class="mat-input-flex">
         <div class="mat-input-infix">
