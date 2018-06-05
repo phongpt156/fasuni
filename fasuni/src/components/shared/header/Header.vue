@@ -1,7 +1,7 @@
 <template>
   <header class="header fixed-top shadow-sm">
     <nav class="navbar navbar-expand-lg navbar-light">
-      <a class="navbar-brand branding-name h-100 d-flex align-items-center" @click="goToHomepage">Fasuni</a>
+      <a class="navbar-brand branding-name h-100 d-flex align-items-center mt-0" @click="goToHomepage">Fasuni</a>
       <button class="navbar-toggler" type="button" @click="isOpenSidenavOverlay = !isOpenSidenavOverlay">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -9,10 +9,10 @@
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto align-items-center category-list">
           <li
-            class="nav-item dropdown"
+            class="nav-item dropdown h-100 d-flex align-items-center"
             v-for="category in categories"
             :key="category.id">
-            <a class="nav-link dropdown-toggle text-uppercase text-dark" data-toggle="dropdown">
+            <a class="nav-link dropdown-toggle text-uppercase text-dark">
               {{ category.name }}
             </a>
             <div class="dropdown-menu mt-0 p-4 shadow-sm">
@@ -32,7 +32,7 @@
               </div>
             </div>
           </li>
-          <li class="nav-item dropdown">
+          <li class="nav-item dropdown h-100 d-flex align-items-center">
             <a class="nav-link dropdown-toggle text-uppercase text-dark" data-toggle="dropdown">
               Studio
             </a>
@@ -426,6 +426,7 @@ export default {
 <style lang="scss">
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/_variables';
+@import '~bootstrap/scss/bootstrap-grid';
 
 .header {
   font-size: 0.7rem;
@@ -445,10 +446,12 @@ export default {
         color: $black;
       }
     }
+    .dropdown {
+      position: unset;
+    }
     .dropdown-menu {
       width: 100%;
-      top: 50px;
-      position: fixed;
+      // display: block;
       border: none;
 
       .sub-nav {
@@ -487,6 +490,14 @@ export default {
     &>a {
       height: 50px;
       background-color: rgba(45,45,45,.8);
+    }
+  }
+  .dropdown:hover>.dropdown-menu {
+    display: block;
+  }
+  @include media-breakpoint-up(lg) {
+    .category-list {
+      height: 50px;
     }
   }
 }

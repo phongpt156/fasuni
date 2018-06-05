@@ -3,8 +3,8 @@
     <p class="h5 text-center mb-0 py-4 text-uppercase">The Lookbook</p>
     <hr class="m-0" />
     <p class="text-center mb-0 py-3 description">The Lookbook by month. A curated journal of collections, past and present. Choose a Lookbook below to browse and shop the featured items</p>
-    <div>
-      <div class="row mx-0 lookbook-list-wrapper max-md-950-height">
+    <div class="px-5">
+      <div class="row mx-0 lookbook-list-wrapper px-5">
         <div class="col-md-6 pr-0 py-2 pl-3">
           <div class="lookbook-item h-100">
             <a class="d-block h-100">
@@ -243,12 +243,6 @@ export default {
     }
     .view-now-button {
       visibility: hidden;
-    }
-  }
-
-  @include media-breakpoint-up(md) {
-    .max-md-950-height {
-      max-height: 950px;
     }
   }
 }

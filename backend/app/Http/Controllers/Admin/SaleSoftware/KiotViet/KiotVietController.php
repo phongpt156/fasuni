@@ -525,7 +525,7 @@ class KiotVietController extends Controller
 
         $cityId = null;
         $districtId = null;
-        if (isset($customer->locationName)) {
+        if (isset($customer->locationName) && $customer->locationName) {
             preg_match('/(.+) - (.+)/', $customer->locationName, $matches);
             $cityName = $matches[1];
             $districtName = $matches[2];
@@ -864,7 +864,7 @@ class KiotVietController extends Controller
 
     public function saveInvoiceDetails(Array $invoiceDetails = [], int $invoiceId)
     {
-        $oldProductIds = InvoiceDetail::whereInvoiceId($orderId)->get()->pluck('product_id')->toArray();
+        $oldProductIds = InvoiceDetail::whereInvoiceId($invoiceId)->get()->pluck('product_id')->toArray();
         $newProductIds = [];
 
         foreach ($invoiceDetails as $invoiceDetail) {
@@ -890,7 +890,7 @@ class KiotVietController extends Controller
         $removeIds = array_diff($oldProductIds, $newProductIds);
         if (count($removeIds)) {
             try {
-                InvoiceDetail::whereInvoiceId($orderId)->whereIn('product_id', $removeIds)->delete();
+                InvoiceDetail::whereInvoiceId($invoiceId)->whereIn('product_id', $removeIds)->delete();
             } catch (QueryException $e) {
                 \Log::error('Cannot delete invoice details: ' . $e->getMessage());
                 response()->json(['error' => 'Cannot delete invoice details: ' . $e->getMessage()], 500)->send();
