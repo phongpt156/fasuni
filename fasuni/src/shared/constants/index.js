@@ -1,4 +1,4 @@
-export const BASE_URL = process.env.NODE_ENV === 'production' ? '/api' : 'https://localhost/fasuni/backend/public/api';
+export const BASE_URL = process.env.NODE_ENV === 'production' ? '/' : 'https://localhost/fasuni/backend/public/api';
 export const IMAGE_URL = process.env.NODE_ENV === 'production' ? 'images' : 'https://localhost/fasuni/backend/public/images';
 // export const BASE_URL = 'https://8bed004b.ngrok.io/api';
 
