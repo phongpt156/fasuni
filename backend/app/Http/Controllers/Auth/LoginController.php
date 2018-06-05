@@ -29,6 +29,6 @@ class LoginController extends Controller
             $errors['password'] = $e->getMessage();
             $code = $e->getCode();
         }
-        return response()->json($errors, $code);
+        return response()->json(['errors' => $errors], $code);
     }
 }

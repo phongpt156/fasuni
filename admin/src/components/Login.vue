@@ -58,12 +58,19 @@ export default {
               if (response && response.data && response.status === 200) {
                 this.setToken(response.data.api_token);
                 this.redirectToHomepage();
+              } else {
+                this.addErrors(response.data.errors);
               }
             });
         } else {
           this.$Message.error('Fail!');
         }
       });
+    },
+    addErrors(errors) {
+      for (const key of Object.keys(errors)) {
+        this.$refs.loginForm.addError(key, errors[key]);
+      }
     },
     redirectToHomepage() {
       this.$router.push({'name': 'Homepage'});
