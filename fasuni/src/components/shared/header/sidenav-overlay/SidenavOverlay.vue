@@ -8,59 +8,109 @@
             v-for="category in categories"
             :key="category.id"
             class="category-item d-block">
-            <div>
-              <a
-                class="p-3 d-flex justify-content-between category-link"
-                @click="toggleCollapsed(category)"
-                data-toggle="collapse"
-                :data-target="`.category-${category.id}`"
-                :class="{'custom-background': category.children && category.children.length && !category.collapsed}">
-                {{ category.name }}
-                <span v-if="category.children && category.children.length">
-                  <font-awesome-icon :icon="icons.plus" v-if="category.collapsed"></font-awesome-icon>
-                  <font-awesome-icon :icon="icons.minus" v-else></font-awesome-icon>
-                </span>
-              </a>
-              <div class="collapse" :class="`category-${category.id}`">
-                <template v-if="category.children">
-                  <div v-for="children in category.children" :key="children.id">
-                    <div>
-                      <a
-                        class="p-3 pl-4 d-flex justify-content-between category-link"
-                        @click="toggleCollapsed(children)"
-                        data-toggle="collapse"
-                        :data-target="`.category-${children.id}`"
-                        :class="{'custom-background': children.children && children.children.length && !children.collapsed}">
-                        {{ children.name }}
-                        <span v-if="children.children && children.children.length">
-                          <font-awesome-icon :icon="icons.plus" v-if="children.collapsed"></font-awesome-icon>
-                          <font-awesome-icon :icon="icons.minus" v-else></font-awesome-icon>
-                        </span>
-                      </a>
-                      <div class="collapse" :class="`category-${children.id}`">
-                        <template v-if="children.children">
-                          <div v-for="children1 in children.children" :key="children1.id">
-                            <a
-                              class="p-3 pl-5 d-flex justify-content-between category-link"
-                              :class="{'custom-background': children1.children && children1.children.length && !children1.collapsed}"
-                              @click="$emit('goToCategoryPage')">
-                              {{ children1.name }}
-                            </a>
-                          </div>
-                        </template>
-                      </div>
-                    </div>
+            <a
+              class="p-3 d-flex justify-content-between category-link"
+              @click="toggleCollapsed(category)"
+              data-toggle="collapse"
+              :data-target="`.category-${category.id}`"
+              :class="{'custom-background': category.children && category.children.length && !category.collapsed}">
+              {{ category.name }}
+              <span v-if="category.children && category.children.length">
+                <font-awesome-icon :icon="icons.plus" v-if="category.collapsed"></font-awesome-icon>
+                <font-awesome-icon :icon="icons.minus" v-else></font-awesome-icon>
+              </span>
+            </a>
+            <div class="collapse" :class="`category-${category.id}`">
+              <template v-if="category.children">
+                <div v-for="children in category.children" :key="children.id">
+                  <a
+                    class="p-3 pl-4 d-flex justify-content-between category-link"
+                    @click="toggleCollapsed(children)"
+                    data-toggle="collapse"
+                    :data-target="`.category-${children.id}`"
+                    :class="{'custom-background': children.children && children.children.length && !children.collapsed}">
+                    {{ children.name }}
+                    <span v-if="children.children && children.children.length">
+                      <font-awesome-icon :icon="icons.plus" v-if="children.collapsed"></font-awesome-icon>
+                      <font-awesome-icon :icon="icons.minus" v-else></font-awesome-icon>
+                    </span>
+                  </a>
+                  <div class="collapse" :class="`category-${children.id}`">
+                    <template v-if="children.children">
+                      <router-link
+                        v-for="children1 in children.children" :key="children1.id"
+                        class="p-3 pl-5 d-flex justify-content-between category-link"
+                        :to="{name: 'Category', params: {slug: children1.slug}}">{{ children1.name }}
+                      </router-link>
+                    </template>
                   </div>
-                </template>
+                </div>
+              </template>
+            </div>
+          </div>
+          <div class="category-item d-block">
+            <a
+              class="p-3 d-flex justify-content-between category-link"
+              @click="toggleCollapsed(lookbookMonthList)"
+              data-toggle="collapse"
+              data-target=".lookbook-collapse">
+              Studio
+              <span>
+                <font-awesome-icon :icon="icons.plus" v-if="lookbookMonthList.collapsed"></font-awesome-icon>
+                <font-awesome-icon :icon="icons.minus" v-else></font-awesome-icon>
+              </span>
+            </a>
+            <div class="collapse lookbook-collapse">
+              <div>
+                <a
+                  class="p-3 pl-4 d-flex justify-content-between category-link"
+                  @click="lookbookMonthList.femaleCollapsed = !lookbookMonthList.femaleCollapsed"
+                  data-toggle="collapse"
+                  data-target=".women-lookbook"
+                  :class="{'custom-background': !lookbookMonthList.femaleCollapsed}">
+                  Women's Lookbook
+                  <span>
+                    <font-awesome-icon :icon="icons.plus" v-if="lookbookMonthList.femaleCollapsed"></font-awesome-icon>
+                    <font-awesome-icon :icon="icons.minus" v-else></font-awesome-icon>
+                  </span>
+                </a>
+                <div class="collapse women-lookbook">
+                  <router-link
+                    v-for="(month, index) in lookbookMonthList.female" :key="index"
+                    class="p-3 pl-5 d-flex justify-content-between category-link"
+                    :to="{name: 'Lookbook', params: {gender: genders.female.id, year: month.year, month: month.month}}">Tháng {{ month.month }}
+                  </router-link>
+                </div>
+              </div>
+              <div>
+                <a
+                  class="p-3 pl-4 d-flex justify-content-between category-link"
+                  @click="lookbookMonthList.maleCollapsed = !lookbookMonthList.maleCollapsed"
+                  data-toggle="collapse"
+                  data-target=".men-lookbook"
+                  :class="{'custom-background': !lookbookMonthList.maleCollapsed}">
+                  Men's Lookbook
+                  <span>
+                    <font-awesome-icon :icon="icons.plus" v-if="lookbookMonthList.maleCollapsed"></font-awesome-icon>
+                    <font-awesome-icon :icon="icons.minus" v-else></font-awesome-icon>
+                  </span>
+                </a>
+                <div class="collapse men-lookbook">
+                  <router-link
+                    v-for="(month, index) in lookbookMonthList.male" :key="index"
+                    class="p-3 pl-5 d-flex justify-content-between category-link"
+                    :to="{name: 'Lookbook', params: {gender: genders.male.id, year: month.year, month: month.month}}">Tháng {{ month.month }}
+                  </router-link>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         <search-form class="my-2 px-3"></search-form>
-        <a class="p-3 d-flex justify-content-between category-link">
-          Store Finder
-        </a>
+        <router-link class="p-3 d-flex justify-content-between category-link" :to="{name: 'StoreFinder'}">
+          Cửa hàng
+        </router-link>
         <div>
           <a v-if="user" id="userDropdownMobile" data-toggle="dropdown" class="p-3 d-flex justify-content-between category-link">
             {{ userName }}
@@ -69,7 +119,7 @@
               <a class="dropdown-item" @click="logout">Đăng xuất</a>
             </div>
           </a>
-          <a class="d-flex p-3" @click="$emit('openLoginForm')" v-else>
+          <a class="d-flex p-3 category-item category-link" @click="$emit('openLoginForm')" v-else>
             Sign in
           </a>
         </div>
@@ -96,6 +146,18 @@ export default {
       type: Array,
       default() {
         return [];
+      }
+    },
+    lookbookMonthList: {
+      type: Object,
+      default() {
+        return {};
+      }
+    },
+    genders: {
+      type: Object,
+      default() {
+        return {};
       }
     }
   },
@@ -196,7 +258,10 @@ export default {
       }
     }
     .category-link {
+      color: #818181;
+
       &:hover {
+        text-decoration: none;
         background-color: #303030;
       }
       &.custom-background {

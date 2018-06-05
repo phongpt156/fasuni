@@ -2,6 +2,7 @@
   <header class="header fixed-top shadow-sm">
     <nav class="navbar navbar-expand-lg navbar-light">
       <a class="navbar-brand branding-name h-100 d-flex align-items-center mt-0" @click="goToHomepage">Fasuni</a>
+      <search-form v-if="!isLargeScreen"></search-form>
       <button class="navbar-toggler" type="button" @click="isOpenSidenavOverlay = !isOpenSidenavOverlay">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -75,9 +76,9 @@
             <cart-dialog v-if="isOpenCartDialog"></cart-dialog>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark text-uppercase" @click="$router.push({name: 'StoreFinder'})">
+            <router-link class="nav-link text-dark text-uppercase" :to="{name: 'StoreFinder'}">
               Cửa hàng
-            </a>
+            </router-link>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-dark" v-if="user" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -99,6 +100,8 @@
     <sidenav-overlay
       v-if="isOpenSidenavOverlay"
       :categories="categories"
+      :lookbookMonthList="lookbookMonthList"
+      :genders="genders"
       @close="isOpenSidenavOverlay = false"
       v-click-outside="{outsideCallback: closeSidenavOverlay}"
       @openLoginForm="isOpenLoginFormDialog = true"
@@ -138,9 +141,13 @@ export default {
       categories: [],
       isOpenLoginFormDialog: false,
       isOpenRegisterFormDialog: false,
+      isLargeScreen: true,
       lookbookMonthList: {
         male: [],
-        female: []
+        female: [],
+        collapsed: true,
+        maleCollapsed: true,
+        femaleCollapsed: true
       }
     };
   },
@@ -203,8 +210,13 @@ export default {
       this.setIsOpenCartDialog(false);
     },
     onResize() {
-      if (!window.matchMedia('(max-width: 992px)').matches && this.isOpenSidenavOverlay) {
-        this.closeSidenavOverlay();
+      if (!window.matchMedia('(max-width: 992px)').matches) {
+        this.isLargeScreen = true;
+        if (this.isOpenSidenavOverlay) {
+          this.closeSidenavOverlay();
+        }
+      } else {
+        this.isLargeScreen = false;
       }
     },
     getCategories() {
@@ -220,6 +232,7 @@ export default {
         .then(response => {
           if (response && response.status === 200 && response.data) {
             this.lookbookMonthList.male = response.data.data;
+            this.lookbookMonthList.male.collapsed = true;
           }
         });
     },
@@ -228,11 +241,18 @@ export default {
         .then(response => {
           if (response && response.status === 200 && response.data) {
             this.lookbookMonthList.female = response.data.data;
+            this.lookbookMonthList.female.collapsed = true;
           }
         });
     }
   },
   mounted() {
+    if (window.matchMedia('(max-width: 992px)').matches) {
+      this.isLargeScreen = false;
+    } else {
+      this.isLargeScreen = true;
+    }
+
     this.getCategories();
     this.getCartFromStorage();
     this.getMaleMonthListSnapshot();
