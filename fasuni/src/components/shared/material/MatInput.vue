@@ -17,7 +17,7 @@
       <div class="mat-input-underline">
         <span class="mat-input-ripple"></span>
       </div>
-      <div class="mat-input-error" v-if="hasError">{{ errorMessage }}</div>
+      <div class="mat-input-error text-nowrap" v-if="hasError">{{ errorMessage }}</div>
     </div>
   </div>
 </template>

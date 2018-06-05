@@ -135,188 +135,7 @@ export default {
   data() {
     return {
       isOpenSidenavOverlay: false,
-      categories: [
-        // {
-        //   id: 1,
-        //   name: `Women's`,
-        //   children: [
-        //     {
-        //       id: 3,
-        //       name: 'Handbags',
-        //       children: [
-        //         {
-        //           id: 4,
-        //           name: 'Top Handles & Boston Bags'
-        //         },
-        //         {
-        //           id: 5,
-        //           name: 'Totes'
-        //         },
-        //         {
-        //           id: 6,
-        //           name: 'Shoulder Bags'
-        //         },
-        //         {
-        //           id: 7,
-        //           name: 'Belt Bags'
-        //         },
-        //         {
-        //           id: 8,
-        //           name: 'Backpacks'
-        //         },
-        //         {
-        //           id: 9,
-        //           name: 'Mini Bags'
-        //         },
-        //         {
-        //           id: 10,
-        //           name: 'Clutches & Evening'
-        //         },
-        //         {
-        //           id: 11,
-        //           name: 'Precious Skins'
-        //         }
-        //       ]
-        //     },
-        //     {
-        //       id: 12,
-        //       name: 'Ready-To-Wear',
-        //       children: [
-        //         {
-        //           id: 13,
-        //           name: 'Dresses'
-        //         },
-        //         {
-        //           id: 14,
-        //           name: 'Leather & Casual Jackets'
-        //         },
-        //         {
-        //           id: 15,
-        //           name: 'Coats & Furs'
-        //         },
-        //         {
-        //           id: 16,
-        //           name: 'Outerwear'
-        //         },
-        //         {
-        //           id: 17,
-        //           name: 'Tops & Shirts'
-        //         },
-        //         {
-        //           id: 18,
-        //           name: 'Sweaters & Cardigans'
-        //         },
-        //         {
-        //           id: 19,
-        //           name: 'Sweatshirts & T-Shirts'
-        //         },
-        //         {
-        //           id: 20,
-        //           name: 'Skirts'
-        //         },
-        //         {
-        //           id: 21,
-        //           name: 'Pants & Shorts'
-        //         },
-        //         {
-        //           id: 22,
-        //           name: 'Denim'
-        //         }
-        //       ]
-        //     },
-        //     {
-        //       id: 23,
-        //       name: 'Shoes',
-        //       children: [
-        //         {
-        //           id: 24,
-        //           name: 'Pumps'
-        //         },
-        //         {
-        //           id: 25,
-        //           name: 'Sandals'
-        //         },
-        //         {
-        //           id: 26,
-        //           name: 'Moccasins & Loafers'
-        //         },
-        //         {
-        //           id: 27,
-        //           name: 'Ballerinas'
-        //         },
-        //         {
-        //           id: 28,
-        //           name: 'Slides & Mules'
-        //         },
-        //         {
-        //           id: 29,
-        //           name: 'Boots & Booties'
-        //         },
-        //         {
-        //           id: 30,
-        //           name: 'Espadrilles & Wedges'
-        //         },
-        //         {
-        //           id: 31,
-        //           name: 'Sneakers'
-        //         }
-        //       ]
-        //     },
-        //     {
-        //       id: 32,
-        //       name: 'Accessories',
-        //       children: [
-        //         {
-        //           id: 33,
-        //           name: 'Luggage & Lifestyle Bags'
-        //         },
-        //         {
-        //           id: 34,
-        //           name: 'Luggage & Lifestyle Bags'
-        //         },
-        //         {
-        //           id: 35,
-        //           name: 'Belts'
-        //         },
-        //         {
-        //           id: 36,
-        //           name: 'Belts'
-        //         },
-        //         {
-        //           id: 37,
-        //           name: 'Silks & Scarves'
-        //         },
-        //         {
-        //           id: 38,
-        //           name: 'Jewellery'
-        //         },
-        //         {
-        //           id: 39,
-        //           name: 'Jewellery'
-        //         },
-        //         {
-        //           id: 40,
-        //           name: 'Sunglasses'
-        //         },
-        //         {
-        //           id: 41,
-        //           name: 'Fans'
-        //         },
-        //         {
-        //           id: 42,
-        //           name: 'Fans'
-        //         }
-        //       ]
-        //     }
-        //   ],
-        //   isOpenSubMenu: false
-        // },
-        // {
-        //   id: 2,
-        //   name: `Men's`,
-        //   isOpenSubMenu: false
-        // }
-      ],
+      categories: [],
       isOpenLoginFormDialog: false,
       isOpenRegisterFormDialog: false,
       lookbookMonthList: {
@@ -448,10 +267,15 @@ export default {
     }
     .dropdown {
       position: unset;
+
+      &:hover {
+        .dropdown-menu {
+          display: block;
+        }
+      }
     }
     .dropdown-menu {
       width: 100%;
-      // display: block;
       border: none;
 
       .sub-nav {
@@ -491,9 +315,6 @@ export default {
       height: 50px;
       background-color: rgba(45,45,45,.8);
     }
-  }
-  .dropdown:hover>.dropdown-menu {
-    display: block;
   }
   @include media-breakpoint-up(lg) {
     .category-list {

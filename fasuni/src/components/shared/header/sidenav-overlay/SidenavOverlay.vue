@@ -55,9 +55,6 @@
               </div>
             </div>
           </div>
-          <!-- <div class="category-item">
-            <a>Studio's</a>
-          </div> -->
         </div>
 
         <search-form class="my-2 px-3"></search-form>
