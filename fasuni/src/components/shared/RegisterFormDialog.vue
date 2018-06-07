@@ -218,6 +218,7 @@ export default {
 
 .register-form-dialog {
   font-size: $font-size-sm;
+  font-family: Roboto;
 
   .modal-lg {
     &>.row {

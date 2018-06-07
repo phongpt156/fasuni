@@ -4,12 +4,17 @@
       <div data-u="slides" style="cursor:default;position:relative;top:0px;left:0px;width:1300px;height:500px;overflow:hidden;">
         <div>
           <a>
-            <img data-u="image" :src="images.banner" />
+            <img data-u="image" :src="images.slider2" />
           </a>
         </div>
         <div>
           <a>
-            <img data-u="image" :src="images.banner" />
+            <img data-u="image" :src="images.slider3" />
+          </a>
+        </div>
+        <div>
+          <a>
+            <img data-u="image" :src="images.slider4" />
           </a>
         </div>
       </div>
@@ -32,7 +37,9 @@
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
 import angleLeftIcon from '@fortawesome/fontawesome-free-solid/faAngleLeft';
 import angleRightIcon from '@fortawesome/fontawesome-free-solid/faAngleRight';
-import banner from '@/assets/images/banner.jpg';
+import slider2 from '@/assets/images/Slider2.jpg';
+import slider3 from '@/assets/images/Slider3.jpg';
+import slider4 from '@/assets/images/Slider4.jpg';
 
 export default {
   components: {
@@ -41,7 +48,9 @@ export default {
   data() {
     return {
       images: {
-        banner
+        slider2,
+        slider3,
+        slider4
       },
       icons: {
         angleLeft: angleLeftIcon,

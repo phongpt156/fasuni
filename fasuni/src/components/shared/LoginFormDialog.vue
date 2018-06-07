@@ -134,6 +134,7 @@ export default {
 
 .login-form-dialog {
   font-size: $font-size-sm;
+  font-family: Roboto;
 
   .submit-button {
     border-radius: 50px;
