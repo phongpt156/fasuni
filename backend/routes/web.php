@@ -146,4 +146,4 @@ $router->get('/static/{type}/{file}', function ($type, $file) use ($router) {
     }
 });
 
-$router->get('/{any:^(?!(?:api*|static*|images*)).*}', 'HomeController@index');
+$router->get('{any:.*}', 'HomeController@index');
