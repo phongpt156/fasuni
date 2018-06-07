@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth\Google;
 
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
 use App\Exceptions\Auth\ExistEmailException;
 use App\DAL\UserDAL;
 use Google_Client;
@@ -37,15 +38,25 @@ class GoogleController
             ];
 
             if ($user) {
-                $user = $userDAL->update($user, $data);
+                try {
+                    $user = $userDAL->update($user, $data);
+                    return response()->json($user, 200);
+                } catch (QueryException $e) {
+                    \Log::debug('Cannot update user: ' . $e->getMessage);
+                    return response()->json(['error' => $e->getMessage()], 500);
+                }
             } else {
                 try {
                     $user = $userDAL->store($data);
+                    return response()->json($user, 200);
                 } catch (ExistEmailException $e) {
                     return response()->json(['error' => $e->getMessage()], $e->getCode());
+                } catch (QueryException $e) {
+                    \Log::debug('Cannot save user: ' . $e->getMessage);
+                    return response()->json(['error' => $e->getMessage()], 500);
                 }
             }
         }
-        return response()->json($user, 200);
+        return response()->json(['error' => 'Invalid user'], 401);
     }
 }

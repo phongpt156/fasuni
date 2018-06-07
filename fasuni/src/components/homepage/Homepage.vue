@@ -206,7 +206,7 @@ import lock from '@/assets/images/lock.png';
 import support from '@/assets/images/support.png';
 import collection1 from '@/assets/images/collection1.jpg';
 import collection2 from '@/assets/images/collection2.jpg';
-import collection3 from '@/assets/images/collection3.jpg';
+import collection3 from '@/assets/images/CEF_9071.jpg';
 import collection4 from '@/assets/images/collection4.jpg';
 // import collection5 from '@/assets/images/collection5.jpg';
 import collection5 from '@/assets/images/34583520_956668247840509_5648182796569542656_n.jpg';
