@@ -153,7 +153,7 @@ class KiotVietController extends Controller
         }
     }
 
-    public function saveBranch(\Object $branch)
+    public function saveBranch(\stdClass $branch)
     {
         try {
             Branch::updateOrCreate(
@@ -220,7 +220,7 @@ class KiotVietController extends Controller
         }
     }
 
-    public function saveCategory(\Object $category)
+    public function saveCategory(\stdClass $category)
     {
         $parentId = $this->getParentCategoryId($category);
 
@@ -242,7 +242,7 @@ class KiotVietController extends Controller
         return $savedCategory;
     }
 
-    public function getParentCategoryId(\Object $category)
+    public function getParentCategoryId(\stdClass $category)
     {
         $parentId = null;
 
@@ -302,7 +302,7 @@ class KiotVietController extends Controller
         }
     }
 
-    public function saveProduct(\Object $product)
+    public function saveProduct(\stdClass $product)
     {
         $categoryId = $this->getCategoryId($product->categoryId);
         $masterProductId = $this->getMasterProductId($product);
@@ -334,7 +334,7 @@ class KiotVietController extends Controller
         return $savedProduct;
     }
 
-    public function getMasterProductId(\Object $product)
+    public function getMasterProductId(\stdClass $product)
     {
         $masterProductId = null;
 
@@ -516,7 +516,7 @@ class KiotVietController extends Controller
         }
     }
 
-    public function saveCustomer(\Object $customer)
+    public function saveCustomer(\stdClass $customer)
     {
         $birthday = null;
         if (isset($customer->birthDate)) {
@@ -603,7 +603,7 @@ class KiotVietController extends Controller
         }
     }
 
-    public function saveEmployee(\Object $employee)
+    public function saveEmployee(\stdClass $employee)
     {
         $birthday = null;
         if (isset($employee->birthDate)) {
@@ -678,7 +678,7 @@ class KiotVietController extends Controller
         }
     }
 
-    public function saveOrder(\Object $order)
+    public function saveOrder(\stdClass $order)
     {
         $employeeId = null;
         if (isset($order->soldById)) {
@@ -812,7 +812,7 @@ class KiotVietController extends Controller
         }
     }
 
-    public function saveInvoice(\Object $invoice)
+    public function saveInvoice(\stdClass $invoice)
     {
         $employeeId = null;
         if (isset($invoice->soldById)) {
