@@ -27,15 +27,15 @@
       <div class="row mx-0 px-5">
         <div class="px-5 col-md-4">
           <a class="d-block h-100"><img :src="images.collection1" alt="" class="w-100 h-100" /></a>
-          <h3 class="text-center mt-2">Campaign</h3>
-        </div>
-        <div class="px-5 col-md-4">
-          <a class="d-block h-100"><img :src="images.collection2" alt="" class="w-100 h-100" /></a>
-          <h3 class="text-center mt-2">Lookbook nữ</h3>
+          <p class="text-center text-uppercase mt-2" style="font-size: 1.5rem">Campaign</p>
         </div>
         <div class="px-5 col-md-4">
           <a class="d-block h-100"><img :src="images.collection3" alt="" class="w-100 h-100" /></a>
-          <h3 class="text-center mt-2">Lookbook nam</h3>
+          <p class="text-center text-uppercase mt-2" style="font-size: 1.5rem">Shop men</p>
+        </div>
+        <div class="px-5 col-md-4">
+          <a class="d-block h-100"><img :src="images.collection2" alt="" class="w-100 h-100" /></a>
+          <p class="text-center text-uppercase mt-2" style="font-size: 1.5rem">Shop women</p>
         </div>
       </div>
     </div>
