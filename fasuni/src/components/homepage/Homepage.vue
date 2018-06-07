@@ -25,27 +25,17 @@
     </div>
     <div v-scroll-reveal.reset>
       <div class="row mx-0 px-5">
-        <div class="pl-2 pr-0 col-md-4">
-          <a class="d-block h-100"><img :src="images.collection3" alt="" class="w-100 h-100" /></a>
+        <div class="px-5 col-md-4">
+          <a class="d-block h-100"><img :src="images.collection1" alt="" class="w-100 h-100" /></a>
           <h3 class="text-center mt-2">Campaign</h3>
         </div>
-        <div class="pr-2 pl-3 col-md-4">
-          <div class="pb-2 h-50">
-            <a class="d-block h-100"><img :src="images.collection1" alt="" class="w-100 h-100" /></a>
-          </div>
-          <div class="pt-2 h-50">
-            <a class="d-block h-100"><img :src="images.collection2" alt="" class="w-100 h-100" /></a>
-          </div>
-          <h3 class="text-center mt-2">Lookbook Nữ</h3>
+        <div class="px-5 col-md-4">
+          <a class="d-block h-100"><img :src="images.collection2" alt="" class="w-100 h-100" /></a>
+          <h3 class="text-center mt-2">Lookbook nữ</h3>
         </div>
-        <div class="px-2 col-md-4">
-          <div class="pb-1 h-50">
-            <a class="d-block h-100"><img :src="images.collection4" alt="" class="w-100 h-100" /></a>
-          </div>
-          <div class="pt-2 h-50">
-            <a class="d-block h-100"><img :src="images.collection5" alt="" class="w-100 h-100" /></a>
-          </div>
-          <h3 class="text-center mt-2">Lookbook Nam</h3>
+        <div class="px-5 col-md-4">
+          <a class="d-block h-100"><img :src="images.collection3" alt="" class="w-100 h-100" /></a>
+          <h3 class="text-center mt-2">Lookbook nam</h3>
         </div>
       </div>
     </div>
@@ -157,39 +147,9 @@
         <p class="mb-0 text-center text-uppercase font-weight-bold ">Nhà đồng hành</p>
         <hr class="mt-0 mx-2" />
         <div class="d-flex">
-          <div class="px-5" style="flex-grow: 1">
+          <div class="px-5" style="flex-grow: 1; max-width: 15%">
             <a class="d-block image-wrapper image-1-1" href="https://mayphuongthao.com/" target="_blank">
               <img src="https://mayphuongthao.com/wp-content/uploads/2017/09/logo-mayphuongthao.png" alt="" />
-            </a>
-          </div>
-          <div class="px-5" style="flex-grow: 1">
-            <a class="d-block image-wrapper image-1-1">
-              <img :src="images.company1" alt="" />
-            </a>
-          </div>
-          <div class="px-5" style="flex-grow: 1">
-            <a class="d-block image-wrapper image-1-1">
-              <img :src="images.company2" alt="" />
-            </a>
-          </div>
-          <div class="px-5" style="flex-grow: 1">
-            <a class="d-block image-wrapper image-1-1">
-              <img :src="images.company3" alt="" />
-            </a>
-          </div>
-          <div class="px-5" style="flex-grow: 1">
-            <a class="d-block image-wrapper image-1-1">
-              <img :src="images.company4" alt="" />
-            </a>
-          </div>
-          <div class="px-5" style="flex-grow: 1">
-            <a class="d-block image-wrapper image-1-1">
-              <img :src="images.company5" alt="" />
-            </a>
-          </div>
-          <div class="px-5" style="flex-grow: 1">
-            <a class="d-block image-wrapper image-1-1">
-              <img :src="images.company6" alt="" />
             </a>
           </div>
         </div>
@@ -204,12 +164,9 @@ import Banner from './Banner';
 import gift from '@/assets/images/gift.png';
 import lock from '@/assets/images/lock.png';
 import support from '@/assets/images/support.png';
-import collection1 from '@/assets/images/collection1.jpg';
-import collection2 from '@/assets/images/collection2.jpg';
-import collection3 from '@/assets/images/CEF_9071.jpg';
-import collection4 from '@/assets/images/collection4.jpg';
-// import collection5 from '@/assets/images/collection5.jpg';
-import collection5 from '@/assets/images/34583520_956668247840509_5648182796569542656_n.jpg';
+import collection1 from '@/assets/images/CEF_9071.jpg';
+import collection2 from '@/assets/images/34415303_956348787872455_5434430696678490112_n.jpg';
+import collection3 from '@/assets/images/34530408_956364091204258_7630724324420222976_n.jpg';
 import product1 from '@/assets/images/product1.jpg';
 import product2 from '@/assets/images/product2.jpg';
 import product3 from '@/assets/images/product3.jpg';
@@ -217,12 +174,6 @@ import product4 from '@/assets/images/product4.jpg';
 import subBanner from '@/assets/images/sub-banner.jpg';
 import post1 from '@/assets/images/post1.jpg';
 import post2 from '@/assets/images/post2.jpg';
-import company1 from '@/assets/images/company1.jpg';
-import company2 from '@/assets/images/company2.jpg';
-import company3 from '@/assets/images/company3.jpg';
-import company4 from '@/assets/images/company4.jpg';
-import company5 from '@/assets/images/company5.jpg';
-import company6 from '@/assets/images/company6.jpg';
 
 export default {
   components: {
@@ -240,21 +191,13 @@ export default {
         collection1,
         collection2,
         collection3,
-        collection4,
-        collection5,
         product1,
         product2,
         product3,
         product4,
         subBanner,
         post1,
-        post2,
-        company1,
-        company2,
-        company3,
-        company4,
-        company5,
-        company6
+        post2
       }
     };
   },
