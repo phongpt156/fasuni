@@ -4,7 +4,8 @@
       <div class="card-header p-0">
         <template v-if="sizes && sizes.length">
           <router-link class="image-wrapper image-standard d-block" :to="{name: 'Product', params: {id: sizes[0].product.id}, query: {color: sizes[0].product.color.id}}">
-            <img class="card-img-top img-fluid" :src="images[0].original" />
+            <img class="card-img-top img-fluid" :src="images[0].original" :alt="product.name" v-if="images && images.length" />
+            <img class="card-img-top img-fluid" :alt="sizes[0].product.name" v-else />
           </router-link>
         </template>
         <template v-else>

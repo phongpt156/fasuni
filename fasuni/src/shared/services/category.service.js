@@ -7,8 +7,8 @@ export default {
     return httpClient.get(CATEGORY.getAll)
       .catch(handleError);
   },
-  getHierachyCategory(slug) {
-    return httpClient.get(`${CATEGORY.getHierachyCategory}${slug}`)
+  getHierachyCategory(id) {
+    return httpClient.get(`${CATEGORY.getHierachyCategory}${id}`)
       .catch(handleError);
   }
 };

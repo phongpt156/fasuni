@@ -122,13 +122,13 @@ class ProductController extends Controller
             ->whereNull('master_product_id')
             ->where(function ($query) use ($category) {
                 $query->whereHas('category', function ($query) use ($category) {
-                    $query->whereSlug($category);
+                    $query->whereId($category);
                 })
                 ->orWhereHas('category.parent', function ($query) use ($category) {
-                    $query->whereSlug($category);
+                    $query->whereId($category);
                 })
                 ->orWhereHas('category.parent.parent', function ($query) use ($category) {
-                    $query->whereSlug($category);
+                    $query->whereId($category);
                 });
             })
             ->whereIsActive(true);
@@ -220,13 +220,13 @@ class ProductController extends Controller
             ->whereNull('master_product_id')
             ->where(function ($query) use ($category) {
                 $query->whereHas('category', function ($query) use ($category) {
-                    $query->whereSlug($category);
+                    $query->whereId($category);
                 })
                 ->orWhereHas('category.parent', function ($query) use ($category) {
-                    $query->whereSlug($category);
+                    $query->whereId($category);
                 })
                 ->orWhereHas('category.parent.parent', function ($query) use ($category) {
-                    $query->whereSlug($category);
+                    $query->whereId($category);
                 });
             })
             ->where('id', '!=', $id)

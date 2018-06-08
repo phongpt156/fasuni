@@ -17,7 +17,7 @@ class ProductService
     public function getAll($page = 1)
     {
         $perPage = 100;
-        $current = ($page - 1) * 100 + 1;
+        $current = ($page - 1) * $perPage;
 
         try {
             $response = $this->httpClient->get('products?pageSize=' . $perPage . '&includeRemoveIds=true&includeInventory=true&currentItem=' . $current);

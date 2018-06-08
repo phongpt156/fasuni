@@ -2,7 +2,7 @@ import lazyLoading from './lazy-loading';
 
 export default {
   name: 'Category',
-  path: '/category/:slug/:type?',
+  path: '/category/:id/:type?',
   component: lazyLoading('category/Category'),
   meta: {
     title: 'Fasuni'

@@ -7,7 +7,7 @@
       <template v-if="product.id">
         <ul class="navbar-nav align-items-center flex-row pt-4 pb-2 d-md-flex d-none">
           <li class="nav-item d-flex align-items-center" v-for="(breadcrumb, index) in breadcrumbs" :key="breadcrumb.id">
-            <router-link class="nav-link p-2" v-if="index + 1 === breadcrumbsLength" :to="{name: 'Category', params: {slug: breadcrumb.slug}}">{{ breadcrumb.name }}
+            <router-link class="nav-link p-2" v-if="index + 1 === breadcrumbsLength" :to="{name: 'Category', params: {id: breadcrumb.id}}">{{ breadcrumb.name }}
             </router-link>
             <div class="nav-link p-2" v-else>{{ breadcrumb.name }}
             </div>
@@ -313,9 +313,9 @@ export default {
     breadcrumbsLength() {
       return this.breadcrumbs.length;
     },
-    categorySlug() {
+    categoryId() {
       if (this.selectedProduct && this.selectedProduct.category) {
-        return this.selectedProduct.category.slug;
+        return this.selectedProduct.category.id;
       }
       return '';
     }
@@ -324,12 +324,12 @@ export default {
     id(newValue) {
       this.onLoad();
     },
-    categorySlug(newValue) {
+    categoryId(newValue) {
       this.getHierachyCategory(newValue);
     },
     category(newValue) {
       this.setBreadcrumbs(newValue);
-      this.getRelevantProducts(this.id, newValue.slug, 1);
+      this.getRelevantProducts(this.id, newValue.id, 1);
     }
   },
   methods: {
@@ -440,8 +440,8 @@ export default {
     scrollTop() {
       document.documentElement.scrollTo(0, 0);
     },
-    getHierachyCategory(slug) {
-      categoryService.getHierachyCategory(slug)
+    getHierachyCategory(id) {
+      categoryService.getHierachyCategory(id)
         .then(response => {
           if (response && response.status === 200 && response.data) {
             this.category = response.data;
@@ -455,8 +455,7 @@ export default {
       while (tmp) {
         this.breadcrumbs.unshift({
           id: tmp.id,
-          name: tmp.name,
-          slug: tmp.slug
+          name: tmp.name
         });
 
         tmp = tmp.parent;
@@ -465,8 +464,8 @@ export default {
     selectSize(size) {
       this.selectedSize = size;
     },
-    getRelevantProducts(id, categorySlug, page = 1) {
-      productService.getRelevant(id, categorySlug, page)
+    getRelevantProducts(id, categoryId, page = 1) {
+      productService.getRelevant(id, categoryId, page)
         .then(response => {
           if (response && response.status === 200 && response.data) {
             this.relevantProducts = response.data.data;

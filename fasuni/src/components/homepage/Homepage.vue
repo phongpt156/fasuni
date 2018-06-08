@@ -2,40 +2,19 @@
   <div class="homepage bg-white">
     <banner></banner>
 
-    <div v-scroll-reveal.reset>
-      <div class="p-5">
-        <div class="row py-5">
-          <div class="col-4 text-center">
-            <img :src="images.gift" alt="" style="width: 56px; height: 57px" />
-            <h6 class="font-weight-bold mt-3 mb-0">Free Shipping</h6>
-            <p class="text-uppercase">All Order over $59</p>
-          </div>
-          <div class="col-4 text-center">
-            <img :src="images.support" alt="" style="width: 56px; height: 57px" />
-            <h6 class="font-weight-bold mt-3 mb-0">Support Customer</h6>
-            <p class="text-uppercase">Support 24/7</p>
-          </div>
-          <div class="col-4 text-center">
-            <img :src="images.lock" alt="" style="width: 56px; height: 57px" />
-            <h6 class="font-weight-bold mt-3 mb-0">Secure Payments</h6>
-            <p class="text-uppercase">Support 24/7</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div v-scroll-reveal.reset>
-      <div class="row mx-0 px-5">
+    <div v-scroll-reveal.reset class="pt-5">
+      <div class="row mx-0 px-5 pt-5">
         <div class="px-5 col-md-4">
           <a class="d-block h-100"><img :src="images.collection1" alt="" class="w-100 h-100" /></a>
-          <p class="text-center text-uppercase mt-2" style="font-size: 1.5rem">Campaign</p>
+          <p class="text-center text-uppercase mt-3" style="font-size: 1rem">Campaign</p>
         </div>
         <div class="px-5 col-md-4">
           <a class="d-block h-100"><img :src="images.collection3" alt="" class="w-100 h-100" /></a>
-          <p class="text-center text-uppercase mt-2" style="font-size: 1.5rem">Shop men</p>
+          <p class="text-center text-uppercase mt-3" style="font-size: 1rem">Shop men</p>
         </div>
         <div class="px-5 col-md-4">
           <a class="d-block h-100"><img :src="images.collection2" alt="" class="w-100 h-100" /></a>
-          <p class="text-center text-uppercase mt-2" style="font-size: 1.5rem">Shop women</p>
+          <p class="text-center text-uppercase mt-3" style="font-size: 1rem">Shop women</p>
         </div>
       </div>
     </div>
@@ -100,11 +79,37 @@
       </div>
     </div>
     <div v-scroll-reveal.reset>
+      <div class="p-5">
+        <div class="row py-5">
+          <div class="col-4 text-center">
+            <img :src="images.gift" alt="" style="width: 56px; height: 57px" />
+            <h6 class="font-weight-bold mt-3 mb-0">Free Shipping</h6>
+            <p class="text-uppercase">All Order over $59</p>
+          </div>
+          <div class="col-4 text-center">
+            <img :src="images.support" alt="" style="width: 56px; height: 57px" />
+            <h6 class="font-weight-bold mt-3 mb-0">Support Customer</h6>
+            <p class="text-uppercase">Support 24/7</p>
+          </div>
+          <div class="col-4 text-center">
+            <img :src="images.lock" alt="" style="width: 56px; height: 57px" />
+            <h6 class="font-weight-bold mt-3 mb-0">Secure Payments</h6>
+            <p class="text-uppercase">Support 24/7</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-scroll-reveal.reset>
       <a>
         <div class="image-wrapper image-15-4">
-          <img :src="images.subBanner" alt="" />
+          <img :src="images.subBanner1" alt="" />
         </div>
       </a>
+      <!-- <a>
+        <div class="image-wrapper image-15-4">
+          <img :src="images.subBanner2" alt="" />
+        </div>
+      </a> -->
     </div>
     <div v-scroll-reveal.reset class="pt-5">
       <div class="py-5">
@@ -171,7 +176,8 @@ import product1 from '@/assets/images/product1.jpg';
 import product2 from '@/assets/images/product2.jpg';
 import product3 from '@/assets/images/product3.jpg';
 import product4 from '@/assets/images/product4.jpg';
-import subBanner from '@/assets/images/sub-banner.jpg';
+import subBanner1 from '@/assets/images/hạc giấy 1.jpg';
+import subBanner2 from '@/assets/images/hạc giấy.jpg';
 import post1 from '@/assets/images/post1.jpg';
 import post2 from '@/assets/images/post2.jpg';
 
@@ -195,7 +201,8 @@ export default {
         product2,
         product3,
         product4,
-        subBanner,
+        subBanner1,
+        subBanner2,
         post1,
         post2
       }

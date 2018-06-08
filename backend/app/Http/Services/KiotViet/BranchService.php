@@ -17,7 +17,7 @@ class BranchService
     public function getAll($page = 1)
     {
         $perPage = 100;
-        $current = ($page - 1) * $perPage + 1;
+        $current = ($page - 1) * $perPage;
 
         try {
             $response = $this->httpClient->get('branches?pageSize=' . $perPage . '&includeRemoveIds=true&orderBy=createdDate&orderDirection=asc&currentItem=' . $current);

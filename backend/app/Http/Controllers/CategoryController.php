@@ -14,9 +14,9 @@ class CategoryController extends Controller
         return response()->json($categories, 200);
     }
 
-    public function getHierachyCategory($slug)
+    public function getHierachyCategory($id)
     {
-        $category = Category::with('parent', 'parent.parent')->whereSlug($slug)->first();
+        $category = Category::with('parent', 'parent.parent')->whereId($id)->first();
 
         return response()->json($category, 200);
     }

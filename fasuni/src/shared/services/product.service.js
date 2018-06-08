@@ -28,8 +28,8 @@ export default {
     return httpClient.get(url)
       .catch(handleError);
   },
-  getRelevant(id, categorySlug, page = 1) {
-    return httpClient.get(`${PRODUCT.getRelevant}${id}?category=${categorySlug}&page=${page}`)
+  getRelevant(id, categoryId, page = 1) {
+    return httpClient.get(`${PRODUCT.getRelevant}${id}?category=${categoryId}&page=${page}`)
       .catch(handleError);
   }
 };

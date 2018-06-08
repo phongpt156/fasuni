@@ -1,6 +1,7 @@
 <template>
   <header class="header fixed-top shadow-sm">
     <nav class="navbar navbar-expand-lg navbar-light">
+      <img :src="images.icon" alt="" style="width: 60px; height: 60px; position: absolute; left: 47.5%" />
       <a class="navbar-brand branding-name h-100 d-flex align-items-center mt-0" @click="goToHomepage">Fasuni</a>
       <search-form v-if="!isLargeScreen"></search-form>
       <button class="navbar-toggler" type="button" @click="isOpenSidenavOverlay = !isOpenSidenavOverlay">
@@ -24,7 +25,7 @@
                     <ul class="navbar-nav flex-column flex-wrap" v-if="category.children.length">
                       <li v-for="category in category.children" :key="category.id" class="mr-4 my-1">
                         <router-link class="category-item"
-                          :to="{name: 'Category', params: {slug: category.slug}}">{{ category.name }}
+                          :to="{name: 'Category', params: {id: category.id}}">{{ category.name }}
                         </router-link>
                       </li>
                     </ul>
@@ -123,6 +124,7 @@ import userService from '@/shared/services/user.service';
 import categoryService from '@/shared/services/category.service';
 import lookbookService from '@/shared/services/lookbook.service';
 import { GENDER } from '@/shared/constants';
+import icon from '@/assets/images/icon.svg';
 
 export default {
   components: {
@@ -148,6 +150,9 @@ export default {
         collapsed: true,
         maleCollapsed: true,
         femaleCollapsed: true
+      },
+      images: {
+        icon
       }
     };
   },

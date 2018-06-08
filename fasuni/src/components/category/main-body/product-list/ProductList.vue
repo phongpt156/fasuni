@@ -53,7 +53,7 @@ export default {
   },
   computed: {
     category() {
-      return this.$route.params.slug;
+      return this.$route.params.id;
     },
     type() {
       return this.$route.params.type;
@@ -73,13 +73,13 @@ export default {
   },
   watch: {
     selectedType(newValue) {
-      this.$router.push({name: 'Category', params: {slug: this.category, type: newValue}, query: { colors: this.colors, sizes: this.sizes }});
+      this.$router.push({name: 'Category', params: {id: this.category, type: newValue}, query: { colors: this.colors, sizes: this.sizes }});
     },
     colorsString(newValue) {
-      this.$router.push({name: 'Category', params: {slug: this.category, type: this.type}, query: { colors: newValue, sizes: this.sizes }});
+      this.$router.push({name: 'Category', params: {id: this.category, type: this.type}, query: { colors: newValue, sizes: this.sizes }});
     },
     sizesString(newValue) {
-      this.$router.push({name: 'Category', params: {slug: this.category, type: this.type}, query: { colors: this.colors, sizes: newValue }});
+      this.$router.push({name: 'Category', params: {id: this.category, type: this.type}, query: { colors: this.colors, sizes: newValue }});
     },
     colors(newValue) {
       this.products = [];

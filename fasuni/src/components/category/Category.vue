@@ -38,15 +38,15 @@ export default {
     };
   },
   computed: {
-    slug() {
-      return this.$route.params.slug;
+    id() {
+      return this.$route.params.id;
     },
     breadcrumbsLength() {
       return this.breadcrumbs.length;
     }
   },
   watch: {
-    slug(newValue) {
+    id(newValue) {
       this.getHierachyCategory(newValue);
     },
     category(newValue) {
@@ -54,8 +54,8 @@ export default {
     }
   },
   methods: {
-    getHierachyCategory(slug) {
-      categoryService.getHierachyCategory(slug)
+    getHierachyCategory(id) {
+      categoryService.getHierachyCategory(id)
         .then(response => {
           if (response && response.status === 200 && response.data) {
             this.category = response.data;
@@ -77,7 +77,7 @@ export default {
     }
   },
   mounted() {
-    this.getHierachyCategory(this.slug);
+    this.getHierachyCategory(this.id);
   }
 };
 </script>

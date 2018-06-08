@@ -141,9 +141,4 @@ export default {
     font-size: 28px;
   }
 }
-
-// .jssora051 .a {fill:none;stroke:#fff;stroke-width:360;stroke-miterlimit:10;}
-// .jssora051:hover {opacity:.8;}
-// .jssora051.jssora051dn {opacity:.5;}
-// .jssora051.jssora051ds {opacity:.3;pointer-events:none;}
 </style>

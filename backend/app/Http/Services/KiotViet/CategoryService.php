@@ -17,7 +17,7 @@ class CategoryService
     public function getAll($page = 1)
     {
         $perPage = 100;
-        $current = ($page - 1) * 100 + 1;
+        $current = ($page - 1) * $perPage;
 
         try {
             $response = $this->httpClient->get('categories?pageSize=' . $perPage . '&hierachicalData=true&orderBy=createdDate&orderDirection=asc&currentItem=' . $current);

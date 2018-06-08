@@ -109,7 +109,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     });
     $router->group(['prefix' => 'category'], function () use ($router) {
         $router->get('', 'CategoryController@index');
-        $router->get('hierachy/{slug}', 'CategoryController@getHierachyCategory');
+        $router->get('hierachy/{id}', 'CategoryController@getHierachyCategory');
     });
     $router->group(['prefix' => 'product'], function () use ($router) {
         $router->get('', 'ProductController@index');

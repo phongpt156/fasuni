@@ -15,18 +15,19 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('code')->unique();
             $table->string('name');
             $table->float('sale_price', 12, 3);
             $table->float('discount_price', 12, 3);
             $table->mediumInteger('weight')->nullable();
             $table->mediumText('description')->nullable();
-            $table->boolean('is_active')->default(1);
-            $table->string('code')->unique();
             $table->boolean('gender')->nullable();
-            $table->unsignedInteger('click_count')->default(0);
             $table->string('slug');
+            $table->unsignedInteger('click_count')->default(0);
             $table->unsignedInteger('like_count')->default(0);
             $table->unsignedInteger('buy_count')->default(0);
+            $table->boolean('is_active')->default(1);
+            $table->boolean('is_display')->default(1);
             $table->unsignedInteger('category_id')->nullable();
             $table->unsignedInteger('master_product_id')->nullable();
             $table->string('kiotviet_id')->nullable();

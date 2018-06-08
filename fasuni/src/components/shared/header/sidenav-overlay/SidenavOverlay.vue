@@ -40,7 +40,7 @@
                       <router-link
                         v-for="children1 in children.children" :key="children1.id"
                         class="p-3 pl-5 d-flex justify-content-between category-link"
-                        :to="{name: 'Category', params: {slug: children1.slug}}">{{ children1.name }}
+                        :to="{name: 'Category', params: {id: children1.id}}">{{ children1.name }}
                       </router-link>
                     </template>
                   </div>
