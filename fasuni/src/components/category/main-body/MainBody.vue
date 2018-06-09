@@ -13,9 +13,9 @@
             Sắp xếp theo
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownSortMenuButton">
-            <a class="dropdown-item" @click="selectedType = 'newest'" :class="{'active': type === 'newest'}">Mới nhất</a>
-            <a class="dropdown-item" @click="selectedType = 'best-seller'" :class="{'active': type === 'best-seller'}">Mua nhiều nhất</a>
-            <a class="dropdown-item" @click="selectedType = 'most-like'" :class="{'active': type === 'most-like'}">Thích nhiều nhất</a>
+            <a class="dropdown-item" @click="selectType('newest')" :class="{'active': type === 'newest'}">Mới nhất</a>
+            <a class="dropdown-item" @click="selectType('best-seller')" :class="{'active': type === 'best-seller'}">Mua nhiều nhất</a>
+            <a class="dropdown-item" @click="selectType('most-like')" :class="{'active': type === 'most-like'}">Thích nhiều nhất</a>
           </div>
         </div>
         <button
@@ -35,7 +35,8 @@
                 label="name"
                 v-model="child.selectedList"
                 distinct="id"
-                track-by="id">
+                track-by="id"
+                @click="onSelect($event, child.selectedList)">
               </multi-select>
             </div>
           </div>
@@ -44,7 +45,7 @@
     </div>
 
     <div class="mb-4">
-      <product-list :selectedType="selectedType" :selectedColors="filterButton.children.colors.selectedList" :selectedSizes="filterButton.children.sizes.selectedList"></product-list>
+      <product-list></product-list>
     </div>
     <hr class="bg-dark m-0" />
   </div>
@@ -54,6 +55,7 @@
 import ProductList from './product-list/ProductList';
 import attributeValueService from '@/shared/services/attribute-value.service';
 import MultiSelect from '@/components/shared/multi-select/MultiSelect';
+import { mapState, mapMutations } from 'vuex';
 
 export default {
   name: 'Body',
@@ -63,31 +65,26 @@ export default {
   },
   data() {
     return {
-      selectedType: '',
-      filterButton: {
-        name: 'Bộ lọc',
-        children: {
-          colors: {
-            name: 'Màu sắc',
-            children: [],
-            selectedList: []
-          },
-          sizes: {
-            name: 'Size',
-            children: [],
-            selectedList: []
-          }
-        }
-      },
       isOpenFilter: false
     };
   },
   computed: {
+    ...mapState('products', [
+      'filterButton'
+    ]),
     type() {
       return this.$route.params.type;
     }
   },
   methods: {
+    ...mapMutations('products', [
+      'setFilterColors',
+      'setFilterSizes',
+      'pushSelectedColors',
+      'pushSelectedSizes',
+      'pushSelectedList',
+      'removeItemFromSelectedList'
+    ]),
     toggleIsOpenFilter() {
       this.isOpenFilter = !this.isOpenFilter;
     },
@@ -96,7 +93,7 @@ export default {
         attributeValueService.getColors()
           .then(response => {
             if (response && response.status === 200 && response.data) {
-              this.filterButton.children.colors.children = response.data;
+              this.setFilterColors(response.data);
             }
             resolve();
           });
@@ -107,7 +104,7 @@ export default {
         attributeValueService.getSizes()
           .then(response => {
             if (response && response.status === 200 && response.data) {
-              this.filterButton.children.sizes.children = response.data;
+              this.setFilterSizes(response.data);
             }
             resolve();
           });
@@ -120,7 +117,7 @@ export default {
         let ids = colors.split(',');
         this.filterButton.children.colors.children.forEach(color => {
           if (ids.indexOf(String(color.id)) !== -1) {
-            this.filterButton.children.colors.selectedList.push(color.id);
+            this.pushSelectedColors(color.id);
           }
         });
       }
@@ -132,9 +129,28 @@ export default {
         let ids = sizes.split(',');
         this.filterButton.children.sizes.children.forEach(size => {
           if (ids.indexOf(String(size.id)) !== -1) {
-            this.filterButton.children.sizes.selectedList.push(size.id);
+            this.pushSelectedSizes(size.id);
           }
         });
+      }
+    },
+    selectType(type) {
+      this.$router.push({name: this.$route.name, params: {...this.$route.params, type: type}, query: this.$route.query});
+    },
+    onSelect(option, children) {
+      let index = -1;
+
+      children.find((child, i) => {
+        if (option === child) {
+          index = i;
+          return true;
+        }
+      });
+
+      if (index === -1) {
+        this.pushSelectedList({selectedList: children, item: option});
+      } else {
+        this.removeItemFromSelectedList({selectedList: children, index});
       }
     }
   },
@@ -142,7 +158,6 @@ export default {
     await Promise.all([this.getColors(), this.getSizes()]);
     this.parseColorsFromUrl();
     this.parseSizesFromUrl();
-    this.selectedType = this.$route.params.type;
   }
 };
 </script>

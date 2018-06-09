@@ -120,11 +120,13 @@
           <p class="mb-0 text-center text-uppercase">Có thể bạn sẽ thích</p>
           <hr class="mt-0 mx-2" />
           <carousel :perPageCustom="[[768, 3], [1024, 4]]">
-            <slide class="px-2" v-for="product in relevantProducts" :key="product.id">
-              <a class="d-block image-wrapper image-standard">
-                <img :src="product.images[0].original" alt="" class="img-fluid" v-if="product.images && product.images.length" />
+            <slide class="px-2 relevant-product" v-for="product in relevantProducts" :key="product.id">
+              <router-link
+                class="d-block image-wrapper image-standard"
+                :to="{name: 'Product', params: {id: product.id}, query: {color: product.color.id}}">
+                <img v-if="product.images && product.images.length" :src="product.images[0].original" :alt="product.name" />
                 <img :alt="product.name" class="img-fluid" v-else />
-              </a>
+              </router-link>
               <p class="font-size-base text-upper-case my-1">{{ product.name }}</p>
               <router-link class="detail-button" :to="{name: 'Product', params: {id: product.id}, query: {colors: product.color.id}}">Chi tiết >></router-link>
             </slide>
@@ -138,9 +140,9 @@
               <template v-if="product.id === selectedProduct || product.color">
                 <router-link
                   class="d-block image-wrapper image-standard"
-                  :to="{name: 'Product', params: {id: product.id}, query: {color: product.color.id}}"
-                  @click.native="selectColor(product.color)">
-                  <img v-if="product.images && product.images.length" :src="product.images[0].original" alt="" />
+                  :to="{name: 'Product', params: {id: product.id}, query: {color: product.color.id}}">
+                  <img v-if="product.images && product.images.length" :src="product.images[0].original" :alt="product.name" />
+                  <img :alt="product.name" class="img-fluid" v-else />
                 </router-link>
               </template>
               <template v-else>
@@ -323,6 +325,7 @@ export default {
   watch: {
     id(newValue) {
       this.onLoad();
+      this.getRelevantProducts(newValue, this.category.id, 1);
     },
     categoryId(newValue) {
       this.getHierachyCategory(newValue);
@@ -465,9 +468,12 @@ export default {
       this.selectedSize = size;
     },
     getRelevantProducts(id, categoryId, page = 1) {
+      this.relevantProducts = [];
+
       productService.getRelevant(id, categoryId, page)
         .then(response => {
           if (response && response.status === 200 && response.data) {
+            console.log(response.data.data);
             this.relevantProducts = response.data.data;
           }
         });
@@ -543,7 +549,7 @@ export default {
   .fa-instagram * {
     fill: url(#rg);
   }
-  .recently-view-product {
+  .recently-view-product, .relevant-product {
     max-width: 50%;
   }
   .product-price {
@@ -569,12 +575,12 @@ export default {
     }
   }
   @media screen and (min-width: 768px) {
-    .recently-view-product {
+    .recently-view-product, .relevant-product {
       max-width: calc(100% / 3) !important;
     }
   }
   @media screen and (min-width: 1024px) {
-    .recently-view-product {
+    .recently-view-product, .relevant-product {
       max-width: 25% !important;
     }
   }

@@ -1,16 +1,22 @@
 <template>
-  <form class="form-inline search-form py-2">
-    <input class="form-control text-dark" type="search" placeholder="Enter keyword" aria-label="Search">
-    <button class="btn my-2 my-sm-0 text-white" type="button">Search</button>
+  <form class="form-inline search-form py-2" @submit.prevent="onSubmit">
+    <input class="form-control text-dark" type="search" placeholder="Enter keyword" aria-label="Search" v-model="name">
+    <button class="btn my-2 my-sm-0 text-white" type="submit">Search</button>
   </form>
 </template>
 
 <script>
+
 export default {
   data() {
     return {
-
+      name: ''
     };
+  },
+  methods: {
+    onSubmit() {
+      this.$router.push({name: 'Search', params: {name: this.name}});
+    }
   }
 };
 </script>

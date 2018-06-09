@@ -6,6 +6,7 @@ import actions from './actions';
 import routes from './modules/routes';
 import auth from './modules/auth';
 import cart from './modules/cart';
+import products from './modules/products';
 
 Vue.use(Vuex);
 
@@ -21,7 +22,8 @@ const store = new Vuex.Store({
   modules: {
     routes,
     auth,
-    cart
+    cart,
+    products
   }
 });
 

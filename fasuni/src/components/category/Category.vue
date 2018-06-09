@@ -20,6 +20,9 @@
 <script>
 import MainBody from './main-body/MainBody';
 import categoryService from '@/shared/services/category.service';
+import productService from '@/shared/services/product.service';
+import { mapMutations, mapState } from 'vuex';
+import { Pagination } from '@/shared/classes';
 
 export default {
   created() {
@@ -34,26 +37,72 @@ export default {
   data() {
     return {
       category: {},
-      breadcrumbs: []
+      breadcrumbs: [],
+      pagination: new Pagination()
     };
   },
   computed: {
+    ...mapState('products', [
+      'products',
+      'loading',
+      'filterButton'
+    ]),
     id() {
       return this.$route.params.id;
     },
     breadcrumbsLength() {
       return this.breadcrumbs.length;
+    },
+    type() {
+      return this.$route.params.type;
+    },
+    colors() {
+      return this.$route.query.colors;
+    },
+    sizes() {
+      return this.$route.query.sizes;
+    },
+    colorsString() {
+      return this.filterButton.children.colors.selectedList.join(',');
+    },
+    sizesString() {
+      return this.filterButton.children.sizes.selectedList.join(',');
     }
   },
   watch: {
     id(newValue) {
       this.getHierachyCategory(newValue);
+      this.setEmptyProducts();
+      this.getProducts(1);
     },
     category(newValue) {
       this.setBreadcrumbs(newValue);
+    },
+    colorsString(newValue) {
+      this.$router.push({name: this.$route.name, params: {id: this.id, type: this.type}, query: { colors: newValue, sizes: this.sizes }});
+    },
+    sizesString(newValue) {
+      this.$router.push({name: this.$route.name, params: {id: this.id, type: this.type}, query: { colors: this.colors, sizes: newValue }});
+    },
+    colors(newValue) {
+      this.setEmptyProducts();
+      this.getProducts(1);
+    },
+    sizes(newValue) {
+      this.setEmptyProducts();
+      this.getProducts(1);
+    },
+    type(newValue) {
+      this.setEmptyProducts();
+      this.getProducts(1);
     }
   },
   methods: {
+    ...mapMutations('products', [
+      'setLoading',
+      'setEmptyProducts',
+      'setProducts'
+    ]),
     getHierachyCategory(id) {
       categoryService.getHierachyCategory(id)
         .then(response => {
@@ -74,10 +123,50 @@ export default {
 
         tmp = tmp.parent;
       }
+    },
+    getProducts(page) {
+      if (!this.loading) {
+        this.setLoading(true);
+
+        productService.getByCategory({
+          category: this.id,
+          type: this.type,
+          colors: this.colors,
+          sizes: this.sizes
+        }, page)
+          .then(response => {
+            if (response && response.status === 200 && response.data) {
+              this.setProducts(response.data.data);
+
+              if (!response.data.next_page_url) {
+                document.removeEventListener('scroll', this.onScroll);
+              }
+
+              this.pagination.total = response.data.total;
+              this.pagination.current = response.data.current_page;
+              this.pagination.perPage = response.data.per_page;
+              this.setLoading(false);
+            }
+          });
+      }
+    },
+    onScroll() {
+      const footerHeight = document.querySelector('.footer').offsetHeight;
+
+      if (document.documentElement.scrollTop + window.innerHeight >= document.documentElement.scrollHeight - footerHeight) {
+        this.getProducts(this.pagination.current + 1);
+      }
     }
   },
   mounted() {
     this.getHierachyCategory(this.id);
+    this.getProducts(1);
+    document.addEventListener('scroll', this.onScroll, {
+      passive: true
+    });
+  },
+  destroyed() {
+    document.removeEventListener('scroll', this.onScroll);
   }
 };
 </script>

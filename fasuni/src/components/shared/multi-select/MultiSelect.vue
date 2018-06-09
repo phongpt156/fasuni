@@ -66,20 +66,7 @@ export default {
       this.isOpenOptionList = false;
     },
     selectOption(option) {
-      let index = -1;
-
-      this.value.find((item, i) => {
-        if (item === option) {
-          index = i;
-          return true;
-        }
-      });
-
-      if (index === -1) {
-        this.value.push(option);
-      } else {
-        this.value.splice(index, 1);
-      }
+      this.$emit('click', option);
     }
   }
 };

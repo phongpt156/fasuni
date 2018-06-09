@@ -16,9 +16,8 @@
 
 <script>
 import ProductCard from './product-card/ProductCard';
-import productService from '@/shared/services/product.service';
-import { Pagination } from '@/shared/classes';
 import Spinner from '@/components/shared/spinner/Spinner';
+import { mapState } from 'vuex';
 
 export default {
   name: 'ProductList',
@@ -26,127 +25,11 @@ export default {
     ProductCard,
     Spinner
   },
-  props: {
-    selectedType: {
-      type: String,
-      default: 'newest'
-    },
-    selectedColors: {
-      type: Array,
-      default() {
-        return [];
-      }
-    },
-    selectedSizes: {
-      type: Array,
-      default() {
-        return [];
-      }
-    }
-  },
-  data() {
-    return {
-      loading: false,
-      products: [],
-      pagination: new Pagination()
-    };
-  },
   computed: {
-    category() {
-      return this.$route.params.id;
-    },
-    type() {
-      return this.$route.params.type;
-    },
-    colors() {
-      return this.$route.query.colors;
-    },
-    sizes() {
-      return this.$route.query.sizes;
-    },
-    colorsString() {
-      return this.selectedColors.join(',');
-    },
-    sizesString() {
-      return this.selectedSizes.join(',');
-    }
-  },
-  watch: {
-    selectedType(newValue) {
-      this.$router.push({name: 'Category', params: {id: this.category, type: newValue}, query: { colors: this.colors, sizes: this.sizes }});
-    },
-    colorsString(newValue) {
-      this.$router.push({name: 'Category', params: {id: this.category, type: this.type}, query: { colors: newValue, sizes: this.sizes }});
-    },
-    sizesString(newValue) {
-      this.$router.push({name: 'Category', params: {id: this.category, type: this.type}, query: { colors: this.colors, sizes: newValue }});
-    },
-    colors(newValue) {
-      this.products = [];
-      this.getProducts();
-    },
-    sizes(newValue) {
-      this.products = [];
-      this.getProducts();
-    },
-    category() {
-      this.products = [];
-      this.getProducts();
-    },
-    type() {
-      this.products = [];
-      this.getProducts();
-    }
-  },
-  methods: {
-    getProducts(page) {
-      if (!this.loading) {
-        this.loading = true;
-
-        productService.getByCategory({
-          category: this.category,
-          type: this.type,
-          colors: this.colors,
-          sizes: this.sizes
-        }, page)
-          .then(response => {
-            if (response && response.status === 200 && response.data) {
-              if (this.products.length) {
-                this.products = this.products.concat(response.data.data);
-              } else if (response.data.data) {
-                this.products = response.data.data;
-              } else {
-                this.products = [];
-              }
-
-              if (!response.data.next_page_url) {
-                document.removeEventListener('scroll', this.onScroll);
-              }
-
-              this.pagination.total = response.data.total;
-              this.pagination.current = response.data.current_page;
-              this.pagination.perPage = response.data.per_page;
-              this.loading = false;
-            }
-          });
-      }
-    },
-    onScroll() {
-      const footerHeight = document.querySelector('.footer').offsetHeight;
-
-      if (document.documentElement.scrollTop + window.innerHeight >= document.documentElement.scrollHeight - footerHeight) {
-        this.getProducts(this.pagination.current + 1);
-      }
-    }
-  },
-  mounted() {
-    this.getProducts(1);
-    document.addEventListener('scroll', this.onScroll, {
-      passive: true
-    });
-  },
-  destroyed() {
-    document.removeEventListener('scroll', this.onScroll);
+    ...mapState('products', [
+      'loading',
+      'products'
+    ])
   }
 };
 </script>

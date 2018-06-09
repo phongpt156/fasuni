@@ -6,6 +6,7 @@ import lookbookArchive from './lookbookArchive';
 import collection from './collection';
 import storeFinder from './store-finder';
 import cart from './cart';
+import search from './search';
 
 const state = {
   homePage,
@@ -15,7 +16,8 @@ const state = {
   lookbookArchive,
   collection,
   storeFinder,
-  cart
+  cart,
+  search
 };
 
 export default {
