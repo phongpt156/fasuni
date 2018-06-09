@@ -20,7 +20,7 @@ class CategoryService
         $current = ($page - 1) * $perPage;
 
         try {
-            $response = $this->httpClient->get('categories?pageSize=' . $perPage . '&hierachicalData=true&orderBy=createdDate&orderDirection=asc&currentItem=' . $current);
+            $response = $this->httpClient->get('categories?&includeRemoveIds=true&pageSize=' . $perPage . '&hierachicalData=true&orderBy=createdDate&orderDirection=asc&currentItem=' . $current);
 
             $response = $response->getBody()->getContents();
             $response = json_decode($response);

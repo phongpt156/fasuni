@@ -49,8 +49,6 @@ class KiotVietController extends Controller
         $this->syncOrders();
         $this->syncInvoices();
 
-        \Log::debug(123);
-
         return response()->json(['status' => 'Success'], 200);
     }
 
