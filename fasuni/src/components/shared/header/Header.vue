@@ -14,14 +14,16 @@
             class="nav-item dropdown h-100 d-flex align-items-center"
             v-for="category in categories"
             :key="category.id">
-            <a class="nav-link dropdown-toggle text-uppercase text-dark">
-              {{ category.name }}
-            </a>
+            <router-link class="nav-link text-uppercase text-dark"
+              :to="{name: 'Category', params: {id: category.id}}">{{ category.name }}
+            </router-link>
             <div class="dropdown-menu mt-0 p-4 shadow-sm">
               <div class="dropdown-item px-5">
                 <ul class="navbar-nav sub-nav pr-5 d-inline-flex" v-for="category in category.children" :key="category.id">
                   <li>
-                    <a class="h6 mb-3 d-block font-weight-bold">{{ category.name }}</a>
+                    <router-link class="h6 mb-3 d-inline-block font-weight-bold category-item"
+                      :to="{name: 'Category', params: {id: category.id}}">{{ category.name }}
+                    </router-link>
                     <ul class="navbar-nav flex-column flex-wrap" v-if="category.children.length">
                       <li v-for="category in category.children" :key="category.id" class="mr-4 my-1">
                         <router-link class="category-item"
@@ -35,7 +37,7 @@
             </div>
           </li>
           <li class="nav-item dropdown h-100 d-flex align-items-center">
-            <a class="nav-link dropdown-toggle text-uppercase text-dark" data-toggle="dropdown">
+            <a class="nav-link text-uppercase text-dark" data-toggle="dropdown">
               Studio
             </a>
             <div class="dropdown-menu mt-0 p-4 shadow-sm">
@@ -277,11 +279,11 @@ export default {
   background-color: #fefdfd;
 
   .category-list {
-    .dropdown-toggle {
-      &:after {
-        content: none;
-      }
-    }
+    // .dropdown-toggle {
+    //   &:after {
+    //     content: none;
+    //   }
+    // }
     .dropdown-item {
       background-color: transparent !important;
 
