@@ -102,14 +102,9 @@
     <div v-scroll-reveal.reset>
       <a>
         <div class="image-wrapper image-15-4">
-          <img :src="images.subBanner1" alt="" />
+          <img :src="images.subBanner" alt="" />
         </div>
       </a>
-      <!-- <a>
-        <div class="image-wrapper image-15-4">
-          <img :src="images.subBanner2" alt="" />
-        </div>
-      </a> -->
     </div>
     <div v-scroll-reveal.reset class="pt-5">
       <div class="py-5">
@@ -176,8 +171,7 @@ import product1 from '@/assets/images/product1.jpg';
 import product2 from '@/assets/images/product2.jpg';
 import product3 from '@/assets/images/product3.jpg';
 import product4 from '@/assets/images/product4.jpg';
-import subBanner1 from '@/assets/images/hạc giấy 1.jpg';
-import subBanner2 from '@/assets/images/hạc giấy.jpg';
+import subBanner from '@/assets/images/paper-flamingo.jpg';
 import post1 from '@/assets/images/post1.jpg';
 import post2 from '@/assets/images/post2.jpg';
 
@@ -201,8 +195,7 @@ export default {
         product2,
         product3,
         product4,
-        subBanner1,
-        subBanner2,
+        subBanner,
         post1,
         post2
       }
