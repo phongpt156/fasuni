@@ -1,5 +1,5 @@
 <template>
-  <div class="category">
+  <div class="category-page">
     <nav class="navbar navbar-expand-lg justify-content-center py-3 px-2">
       <div class="d-md-block d-none breadcrumbs">
         <ul class="navbar-nav align-items-center flex-row">
@@ -167,6 +167,7 @@ export default {
   },
   destroyed() {
     document.removeEventListener('scroll', this.onScroll);
+    this.setEmptyProducts();
   }
 };
 </script>
@@ -175,7 +176,7 @@ export default {
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/_variables';
 
-.category {
+.category-page {
   min-height: calc(100vh - 322px);
 
   .breadcrumbs {

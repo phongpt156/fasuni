@@ -2,7 +2,7 @@
   <header class="header fixed-top shadow-sm">
     <nav class="navbar navbar-expand-lg navbar-light">
       <img :src="images.icon" alt="" style="width: 60px; height: 60px; position: absolute; left: 47.5%; top: -2px" class="d-xl-block d-none" />
-      <a class="navbar-brand branding-name h-100 d-flex align-items-center mt-0" @click="goToHomepage">Fasuni</a>
+      <router-link class="navbar-brand branding-name h-100 d-flex align-items-center mt-0" :to="{name: 'Homepage'}">Fasuni</router-link>
       <search-form v-if="!isLargeScreen"></search-form>
       <button class="navbar-toggler" type="button" @click="isOpenSidenavOverlay = !isOpenSidenavOverlay">
         <span class="navbar-toggler-icon"></span>
@@ -188,9 +188,6 @@ export default {
       'getCartFromStorage',
       'setIsOpenCartDialog'
     ]),
-    goToHomepage() {
-      this.$router.push({name: 'Homepage'});
-    },
     goToCategoryPage() {
       this.$router.push({name: 'Category'});
     },

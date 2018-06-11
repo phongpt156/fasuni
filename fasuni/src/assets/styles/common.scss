@@ -45,6 +45,10 @@ a {
 .branding-name {
   font-size: 2rem;
   font-family: Alierons;
+
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 .dropdown-item {

@@ -2,9 +2,9 @@
   <footer class="footer p-5">
     <div class="row align-items-start">
       <div class="col-md-3">
-        <a class="branding-name text-white" @click="goToHomepage">
+        <router-link class="branding-name text-white" :to="{name: 'Homepage'}">
           Fasuni
-        </a>
+        </router-link>
       </div>
       <div class="col-md-3 d-flex flex-column about-us">
         <p class="font-weight-bold text-uppercase text-white mt-3">Về chúng tôi</p>
@@ -68,11 +68,6 @@ export default {
         googlePlus: googlePlusIcon
       }
     };
-  },
-  methods: {
-    goToHomepage() {
-      this.$router.push({name: 'Homepage'});
-    }
   }
 };
 </script>

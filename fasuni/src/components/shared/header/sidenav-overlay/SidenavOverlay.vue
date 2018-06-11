@@ -204,9 +204,6 @@ export default {
     ...mapMutations('auth', [
       'removeToken'
     ]),
-    goToHomepage() {
-      this.$router.push({name: 'Homepage'});
-    },
     openRegisterFormDialog() {
       this.isOpenLoginFormDialog = false;
       this.isOpenRegisterFormDialog = true;

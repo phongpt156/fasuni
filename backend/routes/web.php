@@ -114,6 +114,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->group(['prefix' => 'product'], function () use ($router) {
         $router->get('', 'ProductController@index');
         $router->get('category/{category}', 'ProductController@getByCategory');
+        $router->get('search/{name}', 'ProductController@searchByName');
         $router->get('relevant/{id}', 'ProductController@getRelevant');
         $router->get('{id}', 'ProductController@show');
     });

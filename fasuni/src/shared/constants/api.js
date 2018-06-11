@@ -28,7 +28,8 @@ export const PRODUCT = {
   getAll: BASE_URL + '/product',
   getOne: BASE_URL + '/product/',
   getByCategory: BASE_URL + '/product/category/',
-  getRelevant: BASE_URL + '/product/relevant/'
+  getRelevant: BASE_URL + '/product/relevant/',
+  searchByName: BASE_URL + '/product/search/'
 };
 
 export const USER_PRODUCT_COMMUNICATION = {

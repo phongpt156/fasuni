@@ -9,10 +9,10 @@
           </router-link>
         </template>
         <template v-else>
-          <a class="image-wrapper image-standard d-block">
+          <router-link class="image-wrapper image-standard d-block" :to="{name: 'Product', params: {id: product.id}}">
             <img class="card-img-top img-fluid" :src="images[0].original" :alt="product.name" v-if="images && images.length" />
             <img class="card-img-top img-fluid" :alt="product.name" v-else />
-          </a>
+          </router-link>
         </template>
         <font-awesome-icon
           :icon="icon.heart"
@@ -38,10 +38,8 @@
         </div>
       </div>
       <div class="card-body px-1 py-1">
-        <div class="d-flex">
-          <div class="text-uppercase name">{{ product.name }}</div>
-          <div class="ml-auto price pl-3">{{ product.sale_price | priceFormat }}</div>
-        </div>
+        <div class="text-uppercase name py-1">{{ product.name }}</div>
+        <div class="ml-auto price pb-1">{{ product.sale_price | priceFormat }}</div>
         <div class="d-flex align-items-center">
           <a v-for="color in colors" :key="color.id">
             <div
@@ -214,6 +212,7 @@ export default {
   font-size: $font-size-sm;
   .price {
     white-space: nowrap;
+    font-size: .75rem;
   }
   .color {
     width: 13px;

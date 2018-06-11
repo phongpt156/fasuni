@@ -25,53 +25,53 @@
         <carousel :perPageCustom="[[768, 3], [1024, 4]]" class="top-product px-5">
           <slide class="px-2">
             <div>
-              <a class="d-block">
-                <img :src="images.product1" alt="" class="w-100" />
-              </a>
+              <router-link class="d-block" :to="{name: 'Product', params: {id: 226}}">
+                <img src="https://cdn-images.kiotviet.vn/fasuni/e6a2cce47e2b408f89698194da7533bd" alt="" class="w-100" />
+              </router-link>
               <div class="text-center py-3 px-5 product-info">
                 <p class="mb-0 text-uppercase">
-                  Figure crew as long as you love me
+                  THẮT LƯNG TL-003
                 </p>
-                <p class="font-weight-bold mb-0">450.000 đ</p>
+                <p class="font-weight-bold mb-0">800,000 VNĐ</p>
               </div>
             </div>
           </slide>
           <slide class="px-2">
             <div>
-              <a class="d-block">
-                <img :src="images.product2" alt="" class="w-100" />
-              </a>
+              <router-link class="d-block" :to="{name: 'Product', params: {id: 225}}">
+                <img src="https://cdn-images.kiotviet.vn/fasuni/e85ab49cb8794efe9f11d3d68ea08232" alt="" class="w-100" />
+              </router-link>
               <div class="text-center py-3 px-5 product-info">
                 <p class="mb-0 text-uppercase">
-                  Figure crew as long as you love me
+                  THẮT LƯNG TL-004
                 </p>
-                <p class="font-weight-bold mb-0">450.000 đ</p>
+                <p class="font-weight-bold mb-0">800,000 VNĐ</p>
               </div>
             </div>
           </slide>
           <slide class="px-2">
             <div>
-              <a class="d-block">
-                <img :src="images.product3" alt="" class="w-100" />
-              </a>
+              <router-link class="d-block" :to="{name: 'Product', params: {id: 49}, query: {color: 9}}">
+                <img src="https://cdn-images.kiotviet.vn/fasuni/b4fae2fe372d462fb5001025bd4d2f9a" alt="" class="w-100" />
+              </router-link>
               <div class="text-center py-3 px-5 product-info">
                 <p class="mb-0 text-uppercase">
-                  Figure crew as long as you love me
+                  GIÀY CÁ SẤU GD-02-41
                 </p>
-                <p class="font-weight-bold mb-0">450.000 đ</p>
+                <p class="font-weight-bold mb-0">3,600,000 VNĐ</p>
               </div>
             </div>
           </slide>
           <slide class="px-2">
             <div>
-              <a class="d-block">
-                <img :src="images.product4" alt="" class="w-100" />
-              </a>
+              <router-link class="d-block" :to="{name: 'Product', params: {id: 45}, query: {color: 21}}">
+                <img src="https://cdn-images.kiotviet.vn/fasuni/f66bd986d9364b3ebeabd9d296913ea0" alt="" class="w-100" />
+              </router-link>
               <div class="text-center py-3 px-5 product-info">
                 <p class="mb-0 text-uppercase">
-                  Figure crew as long as you love me
+                  GIÀY DA NÂU GD-01-41
                 </p>
-                <p class="font-weight-bold mb-0">450.000 đ</p>
+                <p class="font-weight-bold mb-0">3,600,000 VNĐ</p>
               </div>
             </div>
           </slide>
@@ -167,10 +167,6 @@ import support from '@/assets/images/support.png';
 import collection1 from '@/assets/images/CEF_9071.jpg';
 import collection2 from '@/assets/images/34415303_956348787872455_5434430696678490112_n.jpg';
 import collection3 from '@/assets/images/34530408_956364091204258_7630724324420222976_n.jpg';
-import product1 from '@/assets/images/product1.jpg';
-import product2 from '@/assets/images/product2.jpg';
-import product3 from '@/assets/images/product3.jpg';
-import product4 from '@/assets/images/product4.jpg';
 import subBanner from '@/assets/images/paper-flamingo.jpg';
 import post1 from '@/assets/images/post1.jpg';
 import post2 from '@/assets/images/post2.jpg';
@@ -191,10 +187,6 @@ export default {
         collection1,
         collection2,
         collection3,
-        product1,
-        product2,
-        product3,
-        product4,
         subBanner,
         post1,
         post2

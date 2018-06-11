@@ -21,11 +21,18 @@
             </td>
             <td>{{ product.name }}</td>
             <td>
-              <div class="color mx-auto" :style="{backgroundColor: product.color.value}"></div>
-              <p class="mb-0 mt-2">{{ product.color.name }}</p>
+              <template v-if="product.color">
+                <div class="color mx-auto" :style="{backgroundColor: product.color.value}"></div>
+                <p class="mb-0 mt-2">{{ product.color.name }}</p>
+              </template>
             </td>
             <td>
-              {{ product.size.name }}
+              <template v-if="product.size">
+                {{ product.size.name }}
+              </template>
+              <template v-else>
+                Free Size
+              </template>
             </td>
             <td>
               <div class="number-input d-inline-block">

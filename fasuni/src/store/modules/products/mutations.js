@@ -7,7 +7,7 @@ export default {
   },
   setProducts(state, products) {
     if (state.products.length) {
-      state.products = this.products.concat(products);
+      state.products = state.products.concat(products);
     } else if (products) {
       state.products = products;
     } else {

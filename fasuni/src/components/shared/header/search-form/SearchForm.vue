@@ -15,7 +15,9 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$router.push({name: 'Search', params: {name: this.name}});
+      if (this.name) {
+        this.$router.push({name: 'Search', params: {name: this.name}});
+      }
     }
   }
 };

@@ -52,11 +52,8 @@
                   {{ size.name }}
                 </a>
               </div>
-              <!-- <select class="custom-select my-4" style="width: 106px" v-if="sizes.length" v-model="selectedSize">
-                <option v-for="size in sizes" :key="size.id" :value="size">{{ size.name }}</option>
-              </select> -->
               <div class="d-flex mt-2">
-                <a class="mr-3 d-inline-flex align-items-center justify-content-center cart px-4 py-2" @click="addProductToCart({images, product: selectedSize.product})" :class="{'can-buy': selectedSize.id, 'text-white': selectedSize.id}">
+                <a class="mr-3 d-inline-flex align-items-center justify-content-center cart px-4 py-2" @click="addProductToCart({images, product: selectedSize.product || product})" :class="{'can-buy': !sizes || !sizes.length || selectedSize.id, 'text-white': !sizes || !sizes.length || selectedSize.id}">
                   <font-awesome-icon :icon="icons.cart" class="mr-2"></font-awesome-icon>
                   <span class="mt-1 font-size-sm">Thêm vào giỏ</span>
                 </a>
@@ -123,12 +120,12 @@
             <slide class="px-2 relevant-product" v-for="product in relevantProducts" :key="product.id">
               <router-link
                 class="d-block image-wrapper image-standard"
-                :to="{name: 'Product', params: {id: product.id}, query: {color: product.color.id}}">
+                :to="{name: 'Product', params: {id: product.id}, query: product.color ? {color: product.color.id} : {}}">
                 <img v-if="product.images && product.images.length" :src="product.images[0].original" :alt="product.name" />
                 <img :alt="product.name" class="img-fluid" v-else />
               </router-link>
               <p class="font-size-base text-upper-case my-1">{{ product.name }}</p>
-              <router-link class="detail-button" :to="{name: 'Product', params: {id: product.id}, query: {colors: product.color.id}}">Chi tiết >></router-link>
+              <router-link class="detail-button" :to="{name: 'Product', params: {id: product.id}, query: product.color ? {color: product.color.id} : {}}">Chi tiết >></router-link>
             </slide>
           </carousel>
         </div>
@@ -379,7 +376,7 @@ export default {
         this.recentlyViewedProducts = [];
 
         products.forEach(product => {
-          if (product.id && product.id !== this.selectedProduct.id) {
+          if (this.recentlyViewedProducts.length <= 16 && product.id && product.id !== this.selectedProduct.id) {
             this.recentlyViewedProducts.push({
               id: product.id,
               images: product.images,
@@ -473,7 +470,6 @@ export default {
       productService.getRelevant(id, categoryId, page)
         .then(response => {
           if (response && response.status === 200 && response.data) {
-            console.log(response.data.data);
             this.relevantProducts = response.data.data;
           }
         });
