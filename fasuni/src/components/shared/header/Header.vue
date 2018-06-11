@@ -44,7 +44,7 @@
               <div class="dropdown-item px-5">
                 <ul class="navbar-nav sub-nav pr-5 d-inline-flex">
                   <li class="mr-4 my-1">
-                    <a class="h6 mb-3 d-block font-weight-bold">Women's Lookbook</a>
+                    <a class="h6 mb-3 d-block font-weight-bold" style="font-size: .875rem">Women's Lookbook</a>
                     <ul class="navbar-nav flex-column flex-wrap" v-if="lookbookMonthList.female.length">
                       <li v-for="(month, index) in lookbookMonthList.female" :key="index" class="mr-4 my-1">
                         <router-link class="category-item"
@@ -54,7 +54,7 @@
                     </ul>
                   </li>
                   <li class="mr-4 my-1">
-                    <a class="h6 mb-3 d-block font-weight-bold">Men's Lookbook</a>
+                    <a class="h6 mb-3 d-block font-weight-bold" style="font-size: .875rem">Men's Lookbook</a>
                     <ul class="navbar-nav flex-column flex-wrap" v-if="lookbookMonthList.male.length">
                       <li v-for="(month, index) in lookbookMonthList.male" :key="index" class="mr-4 my-1">
                         <router-link class="category-item"

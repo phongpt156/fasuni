@@ -1,8 +1,8 @@
 <template>
   <div class="product-list">
-    <div class="row mx-2 mt-2">
+    <div class="row mx-4 px-1 mt-2">
       <template v-if="products.length">
-        <div v-for="product in products" :key="product.id" class="col-xl-3 col-sm-6 px-3 my-3">
+        <div v-for="product in products" :key="product.id" class="col-xl-3 col-sm-6 py-4 px-3">
           <product-card :product="product"></product-card>
         </div>
       </template>

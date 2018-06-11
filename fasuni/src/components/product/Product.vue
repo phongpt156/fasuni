@@ -7,7 +7,7 @@
       <template v-if="product.id">
         <ul class="navbar-nav align-items-center flex-row pt-4 pb-2 d-md-flex d-none">
           <li class="nav-item d-flex align-items-center" v-for="(breadcrumb, index) in breadcrumbs" :key="breadcrumb.id">
-            <router-link class="nav-link p-2" v-if="index + 1 === breadcrumbsLength" :to="{name: 'Category', params: {id: breadcrumb.id}}">{{ breadcrumb.name }}
+            <router-link class="nav-link p-2" v-if="index < breadcrumbsLength" :to="{name: 'Category', params: {id: breadcrumb.id}}">{{ breadcrumb.name }}
             </router-link>
             <div class="nav-link p-2" v-else>{{ breadcrumb.name }}
             </div>

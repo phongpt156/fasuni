@@ -78,34 +78,6 @@
         </carousel>
       </div>
     </div>
-    <div v-scroll-reveal.reset>
-      <div class="p-5">
-        <div class="row py-5">
-          <div class="col-4 text-center">
-            <img :src="images.gift" alt="" style="width: 56px; height: 57px" />
-            <h6 class="font-weight-bold mt-3 mb-0">Free Shipping</h6>
-            <p class="text-uppercase">All Order over $59</p>
-          </div>
-          <div class="col-4 text-center">
-            <img :src="images.support" alt="" style="width: 56px; height: 57px" />
-            <h6 class="font-weight-bold mt-3 mb-0">Support Customer</h6>
-            <p class="text-uppercase">Support 24/7</p>
-          </div>
-          <div class="col-4 text-center">
-            <img :src="images.lock" alt="" style="width: 56px; height: 57px" />
-            <h6 class="font-weight-bold mt-3 mb-0">Secure Payments</h6>
-            <p class="text-uppercase">Support 24/7</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div v-scroll-reveal.reset>
-      <a>
-        <div class="image-wrapper image-15-4">
-          <img :src="images.subBanner" alt="" />
-        </div>
-      </a>
-    </div>
     <div v-scroll-reveal.reset class="pt-5">
       <div class="py-5">
         <p class="mb-0 text-center text-uppercase font-weight-bold">Các bài viết</p>
@@ -141,6 +113,34 @@
           </slide>
         </carousel>
       </div>
+    </div>
+    <div v-scroll-reveal.reset>
+      <div class="p-5">
+        <div class="row py-5">
+          <div class="col-4 text-center">
+            <img :src="images.gift" alt="" style="width: 56px; height: 57px" />
+            <h6 class="font-weight-bold mt-3 mb-0">Free Shipping</h6>
+            <p class="text-uppercase">All Order over $59</p>
+          </div>
+          <div class="col-4 text-center">
+            <img :src="images.support" alt="" style="width: 56px; height: 57px" />
+            <h6 class="font-weight-bold mt-3 mb-0">Support Customer</h6>
+            <p class="text-uppercase">Support 24/7</p>
+          </div>
+          <div class="col-4 text-center">
+            <img :src="images.lock" alt="" style="width: 56px; height: 57px" />
+            <h6 class="font-weight-bold mt-3 mb-0">Secure Payments</h6>
+            <p class="text-uppercase">Support 24/7</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-scroll-reveal.reset>
+      <a>
+        <div class="image-wrapper image-15-4">
+          <img :src="images.subBanner" alt="" />
+        </div>
+      </a>
     </div>
     <div v-scroll-reveal.reset class="pt-5 companion">
       <div class="py-5">
@@ -218,15 +218,6 @@ export default {
 
   .top-product {
     font-size: $font-size-sm;
-
-    .VueCarousel-slide {
-      &:hover {
-        .product-info {
-          border-top: unset !important;
-          border: 1px solid #b7b7b7;
-        }
-      }
-    }
   }
   .post-item {
     &:hover {

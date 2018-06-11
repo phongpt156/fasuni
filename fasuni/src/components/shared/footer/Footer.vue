@@ -30,10 +30,10 @@
           <button class="btn my-2 my-sm-0 text-white" type="button">Gửi</button>
         </form>
         <div class="d-flex social">
-          <a class="mx-2">
+          <a class="mx-2" href="https://www.facebook.com/fasuni.vn/" target="__blank">
             <font-awesome-icon :icon="icons.facebook"></font-awesome-icon>
           </a>
-          <a class="mx-2">
+          <a class="mx-2" href="https://www.instagram.com/fasuni.vn/" target="__blank">
             <font-awesome-icon :icon="icons.instagram"></font-awesome-icon>
           </a>
           <a class="mx-2">

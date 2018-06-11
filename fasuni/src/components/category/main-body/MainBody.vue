@@ -1,6 +1,6 @@
 <template>
   <div class="main-body">
-    <div class="px-3">
+    <div class="px-5">
       <div class="d-flex flex-wrap">
         <div class="mt-3">
           <button
