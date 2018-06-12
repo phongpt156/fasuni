@@ -35,8 +35,8 @@
                 <div>
                   <p><span class="text-primary">Mã sản phẩm:</span> {{ subProduct.code || subProduct.id }}</p>
                   <p><span class="text-primary">Nhóm sản phẩm:</span> {{ subProduct.category && subProduct.category.name || '&lt;&lt;Trống&gt;&gt;' }}</p>
-                  <p><span class="text-primary">Giá bán:</span> {{ subProduct.price | getFormatPrice }}</p>
-                  <p><span class="text-primary">Tồn kho:</span> {{ subProduct.quantity }}</p>
+                  <p><span class="text-primary">Giá bán:</span> {{ subProduct.sale_price | getFormatPrice }}</p>
+                  <p><span class="text-primary">Tồn kho:</span> {{ subProduct.total_quantity }}</p>
                 </div>
               </div>
               <div v-if="productAttributes(subProduct).length" class="mt-2">

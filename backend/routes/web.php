@@ -46,6 +46,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->group(['prefix' => 'product'], function () use ($router) {
             $router->get('', 'ProductController@index');
             $router->get('search', 'ProductController@search');
+            $router->put('{id}', 'ProductController@update');
         });
         $router->group(['prefix' => 'attribute'], function () use ($router) {
             $router->get('', 'AttributeController@index');
@@ -61,6 +62,11 @@ $router->group(['prefix' => 'api'], function () use ($router) {
             $router->get('', 'LookbookController@index');
             $router->post('', 'LookbookController@store');
             $router->get('get-prepare-save-name', 'LookbookController@getPrepareSaveName');
+            $router->get('search-product', 'LookbookController@searchProduct');
+        });
+        $router->group(['prefix' => 'collection'], function () use ($router) {
+            $router->get('', 'CollectionController@index');
+            $router->post('', 'CollectionController@store');
         });
         $router->group(['prefix' => 'kiotviet', 'namespace' => 'SaleSoftware\KiotViet'], function () use ($router) {
             $router->get('sync', 'KiotVietController@sync');

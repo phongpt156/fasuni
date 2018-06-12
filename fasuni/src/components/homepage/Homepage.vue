@@ -5,16 +5,34 @@
     <div v-scroll-reveal.reset class="pt-5">
       <div class="row mx-0 px-5 pt-5">
         <div class="px-5 col-md-4">
-          <a class="d-block h-100"><img :src="images.collection1" alt="" class="w-100 h-100" /></a>
-          <p class="text-center text-uppercase mt-3" style="font-size: 1rem">Campaign</p>
+          <div class="collection-item">
+            <a class="d-block h-100 image-wrapper image-2-3"><img :src="images.collection1" alt="" class="w-100 h-100" /></a>
+            <div class="name">
+              <div class="d-flex align-items-center justify-content-center h-100">
+                <p class="text-center text-uppercase mt-3" style="font-size: 1.5rem">Campaign</p>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="px-5 col-md-4">
-          <a class="d-block h-100"><img :src="images.collection3" alt="" class="w-100 h-100" /></a>
-          <p class="text-center text-uppercase mt-3" style="font-size: 1rem">Shop men</p>
+          <div class="collection-item">
+            <a class="d-block h-100 image-wrapper image-2-3"><img :src="images.collection3" alt="" class="w-100 h-100" /></a>
+            <div class="name">
+              <div class="d-flex align-items-center justify-content-center h-100">
+                <p class="text-center text-uppercase mt-3" style="font-size: 1.5rem">Shop Men</p>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="px-5 col-md-4">
-          <a class="d-block h-100"><img :src="images.collection2" alt="" class="w-100 h-100" /></a>
-          <p class="text-center text-uppercase mt-3" style="font-size: 1rem">Shop women</p>
+          <div class="collection-item">
+            <a class="d-block h-100 image-wrapper image-2-3"><img :src="images.collection2" alt="" class="w-100 h-100" /></a>
+            <div class="name">
+              <div class="d-flex align-items-center justify-content-center h-100">
+                <p class="text-center text-uppercase mt-3" style="font-size: 1.5rem">Shop women</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -237,6 +255,56 @@ export default {
   .companion {
     img {
       object-fit: contain;
+    }
+  }
+  .collection-item {
+    position: relative;
+
+    &:hover {
+      &:after {
+        transition: opacity .15s ease 0s;
+        opacity: 1;
+      }
+
+      .name {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    &:after {
+      width: 100%;
+      top: 0;
+      transition: opacity .2s ease .2s;
+      position: absolute;
+      opacity: 0;
+      left: 0;
+      height: 100%;
+      display: block;
+      content: "";
+      background: none repeat scroll 0 0 rgba(0, 0, 0, 0.35);
+    }
+
+    .name {
+      z-index: 1000;
+      top: 0;
+      transition: all linear .2s;
+      transform: scale(0.8);
+      right: -1px;
+      position: absolute;
+      overflow: hidden;
+      opacity: 0;
+      left: 0;
+      color: rgba(255, 255, 255, .8);
+      bottom: -1px;
+
+      p {
+        color: hsla(0, 0%, 100%, .8);
+
+        &:hover {
+          color: $white;
+        }
+      }
     }
   }
 }

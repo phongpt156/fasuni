@@ -23,6 +23,11 @@ export const ERROR_MESSAGE = {
     name: {
       required: 'Vui lòng nhập tên lookbook'
     }
+  },
+  collection: {
+    name: {
+      required: 'Vui lòng nhập tên bộ sưu tập'
+    }
   }
 };
 

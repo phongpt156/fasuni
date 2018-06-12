@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Lookbook;
-use App\Models\ProductLookbook;
+use App\Models\Collection;
+use App\Models\CollectionImage;
+use App\Models\ProductCollection;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Utility\ImageUtility;
 use Illuminate\Database\QueryException;
 
-class LookbookController extends Controller
+class CollectionController extends Controller
 {
     public function index()
     {
@@ -61,32 +62,5 @@ class LookbookController extends Controller
         }
 
         return response()->json($lookbook, 200);
-    }
-
-    public function getPrepareSaveName()
-    {
-        $count = Lookbook::count();
-
-        return response()->json('Lookbook ' . ($count + 1), 200);
-    }
-
-    public function searchProduct(Request $request)
-    {
-
-        $products = Product::with('images')
-            ->whereIsActive(true);
-
-        if ($request->has('name')) {
-            $products = $products->where('name', 'LIKE', '%' . $request->name . '%')
-            ->orWhere('code', 'LIKE', '%' . $request->name . '%');
-        }
-
-        $products = $products->get();
-
-        $products->each(function ($product) {
-            $product->append('size', 'color');
-        });
-
-        return response()->json($products, 200);
     }
 }

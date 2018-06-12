@@ -11,8 +11,12 @@ export default {
     return httpClient.post(LOOKBOOK.store, body)
       .catch(handleError);
   },
-  getPrepareSaveName(page = 1) {
+  getPrepareSaveName() {
     return httpClient.get(LOOKBOOK.getPrepareSaveName)
+      .catch(handleError);
+  },
+  searchProducts() {
+    return httpClient.get(LOOKBOOK.searchProducts)
       .catch(handleError);
   }
 };

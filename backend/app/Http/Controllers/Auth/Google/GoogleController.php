@@ -42,7 +42,7 @@ class GoogleController
                     $user = $userDAL->update($user, $data);
                     return response()->json($user, 200);
                 } catch (QueryException $e) {
-                    \Log::debug('Cannot update user: ' . $e->getMessage);
+                    \Log::error('Cannot update user: ' . $e->getMessage);
                     return response()->json(['error' => $e->getMessage()], 500);
                 }
             } else {
@@ -52,7 +52,7 @@ class GoogleController
                 } catch (ExistEmailException $e) {
                     return response()->json(['error' => $e->getMessage()], $e->getCode());
                 } catch (QueryException $e) {
-                    \Log::debug('Cannot save user: ' . $e->getMessage);
+                    \Log::error('Cannot save user: ' . $e->getMessage);
                     return response()->json(['error' => $e->getMessage()], 500);
                 }
             }

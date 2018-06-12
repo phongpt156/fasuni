@@ -28,7 +28,8 @@ class ProductController extends Controller
 
         $products = Product::with($appends)
             ->whereNull('master_product_id')
-            ->whereIsActive(true);
+            ->whereIsActive(true)
+            ->whereIsDisplay(true);
 
         switch ($request->type) {
             case 'newest': {
@@ -80,6 +81,7 @@ class ProductController extends Controller
             ->whereId($id)
             ->whereNull('master_product_id')
             ->whereIsActive(true)
+            ->whereIsDisplay(true)
             ->first();
 
         if (!is_null($product)) {
@@ -131,7 +133,8 @@ class ProductController extends Controller
                     $query->whereId($category);
                 });
             })
-            ->whereIsActive(true);
+            ->whereIsActive(true)
+            ->whereIsDisplay(true);
 
         if ($request->has('colors')) {
             $colors = explode(',', $request->colors);
@@ -229,7 +232,8 @@ class ProductController extends Controller
         $products = Product::with($appends)
             ->whereNull('master_product_id')
             ->where('name', 'LIKE', '%' . $name . '%')
-            ->whereIsActive(true);
+            ->whereIsActive(true)
+            ->whereIsDisplay(true);
 
         if ($request->has('colors')) {
             $colors = explode(',', $request->colors);
@@ -329,6 +333,7 @@ class ProductController extends Controller
             })
             ->where('id', '!=', $id)
             ->whereIsActive(true)
+            ->whereIsDisplay(true)
             ->paginate(16);
 
             $products->appends($request->except('page'))->links();

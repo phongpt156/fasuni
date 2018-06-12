@@ -1,9 +1,12 @@
 <template>
-  <div class="add-lookbook">
+  <div class="add-collection">
     <div class="text-right mb-3">
-      <i-form :model="addLookbookForm" :label-width="80" ref="addLookbookForm" @submit="onSubmit" class="text-left" @submit.native.prevent :rules="rules">
+      <i-form :model="addCollectionForm" :label-width="80" ref="addCollectionForm" @submit="onSubmit" class="text-left" @submit.native.prevent :rules="rules">
         <form-item label="Tên" prop="name">
-          <i-input type="text" v-model="addLookbookForm.name"></i-input>
+          <i-input type="text" v-model="addCollectionForm.name"></i-input>
+        </form-item>
+        <form-item label="Mô tả" prop="description">
+          <i-input v-model="addCollectionForm.description" type="textarea" :rows="4"></i-input>
         </form-item>
         <form-item label="Ảnh">
           <div class="demo-upload-list" v-for="item in uploadList" :key="item.uid">
@@ -28,7 +31,7 @@
             :max-size="204800"
             type="drag"
             :on-success="onSuccess"
-            v-model="addLookbookForm.image">
+            v-model="addCollectionForm.image">
             <div style="padding: 20px 0">
               <icon type="ios-cloud-upload" size="52" style="color: #3399ff"></icon>
               <p>Click or drag files here to upload</p>
@@ -37,7 +40,7 @@
         </form-item>
         <form-item label="Sản phẩm">
           <multiselect
-            v-model="addLookbookForm.products"
+            v-model="addCollectionForm.products"
             :options="products"
             placeholder="Chọn sản phẩm"
             :searchable="true"
@@ -60,15 +63,6 @@
             </template>
           </multiselect>
         </form-item>
-        <form-item label="Giới tính">
-          <i-select
-            v-model="addLookbookForm.gender"
-            label="Chọn giới tính">
-            <i-option v-for="gender in genders" :value="gender.id" :key="gender.id">
-              {{ gender.name }}
-            </i-option>
-          </i-select>
-        </form-item>
         <form-item>
           <i-button type="success" @click="onSubmit" :loading="loading">Submit</i-button>
         </form-item>
@@ -85,7 +79,8 @@
 
 <script>
 import { IMAGE } from '@/shared/constants/api';
-import { IMAGE_URL, GENDER, ERROR_MESSAGE } from '@/shared/constants';
+import { IMAGE_URL, ERROR_MESSAGE } from '@/shared/constants';
+import collectionService from '@/shared/services/collection.service';
 import lookbookService from '@/shared/services/lookbook.service';
 import Multiselect from 'vue-multiselect';
 
@@ -95,14 +90,14 @@ export default {
   },
   data() {
     return {
-      addLookbookForm: {
+      addCollectionForm: {
         name: '',
+        description: '',
         image: '',
-        products: [],
-        gender: GENDER.female.id
+        products: []
       },
       rules: {
-        name: { required: true, message: ERROR_MESSAGE.lookbook.name.required, trigger: 'blur' }
+        name: { required: true, message: ERROR_MESSAGE.collection.name.required, trigger: 'blur' }
       },
       uploadLink: IMAGE.upload,
       uploadList: [],
@@ -115,9 +110,6 @@ export default {
   computed: {
     customLabel: () => option => {
       return `${option.code} - ${option.name}`;
-    },
-    genders() {
-      return GENDER;
     },
     imageBasePath() {
       return IMAGE_URL;
@@ -133,37 +125,35 @@ export default {
       this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
     },
     onSubmit() {
-      this.$refs.addLookbookForm.validate(valid => {
+      this.$refs.addCollectionForm.validate(valid => {
         if (valid) {
           if (!this.$refs.upload.fileList.length) {
-            this.$Message.error('Chưa chọn ảnh lookbook!');
-          } else if (!this.addLookbookForm.products.length) {
+            this.$Message.error('Chưa chọn ảnh bộ sưu tập!');
+          } else if (!this.addCollectionForm.products.length) {
             this.$Message.error('Chưa chọn sản phẩm!');
           } else {
             this.loading = true;
-            this.addLookbookForm.image = this.$refs.upload.fileList[0].url;
+            this.addCollectionForm.image = this.$refs.upload.fileList[0].url;
 
-            const body = JSON.parse(JSON.stringify(this.addLookbookForm));
+            const body = JSON.parse(JSON.stringify(this.addCollectionForm));
             body.products = body.products.map(product => product.id);
 
-            lookbookService.store(body)
+            collectionService.store(body)
               .then(response => {
                 if (response && response.status === 200 && response.data) {
                   this.loading = false;
                   this.$Message.success('Success');
-                  this.$router.push({name: 'Lookbook'});
+                  this.$router.push({name: 'Collection'});
                 }
               });
           }
         } else {
-          this.$refs.addLookbookForm.$el[0].focus();
+          this.$refs.addCollectionForm.$el[0].focus();
           this.$Message.error('Fail!');
         }
       });
     },
     onSuccess(response, file, fileList) {
-      fileList.splice(0);
-      fileList.push(file);
       file.url = response.url;
     },
     searchProducts(name) {
@@ -179,19 +169,10 @@ export default {
             this.products = response.data;
           }
         });
-    },
-    getPrepareSaveName() {
-      lookbookService.getPrepareSaveName()
-        .then(response => {
-          if (response && response.status === 200 && response.data) {
-            this.addLookbookForm.name = response.data;
-          }
-        });
     }
   },
   mounted() {
     this.uploadList = this.$refs.upload.fileList;
-    this.getPrepareSaveName();
     this.searchProducts();
   }
 };
@@ -204,7 +185,7 @@ export default {
   z-index: 9999;
 }
 
-.add-lookbook {
+.add-collection {
   .demo-upload-list {
     width: 5%;
     text-align: center;

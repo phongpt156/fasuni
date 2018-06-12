@@ -1,5 +1,6 @@
 <template>
   <div class="product">
+    <i-input v-model="name" placeholder="Tìm kiếm sản phẩm" class="mb-3 w-25"></i-input>
     <i-table
       :data="products"
       :columns="columns"
@@ -23,6 +24,7 @@ import attributeService from '@/shared/services/attribute.service';
 import { getFormatPrice } from '@/shared/functions';
 import ProductDetail from './ProductDetail';
 import { Pagination } from '@/shared/classes';
+import _ from 'lodash';
 
 export default {
   components: {
@@ -35,6 +37,7 @@ export default {
       hasPagination: false,
       products: [],
       attributes: [],
+      name: '',
       columns: [
         {
           type: 'expand',
@@ -68,8 +71,9 @@ export default {
           }
         },
         {
+          align: 'center',
           title: 'Tồn kho',
-          key: 'quantity',
+          key: 'total_quantity',
           sortable: true
         },
         {
@@ -83,11 +87,49 @@ export default {
             return b.name - a.name;
           },
           render: (h, params) => {
-            return h('span', params.row.category && params.row.category.name);
+            let name = '';
+
+            if (params.row.category) {
+              name += params.row.category.name;
+
+              let parent = params.row.category.parent;
+
+              while (parent) {
+                name += ` << ${parent.name}`;
+                parent = parent.parent;
+              }
+            }
+
+            return h('span', name);
+          }
+        },
+        {
+          align: 'center',
+          title: 'Hiển thị ra web',
+          key: 'is_display',
+          sortable: true,
+          render: (h, params) => {
+            return h('Checkbox', {
+              props: {
+                value: Boolean(params.row.is_display)
+              },
+              on: {
+                'on-change': (value) => {
+                  params.row.is_display = value;
+                  this.updateProduct(params.row);
+                }
+              }
+            });
           }
         }
-      ]
+      ],
+      makeSearchRequest: ''
     };
+  },
+  watch: {
+    name(newValue) {
+      this.makeSearchRequest(newValue);
+    }
   },
   methods: {
     getProducts(page = 1) {
@@ -116,9 +158,35 @@ export default {
     },
     changePage(page) {
       this.getProducts(page);
+    },
+    updateProduct(product) {
+      productService.update(product.id, product);
+    },
+    search(name) {
+      this.loading = true;
+
+      productService.search({
+        name
+      }).then(response => {
+        if (response && response.status === 200 && response.data) {
+          this.products = response.data.data;
+
+          this.loading = false;
+          if (response.data.next_page_url) {
+            this.hasPagination = true;
+          }
+          this.pagination.total = response.data.total;
+          this.pagination.current = response.data.current_page;
+          this.pagination.perPage = response.data.per_page;
+        }
+      });
     }
   },
   mounted() {
+    this.makeSearchRequest = _.debounce(name => {
+      this.search(name);
+    }, 300);
+
     this.getProducts();
     this.getAttributes();
   }

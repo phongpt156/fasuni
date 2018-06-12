@@ -3,11 +3,11 @@
     <p class="h5 text-center mb-0 py-4 text-uppercase">{{ title }}</p>
     <hr class="m-0" />
     <p class="text-center mb-0 py-3 description">Our collection. Styled our way. Every Month. Hover/Tap on a look you like to shop the items featured.</p>
-    <div class="d-flex justify-content-center pb-3">
+    <!-- <div class="d-flex justify-content-center pb-3">
       <a class="view-archive-button py-2 px-3" @click="goToLookbookArchive">
         View Archive
       </a>
-    </div>
+    </div> -->
     <div>
       <lookbook-list></lookbook-list>
     </div>

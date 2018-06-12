@@ -16,5 +16,9 @@ export default {
 
     return httpClient.get(url)
       .catch(handleError);
+  },
+  update(id, body) {
+    return httpClient.put(`${PRODUCT.update}${id}`, body)
+      .catch(handleError);
   }
 };

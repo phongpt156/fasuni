@@ -31,7 +31,7 @@
               </div>
             </div>
             <div class="col-md-4">
-              <div class="text-danger mt-2 font-weight-bold mb-4" style="line-height: normal">HOT</div>
+              <div class="text-danger mt-2 font-weight-bold mb-4" style="line-height: normal">NEW</div>
               <div class="text-uppercase h4 mb-4">{{ selectedProduct.name }}</div>
               <template v-if="product.inventories">
                 <div class="h5 mb-4 product-price">{{ selectedProduct.sale_price | priceFormat }}</div>

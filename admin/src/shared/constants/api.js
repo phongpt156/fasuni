@@ -11,7 +11,8 @@ export const CATEGORY = {
 
 export const PRODUCT = {
   getAll: BASE_URL + '/product',
-  search: BASE_URL + '/product/search'
+  search: BASE_URL + '/product/search',
+  update: BASE_URL + '/product/'
 };
 
 export const ATTRIBUTE = {
@@ -34,5 +35,11 @@ export const IMAGE = {
 export const LOOKBOOK = {
   getAll: BASE_URL + '/lookbook',
   store: BASE_URL + '/lookbook',
-  getPrepareSaveName: BASE_URL + '/lookbook/get-prepare-save-name'
+  getPrepareSaveName: BASE_URL + '/lookbook/get-prepare-save-name',
+  searchProducts: BASE_URL + '/lookbook/search-product'
+};
+
+export const COLLECTION = {
+  getAll: BASE_URL + '/collection',
+  store: BASE_URL + '/collection'
 };
