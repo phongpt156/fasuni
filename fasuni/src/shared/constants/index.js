@@ -1,5 +1,5 @@
-export const BASE_URL = process.env.NODE_ENV === 'production' ? location.href + 'api' : 'https://localhost/fasuni/backend/public/api';
-export const IMAGE_URL = process.env.NODE_ENV === 'production' ? location.href + 'images' : 'https://localhost/fasuni/backend/public/images';
+export const BASE_URL = process.env.NODE_ENV === 'production' ? location.origin + 'api' : 'https://localhost/fasuni/backend/public/api';
+export const IMAGE_URL = process.env.NODE_ENV === 'production' ? location.origin + 'images' : 'https://localhost/fasuni/backend/public/images';
 // export const BASE_URL = 'https://8bed004b.ngrok.io/api';
 
 export const ERROR_MESSAGE = {
