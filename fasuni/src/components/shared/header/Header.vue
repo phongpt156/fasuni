@@ -14,7 +14,8 @@
             class="nav-item dropdown h-100 d-flex align-items-center"
             v-for="category in categories"
             :key="category.id">
-            <router-link class="nav-link text-uppercase text-dark"
+            <router-link
+              class="nav-link text-uppercase text-dark"
               :to="{name: 'Category', params: {id: category.id}}">{{ category.name }}
             </router-link>
             <div class="dropdown-menu mt-0 p-4 shadow-sm">
@@ -150,8 +151,8 @@ export default {
         male: [],
         female: [],
         collapsed: true,
-        maleCollapsed: true,
-        femaleCollapsed: true
+        maleCollapsed: false,
+        femaleCollapsed: false
       },
       images: {
         icon
@@ -236,7 +237,7 @@ export default {
         .then(response => {
           if (response && response.status === 200 && response.data) {
             this.lookbookMonthList.male = response.data.data;
-            this.lookbookMonthList.male.collapsed = true;
+            this.lookbookMonthList.maleCollapsed = true;
           }
         });
     },
@@ -245,7 +246,7 @@ export default {
         .then(response => {
           if (response && response.status === 200 && response.data) {
             this.lookbookMonthList.female = response.data.data;
-            this.lookbookMonthList.female.collapsed = true;
+            this.lookbookMonthList.femaleCollapsed = true;
           }
         });
     }
