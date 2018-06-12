@@ -43,7 +43,7 @@ class LookbookController extends Controller
         try {
             $lookbook->save();
         } catch (QueryException $e) {
-            \Log::error('Cannot save lookbook: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save lookbook: ' . $e->getMessage());
             return response()->json(['error' => 'Cannot save lookbook: ' . $e->getMessage()], 500);
         }
 
@@ -55,7 +55,7 @@ class LookbookController extends Controller
             try {
                 $productLookbook->save();
             } catch (QueryException $e) {
-                \Log::error('Cannot save product lookbook: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save product lookbook: ' . $e->getMessage());
                 return response()->json(['error' => 'Cannot save product lookbook: ' . $e->getMessage()], 500);
             }
         }

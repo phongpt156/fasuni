@@ -27,7 +27,7 @@ class BranchService
 
             return $response;
         } catch (RequestException $e) {
-            \Log::error('Cannot get branches: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot get branches: ' . $e->getMessage());
             if (is_object(json_decode($e->getMessage()))) {
                 response()->json(['error' => 'Cannot get branches: ' . json_decode($e->getMessage())->ResponseStatus->Message], 500)->send();
             } else {

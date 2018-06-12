@@ -58,7 +58,7 @@ class InvoiceController extends WebhookController
                     ['code' => $invoice['Code'], 'total_price' => $invoice['Total'], 'discount_price' => $discount, 'customer_id' => $customerId, 'employee_id' => $employeeId, 'branch_id' => $branchId, 'order_id' => $orderId]
                 );
             } catch (QueryException $e) {
-                \Log::error('Cannot save invoice: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save invoice: ' . $e->getMessage());
                 throw $e;
             }
 
@@ -88,12 +88,12 @@ class InvoiceController extends WebhookController
                         ['quantity' => $invoiceDetail['Quantity'], 'price' => $invoiceDetail['Price'], 'discount_price' => $invoiceDetail['Discount']]
                     );
                 } catch (QueryException $e) {
-                    \Log::error('Cannot save invoice detail: ' . $e->getMessage());
+                    \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save invoice detail: ' . $e->getMessage());
                     response()->json(['error' => 'Cannot save invoice detail: ' . $e->getMessage()], 500)->send();
                     die;
                 }
             } catch (RequestException $e) {
-                \Log::error('Không tìm thấy sản phẩm có mã sản phẩm là: ' . $invoiceDetail['ProductCode'] . ' hoặc sản phẩm đã bị xóa');
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Không tìm thấy sản phẩm có mã sản phẩm là: ' . $invoiceDetail['ProductCode'] . ' hoặc sản phẩm đã bị xóa');
             }
         }
 
@@ -102,7 +102,7 @@ class InvoiceController extends WebhookController
             try {
                 InvoiceDetail::whereInvoiceId($orderId)->whereIn('product_id', $removeIds)->delete();
             } catch (QueryException $e) {
-                \Log::error('Cannot delete invoice details: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete invoice details: ' . $e->getMessage());
                 response()->json(['error' => 'Cannot delete invoice details: ' . $e->getMessage()], 500)->send();
                 die;
             }

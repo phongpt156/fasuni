@@ -27,7 +27,7 @@ class ProductService
 
             return $response;
         } catch (RequestException $e) {
-            \Log::error('Cannot get products: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot get products: ' . $e->getMessage());
             if (is_object(json_decode($e->getMessage()))) {
                 response()->json(['error' => 'Cannot get products: ' . json_decode($e->getMessage())->ResponseStatus->Message], 500)->send();
             } else {
@@ -48,7 +48,7 @@ class ProductService
 
             return $response;
         } catch (RequestException $e) {
-            \Log::error('Cannot get product: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot get product: ' . $e->getMessage());
             $message = json_decode($e->getMessage());
             if (is_object($message)) {
                 if (isset($message->ResponseStatus)) {

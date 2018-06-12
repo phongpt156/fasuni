@@ -64,7 +64,7 @@ class WebhookService
                 $response = $response->getBody()->getContents();
                 $response = json_decode($response);
             } catch (RequestException $e) {
-                \Log::error('Cannot register webhook: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot register webhook: ' . $e->getMessage());
                 if (is_object(json_decode($e->getMessage()))) {
                     response()->json(['error' => 'Cannot register webhook: ' . json_decode($e->getMessage())->responseStatus->message], 500)->send();
                 } else {
@@ -90,7 +90,7 @@ class WebhookService
                 try {
                     $this->httpClient->delete('webhooks/' . $webhook->id);
                 } catch (RequestException $e) {
-                    \Log::error('Cannot delete webhook: ' . $e->getMessage());
+                    \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete webhook: ' . $e->getMessage());
                     if (is_object(json_decode($e->getMessage()))) {
                         response()->json(['error' => 'Cannot delete webhook: ' . json_decode($e->getMessage())->ResponseStatus->Message], 500)->send();
                     } else {
@@ -101,7 +101,7 @@ class WebhookService
                 }
             }
         } catch (RequestException $e) {
-            \Log::error('Cannot get webhooks: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot get webhooks: ' . $e->getMessage());
             if (is_object(json_decode($e->getMessage()))) {
                 response()->json(['error' => 'Cannot get webhooks: ' . json_decode($e->getMessage())->ResponseStatus->Message], 500)->send();
             } else {

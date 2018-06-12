@@ -59,7 +59,7 @@ class KiotVietController extends Controller
         try {
             $locations = $this->kiotVietService->getLocations()->Data;
         } catch (RequestException $e) {
-            \Log::error('Cannot get locations: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot get locations: ' . $e->getMessage());
             $message = json_decode($e->getMessage());
 
             if (isset($message->ResponseStatus)) {
@@ -81,7 +81,7 @@ class KiotVietController extends Controller
                     ['name' => $districtName, 'city_id' => $city->id]
                 );
             } catch (QueryException $e) {
-                \Log::error('Cannot save district: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save district: ' . $e->getMessage());
                 die('Cannot save district: ' . $e->getMessage());
             }
         }
@@ -89,7 +89,7 @@ class KiotVietController extends Controller
         try {
             $wards = $this->kiotVietService->getWards()->Data;
         } catch (RequestException $e) {
-            \Log::error('Cannot get wards: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot get wards: ' . $e->getMessage());
             $message = json_decode($e->getMessage());
 
             if (isset($message->ResponseStatus)) {
@@ -107,7 +107,7 @@ class KiotVietController extends Controller
                     ['name' => $ward->Name, 'district_id' => $district->id]
                 );
             } catch (QueryException $e) {
-                \Log::error('Cannot save ward: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save ward: ' . $e->getMessage());
                 return response()->json(['error' => 'Cannot save ward: ' . $e->getMessage()], 500);
                 die('Cannot save ward: ' . $e->getMessage());
             }
@@ -140,7 +140,7 @@ class KiotVietController extends Controller
         try {
             Branch::whereIn('kiotviet_id', $ids)->delete();
         } catch (QueryException $e) {
-            \Log::error('Cannot delete branches: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete branches: ' . $e->getMessage());
             response()->json(['error' => 'Cannot delete branches: ' . $e->getMessage()], 500)->send();
             die;
         }
@@ -161,7 +161,7 @@ class KiotVietController extends Controller
                 ['name' => $branch->branchName, 'phone_number' => optional($branch)->contactNumber, 'email' => optional($branch)->email, 'address' => optional($branch)->address]
             );
         } catch (QueryException $e) {
-            \Log::error('Cannot save branch: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save branch: ' . $e->getMessage());
             response()->json(['error' => 'Cannot save branches' . $e->getMessage()], 500)->send();
             die;
         }
@@ -207,7 +207,7 @@ class KiotVietController extends Controller
         try {
             Category::whereIn('kiotviet_id', $ids)->delete();
         } catch (QueryException $e) {
-            \Log::error('Cannot delete categories: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete categories: ' . $e->getMessage());
             response()->json(['error' => 'Cannot delete categories: ' . $e->getMessage()], 500)->send();
             die;
         }
@@ -230,7 +230,7 @@ class KiotVietController extends Controller
                 ['name' => $category->categoryName, 'parent_id' => $parentId, 'slug' => str_slug($category->categoryName)]
             );
         } catch (QueryException $e) {
-            \Log::error('Cannot save category: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save category: ' . $e->getMessage());
             response()->json(['error' => 'Cannot save categories' . $e->getMessage()], 500)->send();
             die;
         }
@@ -289,7 +289,7 @@ class KiotVietController extends Controller
         try {
             Product::whereIn('kiotviet_id', $ids)->delete();
         } catch (QueryException $e) {
-            \Log::error('Cannot delete products: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete products: ' . $e->getMessage());
             response()->json(['error' => 'Cannot delete products: ' . $e->getMessage()], 500)->send();
             die;
         }
@@ -313,7 +313,7 @@ class KiotVietController extends Controller
                 ['name' => $product->name, 'sale_price' => $product->basePrice, 'weight' => optional($product)->weight, 'code' => $product->code, 'slug' => str_slug($product->name), 'category_id' => $categoryId, 'master_product_id' => $masterProductId, 'is_active' => $product->isActive]
             );
         } catch (QueryException $e) {
-            \Log::error('Cannot save product: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save product: ' . $e->getMessage());
             response()->json(['error' => 'Cannot save product: ' . $e->getMessage()], 500)->send();
             die;
         }
@@ -371,7 +371,7 @@ class KiotVietController extends Controller
             try {
                 ProductImage::whereIn('original', $removeImages)->delete();
             } catch (QueryException $e) {
-                \Log::error('Cannot delete product images: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete product images: ' . $e->getMessage());
                 response()->json(['error' => 'Cannot delete product images: ' . $e->getMessage()], 500)->send();
                 die;
             }
@@ -384,7 +384,7 @@ class KiotVietController extends Controller
                     ['product_id' => $productId]
                 );
             } catch (QueryException $e) {
-                \Log::error('Cannot save product image: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save product image: ' . $e->getMessage());
                 response()->json(['error' => 'Cannot save product image: ' . $e->getMessage()], 500)->send();
                 die;
             }
@@ -406,7 +406,7 @@ class KiotVietController extends Controller
                     $query->whereIn('name', $removeAttributeValues);
                 })->delete();
             } catch (QueryException $e) {
-                \Log::error('Cannot delete product attributes: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete product attributes: ' . $e->getMessage());
                 response()->json(['error' => 'Cannot delete product attributes: ' . $e->getMessage()], 500)->send();
                 die;
             }
@@ -419,7 +419,7 @@ class KiotVietController extends Controller
                     ['name' => $attributeName]
                 );
             } catch (QueryException $e) {
-                \Log::error('Cannot save attribute: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save attribute: ' . $e->getMessage());
                 response()->json(['error' => 'Cannot save attribute: ' . $e->getMessage()], 500)->send();
                 die;
             }
@@ -430,7 +430,7 @@ class KiotVietController extends Controller
                     ['attribute_id' => $attribute->id]
                 );
             } catch (QueryException $e) {
-                \Log::error('Cannot save attribute value: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save attribute value: ' . $e->getMessage());
                 response()->json(['error' => 'Cannot save attribute value: ' . $e->getMessage()], 500)->send();
                 die;
             }
@@ -440,7 +440,7 @@ class KiotVietController extends Controller
                     ['product_id' => $productId, 'attribute_value_id' => $attributeValue->id]
                 );
             } catch (QueryException $e) {
-                \Log::error('Cannot save product attribute values: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save product attribute values: ' . $e->getMessage());
                 response()->json(['error' => 'Cannot save product attribute values: ' . $e->getMessage()], 500)->send();
                 die;
             }
@@ -462,7 +462,7 @@ class KiotVietController extends Controller
                     ['purchase_price' => $inventory->cost, 'quantity' => $inventory->onHand]
                 );
             } catch (QueryException $e) {
-                \Log::error('Cannot save inventory: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save inventory: ' . $e->getMessage());
                 response()->json(['error' => 'Cannot save inventory: ' . $e->getMessage()], 500)->send();
                 die;
             }
@@ -473,7 +473,7 @@ class KiotVietController extends Controller
             try {
                 Inventory::whereProductId($productId)->whereIn('branch_id', $removeIds)->delete();
             } catch (QueryException $e) {
-                \Log::error('Cannot delete inventories: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete inventories: ' . $e->getMessage());
                 response()->json(['error' => 'Cannot delete inventories: ' . $e->getMessage()], 500)->send();
                 die;
             }
@@ -503,7 +503,7 @@ class KiotVietController extends Controller
         try {
             Customer::whereIn('kiotviet_id', $ids)->delete();
         } catch (QueryException $e) {
-            \Log::error('Cannot delete customers: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete customers: ' . $e->getMessage());
             response()->json(['error' => 'Cannot delete customers: ' . $e->getMessage()], 500)->send();
             die;
         }
@@ -549,7 +549,7 @@ class KiotVietController extends Controller
 
             return $savedCustomer;
         } catch (QueryException $e) {
-            \Log::error('Cannot save customer: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save customer: ' . $e->getMessage());
             response()->json(['error' => 'Cannot save customer: ' . $e->getMessage()], 500)->send();
             die;
         }
@@ -590,7 +590,7 @@ class KiotVietController extends Controller
         try {
             Employee::whereIn('kiotviet_id', $ids)->delete();
         } catch (QueryException $e) {
-            \Log::error('Cannot delete employees: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete employees: ' . $e->getMessage());
             response()->json(['error' => 'Cannot delete employees: ' . $e->getMessage()], 500)->send();
             die;
         }
@@ -616,7 +616,7 @@ class KiotVietController extends Controller
                 ['username' => $employee->userName, 'name' => $employee->givenName, 'address' => optional($employee)->adddress, 'phone_number' => optional($employee)->mobilePhone, 'email' => optional($employee)->email, 'birthday' => $birthday]
             );
         } catch (QueryException $e) {
-            \Log::error('Cannot save employee: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save employee: ' . $e->getMessage());
             response()->json(['error' => 'Cannot save employee: ' . $e->getMessage()], 500)->send();
             die;
         }
@@ -665,7 +665,7 @@ class KiotVietController extends Controller
         try {
             Order::whereIn('kiotviet_id', $ids)->delete();
         } catch (QueryException $e) {
-            \Log::error('Cannot delete orders: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete orders: ' . $e->getMessage());
             response()->json(['error' => 'Cannot delete orders: ' . $e->getMessage()], 500)->send();
             die;
         }
@@ -707,7 +707,7 @@ class KiotVietController extends Controller
                 ['code' => $order->code, 'total_price' => $order->total, 'discount_price' => $discount, 'source' => 'KiotViet', 'status_id' => $order->status, 'customer_id' => $customerId, 'employee_id' => $employeeId, 'branch_id' => $branchId]
             );
         } catch (QueryException $e) {
-            \Log::error('Cannot save order: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save order: ' . $e->getMessage());
             response()->json(['error' => 'Cannot save order: ' . $e->getMessage()], 500)->send();
             die;
         }
@@ -737,12 +737,12 @@ class KiotVietController extends Controller
                         ['quantity' => $orderDetail->quantity, 'price' => $orderDetail->price, 'discount_price' => $orderDetail->discount]
                     );
                 } catch (QueryException $e) {
-                    \Log::error('Cannot save order detail: ' . $e->getMessage());
+                    \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save order detail: ' . $e->getMessage());
                     response()->json(['error' => 'Cannot save order detail: ' . $e->getMessage()], 500)->send();
                     die;
                 }
             } catch (RequestException $e) {
-                \Log::error('Không tìm thấy sản phẩm có mã sản phẩm là: ' . $orderDetail->productCode . ' hoặc sản phẩm đã bị xóa');
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Không tìm thấy sản phẩm có mã sản phẩm là: ' . $orderDetail->productCode . ' hoặc sản phẩm đã bị xóa');
             }
         }
 
@@ -751,7 +751,7 @@ class KiotVietController extends Controller
             try {
                 OrderDetail::whereOrderId($orderId)->whereIn('product_id', $removeIds)->delete();
             } catch (QueryException $e) {
-                \Log::error('Cannot delete order details: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete order details: ' . $e->getMessage());
                 response()->json(['error' => 'Cannot delete order details: ' . $e->getMessage()], 500)->send();
                 die;
             }
@@ -769,7 +769,7 @@ class KiotVietController extends Controller
                     ['amount' => $kiotVietPayment->amount, 'code' => $kiotVietPayment->code, 'order_id' => $orderId, 'payment_id' => $payment->id]
                 );
             } catch (QueryException $e) {
-                \Log::error('Cannot save order payment: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save order payment: ' . $e->getMessage());
                 response()->json(['error' => 'Cannot save order payment: ' . $e->getMessage()], 500)->send();
                 die;
             }
@@ -799,7 +799,7 @@ class KiotVietController extends Controller
         try {
             Invoice::whereIn('kiotviet_id', $ids)->delete();
         } catch (QueryException $e) {
-            \Log::error('Cannot delete invoices: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete invoices: ' . $e->getMessage());
             response()->json(['error' => 'Cannot delete invoices: ' . $e->getMessage()], 500)->send();
             die;
         }
@@ -849,7 +849,7 @@ class KiotVietController extends Controller
                 ['code' => $invoice->code, 'total_price' => $invoice->total, 'discount_price' => $discount, 'customer_id' => $customerId, 'employee_id' => $employeeId, 'branch_id' => $branchId, 'order_id' => $orderId]
             );
         } catch (QueryException $e) {
-            \Log::error('Cannot save invoice: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save invoice: ' . $e->getMessage());
             throw $e;
         }
 
@@ -878,12 +878,12 @@ class KiotVietController extends Controller
                         ['quantity' => $invoiceDetail->quantity, 'price' => $invoiceDetail->price, 'discount_price' => $invoiceDetail->discount]
                     );
                 } catch (QueryException $e) {
-                    \Log::error('Cannot save invoice detail: ' . $e->getMessage());
+                    \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save invoice detail: ' . $e->getMessage());
                     response()->json(['error' => 'Cannot save invoice detail: ' . $e->getMessage()], 500)->send();
                     die;
                 }
             } catch (RequestException $e) {
-                \Log::error('Không tìm thấy sản phẩm có mã sản phẩm là: ' . $invoiceDetail->productCode . ' hoặc sản phẩm đã bị xóa');
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Không tìm thấy sản phẩm có mã sản phẩm là: ' . $invoiceDetail->productCode . ' hoặc sản phẩm đã bị xóa');
             }
         }
 
@@ -892,7 +892,7 @@ class KiotVietController extends Controller
             try {
                 InvoiceDetail::whereInvoiceId($invoiceId)->whereIn('product_id', $removeIds)->delete();
             } catch (QueryException $e) {
-                \Log::error('Cannot delete invoice details: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete invoice details: ' . $e->getMessage());
                 response()->json(['error' => 'Cannot delete invoice details: ' . $e->getMessage()], 500)->send();
                 die;
             }
@@ -910,7 +910,7 @@ class KiotVietController extends Controller
                     ['amount' => $kiotVietPayment->amount, 'code' => $kiotVietPayment->code, 'invoice_id' => $invoiceId, 'payment_id' => $payment->id]
                 );
             } catch (QueryException $e) {
-                \Log::error('Cannot save invoice payment: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save invoice payment: ' . $e->getMessage());
                 throw $e;
             }
         }

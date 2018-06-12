@@ -50,7 +50,7 @@ class OrderController extends WebhookController
                     ['code' => $order['Code'], 'total_price' => $order['Total'], 'discount_price' => $discount, 'source' => 'KiotViet', 'status_id' => $order['Status'], 'customer_id' => $customerId, 'employee_id' => $employeeId, 'branch_id' => $branchId]
                 );
             } catch (QueryException $e) {
-                \Log::error('Cannot save order: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save order: ' . $e->getMessage());
                 response()->json(['error' => 'Cannot save order: ' . $e->getMessage()], 500)->send();
                 die;
             }
@@ -81,12 +81,12 @@ class OrderController extends WebhookController
                         ['quantity' => $orderDetail['Quantity'], 'price' => $orderDetail['Price'], 'discount_price' => $orderDetail['Discount']]
                     );
                 } catch (QueryException $e) {
-                    \Log::error('Cannot save order detail: ' . $e->getMessage());
+                    \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save order detail: ' . $e->getMessage());
                     response()->json(['error' => 'Cannot save order detail: ' . $e->getMessage()], 500)->send();
                     die;
                 }
             } catch (RequestException $e) {
-                \Log::error('Không tìm thấy sản phẩm có mã sản phẩm là: ' . $orderDetail['ProductCode'] . ' hoặc sản phẩm đã bị xóa');
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Không tìm thấy sản phẩm có mã sản phẩm là: ' . $orderDetail['ProductCode'] . ' hoặc sản phẩm đã bị xóa');
             }
         }
 
@@ -95,7 +95,7 @@ class OrderController extends WebhookController
             try {
                 OrderDetail::whereOrderId($orderId)->whereIn('product_id', $removeIds)->delete();
             } catch (QueryException $e) {
-                \Log::error('Cannot delete order details: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete order details: ' . $e->getMessage());
                 response()->json(['error' => 'Cannot delete order details: ' . $e->getMessage()], 500)->send();
                 die;
             }
@@ -113,7 +113,7 @@ class OrderController extends WebhookController
                     ['amount' => $kiotVietPayment['Amount'], 'code' => $kiotVietPayment['Code'], 'order_id' => $orderId, 'payment_id' => $payment->id]
                 );
             } catch (QueryException $e) {
-                \Log::error('Cannot save order payment: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save order payment: ' . $e->getMessage());
                 response()->json(['error' => 'Cannot save order payment: ' . $e->getMessage()], 500)->send();
                 die;
             }

@@ -17,7 +17,7 @@ class CustomerController extends Controller
                     ['name' => $customer->name, 'gender' => optional($customer)->gender, 'phone_number' => optional($customer)->contactNumber, 'address' => optional($customer)->address, 'email' => optional($customer)->email, 'code' => optional($customer)->code]
                 );
             } catch (QueryException $e) {
-                \Log::error('Cannot save customer: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save customer: ' . $e->getMessage());
                 throw $e;
             }
         }

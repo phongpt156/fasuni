@@ -50,7 +50,7 @@ class CustomerController extends WebhookController
                         ['name' => $customer['Name'], 'gender' => $customer['Gender'], 'phone_number' => $customer['ContactNumber'], 'address' => $customer['Address'], 'email' => optional($customer)->email, 'code' => $customer['Code'], 'living_city_id' => $cityId, 'district_id' => $districtId]
                     );
                 } catch (QueryException $e) {
-                    \Log::error('Cannot save customer: ' . $e->getMessage());
+                    \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save customer: ' . $e->getMessage());
                     return response()->json(['error' => 'Cannot save customers' . $e->getMessage()], 500);
                 }
             }
@@ -66,7 +66,7 @@ class CustomerController extends WebhookController
         try {
             Customer::whereIn('kiotviet_id', $kiotVietIds)->delete();
         } catch (QueryException $e) {
-            \Log::error('Cannot delete customers: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete customers: ' . $e->getMessage());
             return response()->json(['error' => 'Cannot delete customers: ' . $e->getMessage()], 500);
         }
     }

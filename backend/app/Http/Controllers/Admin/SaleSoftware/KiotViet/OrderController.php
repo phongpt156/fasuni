@@ -55,7 +55,7 @@ class OrderController extends Controller
                     ['code' => $order->code, 'total_price' => $order->total, 'discount_price' => $discount, 'source' => 'KiotViet', 'status_id' => $order->status, 'customer_id' => $customerId, 'employee_id' => $employeeId, 'branch_id' => $branchId]
                 );
             } catch (QueryException $e) {
-                \Log::error('Cannot save order: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save order: ' . $e->getMessage());
                 throw $e;
             }
 
@@ -81,11 +81,11 @@ class OrderController extends Controller
                         ['quantity' => $orderDetail->quantity, 'price' => $orderDetail->price, 'discount_price' => $orderDetail->discount]
                     );
                 } catch (QueryException $e) {
-                    \Log::error('Cannot save order detail: ' . $e->getMessage());
+                    \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save order detail: ' . $e->getMessage());
                     throw $e;
                 }
             } else {
-                \Log::error('Không tìm thấy sản phẩm có mã sản phẩm là: ' . $orderDetail->productCode . ' hoặc sản phẩm đã bị xóa');
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Không tìm thấy sản phẩm có mã sản phẩm là: ' . $orderDetail->productCode . ' hoặc sản phẩm đã bị xóa');
             }
         }
     }
@@ -101,7 +101,7 @@ class OrderController extends Controller
                     ['amount' => $kiotVietPayment->amount, 'code' => $kiotVietPayment->code, 'order_id' => $orderId, 'payment_id' => $payment->id]
                 );
             } catch (QueryException $e) {
-                \Log::error('Cannot save order payment: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save order payment: ' . $e->getMessage());
                 throw $e;
             }
         }

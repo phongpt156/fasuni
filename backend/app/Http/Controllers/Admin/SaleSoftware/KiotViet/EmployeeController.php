@@ -30,7 +30,7 @@ class EmployeeController extends Controller
                 ['username' => $employee->userName, 'name' => $employee->givenName, 'address' => optional($employee)->adddress, 'phone_number' => optional($employee)->mobilePhone, 'email' => optional($employee)->email, 'birthday' => $birthday]
             );
         } catch (QueryException $e) {
-            \Log::error('Cannot save employee: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save employee: ' . $e->getMessage());
             throw $e;
         }
     }

@@ -28,7 +28,7 @@ class InventoryController extends WebhookController
                     ['purchase_price' => $inventory['Cost'], 'quantity' => $inventory['OnHand']]
                 );
             } catch (QueryException $e) {
-                \Log::error('Cannot save inventory: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save inventory: ' . $e->getMessage());
                 return response()->json(['error' => 'Cannot save inventory: ' . $e->getMessage()], 500);
             }
         }

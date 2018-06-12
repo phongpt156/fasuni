@@ -27,7 +27,7 @@ class CategoryService
 
             return $response;
         } catch (RequestException $e) {
-            \Log::error('Cannot get categories: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot get categories: ' . $e->getMessage());
             if (is_object(json_decode($e->getMessage()))) {
                 response()->json(['error' => 'Cannot get categories: ' . json_decode($e->getMessage())->ResponseStatus->Message], 500);
             } else {

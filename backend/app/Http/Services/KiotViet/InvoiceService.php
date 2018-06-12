@@ -27,7 +27,7 @@ class InvoiceService
 
             return $response;
         } catch (RequestException $e) {
-            \Log::error('Cannot get invoices: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot get invoices: ' . $e->getMessage());
             if (is_object(json_decode($e->getMessage()))) {
                 response()->json(['error' => 'Cannot get invoices: ' . json_decode($e->getMessage())->ResponseStatus->Message], 500)->send();
             } else {

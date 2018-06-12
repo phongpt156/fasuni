@@ -30,7 +30,7 @@ class RegisterDAL
         try {
             $user->save();
         } catch (QueryException $e) {
-            \Log::error($e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: ' . $e->getMessage());
         }
 
         return $user->makeVisible('api_token');

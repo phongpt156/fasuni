@@ -21,7 +21,7 @@ class WebhookController extends Controller
         try {
             $this->kiotVietService->webhookService->register();
         } catch (RequestException $e) {
-            \Log::error('Cannot register webhook: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot register webhook: ' . $e->getMessage());
             return response()->json(['error' => 'Cannot register webhook: ' . json_decode($e->getMessage())->responseStatus->message], 500);
         }
 
@@ -33,7 +33,7 @@ class WebhookController extends Controller
         try {
             $this->kiotVietService->webhookService->deleteAll();
         } catch (RequestException $e) {
-            \Log::error('Cannot delete webhook: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete webhook: ' . $e->getMessage());
             return response()->json(['error' => 'Cannot delete webhook: ' . json_decode($e->getMessage())->responseStatus->message], 500);
         }
 

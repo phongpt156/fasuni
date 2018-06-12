@@ -38,7 +38,7 @@ class ProductController extends WebhookController
                     ['name' => $product['Name'], 'sale_price' => $product['BasePrice'], 'weight' => $product['Weight'], 'code' => $product['Code'], 'slug' => str_slug($product['Name']), 'category_id' => $categoryId, 'master_product_id' => $masterProductId, 'is_active' => $product['isActive']]
                 );
             } catch (QueryException $e) {
-                \Log::error('Cannot save product: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save product: ' . $e->getMessage());
                 throw $e;
             }
 
@@ -65,7 +65,7 @@ class ProductController extends WebhookController
             try {
                 ProductImage::whereIn('original', $removeImages)->delete();
             } catch (QueryException $e) {
-                \Log::error('Cannot delete product images: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete product images: ' . $e->getMessage());
                 response()->json(['error' => 'Cannot delete product images: ' . $e->getMessage()], 500)->send();
                 die;
             }
@@ -78,7 +78,7 @@ class ProductController extends WebhookController
                     ['product_id' => $productId]
                 );
             } catch (QueryException $e) {
-                \Log::error('Cannot save product image: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save product image: ' . $e->getMessage());
                 response()->json(['error' => 'Cannot save product image: ' . $e->getMessage()], 500)->send();
                 die;
             }
@@ -99,7 +99,7 @@ class ProductController extends WebhookController
                     $query->whereIn('name', $removeAttributeValues);
                 })->delete();
             } catch (QueryException $e) {
-                \Log::error('Cannot delete product attributes: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete product attributes: ' . $e->getMessage());
                 response()->json(['error' => 'Cannot delete product attributes: ' . $e->getMessage()], 500)->send();
                 die;
             }
@@ -112,7 +112,7 @@ class ProductController extends WebhookController
                     ['name' => $attributeName]
                 );
             } catch (QueryException $e) {
-                \Log::error('Cannot save attribute: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save attribute: ' . $e->getMessage());
                 response()->json(['error' => 'Cannot save attribute: ' . $e->getMessage()], 500)->send();
                 die;
             }
@@ -123,7 +123,7 @@ class ProductController extends WebhookController
                     ['attribute_id' => $attribute->id]
                 );
             } catch (QueryException $e) {
-                \Log::error('Cannot save attribute value: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save attribute value: ' . $e->getMessage());
                 response()->json(['error' => 'Cannot save attribute value: ' . $e->getMessage()], 500)->send();
                 die;
             }
@@ -133,7 +133,7 @@ class ProductController extends WebhookController
                     ['product_id' => $productId, 'attribute_value_id' => $attributeValue->id]
                 );
             } catch (QueryException $e) {
-                \Log::error('Cannot save product attribute value: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save product attribute value: ' . $e->getMessage());
                 response()->json(['error' => 'Cannot save product attribute value: ' . $e->getMessage()], 500)->send();
                 die;
             }
@@ -155,7 +155,7 @@ class ProductController extends WebhookController
                     ['purchase_price' => $inventory['Cost'], 'quantity' => $inventory['OnHand']]
                 );
             } catch (QueryException $e) {
-                \Log::error('Cannot save inventory: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save inventory: ' . $e->getMessage());
                 response()->json(['error' => 'Cannot save inventory: ' . $e->getMessage()], 500)->send();
                 die;
             }
@@ -166,7 +166,7 @@ class ProductController extends WebhookController
             try {
                 Inventory::whereProductId($productId)->whereIn('branch_id', $removeIds)->delete();
             } catch (QueryException $e) {
-                \Log::error('Cannot delete inventories: ' . $e->getMessage());
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete inventories: ' . $e->getMessage());
                 response()->json(['error' => 'Cannot delete inventories: ' . $e->getMessage()], 500)->send();
                 die;
             }
@@ -182,7 +182,7 @@ class ProductController extends WebhookController
         try {
             Product::whereIn('kiotviet_id', $kiotVietIds)->delete();
         } catch (QueryException $e) {
-            \Log::error('Cannot delete products: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete products: ' . $e->getMessage());
             return response()->json(['error' => 'Cannot delete products: ' . $e->getMessage()], 500);
         }
     }

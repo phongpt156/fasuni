@@ -27,7 +27,7 @@ class CustomerService
 
             return $response;
         } catch (RequestException $e) {
-            \Log::error('Cannot get customers: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot get customers: ' . $e->getMessage());
             if (is_object(json_decode($e->getMessage()))) {
                 response()->json(['error' => 'Cannot get customers: ' . json_decode($e->getMessage())->ResponseStatus->Message], 500)->send();
             }

@@ -27,7 +27,7 @@ class EmployeeService
 
             return $response;
         } catch (RequestException $e) {
-            \Log::error('Cannot get employees: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot get employees: ' . $e->getMessage());
             if (is_object(json_decode($e->getMessage()))) {
                 response()->json(['error' => 'Cannot get employees: ' . json_decode($e->getMessage())->ResponseStatus->Message], 500)->send();
             } else {

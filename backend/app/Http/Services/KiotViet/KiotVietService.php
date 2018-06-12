@@ -79,7 +79,7 @@ class KiotVietService
 
             return $response->access_token;
         } catch (RequestException $e) {
-            \Log::error('Can\'t get access token: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Can\'t get access token: ' . $e->getMessage());
             die('Cant\'t get access token: ' . $e->getMessage());
         }
     }
@@ -103,7 +103,7 @@ class KiotVietService
 
             return $response;
         } catch (RequestException $e) {
-            \Log::error('Can\'t get locations: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Can\'t get locations: ' . $e->getMessage());
             throw $e;
         }
     }
@@ -127,7 +127,7 @@ class KiotVietService
 
             return $response;
         } catch (RequestException $e) {
-            \Log::error('Can\'t get wards: ' . $e->getMessage());
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Can\'t get wards: ' . $e->getMessage());
             throw $e;
         }
     }
