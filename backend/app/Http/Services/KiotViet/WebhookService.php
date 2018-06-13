@@ -19,31 +19,31 @@ class WebhookService
         $webhooks = [
             [
                 'type' => 'customer.update',
-                'url' => 'http://fe449d99.ngrok.io/api/admin/kiotviet/webhook/customer/update?noecho'
+                'url' => 'http://fasuni.vn/api/admin/kiotviet/webhook/customer/update?noecho'
             ],
             [
                 'type' => 'customer.delete',
-                'url' => 'http://fe449d99.ngrok.io/api/admin/kiotviet/webhook/customer/destroy?noecho'
+                'url' => 'http://fasuni.vn/api/admin/kiotviet/webhook/customer/destroy?noecho'
             ],
             [
                 'type' => 'product.update',
-                'url' => 'http://fe449d99.ngrok.io/api/admin/kiotviet/webhook/product/update?noecho'
+                'url' => 'http://fasuni.vn/api/admin/kiotviet/webhook/product/update?noecho'
             ],
             [
                 'type' => 'product.delete',
-                'url' => 'http://fe449d99.ngrok.io/api/admin/kiotviet/webhook/product/destroy?noecho'
+                'url' => 'http://fasuni.vn/api/admin/kiotviet/webhook/product/destroy?noecho'
             ],
             [
                 'type' => 'stock.update',
-                'url' => 'http://fe449d99.ngrok.io/api/admin/kiotviet/webhook/inventory/update?noecho'
+                'url' => 'http://fasuni.vn/api/admin/kiotviet/webhook/inventory/update?noecho'
             ],
             [
                 'type' => 'order.update',
-                'url' => 'http://fe449d99.ngrok.io/api/admin/kiotviet/webhook/order/update?noecho'
+                'url' => 'http://fasuni.vn/api/admin/kiotviet/webhook/order/update?noecho'
             ],
             [
                 'type' => 'invoice.update',
-                'url' => 'http://fe449d99.ngrok.io/api/admin/kiotviet/webhook/invoice/update?noecho'
+                'url' => 'http://fasuni.vn/api/admin/kiotviet/webhook/invoice/update?noecho'
             ]
         ];
 
