@@ -111,7 +111,7 @@ export default {
           render: (h, params) => {
             return h('Checkbox', {
               props: {
-                value: Boolean(params.row.is_display)
+                value: Boolean(Number(params.row.is_display))
               },
               on: {
                 'on-change': (value) => {
