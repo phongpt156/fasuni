@@ -1,4 +1,4 @@
-export const BASE_URL = process.env.NODE_ENV === 'production' ? location.origin + '/admin/api' : 'https://localhost/fasuni/backend/public/api/admin';
+export const BASE_URL = process.env.NODE_ENV === 'production' ? location.origin + '/api/admin' : 'https://localhost/fasuni/backend/public/api/admin';
 export const IMAGE_URL = process.env.NODE_ENV === 'production' ? location.origin + '/images' : 'https://localhost/fasuni/backend/public/images';
 export const COLLECTION_IMAGE_URL = process.env.NODE_ENV === 'production' ? location.origin + '/images/collections' : 'https://localhost/fasuni/backend/public/images/collections';
 export const LOOKBOOK_IMAGE_URL = process.env.NODE_ENV === 'production' ? location.origin + '/images/lookbooks' : 'https://localhost/fasuni/backend/public/images/lookbooks';
