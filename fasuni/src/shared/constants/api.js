@@ -47,3 +47,8 @@ export const ATTRIBUTE_VALUE = {
   getColors: BASE_URL + '/attribute-value/color',
   getSizes: BASE_URL + '/attribute-value/size'
 };
+
+export const COLLECTION = {
+  getAll: BASE_URL + '/collection',
+  getOne: BASE_URL + '/collection/'
+};

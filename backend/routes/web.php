@@ -12,7 +12,7 @@
 */
 
 $router->get('/images/{filename}', function ($filename) use ($router) {
-    $path = storage_path('app/images/' . $filename);
+    $path = config('path.image.base') . $filename;
     $path = urldecode($path);
 
     if (Illuminate\Support\Facades\File::exists($path)) {
@@ -23,8 +23,41 @@ $router->get('/images/{filename}', function ($filename) use ($router) {
     abort(401);
 });
 
+$router->get('/images/lookbooks/{filename}', function ($filename) use ($router) {
+    $path = config('path.image.lookbook') . $filename;
+    $path = urldecode($path);
+
+    if (Illuminate\Support\Facades\File::exists($path)) {
+        $contentType = Illuminate\Support\Facades\File::mimeType($path);
+
+        return response(Illuminate\Support\Facades\File::get($path), 200)->header('Content-Type', $contentType);
+    }
+});
+
 $router->get('/images/lookbooks/{size}/{filename}', function ($size, $filename) use ($router) {
-    $path = storage_path('app/images/lookbooks/' . $size . '/' . $filename);
+    $path = config('path.image.lookbook') . $size . '/' . $filename;
+    $path = urldecode($path);
+
+    if (Illuminate\Support\Facades\File::exists($path)) {
+        $contentType = Illuminate\Support\Facades\File::mimeType($path);
+
+        return response(Illuminate\Support\Facades\File::get($path), 200)->header('Content-Type', $contentType);
+    }
+});
+
+$router->get('/images/collections/{filename}', function ($filename) use ($router) {
+    $path = config('path.image.collection') . $filename;
+    $path = urldecode($path);
+
+    if (Illuminate\Support\Facades\File::exists($path)) {
+        $contentType = Illuminate\Support\Facades\File::mimeType($path);
+
+        return response(Illuminate\Support\Facades\File::get($path), 200)->header('Content-Type', $contentType);
+    }
+});
+
+$router->get('/images/collections/{size}/{filename}', function ($size, $filename) use ($router) {
+    $path = config('path.image.collection') . $size . '/' . $filename;
     $path = urldecode($path);
 
     if (Illuminate\Support\Facades\File::exists($path)) {
@@ -56,6 +89,8 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         });
         $router->group(['prefix' => 'image'], function () use ($router) {
             $router->post('upload', 'ImageController@upload');
+            $router->post('upload/lookbook', 'ImageController@uploadLookbook');
+            $router->post('upload/collection', 'ImageController@uploadCollection');
             $router->delete('delete/{url}', 'ImageController@delete');
         });
         $router->group(['prefix' => 'lookbook'], function () use ($router) {
@@ -129,14 +164,30 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->get('get-female-month-list-snapshot', 'LookbookController@getFemaleMonthListSnapshot');
         $router->get('get-lookbooks-of-month/{gender}/{year}/{month}', 'LookbookController@getLookbooksOfMonth');
     });
+    $router->group(['prefix' => 'collection'], function () use ($router) {
+        $router->get('', 'CollectionController@index');
+        $router->get('{id}', 'CollectionController@show');
+    });
     $router->group(['prefix' => 'attribute-value'], function () use ($router) {
         $router->get('color', 'AttributeValueController@getColors');
         $router->get('size', 'AttributeValueController@getSizes');
     });
     $router->get('like-product/{id}', 'ProductLikerController@like');
     $router->get('dislike-product/{id}', 'ProductLikerController@dislike');
+});
 
-    $router->get('test', 'Admin\SaleSoftware\KiotViet\KiotVietController@sync');
+$router->get('/admin/static/{type}/{file}', function ($type, $file) use ($router) {
+    $path = resource_path('admin/dist/static/' . $type . '/' . $file);
+
+    if (Illuminate\Support\Facades\File::exists($path)) {
+        $contentType = Illuminate\Support\Facades\File::mimeType($path);
+
+        if ($type === 'css') {
+            $contentType = 'text/css';
+        }
+
+        return response(Illuminate\Support\Facades\File::get($path), 200)->header('Content-Type', $contentType);
+    }
 });
 
 $router->get('/static/{type}/{file}', function ($type, $file) use ($router) {
@@ -153,4 +204,5 @@ $router->get('/static/{type}/{file}', function ($type, $file) use ($router) {
     }
 });
 
+$router->get('admin/{any:.*}', 'HomeController@admin');
 $router->get('{any:.*}', 'HomeController@index');

@@ -17,6 +17,11 @@ class CreateCollectionsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->mediumText('description');
+            $table->string('original_cover');
+            $table->string('small_cover');
+            $table->string('medium_cover');
+            $table->string('large_cover');
+            $table->string('thumbnail_cover');
             $table->timestamps();
         });
     }

@@ -83,7 +83,6 @@ export default {
   computed: {
     productAttributes: function () {
       return product => {
-        console.log(product);
         const productAttributes = [];
 
         if (product.attribute_values) {

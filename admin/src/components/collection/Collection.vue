@@ -13,7 +13,13 @@
 </template>
 
 <script>
+import collectionService from '@/shared/services/collection.service';
+import ResponsiveImage from '@/components/common/ResponsiveImage';
+
 export default {
+  components: {
+    ResponsiveImage
+  },
   data() {
     return {
       loading: false,
@@ -28,9 +34,39 @@ export default {
           title: 'Mô tả',
           key: 'description',
           sortable: true
+        },
+        {
+          title: 'Cover',
+          render: (h, params) => {
+            return h('div', {
+              attrs: {
+                class: 'py-5'
+              }
+            }, [h(ResponsiveImage, {
+              props: {
+                sm: params.row.small_cover,
+                md: params.row.medium_cover,
+                lg: params.row.large_cover,
+                thumbnail: params.row.thumbnail_cover
+              }
+            })]);
+          }
         }
       ]
     };
+  },
+  methods: {
+    getCollections() {
+      collectionService.getAll()
+        .then(response => {
+          if (response && response.status === 200 && response.data) {
+            this.collections = response.data;
+          }
+        });
+    }
+  },
+  mounted() {
+    this.getCollections();
   }
 };
 </script>

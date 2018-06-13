@@ -8,14 +8,44 @@
         <form-item label="Mô tả" prop="description">
           <i-input v-model="addCollectionForm.description" type="textarea" :rows="4"></i-input>
         </form-item>
+        <form-item label="Cover">
+          <div class="demo-upload-list" v-for="item in coverUploadList" :key="item.uid">
+            <template v-if="item.status === 'finished'">
+              <div>
+                <img :src="`${imageBasePath}/${item.response.url}`" />
+              </div>
+              <div class="demo-upload-list-cover">
+                <Icon type="ios-eye-outline" @click.native="handleView(item.response.url)"></Icon>
+                <Icon type="ios-trash-outline" @click.native="handleRemoveCover(item)"></Icon>
+              </div>
+            </template>
+            <template v-else>
+              <progress v-if="item.showProgress" :percent="item.percentage" hide-info></progress>
+            </template>
+          </div>
+          <upload
+            ref="coverUpload"
+            :action="uploadLink"
+            accept="image/*"
+            :format="['jpg','jpeg','png']"
+            :max-size="204800"
+            type="drag"
+            v-model="addCollectionForm.cover"
+            :on-success="uploadedCover">
+            <div style="padding: 20px 0">
+              <icon type="ios-cloud-upload" size="52" style="color: #3399ff"></icon>
+              <p>Click or drag files here to upload</p>
+            </div>
+          </upload>
+        </form-item>
         <form-item label="Ảnh">
           <div class="demo-upload-list" v-for="item in uploadList" :key="item.uid">
             <template v-if="item.status === 'finished'">
               <div>
-                <img :src="`${imageBasePath}/${item.url}`" />
+                <img :src="`${imageBasePath}/${item.response.url}`" />
               </div>
               <div class="demo-upload-list-cover">
-                <Icon type="ios-eye-outline" @click.native="handleView(item.url)"></Icon>
+                <Icon type="ios-eye-outline" @click.native="handleView(item.response.url)"></Icon>
                 <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
               </div>
             </template>
@@ -30,8 +60,7 @@
             :format="['jpg','jpeg','png']"
             :max-size="204800"
             type="drag"
-            :on-success="onSuccess"
-            v-model="addCollectionForm.image">
+            v-model="addCollectionForm.images">
             <div style="padding: 20px 0">
               <icon type="ios-cloud-upload" size="52" style="color: #3399ff"></icon>
               <p>Click or drag files here to upload</p>
@@ -64,7 +93,7 @@
           </multiselect>
         </form-item>
         <form-item>
-          <i-button type="success" @click="onSubmit" :loading="loading">Submit</i-button>
+          <i-button type="success" @click="onSubmit">Submit</i-button>
         </form-item>
       </i-form>
       <modal title="View Image" v-model="visible">
@@ -79,7 +108,7 @@
 
 <script>
 import { IMAGE } from '@/shared/constants/api';
-import { IMAGE_URL, ERROR_MESSAGE } from '@/shared/constants';
+import { COLLECTION_IMAGE_URL, ERROR_MESSAGE } from '@/shared/constants';
 import collectionService from '@/shared/services/collection.service';
 import lookbookService from '@/shared/services/lookbook.service';
 import Multiselect from 'vue-multiselect';
@@ -93,13 +122,15 @@ export default {
       addCollectionForm: {
         name: '',
         description: '',
-        image: '',
-        products: []
+        images: [],
+        products: [],
+        cover: ''
       },
       rules: {
-        name: { required: true, message: ERROR_MESSAGE.collection.name.required, trigger: 'blur' }
+        name: { required: true, message: ERROR_MESSAGE.collection.name.required, trigger: 'change' }
       },
-      uploadLink: IMAGE.upload,
+      uploadLink: IMAGE.uploadCollection,
+      coverUploadList: [],
       uploadList: [],
       imgUrl: '',
       visible: false,
@@ -112,28 +143,33 @@ export default {
       return `${option.code} - ${option.name}`;
     },
     imageBasePath() {
-      return IMAGE_URL;
+      return COLLECTION_IMAGE_URL;
     }
   },
   methods: {
     handleView (url) {
-      this.imgUrl = `${IMAGE_URL}/${url}`;
+      this.imgUrl = `${COLLECTION_IMAGE_URL}/${url}`;
       this.visible = true;
     },
     handleRemove (file) {
-      const fileList = this.$refs.upload.fileList;
-      this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+      this.uploadList.splice(this.uploadList.indexOf(file), 1);
+    },
+    handleRemoveCover (file) {
+      this.coverUploadList.splice(this.coverUploadList.indexOf(file), 1);
     },
     onSubmit() {
       this.$refs.addCollectionForm.validate(valid => {
         if (valid) {
-          if (!this.$refs.upload.fileList.length) {
+          if (!this.coverUploadList.length) {
+            this.$Message.error('Chưa chọn ảnh cover bộ sưu tập!');
+          } else if (!this.uploadList.length) {
             this.$Message.error('Chưa chọn ảnh bộ sưu tập!');
           } else if (!this.addCollectionForm.products.length) {
             this.$Message.error('Chưa chọn sản phẩm!');
           } else {
             this.loading = true;
-            this.addCollectionForm.image = this.$refs.upload.fileList[0].url;
+            this.addCollectionForm.images = this.uploadList;
+            this.addCollectionForm.cover = this.coverUploadList;
 
             const body = JSON.parse(JSON.stringify(this.addCollectionForm));
             body.products = body.products.map(product => product.id);
@@ -153,8 +189,8 @@ export default {
         }
       });
     },
-    onSuccess(response, file, fileList) {
-      file.url = response.url;
+    uploadedCover(response, file, fileList) {
+      fileList.splice(0, fileList.length - 1);
     },
     searchProducts(name) {
       const query = {};
@@ -173,6 +209,7 @@ export default {
   },
   mounted() {
     this.uploadList = this.$refs.upload.fileList;
+    this.coverUploadList = this.$refs.coverUpload.fileList;
     this.searchProducts();
   }
 };

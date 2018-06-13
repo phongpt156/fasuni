@@ -29,6 +29,8 @@ export const KIOTVIET = {
 
 export const IMAGE = {
   upload: BASE_URL + '/image/upload',
+  uploadLookbook: BASE_URL + '/image/upload/lookbook',
+  uploadCollection: BASE_URL + '/image/upload/collection',
   delete: BASE_URL + '/image/delete/'
 };
 

@@ -15,52 +15,61 @@ class CollectionController extends Controller
 {
     public function index()
     {
-        $lookbooks = Lookbook::all();
+        $collections = Collection::all();
 
-        return response()->json($lookbooks, 200);
+        return response()->json($collections, 200);
     }
 
     public function store(Request $request)
     {
-        $lookbookPath = storage_path('app/images/lookbooks/');;
+        ImageUtility::resize(config('path.image.collection') . $request->cover[0]['response']['url'], config('path.image.collection'));
 
-        $originalPath = $lookbookPath . 'original';
-        $smPath = 'lookbooks/sm/';
-        $mdPath = $lookbookPath . 'md';
-        $lgPath = $lookbookPath . 'lg';
-        $thumbnailPath = $lookbookPath . 'thumbnail';
-
-        ImageUtility::resize($request->image, $lookbookPath);
-
-        $lookbook = new Lookbook;
-        $lookbook->name = $request->name;
-        $lookbook->gender = $request->gender;
-        $lookbook->original_image = $request->image;
-        $lookbook->small_image = 'lookbooks/sm/' . $request->image;
-        $lookbook->medium_image = 'lookbooks/md/' . $request->image;
-        $lookbook->large_image = 'lookbooks/lg/' . $request->image;
-        $lookbook->thumbnail = 'lookbooks/thumbnail/' . $request->image;
+        $collection = new Collection;
+        $collection->name = $request->name;
+        $collection->description = $request->description;
+        $collection->original_cover = 'collections/' . $request->cover[0]['response']['url'];
+        $collection->small_cover = 'collections/sm/' . $request->cover[0]['response']['url'];
+        $collection->medium_cover = 'collections/md/' . $request->cover[0]['response']['url'];
+        $collection->large_cover = 'collections/lg/' . $request->cover[0]['response']['url'];
+        $collection->thumbnail_cover = 'collections/thumbnail/' . $request->cover[0]['response']['url'];
 
         try {
-            $lookbook->save();
+            $collection->save();
         } catch (QueryException $e) {
-            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save lookbook: ' . $e->getMessage());
-            return response()->json(['error' => 'Cannot save lookbook: ' . $e->getMessage()], 500);
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save collection: ' . $e->getMessage());
+            return response()->json(['error' => 'Cannot save collection: ' . $e->getMessage()], 500);
         }
 
+        $images = [];
+        foreach ($request->images as $image) {
+            array_push($images, [
+                'original' => 'collections/' . $image['response']['url'],
+                'collection_id' => $collection->id
+            ]);
+        }
+
+        try {
+            CollectionImage::insert($images);
+        } catch (QueryException $e) {
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save collection images: ' . $e->getMessage());
+            return response()->json(['error' => 'Cannot save collection images: ' . $e->getMessage()], 500);
+        }
+
+        $products = [];
         foreach ($request->products as $product) {
-            $productLookbook = new ProductLookbook;
-            $productLookbook->product_id = $product;
-            $productLookbook->lookbook_id = $lookbook->id;
-
-            try {
-                $productLookbook->save();
-            } catch (QueryException $e) {
-                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save product lookbook: ' . $e->getMessage());
-                return response()->json(['error' => 'Cannot save product lookbook: ' . $e->getMessage()], 500);
-            }
+            array_push($products, [
+                'product_id' => $product,
+                'collection_id' => $collection->id
+            ]);
         }
 
-        return response()->json($lookbook, 200);
+        try {
+            ProductCollection::insert($products);
+        } catch (QueryException $e) {
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save product collections: ' . $e->getMessage());
+            return response()->json(['error' => 'Cannot save product collections: ' . $e->getMessage()], 500);
+        }
+
+        return response()->json($collection, 200);
     }
 }

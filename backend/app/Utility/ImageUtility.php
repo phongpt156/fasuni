@@ -4,6 +4,7 @@ namespace App\Utility;
 
 use Tinify;
 use Intervention\Image\ImageManager as Image;
+use Illuminate\Support\Facades\File;
 
 class ImageUtility
 {
@@ -15,14 +16,14 @@ class ImageUtility
         Tinify\fromFile($source)->toFile($destination);
     }
 
-    public static function resize($imagePath, $destination)
+    public static function resize($source, $destination)
     {
-        $source = storage_path('app/images/' . $imagePath);
+        $fileName = File::name($source) . '.' . File::extension($source);
 
-        $smPath = $destination . 'sm' . DIRECTORY_SEPARATOR . $imagePath;
-        $mdPath = $destination . 'md' . DIRECTORY_SEPARATOR . $imagePath;
-        $lgPath = $destination . 'lg' . DIRECTORY_SEPARATOR . $imagePath;
-        $thumbnailPath = $destination . 'thumbnail' . DIRECTORY_SEPARATOR . $imagePath;
+        $smPath = $destination . 'sm' . DIRECTORY_SEPARATOR . $fileName;
+        $mdPath = $destination . 'md' . DIRECTORY_SEPARATOR . $fileName;
+        $lgPath = $destination . 'lg' . DIRECTORY_SEPARATOR . $fileName;
+        $thumbnailPath = $destination . 'thumbnail' . DIRECTORY_SEPARATOR . $fileName;
 
         $image = new Image;
 

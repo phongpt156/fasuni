@@ -64,6 +64,16 @@
                       </li>
                     </ul>
                   </li>
+                  <li class="mr-4 my-1">
+                    <a class="h6 mb-3 d-block font-weight-bold" style="font-size: .875rem">Bộ sưu tập</a>
+                    <ul class="navbar-nav flex-column flex-wrap" v-if="collections.length">
+                      <li v-for="collection in collections" :key="collection.id" class="mr-4 my-1">
+                        <router-link class="category-item"
+                          :to="{name: 'Collection', params: {id: collection.id}}">{{ collection.name }}
+                        </router-link>
+                      </li>
+                    </ul>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -126,6 +136,7 @@ import { clickOutside } from '@/directives';
 import userService from '@/shared/services/user.service';
 import categoryService from '@/shared/services/category.service';
 import lookbookService from '@/shared/services/lookbook.service';
+import collectionService from '@/shared/services/collection.service';
 import { GENDER } from '@/shared/constants';
 import icon from '@/assets/images/icon.svg';
 
@@ -144,6 +155,7 @@ export default {
     return {
       isOpenSidenavOverlay: false,
       categories: [],
+      collections: [],
       isOpenLoginFormDialog: false,
       isOpenRegisterFormDialog: false,
       isLargeScreen: true,
@@ -249,6 +261,14 @@ export default {
             this.lookbookMonthList.femaleCollapsed = true;
           }
         });
+    },
+    getCollections() {
+      collectionService.getAll()
+        .then(response => {
+          if (response && response.status === 200 && response.data) {
+            this.collections = response.data.data;
+          }
+        });
     }
   },
   mounted() {
@@ -259,6 +279,7 @@ export default {
     }
 
     this.getCategories();
+    this.getCollections();
     this.getCartFromStorage();
     this.getMaleMonthListSnapshot();
     this.getFemaleMonthListSnapshot();

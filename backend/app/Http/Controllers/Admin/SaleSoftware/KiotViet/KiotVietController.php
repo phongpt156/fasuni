@@ -320,15 +320,21 @@ class KiotVietController extends Controller
 
 
         if (isset($product->attributes)) {
-            $this->saveAttributes($product->attributes, $savedProduct->id);
+            $this->saveProductAttributes($product->attributes, $savedProduct->id);
+        } else {
+            $this->removeProductAttributes($savedProduct->id);
         }
 
         if (isset($product->images)) {
-            $this->saveImages($product->images, $savedProduct->id);
+            $this->saveProductImages($product->images, $savedProduct->id);
+        } else {
+            $this->removeProductImages($savedProduct->id);
         }
 
         if (isset($product->inventories)) {
-            $this->saveInventories($product->inventories, $savedProduct->id);
+            $this->saveProductInventories($product->inventories, $savedProduct->id);
+        } else {
+            $this->removeProductInventories($savedProduct->id);
         }
 
         return $savedProduct;
@@ -362,7 +368,7 @@ class KiotVietController extends Controller
         return $id;
     }
 
-    public function saveImages(Array $images = [], int $productId)
+    public function saveProductImages(Array $images = [], int $productId)
     {
         $oldProductImages = ProductImage::whereProductId($productId)->get()->pluck('original')->toArray();
         $removeImages = array_diff($oldProductImages, $images);
@@ -391,7 +397,18 @@ class KiotVietController extends Controller
         }
     }
 
-    public function saveAttributes(Array $attributes = [], int $productId)
+    public function removeProductImages(int $productId)
+    {
+        try {
+            ProductImage::whereProductId($productId)->delete();
+        } catch (QueryException $e) {
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete product images: ' . $e->getMessage());
+            response()->json(['error' => 'Cannot delete product images: ' . $e->getMessage()], 500)->send();
+            die;
+        }
+    }
+
+    public function saveProductAttributes(Array $attributes = [], int $productId)
     {
         $oldAttributeValues = AttributeValue::whereHas('products', function ($query) use ($productId) {
             $query->where('id', $productId);
@@ -447,7 +464,18 @@ class KiotVietController extends Controller
         }
     }
 
-    public function saveInventories(Array $inventories = [], int $productId)
+    public function removeProductAttributes(int $productId)
+    {
+        try {
+            ProductAttributeValue::whereProductId($productId)->delete();
+        } catch (QueryException $e) {
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete product attributes: ' . $e->getMessage());
+            response()->json(['error' => 'Cannot delete product attributes: ' . $e->getMessage()], 500)->send();
+            die;
+        }
+    }
+
+    public function saveProductInventories(Array $inventories = [], int $productId)
     {
         $newBranchIds = [];
         $oldBranchIds = Inventory::whereProductId($productId)->get()->pluck('branch_id')->toArray();
@@ -477,6 +505,17 @@ class KiotVietController extends Controller
                 response()->json(['error' => 'Cannot delete inventories: ' . $e->getMessage()], 500)->send();
                 die;
             }
+        }
+    }
+
+    public function removeProductInventories(int $productId)
+    {
+        try {
+            Inventory::whereProductId($productId)->delete();
+        } catch (QueryException $e) {
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete inventories: ' . $e->getMessage());
+            response()->json(['error' => 'Cannot delete inventories: ' . $e->getMessage()], 500)->send();
+            die;
         }
     }
 

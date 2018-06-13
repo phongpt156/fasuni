@@ -44,14 +44,20 @@ class ProductController extends WebhookController
 
             if (!is_null($product['Attributes'])) {
                 $this->saveAttributes($product['Attributes'], $savedProduct->id);
+            } else {
+                $this->removeAttributes($savedProduct->id);
             }
 
             if (!is_null($product['Images'])) {
                 $this->saveImages($product['Images'], $savedProduct->id);
+            } else {
+                $this->removeImages($savedProduct->id);
             }
 
             if (!is_null($product['Inventories'])) {
                 $this->saveInventories($product['Inventories'], $savedProduct->id, $kiotVietController);
+            } else {
+                $this->removeInventories($savedProduct->id);
             }
         }
     }
@@ -82,6 +88,17 @@ class ProductController extends WebhookController
                 response()->json(['error' => 'Cannot save product image: ' . $e->getMessage()], 500)->send();
                 die;
             }
+        }
+    }
+
+    public function removeImages(int $productId)
+    {
+        try {
+            ProductImage::whereProductId($productId)->delete();
+        } catch (QueryException $e) {
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete product images: ' . $e->getMessage());
+            response()->json(['error' => 'Cannot delete product images: ' . $e->getMessage()], 500)->send();
+            die;
         }
     }
 
@@ -140,6 +157,17 @@ class ProductController extends WebhookController
         }
     }
 
+    public function removeAttributes(int $productId)
+    {
+        try {
+            ProductAttributeValue::whereProductId($productId)->delete();
+        } catch (QueryException $e) {
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete product attributes: ' . $e->getMessage());
+            response()->json(['error' => 'Cannot delete product attributes: ' . $e->getMessage()], 500)->send();
+            die;
+        }
+    }
+
     public function saveInventories(Array $inventories = [], int $productId, $kiotVietController)
     {
         $newBranchIds = [];
@@ -170,6 +198,17 @@ class ProductController extends WebhookController
                 response()->json(['error' => 'Cannot delete inventories: ' . $e->getMessage()], 500)->send();
                 die;
             }
+        }
+    }
+
+    public function removeInventories(int $productId)
+    {
+        try {
+            Inventory::whereProductId($productId)->delete();
+        } catch (QueryException $e) {
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete inventories: ' . $e->getMessage());
+            response()->json(['error' => 'Cannot delete inventories: ' . $e->getMessage()], 500)->send();
+            die;
         }
     }
 

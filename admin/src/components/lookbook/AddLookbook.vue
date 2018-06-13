@@ -104,7 +104,7 @@ export default {
       rules: {
         name: { required: true, message: ERROR_MESSAGE.lookbook.name.required, trigger: 'blur' }
       },
-      uploadLink: IMAGE.upload,
+      uploadLink: IMAGE.uploadLookbook,
       uploadList: [],
       imgUrl: '',
       visible: false,

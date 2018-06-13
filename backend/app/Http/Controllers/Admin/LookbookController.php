@@ -21,20 +21,12 @@ class LookbookController extends Controller
 
     public function store(Request $request)
     {
-        $lookbookPath = storage_path('app/images/lookbooks/');;
-
-        $originalPath = $lookbookPath . 'original';
-        $smPath = 'lookbooks/sm/';
-        $mdPath = $lookbookPath . 'md';
-        $lgPath = $lookbookPath . 'lg';
-        $thumbnailPath = $lookbookPath . 'thumbnail';
-
-        ImageUtility::resize($request->image, $lookbookPath);
+        ImageUtility::resize(config('path.image.lookbook') . $request->image, config('path.image.lookbook'));
 
         $lookbook = new Lookbook;
         $lookbook->name = $request->name;
         $lookbook->gender = $request->gender;
-        $lookbook->original_image = $request->image;
+        $lookbook->original_image = 'lookbooks/' . $request->image;
         $lookbook->small_image = 'lookbooks/sm/' . $request->image;
         $lookbook->medium_image = 'lookbooks/md/' . $request->image;
         $lookbook->large_image = 'lookbooks/lg/' . $request->image;
@@ -47,16 +39,18 @@ class LookbookController extends Controller
             return response()->json(['error' => 'Cannot save lookbook: ' . $e->getMessage()], 500);
         }
 
+        $products = [];
         foreach ($request->products as $product) {
-            $productLookbook = new ProductLookbook;
-            $productLookbook->product_id = $product;
-            $productLookbook->lookbook_id = $lookbook->id;
+            array_push($products, [
+                'product_id' => $product,
+                'lookbook_id' => $lookbook->id
+            ]);
 
             try {
-                $productLookbook->save();
+                ProductLookbook::insert($products);
             } catch (QueryException $e) {
-                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save product lookbook: ' . $e->getMessage());
-                return response()->json(['error' => 'Cannot save product lookbook: ' . $e->getMessage()], 500);
+                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save product lookbooks: ' . $e->getMessage());
+                return response()->json(['error' => 'Cannot save product lookbooks: ' . $e->getMessage()], 500);
             }
         }
 
