@@ -4,7 +4,7 @@ import store from '@/store';
 
 export default {
   name: 'Login',
-  path: '/login',
+  path: '/admin/login',
   component: lazyLoading('Login'),
   meta: {
     title: 'Login'

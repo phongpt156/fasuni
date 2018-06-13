@@ -204,5 +204,5 @@ $router->get('/static/{type}/{file}', function ($type, $file) use ($router) {
     }
 });
 
-$router->get('admin/{any:.*}', 'HomeController@admin');
+$router->get('admin[/{any:.*}]', 'HomeController@admin');
 $router->get('{any:.*}', 'HomeController@index');

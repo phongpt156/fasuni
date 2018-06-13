@@ -4,7 +4,7 @@ import store from '@/store';
 
 export default {
   name: 'Category',
-  path: '/category',
+  path: '/admin/category',
   component: lazyLoading('category/Category'),
   meta: {
     title: 'Category',

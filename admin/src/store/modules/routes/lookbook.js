@@ -3,7 +3,7 @@ import authService from '@/shared/services/auth.service';
 import store from '@/store';
 
 export default {
-  path: '/loobook',
+  path: '/admin/loobook',
   component: lazyLoading('lookbook/index'),
   children: [
     {

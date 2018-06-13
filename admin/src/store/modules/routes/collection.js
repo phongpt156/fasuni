@@ -3,7 +3,7 @@ import authService from '@/shared/services/auth.service';
 import store from '@/store';
 
 export default {
-  path: '/collection',
+  path: '/admin/collection',
   component: lazyLoading('collection/index'),
   children: [
     {
