@@ -9,7 +9,7 @@ class CollectionController extends Controller
 {
     public function index()
     {
-        $collections = Collection::orderBy('created_at', 'desc')->paginate(5);
+        $collections = Collection::latest()->paginate(5);
 
         return response()->json($collections, 200);
     }

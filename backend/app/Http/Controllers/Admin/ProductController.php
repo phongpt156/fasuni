@@ -26,7 +26,7 @@ class ProductController extends Controller
             'subProducts.inventories'
             )
             ->whereNull('master_product_id')
-            ->orderBy('created_at', 'desc')
+            ->latest()
             ->paginate(20);
 
         return response()->json($products, 200);
@@ -74,7 +74,7 @@ class ProductController extends Controller
             'subProducts.inventories'
             )
             ->whereNull('master_product_id')
-            ->orderBy('created_at', 'desc');
+            ->latest();
 
         if ($request->has('name')) {
             $products = $products->where('name', 'LIKE', '%' . $request->name . '%')

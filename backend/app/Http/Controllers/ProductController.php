@@ -33,14 +33,14 @@ class ProductController extends Controller
 
         switch ($request->type) {
             case 'newest': {
-                $products = $products->orderBy('created_at', 'desc');
+                $products = $products->latest();
                 break;
             }
             case 'best-seller': {
-                $products = $products->orderBy('buy_count', 'desc');
+                $products = $products->latest('buy_count');
             }
             case 'most-like': {
-                $products = $products->orderBy('like_count', 'desc');
+                $products = $products->latest('like_count');
             }
         }
 
@@ -174,19 +174,19 @@ class ProductController extends Controller
 
         switch ($type) {
             case 'newest': {
-                $products = $products->orderBy('created_at', 'desc');
+                $products = $products->latest();
                 break;
             }
             case 'best-seller': {
-                $products = $products->orderBy('buy_count', 'desc');
+                $products = $products->latest('buy_count');
                 break;
             }
             case 'most-like': {
-                $products = $products->orderBy('like_count', 'desc');
+                $products = $products->latest('like_count');
                 break;
             }
             default: {
-                $products = $products->orderBy('created_at', 'desc');
+                $products = $products->latest();
                 break;
             }
         }
@@ -273,19 +273,19 @@ class ProductController extends Controller
 
         switch ($type) {
             case 'newest': {
-                $products = $products->orderBy('created_at', 'desc');
+                $products = $products->latest();
                 break;
             }
             case 'best-seller': {
-                $products = $products->orderBy('buy_count', 'desc');
+                $products = $products->latest('buy_count');
                 break;
             }
             case 'most-like': {
-                $products = $products->orderBy('like_count', 'desc');
+                $products = $products->latest('like_count');
                 break;
             }
             default: {
-                $products = $products->orderBy('created_at', 'desc');
+                $products = $products->latest();
                 break;
             }
         }
