@@ -110,6 +110,8 @@ export default {
     z-index: 1000;
     top: 40px;
     position: absolute;
+    overflow: auto;
+    max-height: 50vh;
     list-style: none;
     left: 0;
     cursor: pointer;

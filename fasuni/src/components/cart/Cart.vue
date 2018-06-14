@@ -21,14 +21,14 @@
             </td>
             <td>{{ product.name }}</td>
             <td>
-              <template v-if="product.color">
-                <div class="color mx-auto" :style="{backgroundColor: product.color.value}"></div>
-                <p class="mb-0 mt-2">{{ product.color.name }}</p>
+              <template v-if="product.color.length">
+                <div class="color mx-auto" :style="{backgroundColor: product.color[0].value}"></div>
+                <p class="mb-0 mt-2">{{ product.color[0].name }}</p>
               </template>
             </td>
             <td>
-              <template v-if="product.size">
-                {{ product.size.name }}
+              <template v-if="product.size.length">
+                {{ product.size[0].name }}
               </template>
               <template v-else>
                 Free Size

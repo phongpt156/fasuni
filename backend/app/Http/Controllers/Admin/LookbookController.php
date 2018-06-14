@@ -70,10 +70,10 @@ class LookbookController extends Controller
         $products = Product::with('images')
             ->whereIsActive(true);
 
-        if ($request->has('name')) {
-            $products = $products->where('name', 'LIKE', '%' . $request->name . '%')
-            ->orWhere('code', 'LIKE', '%' . $request->name . '%');
-        }
+        $products->when($request->has('name'), function ($query) use ($request) {
+            return $query-where('name', 'LIKE', '%' . $request->name . '%')
+                ->orWhere('code', 'LIKE', '%' . $request->name . '%');
+        });
 
         $products = $products->get();
 

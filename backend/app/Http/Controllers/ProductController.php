@@ -21,7 +21,9 @@ class ProductController extends Controller
             'inventories',
             'subProducts.images',
             'subProducts.category',
-            'subProducts.inventories'
+            'subProducts.inventories',
+            'color',
+            'size'
         ];
 
         $product = new Product;
@@ -31,36 +33,25 @@ class ProductController extends Controller
             ->whereIsActive(true)
             ->whereIsDisplay(true);
 
-        switch ($request->type) {
-            case 'newest': {
-                $products = $products->latest();
-                break;
-            }
-            case 'best-seller': {
-                $products = $products->latest('buy_count');
-            }
-            case 'most-like': {
-                $products = $products->latest('like_count');
-            }
+        if ($request->has('type')) {
+            $type = $request->type;
+        } else {
+            $type = 'newest';
         }
 
-        $products = $products->paginate(12);
-        $products->appends($request->except('page'))->links();
-
-        $products->each(function ($product) use ($user) {
-            $product->append('size', 'color');
-            if ($user) {
-                $product->setUserId($user->id);
-                $product->append('liked');
-            }
-            $product->subProducts->each(function ($subProduct) use ($user) {
-                $subProduct->append('size', 'color');
-                if ($user) {
-                    $subProduct->setUserId($user->id);
-                    $subProduct->append('liked');
-                }
-            });
+        $products->when($type === 'newest', function ($query) {
+            return $query->latest();
         });
+        $products->when($type === 'best-seller', function ($query) {
+            return $query->latest('buy_count');
+        });
+        $products->when($type === 'most-like', function ($query) {
+            return $query->latest('like_count');
+        });
+
+        $products = $products->paginate(12);
+
+        $products->appends($request->except('page'))->links();
 
         return response()->json($products, 200);
     }
@@ -74,9 +65,13 @@ class ProductController extends Controller
                 'category',
                 'images',
                 'inventories',
+                'color',
+                'size',
                 'subProducts.images',
                 'subProducts.category',
-                'subProducts.inventories'
+                'subProducts.inventories',
+                'subProducts.color',
+                'subProducts.size'
             )
             ->whereId($id)
             ->whereNull('master_product_id')
@@ -85,20 +80,10 @@ class ProductController extends Controller
             ->first();
 
         if (!is_null($product)) {
-            $product = $product->append('size', 'color');
-
             if ($user) {
                 $product->setUserId($user->id);
                 $product->append('liked');
             }
-    
-            $product->subProducts->each(function ($subProduct) use ($user) {
-                $subProduct->append('size', 'color');
-                if ($user) {
-                    $subProduct->setUserId($user->id);
-                    $subProduct->append('liked');
-                }
-            });
         }
 
         return response()->json($product, 200);
@@ -113,9 +98,13 @@ class ProductController extends Controller
             'category',
             'images',
             'inventories',
+            'color',
+            'size',
             'subProducts.images',
             'subProducts.category',
-            'subProducts.inventories'
+            'subProducts.inventories',
+            'subProducts.color',
+            'subProducts.size'
         ];
 
         $product = new Product;
@@ -136,10 +125,10 @@ class ProductController extends Controller
             ->whereIsActive(true)
             ->whereIsDisplay(true);
 
-        if ($request->has('colors')) {
+        $products->when($request->has('colors'), function ($query) use ($request) {
             $colors = explode(',', $request->colors);
 
-            $products = $products->where(function ($query) use ($colors) {
+            return $query->where(function ($query) use ($colors) {
                 $query->whereHas('productAttributeValues', function ($query) use ($colors) {
                     $query->whereIn('attribute_value_id', $colors);
                 })
@@ -149,12 +138,12 @@ class ProductController extends Controller
                     });
                 });
             });
-        }
+        });
 
-        if ($request->has('sizes')) {
+        $products->when($request->has('sizes'), function ($query) use ($request) {
             $sizes = explode(',', $request->sizes);
 
-            $products = $products->where(function ($query) use ($sizes) {
+            return $query->where(function ($query) use ($sizes) {
                 $query->whereHas('productAttributeValues', function ($query) use ($sizes) {
                     $query->whereIn('attribute_value_id', $sizes);
                 })
@@ -164,7 +153,7 @@ class ProductController extends Controller
                     });
                 });
             });
-        }
+        });
 
         if ($request->has('type')) {
             $type = $request->type;
@@ -172,42 +161,18 @@ class ProductController extends Controller
             $type = 'newest';
         }
 
-        switch ($type) {
-            case 'newest': {
-                $products = $products->latest();
-                break;
-            }
-            case 'best-seller': {
-                $products = $products->latest('buy_count');
-                break;
-            }
-            case 'most-like': {
-                $products = $products->latest('like_count');
-                break;
-            }
-            default: {
-                $products = $products->latest();
-                break;
-            }
-        }
+        $products->when($type === 'newest', function ($query) {
+            return $query->latest();
+        });
+        $products->when($type === 'best-seller', function ($query) {
+            return $query->latest('buy_count');
+        });
+        $products->when($type === 'most-like', function ($query) {
+            return $query->latest('like_count');
+        });
 
         $products = $products->paginate(12);
         $products->appends($request->except('page'))->links();
-
-        $products->each(function ($product) use ($user) {
-            $product->append('size', 'color');
-            if ($user) {
-                $product->setUserId($user->id);
-                $product->append('liked');
-            }
-            $product->subProducts->each(function ($subProduct) use ($user) {
-                $subProduct->append('size', 'color');
-                if ($user) {
-                    $subProduct->setUserId($user->id);
-                    $subProduct->append('liked');
-                }
-            });
-        });
 
         return response()->json($products, 200);
     }
@@ -222,9 +187,13 @@ class ProductController extends Controller
             'category',
             'images',
             'inventories',
+            'color',
+            'size',
             'subProducts.images',
             'subProducts.category',
-            'subProducts.inventories'
+            'subProducts.inventories',
+            'subProduct.color',
+            'subProducts.sizes'
         ];
 
         $product = new Product;
@@ -235,10 +204,10 @@ class ProductController extends Controller
             ->whereIsActive(true)
             ->whereIsDisplay(true);
 
-        if ($request->has('colors')) {
+        $products->when($request->has('colors'), function ($query) use ($request) {
             $colors = explode(',', $request->colors);
 
-            $products = $products->where(function ($query) use ($colors) {
+            return $query->where(function ($query) use ($colors) {
                 $query->whereHas('productAttributeValues', function ($query) use ($colors) {
                     $query->whereIn('attribute_value_id', $colors);
                 })
@@ -248,12 +217,12 @@ class ProductController extends Controller
                     });
                 });
             });
-        }
+        });
 
-        if ($request->has('sizes')) {
+        $products->when($request->has('sizes'), function ($query) use ($request) {
             $sizes = explode(',', $request->sizes);
 
-            $products = $products->where(function ($query) use ($sizes) {
+            return $query->where(function ($query) use ($sizes) {
                 $query->whereHas('productAttributeValues', function ($query) use ($sizes) {
                     $query->whereIn('attribute_value_id', $sizes);
                 })
@@ -263,7 +232,7 @@ class ProductController extends Controller
                     });
                 });
             });
-        }
+        });
 
         if ($request->has('type')) {
             $type = $request->type;
@@ -271,42 +240,18 @@ class ProductController extends Controller
             $type = 'newest';
         }
 
-        switch ($type) {
-            case 'newest': {
-                $products = $products->latest();
-                break;
-            }
-            case 'best-seller': {
-                $products = $products->latest('buy_count');
-                break;
-            }
-            case 'most-like': {
-                $products = $products->latest('like_count');
-                break;
-            }
-            default: {
-                $products = $products->latest();
-                break;
-            }
-        }
+        $products->when($type === 'newest', function ($query) {
+            return $query->latest();
+        });
+        $products->when($type === 'best-seller', function ($query) {
+            return $query->latest('buy_count');
+        });
+        $products->when($type === 'most-like', function ($query) {
+            return $query->latest('like_count');
+        });
 
         $products = $products->paginate(12);
         $products->appends($request->except('page'))->links();
-
-        $products->each(function ($product) use ($user) {
-            $product->append('size', 'color');
-            if ($user) {
-                $product->setUserId($user->id);
-                $product->append('liked');
-            }
-            $product->subProducts->each(function ($subProduct) use ($user) {
-                $subProduct->append('size', 'color');
-                if ($user) {
-                    $subProduct->setUserId($user->id);
-                    $subProduct->append('liked');
-                }
-            });
-        });
 
         return response()->json($products, 200);
     }
@@ -318,7 +263,7 @@ class ProductController extends Controller
         if ($request->has('category')) {
             $category = $request->category;
 
-            $products = Product::with('images')
+            $products = Product::with('images', 'size', 'color', 'subProducts.images', 'subProducts.color')
             ->whereNull('master_product_id')
             ->where(function ($query) use ($category) {
                 $query->whereHas('category', function ($query) use ($category) {
@@ -337,10 +282,6 @@ class ProductController extends Controller
             ->paginate(16);
 
             $products->appends($request->except('page'))->links();
-
-            $products->each(function ($product) {
-                $product->append('size', 'color');
-            });
         }
 
         return response()->json($products, 200);

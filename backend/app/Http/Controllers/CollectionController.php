@@ -16,11 +16,7 @@ class CollectionController extends Controller
 
     public function show($id)
     {
-        $collection = Collection::whereId($id)->with('images', 'products', 'products.images')->first();
-
-        $collection->products->each(function ($product) {
-            $product->append('size', 'color');
-        });
+        $collection = Collection::whereId($id)->with('images', 'products', 'products.images', 'products.size', 'products.color')->first();
 
         return response()->json($collection, 200);
     }

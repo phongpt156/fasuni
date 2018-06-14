@@ -120,12 +120,12 @@
             <slide class="px-2 relevant-product" v-for="product in relevantProducts" :key="product.id">
               <router-link
                 class="d-block image-wrapper image-standard"
-                :to="{name: 'Product', params: {id: product.id}, query: product.color ? {color: product.color.id} : {}}">
-                <img v-if="product.images && product.images.length" :src="product.images[0].original" :alt="product.name" />
+                :to="{name: 'Product', params: {id: product.id}, query: product.color.length ? {color: product.color[0].id} : {}}">
+                <img v-if="relevantProductImage(product)" :src="relevantProductImage(product).original" :alt="product.name" />
                 <img :alt="product.name" class="img-fluid" v-else />
               </router-link>
               <p class="font-size-base text-upper-case my-1">{{ product.name }}</p>
-              <router-link class="detail-button" :to="{name: 'Product', params: {id: product.id}, query: product.color ? {color: product.color.id} : {}}">Chi tiết >></router-link>
+              <router-link class="detail-button" :to="{name: 'Product', params: {id: product.id}, query: product.color.length ? {color: product.color[0].id} : {}}">Chi tiết >></router-link>
             </slide>
           </carousel>
         </div>
@@ -134,10 +134,10 @@
           <hr class="mt-0 mx-2" />
           <carousel :perPageCustom="perPageCustom" v-if="recentlyViewedProducts.length">
             <slide class="px-2 recently-view-product" v-for="product in recentlyViewedProducts" :key="product.id">
-              <template v-if="product.id === selectedProduct || product.color">
+              <template v-if="product.id === selectedProduct || product.color[0]">
                 <router-link
                   class="d-block image-wrapper image-standard"
-                  :to="{name: 'Product', params: {id: product.id}, query: {color: product.color.id}}">
+                  :to="{name: 'Product', params: {id: product.id}, query: {color: product.color[0].id}}">
                   <img v-if="product.images && product.images.length" :src="product.images[0].original" :alt="product.name" />
                   <img :alt="product.name" class="img-fluid" v-else />
                 </router-link>
@@ -237,13 +237,13 @@ export default {
     colors() {
       const colors = [];
 
-      if (this.product.color) {
-        colors.push(this.product.color);
+      if (this.product.color && this.product.color.length) {
+        colors.push(this.product.color[0]);
       }
       if (this.product.sub_products) {
         this.product.sub_products.forEach(subProduct => {
-          if (subProduct.color) {
-            const existColor = colors.find(color => color.id === subProduct.color.id);
+          if (subProduct.color.length) {
+            const existColor = colors.find(color => color.id === subProduct.color[0].id);
 
             if (!existColor) {
               colors.push(subProduct.color);
@@ -267,15 +267,15 @@ export default {
       const sizes = [];
 
       if (this.currentColor) {
-        if (this.product.size && this.product.color && this.product.color.id === this.currentColor.id) {
-          const size = Object.assign({}, this.product.size);
+        if (this.product.size.length && this.product.color.length && this.product.color[0].id === this.currentColor.id) {
+          const size = Object.assign({}, this.product.size[0]);
           size.product = this.product;
           sizes.push(size);
         }
 
         this.product.sub_products.forEach(subProduct => {
-          if (subProduct.size && subProduct.color && subProduct.color.id === this.currentColor.id) {
-            const size = Object.assign({}, subProduct.size);
+          if (subProduct.size.length && subProduct.color.length && subProduct.color[0].id === this.currentColor.id) {
+            const size = Object.assign({}, subProduct.size[0]);
             size.product = subProduct;
             sizes.push(size);
           }
@@ -299,6 +299,23 @@ export default {
       }
 
       return images;
+    },
+    relevantProductImage: () => product => {
+      if (product.images.length) {
+        return product.images[0];
+      }
+
+      if (product.color.length) {
+        for (const subProduct of product.sub_products) {
+          if (subProduct.color.length && subProduct.color[0].id === product.color[0].id && subProduct.images.length) {
+            return subProduct.images[0];
+          }
+        }
+
+        return '';
+      }
+
+      return '';
     },
     perPageCustom() {
       return [[768, 3], [1024, 4]];
@@ -450,7 +467,7 @@ export default {
     },
     setBreadcrumbs(category) {
       let tmp = JSON.parse(JSON.stringify(this.category));
-      this.setBreadcrumbs = [];
+      this.breadcrumbs = [];
 
       while (tmp) {
         this.breadcrumbs.unshift({
@@ -462,7 +479,9 @@ export default {
       }
     },
     selectSize(size) {
-      this.selectedSize = size;
+      if (size.product.total_quantity) {
+        this.selectedSize = size;
+      }
     },
     getRelevantProducts(id, categoryId, page = 1) {
       this.relevantProducts = [];

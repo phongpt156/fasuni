@@ -76,10 +76,10 @@ class ProductController extends Controller
             ->whereNull('master_product_id')
             ->latest();
 
-        if ($request->has('name')) {
-            $products = $products->where('name', 'LIKE', '%' . $request->name . '%')
-            ->orWhere('code', 'LIKE', '%' . $request->name . '%');
-        }
+        $products->when($request->has('name'), function ($query) use ($request) {
+            return $query->where('name', 'LIKE', '%' . $request->name . '%')
+                ->orWhere('code', 'LIKE', '%' . $request->name . '%');
+        });
 
         $products = $products->paginate(20);
         $products->appends($request->except('page'))->links();

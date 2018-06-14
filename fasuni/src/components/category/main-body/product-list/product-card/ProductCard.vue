@@ -115,15 +115,15 @@ export default {
     colors() {
       const colors = [];
 
-      if (this.product.color) {
-        colors.push(this.product.color);
+      if (this.product.color.length) {
+        colors.push(this.product.color[0]);
       }
       this.product.sub_products.forEach(subProduct => {
-        if (subProduct.color) {
-          const existColor = colors.find(color => color.id === subProduct.color.id);
+        if (subProduct.color.length) {
+          const existColor = colors.find(color => color.id === subProduct.color[0].id);
 
           if (!existColor) {
-            colors.push(subProduct.color);
+            colors.push(subProduct.color[0]);
           }
         }
       });
@@ -134,15 +134,15 @@ export default {
       const sizes = [];
 
       if (this.currentColor) {
-        if (this.product.size && this.product.color && this.product.color.id === this.currentColor.id) {
-          const size = Object.assign({}, this.product.size);
+        if (this.product.size.length && this.product.color.length && this.product.color[0].id === this.currentColor.id) {
+          const size = Object.assign({}, this.product.size[0]);
           size.product = this.product;
           sizes.push(size);
         }
 
         this.product.sub_products.forEach(subProduct => {
-          if (subProduct.size && subProduct.color && subProduct.color.id === this.currentColor.id) {
-            const size = Object.assign({}, subProduct.size);
+          if (subProduct.size.length && subProduct.color.length && subProduct.color[0].id === this.currentColor.id) {
+            const size = Object.assign({}, subProduct.size[0]);
             size.product = subProduct;
             sizes.push(size);
           }

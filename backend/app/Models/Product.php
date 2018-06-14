@@ -57,18 +57,18 @@ class Product extends Model
         return (int)$this->inventories()->sum('quantity');
     }
 
-    public function getSizeAttribute()
+    public function size()
     {
         return $this->attributeValues()->whereHas('attribute', function ($query) {
-            $query->where('name', 'Size');
-        })->first();
+            $query->whereName('Size');
+        });
     }
 
-    public function getColorAttribute()
+    public function color()
     {
         return $this->attributeValues()->whereHas('attribute', function ($query) {
-            $query->where('name', 'Màu sắc');
-        })->first();
+            $query->whereName('Màu sắc');
+        });
     }
 
     public function setUserId(int $userId)
