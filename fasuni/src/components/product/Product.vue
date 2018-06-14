@@ -134,21 +134,12 @@
           <hr class="mt-0 mx-2" />
           <carousel :perPageCustom="perPageCustom" v-if="recentlyViewedProducts.length">
             <slide class="px-2 recently-view-product" v-for="product in recentlyViewedProducts" :key="product.id">
-              <template v-if="product.id === selectedProduct || product.color[0]">
-                <router-link
-                  class="d-block image-wrapper image-standard"
-                  :to="{name: 'Product', params: {id: product.id}, query: {color: product.color[0].id}}">
-                  <img v-if="product.images && product.images.length" :src="product.images[0].original" :alt="product.name" />
-                  <img :alt="product.name" class="img-fluid" v-else />
-                </router-link>
-              </template>
-              <template v-else>
-                <router-link
-                  class="d-block image-wrapper image-standard"
-                  :to="{name: 'Product', params: {id: product.id}}">
-                  <img v-if="product.images && product.images.length" :src="product.images[0].original" alt="" />
-                </router-link>
-              </template>
+              <router-link
+                class="d-block image-wrapper image-standard"
+                :to="{name: 'Product', params: {id: product.id}, query: product.color.length ? {color: product.color[0].id}: {}}">
+                <img v-if="product.images && product.images.length" :src="product.images[0].original" :alt="product.name" />
+                <img :alt="product.name" class="img-fluid" v-else />
+              </router-link>
             </slide>
           </carousel>
         </div>
@@ -414,7 +405,7 @@ export default {
       const product = {};
       product.id = this.selectedProduct.id;
       product.images = this.images;
-      product.color = this.currentColor;
+      product.color = this.selectedProduct.color;
 
       const products = JSON.parse(JSON.stringify(this.recentlyViewedProducts));
       products.unshift(product);
