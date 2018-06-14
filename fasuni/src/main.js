@@ -14,6 +14,11 @@ Vue.config.productionTip = false;
 
 sync(store, router);
 
+// fix incorrect old storage data format
+if (!localStorage.getItem('fixed')) {
+  localStorage.clear();
+}
+
 router.beforeEach(async (to, from, next) => {
   await store.dispatch('setTitle', to.meta.title);
   next();
