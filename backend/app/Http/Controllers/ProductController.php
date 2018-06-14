@@ -2,19 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Auth\AuthController;
 use App\Models\Product;
 
 class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        $authController = new AuthController(new Auth);
-        $user = $authController->user();
-
         $appends = [
             'category',
             'images',
@@ -58,9 +53,6 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $authController = new AuthController(new Auth);
-        $user = $authController->user();
-
         $product = Product::with(
                 'category',
                 'images',
@@ -91,9 +83,6 @@ class ProductController extends Controller
 
     public function getByCategory($category, Request $request)
     {
-        $authController = new AuthController(new Auth);
-        $user = $authController->user();
-
         $appends = [
             'category',
             'images',
@@ -180,9 +169,6 @@ class ProductController extends Controller
     public function searchByName($name, Request $request)
     {
         $name = urldecode($name);
-        $authController = new AuthController(new Auth);
-        $user = $authController->user();
-
         $appends = [
             'category',
             'images',

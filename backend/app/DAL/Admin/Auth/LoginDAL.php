@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\QueryException;
 use App\Exceptions\Auth\IncorrectEmailException;
 use App\Exceptions\Auth\IncorrectPasswordException;
-use App\PackageWrapper\Token;
 
 class LoginDAL
 {
@@ -18,9 +17,6 @@ class LoginDAL
         if ($user) {
             $isCorrectPassword = Hash::check($credentials['password'], $user->password);
             if ($isCorrectPassword) {
-                $token = (new Token)->getToken($userModel->getTable(), $userModel->getTable() . '.api_token', 60);
-                $user->api_token = $token;
-
                 try {
                     $user->save();
                 } catch (QueryException $e) {

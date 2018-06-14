@@ -9,8 +9,7 @@ use App\Http\Controllers\Auth\AuthController;
 class Product extends Model
 {
     protected $fillable = ['name', 'sale_price', 'discount_price', 'weight', 'description', 'slug', 'is_active', 'is_display', 'code', 'gender', 'click_count', 'like_count', 'buy_count', 'category_id', 'master_product_id', 'kiotviet_id'];
-    protected $appends = ['total_quantity'];
-    private $userId;
+    protected $appends = ['total_quantity', 'liked'];
 
     public function subProducts()
     {
@@ -37,7 +36,7 @@ class Product extends Model
         return $this->hasMany(Inventory::class);
     }
 
-    public function productLiker()
+    public function productLikers()
     {
         return $this->hasMany(ProductLiker::class);
     }
@@ -49,7 +48,22 @@ class Product extends Model
 
     public function getLikedAttribute()
     {
-        return $this->productLiker()->whereUserId($this->userId)->exists();
+        $authController = new AuthController(new Auth);
+        $user = $authController->user();
+
+        if ($user) {
+            $like = $this->productLikers->first(function ($productLiker) use ($user) {
+                return $productLiker->user_id === $user->id;
+            });
+
+            if ($like) {
+                return true;
+            }
+    
+            return false;
+        }
+
+        return false;
     }
 
     public function getTotalQuantityAttribute()
