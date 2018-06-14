@@ -53,7 +53,7 @@
                 </a>
               </div>
               <div class="d-flex mt-2">
-                <a class="mr-3 d-inline-flex align-items-center justify-content-center cart px-4 py-2" @click="addProductToCart({images, product: selectedSize.product || product})" :class="{'can-buy': !sizes || !sizes.length || selectedSize.id, 'text-white': !sizes || !sizes.length || selectedSize.id}">
+                <a class="mr-3 d-inline-flex align-items-center justify-content-center cart-button px-4 py-2" @click="addProductToCart({images, product: selectedSize.product || product})" :class="{'can-buy': !sizes || !sizes.length || selectedSize.id, 'text-white': !sizes || !sizes.length || selectedSize.id}">
                   <font-awesome-icon :icon="icons.cart" class="mr-2"></font-awesome-icon>
                   <span class="mt-1 font-size-sm">Thêm vào giỏ</span>
                 </a>
@@ -516,7 +516,7 @@ export default {
       }
     }
   }
-  .cart {
+  .cart-button {
     &.can-buy {
       height: 45px;
       background-color: #1d1e1e;
