@@ -3,7 +3,7 @@
     <div class="card h-100">
       <div class="card-header p-0">
         <template v-if="sizes && sizes.length">
-          <router-link class="image-wrapper image-standard d-block" :to="{name: 'Product', params: {id: sizes[0].product.id}, query: {color: sizes[0].product.color.id}}">
+          <router-link class="image-wrapper image-standard d-block" :to="{name: 'Product', params: {id: product.id}, query: {color: sizes[0].product.color[0].id}}">
             <img class="card-img-top img-fluid" :src="images[0].original" :alt="product.name" v-if="images && images.length" />
             <img class="card-img-top img-fluid" :alt="sizes[0].product.name" v-else />
           </router-link>
@@ -90,7 +90,7 @@ export default {
     icon() {
       let heart;
 
-      if (this.product.liked) {
+      if (this.selectedProduct.liked) {
         heart = solidFaHeart;
       } else {
         heart = regularFaHeart;
@@ -166,11 +166,20 @@ export default {
       }
 
       return images;
+    },
+    selectedProduct() {
+      if (this.sizes && this.sizes.length) {
+        return this.sizes[0].product;
+      }
+      return this.product;
     }
   },
   methods: {
     ...mapMutations('cart', {
       addProductToCart: 'add'
+    }),
+    ...mapMutations('products', {
+      'toggleLikedState': 'toggleLiked'
     }),
     enterProductSize(size) {
       this.currentHoverSize = size;
@@ -181,11 +190,12 @@ export default {
     },
     toggleLiked() {
       if (this.user) {
-        this.$set(this.product, 'liked', !this.product.liked);
-        if (this.product.liked) {
-          userProductCommunication.like(this.product.id);
+        this.toggleLikedState(this.selectedProduct);
+
+        if (this.selectedProduct.liked) {
+          userProductCommunication.like(this.selectedProduct.id);
         } else {
-          userProductCommunication.dislike(this.product.id);
+          userProductCommunication.dislike(this.selectedProduct.id);
         }
       } else {
         alert('Hãy đăng nhập trước');

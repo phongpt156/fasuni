@@ -71,13 +71,6 @@ class ProductController extends Controller
             ->whereIsDisplay(true)
             ->first();
 
-        if (!is_null($product)) {
-            if ($user) {
-                $product->setUserId($user->id);
-                $product->append('liked');
-            }
-        }
-
         return response()->json($product, 200);
     }
 

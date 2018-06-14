@@ -31,5 +31,8 @@ export default {
   },
   removeItemFromSelectedList(state, payload) {
     payload.selectedList.splice(payload.index, 1);
+  },
+  toggleLiked(state, product) {
+    product.liked = !product.liked;
   }
 };

@@ -246,7 +246,7 @@ export default {
             const existColor = colors.find(color => color.id === subProduct.color[0].id);
 
             if (!existColor) {
-              colors.push(subProduct.color);
+              colors.push(subProduct.color[0]);
             }
           }
         });
