@@ -171,7 +171,7 @@ class ProductController extends Controller
             'subProducts.images',
             'subProducts.category',
             'subProducts.inventories',
-            'subProduct.color',
+            'subProducts.color',
             'subProducts.sizes'
         ];
 
