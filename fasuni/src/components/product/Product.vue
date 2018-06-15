@@ -83,10 +83,10 @@
               <div class="d-flex justify-content-between">
                 <p class="mb-0 text-uppercase font-size-base">Chia sẻ</p>
                 <div class="d-flex">
-                  <a class="mx-2">
+                  <a class="mx-2" @click="share('facebook')">
                     <font-awesome-icon :icon="icons.facebook" style="color: #3b5998"></font-awesome-icon>
                   </a>
-                  <a class="mx-2">
+                  <!-- <a class="mx-2">
                     <font-awesome-icon :icon="icons.instagram"></font-awesome-icon>
                     <svg width="0" height="0">
                       <radialGradient id="rg" r="150%" cx="30%" cy="107%">
@@ -100,8 +100,8 @@
                   </a>
                   <a class="mx-2">
                     <font-awesome-icon :icon="icons.youtube" style="color: #e52d27"></font-awesome-icon>
-                  </a>
-                  <a class="mx-2">
+                  </a> -->
+                  <a class="mx-2" :href="`https://plus.google.com/share?url=${fullPath}`" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
                     <font-awesome-icon :icon="icons.googlePlus" style="color: #df4b37"></font-awesome-icon>
                   </a>
                 </div>
@@ -325,6 +325,9 @@ export default {
         return this.selectedProduct.category.id;
       }
       return '';
+    },
+    fullPath() {
+      return `https://www.fasuni.vn${this.$route.fullPath}`;
     }
   },
   watch: {
@@ -485,6 +488,19 @@ export default {
             this.relevantProducts = response.data.data;
           }
         });
+    },
+    share(type) {
+      switch (type) {
+        case 'facebook': {
+          const href = process.env.NODE_ENV === 'production' ? window.location.href : `https://www.fasuni.vn${this.$route.fullPath}`;
+
+          window.FB.ui({
+            method: 'share',
+            display: 'popup',
+            href
+          });
+        }
+      }
     }
   },
   created() {
