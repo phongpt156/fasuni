@@ -167,7 +167,7 @@
         <div class="d-flex">
           <div class="px-5" style="flex-grow: 1; max-width: 15%">
             <a class="d-block image-wrapper image-1-1" href="https://mayphuongthao.com/" target="_blank">
-              <img src="https://mayphuongthao.com/wp-content/uploads/2017/09/logo-mayphuongthao.png" alt="" />
+              <img :src="images.logoMayPhuongThao" alt="" />
             </a>
           </div>
         </div>
