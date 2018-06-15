@@ -9,7 +9,7 @@
           <p class="h4 text-uppercase">{{ lookbook.name }}</p>
           <hr class="w-25" />
           <a>
-            <router-link v-for="product in lookbook.products" :key="product.id" class="product-item d-block" :to="{name: 'Product', params: {id: product.id}, query: product.color.length ? {color: product.color[0].id} : {}}">
+            <router-link v-for="product in lookbook.products" :key="product.master_product_id || product.id" class="product-item d-block" :to="{name: 'Product', params: {id: product.master_product_id || product.id}, query: product.color.length ? {color: product.color[0].id} : {}}">
               <span class="product-name mr-2">{{ product.name }}</span>
               <span class="font-weight-bold">{{ priceFormat(product.sale_price) }}</span>
             </router-link>

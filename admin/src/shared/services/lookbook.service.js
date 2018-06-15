@@ -11,6 +11,10 @@ export default {
     return httpClient.post(LOOKBOOK.store, body)
       .catch(handleError);
   },
+  delete(id) {
+    return httpClient.delete(`${LOOKBOOK.delete}${id}`)
+      .catch(handleError);
+  },
   getPrepareSaveName() {
     return httpClient.get(LOOKBOOK.getPrepareSaveName)
       .catch(handleError);

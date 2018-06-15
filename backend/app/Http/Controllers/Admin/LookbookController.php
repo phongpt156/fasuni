@@ -9,6 +9,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Utility\ImageUtility;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\File;
 
 class LookbookController extends Controller
 {
@@ -55,6 +56,19 @@ class LookbookController extends Controller
         }
 
         return response()->json($lookbook, 200);
+    }
+
+    public function destroy($id)
+    {
+        $lookbook = Lookbook::find($id);
+        File::delete(config('path.image.base') . $lookbook->original_image, config('path.image.base') . $lookbook->large_image, config('path.image.base') . $lookbook->medium_image, config('path.image.base') . $lookbook->small_image, config('path.image.base') . $lookbook->thumbnail);
+
+        try {
+            Lookbook::destroy($id);
+        } catch (QueryException $e) {
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete lookbook: ' . $e->getMessage());
+            return response()->json(['error' => 'Cannot delete lookbook: ' . $e->getMessage()], 500);
+        }
     }
 
     public function getPrepareSaveName()

@@ -7,6 +7,7 @@ import collection from './collection';
 import storeFinder from './store-finder';
 import cart from './cart';
 import search from './search';
+import myWhistlist from './my-whistlist';
 
 const state = {
   homePage,
@@ -17,7 +18,8 @@ const state = {
   collection,
   storeFinder,
   cart,
-  search
+  search,
+  myWhistlist
 };
 
 export default {

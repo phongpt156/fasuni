@@ -96,6 +96,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->group(['prefix' => 'lookbook'], function () use ($router) {
             $router->get('', 'LookbookController@index');
             $router->post('', 'LookbookController@store');
+            $router->delete('{id}', 'LookbookController@destroy');
             $router->get('get-prepare-save-name', 'LookbookController@getPrepareSaveName');
             $router->get('search-product', 'LookbookController@searchProduct');
         });
@@ -171,6 +172,9 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->group(['prefix' => 'attribute-value'], function () use ($router) {
         $router->get('color', 'AttributeValueController@getColors');
         $router->get('size', 'AttributeValueController@getSizes');
+    });
+    $router->group(['prefix' => 'user'], function () use ($router) {
+        $router->get('whistlist', 'UserController@getWhistlist');
     });
     $router->get('like-product/{id}', 'ProductLikerController@like');
     $router->get('dislike-product/{id}', 'ProductLikerController@dislike');

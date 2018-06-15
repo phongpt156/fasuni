@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Auth\AuthController;
 
 class Product extends Model
 {
@@ -14,6 +13,11 @@ class Product extends Model
     public function subProducts()
     {
         return $this->hasMany(Product::class, 'master_product_id', 'id');
+    }
+
+    public function masterProduct()
+    {
+        return $this->belongsTo(Product::class, 'master_product_id');
     }
 
     public function attributeValues()
@@ -48,8 +52,8 @@ class Product extends Model
 
     public function getLikedAttribute()
     {
-        $authController = new AuthController(new Auth);
-        $user = $authController->user();
+        $auth = new Auth;
+        $user = $auth::guard()->user();
 
         if ($user) {
             $like = $this->productLikers->first(function ($productLiker) use ($user) {

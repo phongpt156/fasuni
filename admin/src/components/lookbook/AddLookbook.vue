@@ -28,6 +28,7 @@
             :max-size="204800"
             type="drag"
             :on-success="onSuccess"
+            :before-upload="beforeUpload"
             v-model="addLookbookForm.image">
             <div style="padding: 20px 0">
               <icon type="ios-cloud-upload" size="52" style="color: #3399ff"></icon>
@@ -165,6 +166,10 @@ export default {
       fileList.splice(0);
       fileList.push(file);
       file.url = response.url;
+      this.loading = false;
+    },
+    beforeUpload() {
+      this.loading = true;
     },
     searchProducts(name) {
       const query = {};

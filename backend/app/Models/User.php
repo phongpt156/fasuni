@@ -42,4 +42,9 @@ class User extends Model implements
     {
         return [];
     }
+
+    public function likedProducts()
+    {
+        return $this->belongsToMany(Product::class, 'product_likers');
+    }
 }

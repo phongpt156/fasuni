@@ -220,6 +220,7 @@ export default {
 
 .product-card {
   font-size: $font-size-sm;
+
   .price {
     white-space: nowrap;
     font-size: .75rem;

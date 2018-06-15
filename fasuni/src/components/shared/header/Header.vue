@@ -98,7 +98,7 @@
             <a class="nav-link dropdown-toggle text-dark" v-if="user" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               {{ userName }}
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                <a class="dropdown-item">My Wishlist</a>
+                <router-link class="dropdown-item" :to="{name: 'MyWhistlist'}">Danh sách yêu thích</router-link>
                 <a class="dropdown-item" @click="logout">Đăng xuất</a>
               </div>
             </a>

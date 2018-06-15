@@ -31,6 +31,7 @@ export default {
           sortable: true
         },
         {
+          align: 'center',
           title: 'Ảnh',
           render: (h, params) => {
             return h('div', {
@@ -46,6 +47,27 @@ export default {
               }
             })]);
           }
+        },
+        {
+          title: 'Action',
+          key: 'action',
+          width: 150,
+          align: 'center',
+          render: (h, params) => {
+            return h('div', [
+              h('Button', {
+                props: {
+                  type: 'error',
+                  size: 'small'
+                },
+                on: {
+                  click: () => {
+                    this.delete(params.index);
+                  }
+                }
+              }, 'Delete')
+            ]);
+          }
         }
       ]
     };
@@ -58,6 +80,10 @@ export default {
             this.lookbooks = response.data;
           }
         });
+    },
+    delete(index) {
+      lookbookService.delete(this.lookbooks[index].id);
+      this.lookbooks.splice(index, 1);
     }
   },
   mounted() {

@@ -1,6 +1,6 @@
 import httpClient from './../http';
 import { handleError } from './../functions';
-import { AUTH } from './../constants/api';
+import { AUTH, USER } from './../constants/api';
 
 export default {
   index() {
@@ -17,6 +17,10 @@ export default {
   },
   register(body) {
     return httpClient.post(AUTH.register, body)
+      .catch(handleError);
+  },
+  getWhistlist(page = 1) {
+    return httpClient.get(`${USER.getWhistlist}?page=${page}`)
       .catch(handleError);
   }
 };

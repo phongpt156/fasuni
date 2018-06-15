@@ -188,6 +188,7 @@ import collection3 from '@/assets/images/34530408_956364091204258_76307243244202
 import subBanner from '@/assets/images/paper-flamingo.jpg';
 import post1 from '@/assets/images/post1.jpg';
 import post2 from '@/assets/images/post2.jpg';
+import logoMayPhuongThao from '@/assets/images/logo-mayphuongthao.png';
 
 export default {
   components: {
@@ -207,7 +208,8 @@ export default {
         collection3,
         subBanner,
         post1,
-        post2
+        post2,
+        logoMayPhuongThao
       }
     };
   },
@@ -259,6 +261,7 @@ export default {
   }
   .collection-item {
     position: relative;
+    cursor: pointer;
 
     &:hover {
       &:after {

@@ -52,3 +52,7 @@ export const COLLECTION = {
   getAll: BASE_URL + '/collection',
   getOne: BASE_URL + '/collection/'
 };
+
+export const USER = {
+  getWhistlist: BASE_URL + '/user/whistlist'
+};
