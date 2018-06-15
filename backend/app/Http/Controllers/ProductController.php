@@ -172,7 +172,7 @@ class ProductController extends Controller
             'subProducts.category',
             'subProducts.inventories',
             'subProducts.color',
-            'subProducts.sizes'
+            'subProducts.size'
         ];
 
         $product = new Product;
