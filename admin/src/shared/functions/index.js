@@ -8,7 +8,7 @@ export function reloadApp() {
 
 export function getFormatPrice(price) {
   if (price) {
-    price = price.toString().replace(/\./g, '');
+    price = Number(price).toString().replace(/\./g, '');
     return `${Number(price).toLocaleString()} VNĐ`;
   }
   return price;
