@@ -403,14 +403,17 @@ export default {
     },
     saveRecentlyViewedProducts() {
       const product = {};
-      product.id = this.selectedProduct.id;
-      product.images = this.images;
-      product.color = this.selectedProduct.color;
 
-      const products = JSON.parse(JSON.stringify(this.recentlyViewedProducts));
-      products.unshift(product);
+      if (this.selectedProduct.id) {
+        product.id = this.selectedProduct.id;
+        product.images = this.images;
+        product.color = this.selectedProduct.color;
 
-      localStorage.setItem('recently_viewed', JSON.stringify(products));
+        const products = JSON.parse(JSON.stringify(this.recentlyViewedProducts));
+        products.unshift(product);
+
+        localStorage.setItem('recently_viewed', JSON.stringify(products));
+      }
     },
     removeRecentlyViewedProduct(id) {
       let products = this.getRecentlyViewedProducts();
@@ -424,9 +427,8 @@ export default {
             break;
           }
         }
+        localStorage.setItem('recently_viewed', JSON.stringify(products));
       }
-
-      localStorage.setItem('recently_viewed', JSON.stringify(products));
     },
     goToProductPage(product, color) {
       const query = {};

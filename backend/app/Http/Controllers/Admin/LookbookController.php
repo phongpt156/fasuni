@@ -45,13 +45,13 @@ class LookbookController extends Controller
                 'product_id' => $product,
                 'lookbook_id' => $lookbook->id
             ]);
+        }
 
-            try {
-                ProductLookbook::insert($products);
-            } catch (QueryException $e) {
-                \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save product lookbooks: ' . $e->getMessage());
-                return response()->json(['error' => 'Cannot save product lookbooks: ' . $e->getMessage()], 500);
-            }
+        try {
+            ProductLookbook::insert($products);
+        } catch (QueryException $e) {
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save product lookbooks: ' . $e->getMessage());
+            return response()->json(['error' => 'Cannot save product lookbooks: ' . $e->getMessage()], 500);
         }
 
         return response()->json($lookbook, 200);
@@ -67,8 +67,9 @@ class LookbookController extends Controller
     public function searchProduct(Request $request)
     {
 
-        $products = Product::with('images')
-            ->whereIsActive(true);
+        $products = Product::with('images', 'size', 'color')
+            ->whereIsActive(true)
+            ->whereIsDisplay(true);
 
         $products->when($request->has('name'), function ($query) use ($request) {
             return $query-where('name', 'LIKE', '%' . $request->name . '%')
@@ -76,10 +77,6 @@ class LookbookController extends Controller
         });
 
         $products = $products->get();
-
-        $products->each(function ($product) {
-            $product->append('size', 'color');
-        });
 
         return response()->json($products, 200);
     }

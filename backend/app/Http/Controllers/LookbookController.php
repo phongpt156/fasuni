@@ -32,13 +32,7 @@ class LookbookController extends Controller
         $startDate = DateTime::create($year, $month)->firstOfMonth();
         $endDate = DateTime::create($year, $month)->lastOfMonth();
 
-        $lookbooks = Lookbook::with('products')->whereGender($gender)->whereBetween('created_at', [$startDate, $endDate])->get();
-
-        $lookbooks->each(function ($lookbook) {
-            $lookbook->products->each(function ($product) {
-                $product->append('size', 'color');
-            });
-        });
+        $lookbooks = Lookbook::with('products', 'products.size', 'products.color')->whereGender($gender)->whereBetween('created_at', [$startDate, $endDate])->get();
 
         return response()->json($lookbooks);
     }

@@ -52,7 +52,7 @@ class ImageController extends Controller
 
         if ($request->has('file')) {
             $formatFileName = FileUtility::getFormatFileName($request->file);
-            $path = config('path.image.collection') . $formatFileName;
+            $path = config('path.image.lookbook') . $formatFileName;
 
             File::put($path, File::get($request->file));
             ImageUtility::compress($path, $path);

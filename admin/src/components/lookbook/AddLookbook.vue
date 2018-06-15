@@ -49,11 +49,11 @@
               <div class="d-flex align-items-center">
                 <img class="mr-2" :src="props.option.images[0].original" :alt="props.option.name" style="width: 75px; height: 75px" v-if="props.option.images && props.option.images.length" />
                 <span class="mr-4">{{props.option.code }} - {{ props.option.name }}
-                  <template v-if="props.option.color">
-                    - {{ props.option.color.name }}
+                  <template v-if="props.option.color.length">
+                    - {{ props.option.color[0].name }}
                   </template>
-                  <template v-if="props.option.size">
-                    - {{ props.option.size.name }}
+                  <template v-if="props.option.size.length">
+                    - {{ props.option.size[0].name }}
                   </template>
                 </span>
               </div>
@@ -85,7 +85,7 @@
 
 <script>
 import { IMAGE } from '@/shared/constants/api';
-import { IMAGE_URL, GENDER, ERROR_MESSAGE } from '@/shared/constants';
+import { LOOKBOOK_IMAGE_URL, GENDER, ERROR_MESSAGE } from '@/shared/constants';
 import lookbookService from '@/shared/services/lookbook.service';
 import Multiselect from 'vue-multiselect';
 
@@ -120,12 +120,12 @@ export default {
       return GENDER;
     },
     imageBasePath() {
-      return IMAGE_URL;
+      return LOOKBOOK_IMAGE_URL;
     }
   },
   methods: {
     handleView (url) {
-      this.imgUrl = `${IMAGE_URL}/${url}`;
+      this.imgUrl = `${LOOKBOOK_IMAGE_URL}/${url}`;
       this.visible = true;
     },
     handleRemove (file) {
