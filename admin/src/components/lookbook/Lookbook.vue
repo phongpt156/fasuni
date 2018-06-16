@@ -45,7 +45,7 @@ export default {
           key: 'Giới tính',
           sortable: true,
           render: (h, params) => {
-            return h('span', params.row.gender === this.genders.male.id ? 'Nam' : 'Nữ');
+            return h('span', Number(params.row.gender) === this.genders.male.id ? 'Nam' : 'Nữ');
           }
         },
         {

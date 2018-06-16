@@ -69,8 +69,9 @@
         </form-item>
         <form-item label="Giới tính">
           <i-select
-            v-model="editLookbookForm.gender"
-            label="Chọn giới tính">
+            :value="Number(editLookbookForm.gender)"
+            label="Chọn giới tính"
+            @on-change="selectGender">
             <i-option v-for="gender in genders" :value="gender.id" :key="gender.id">
               {{ gender.name }}
             </i-option>
@@ -225,6 +226,9 @@ export default {
             this.editLookbookForm = response.data;
           }
         });
+    },
+    selectGender(value) {
+      this.editLookbookForm.gender = value;
     }
   },
   mounted() {
