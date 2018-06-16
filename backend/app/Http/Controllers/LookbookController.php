@@ -33,7 +33,6 @@ class LookbookController extends Controller
         $endDate = DateTime::create($year, $month)->lastOfMonth();
 
         $lookbooks = Lookbook::with([
-                'products',
                 'products.size',
                 'products.color'
             ])

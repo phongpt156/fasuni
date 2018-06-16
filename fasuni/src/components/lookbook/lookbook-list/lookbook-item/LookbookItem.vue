@@ -1,6 +1,6 @@
 <template>
-  <div class="lookbook-item">
-    <div>
+  <div class="lookbook-item h-100">
+    <div class="h-100">
       <responsive-image :lg="lookbook.large_image" :md="lookbook.medium_image" :sm="lookbook.small_image" :thumbnail="lookbook.thumbnail" image-class="w-100 h-100" ></responsive-image>
     </div>
     <div class="product-list-wrapper">
