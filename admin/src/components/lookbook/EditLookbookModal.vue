@@ -163,8 +163,6 @@ export default {
         if (valid) {
           if (!this.editLookbookForm.original_image & !this.uploadList.length) {
             this.$Message.error('Chưa chọn ảnh lookbook!');
-          } else if (!this.editLookbookForm.products.length) {
-            this.$Message.error('Chưa chọn sản phẩm!');
           } else {
             this.loading = true;
 
