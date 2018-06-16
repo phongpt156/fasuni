@@ -37,11 +37,13 @@ class LookbookController extends Controller
                 'products.size',
                 'products.color'
             ])
-            ->whereHas('products.masterProduct', function ($query) {
-                return $query->whereIsActive(1)->whereIsDisplay(1);
-            })
-            ->orWhereHas('products', function ($query) {
-                return $query->whereNull('master_product_id');
+            ->where(function ($query) {
+                return $query->whereHas('products.masterProduct', function ($query) {
+                    return $query->whereIsActive(1)->whereIsDisplay(1);
+                })
+                ->orWhereHas('products', function ($query) {
+                    return $query->whereNull('master_product_id');
+                });
             })
             ->whereGender($gender)
             ->whereBetween('created_at', [$startDate, $endDate])
