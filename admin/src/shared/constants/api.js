@@ -36,7 +36,9 @@ export const IMAGE = {
 
 export const LOOKBOOK = {
   getAll: BASE_URL + '/lookbook',
+  getOne: BASE_URL + '/lookbook/',
   store: BASE_URL + '/lookbook',
+  update: BASE_URL + '/lookbook/',
   delete: BASE_URL + '/lookbook/',
   getPrepareSaveName: BASE_URL + '/lookbook/get-prepare-save-name',
   searchProducts: BASE_URL + '/lookbook/search-product'

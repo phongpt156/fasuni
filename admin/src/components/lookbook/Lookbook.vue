@@ -9,26 +9,44 @@
       :columns="columns"
       :loading="loading">
     </i-table>
+    <edit-lookbook-modal :value="isOpenEditLookbookModal" :lookbook="selectedLookbook" @close="isOpenEditLookbookModal = false; selectedLookbook = {}" @updated="updated"></edit-lookbook-modal>
+    <delete-lookbook-modal :value="isOpenDeleteLookbookModal" :lookbook="selectedLookbook" @close="isOpenDeleteLookbookModal = false; selectedLookbook = {}" @delete="onDelete"></delete-lookbook-modal>
   </div>
 </template>
 
 <script>
 import lookbookService from '@/shared/services/lookbook.service';
 import ResponsiveImage from '@/components/common/ResponsiveImage';
+import EditLookbookModal from './EditLookbookModal';
+import DeleteLookbookModal from './DeleteLookbookModal';
+import { GENDER } from '@/shared/constants';
 
 export default {
   components: {
-    ResponsiveImage
+    ResponsiveImage,
+    EditLookbookModal,
+    DeleteLookbookModal
   },
   data() {
     return {
+      isOpenEditLookbookModal: false,
+      isOpenDeleteLookbookModal: false,
       loading: false,
       lookbooks: [],
+      selectedLookbook: {},
       columns: [
         {
           title: 'Tên',
           key: 'name',
           sortable: true
+        },
+        {
+          title: 'Tên',
+          key: 'Giới tính',
+          sortable: true,
+          render: (h, params) => {
+            return h('span', params.row.gender === this.genders.male.id ? 'Nam' : 'Nữ');
+          }
         },
         {
           align: 'center',
@@ -57,12 +75,26 @@ export default {
             return h('div', [
               h('Button', {
                 props: {
+                  type: 'success',
+                  size: 'small'
+                },
+                style: {
+                  marginRight: '5px'
+                },
+                on: {
+                  click: () => {
+                    this.openEditLookbookModal(params.index);
+                  }
+                }
+              }, 'Edit'),
+              h('Button', {
+                props: {
                   type: 'error',
                   size: 'small'
                 },
                 on: {
                   click: () => {
-                    this.delete(params.index);
+                    this.openDeleteLookbookModal(params.index);
                   }
                 }
               }, 'Delete')
@@ -71,6 +103,11 @@ export default {
         }
       ]
     };
+  },
+  computed: {
+    genders() {
+      return GENDER;
+    }
   },
   methods: {
     getLookbooks() {
@@ -81,9 +118,22 @@ export default {
           }
         });
     },
-    delete(index) {
-      lookbookService.delete(this.lookbooks[index].id);
+    updated(payload) {
+      const index = this.lookbooks.indexOf(payload.oldLookbook);
+      this.lookbooks[index].name = payload.newLookbook.name;
+      this.lookbooks[index].gender = payload.newLookbook.gender;
+    },
+    onDelete(lookbook) {
+      const index = this.lookbooks.indexOf(lookbook);
       this.lookbooks.splice(index, 1);
+    },
+    openEditLookbookModal(index) {
+      this.selectedLookbook = this.lookbooks[index];
+      this.isOpenEditLookbookModal = true;
+    },
+    openDeleteLookbookModal(index) {
+      this.selectedLookbook = this.lookbooks[index];
+      this.isOpenDeleteLookbookModal = true;
     }
   },
   mounted() {

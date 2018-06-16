@@ -95,7 +95,9 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         });
         $router->group(['prefix' => 'lookbook'], function () use ($router) {
             $router->get('', 'LookbookController@index');
+            $router->get('{id:[0-9]+}', 'LookbookController@show');
             $router->post('', 'LookbookController@store');
+            $router->put('{id}', 'LookbookController@update');
             $router->delete('{id}', 'LookbookController@destroy');
             $router->get('get-prepare-save-name', 'LookbookController@getPrepareSaveName');
             $router->get('search-product', 'LookbookController@searchProduct');

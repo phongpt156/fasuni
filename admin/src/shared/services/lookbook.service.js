@@ -7,8 +7,16 @@ export default {
     return httpClient.get(LOOKBOOK.getAll)
       .catch(handleError);
   },
+  getOne(id) {
+    return httpClient.get(`${LOOKBOOK.getOne}${id}`)
+      .catch(handleError);
+  },
   store(body) {
     return httpClient.post(LOOKBOOK.store, body)
+      .catch(handleError);
+  },
+  update(id, body) {
+    return httpClient.put(`${LOOKBOOK.update}${id}`, body)
       .catch(handleError);
   },
   delete(id) {

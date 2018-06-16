@@ -12,4 +12,9 @@ class Lookbook extends Model
     {
         return $this->belongsToMany(Product::class, 'product_lookbooks');
     }
+
+    public function productLookbooks()
+    {
+        return $this->hasMany(ProductLookbook::class);
+    }
 }
