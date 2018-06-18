@@ -15,7 +15,7 @@ class LookbookController extends Controller
 {
     public function index()
     {
-        $lookbooks = Lookbook::all();
+        $lookbooks = Lookbook::all()->latest();
 
         return response()->json($lookbooks, 200);
     }
