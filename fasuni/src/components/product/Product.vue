@@ -24,7 +24,7 @@
             <div class="col-md-8 p-0">
               <div class="row m-0">
                 <div class="col-sm-6 p-2" v-for="image in images" :key="image.id">
-                  <div>
+                  <div class="image-wrapper image-standard">
                     <img :src="image.original" :alt="selectedProduct.name" class="img-fluid" />
                   </div>
                 </div>
