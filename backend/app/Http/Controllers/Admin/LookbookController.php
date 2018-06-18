@@ -70,7 +70,8 @@ class LookbookController extends Controller
         $lookbook = Lookbook::find($id);
 
         if ($request->has('image')) {
-            $this->deleteImage($lookbook);
+            $oldLookbook = clone $lookbook;
+
             ImageUtility::resize(config('path.image.lookbook') . $request->image, config('path.image.lookbook'));
 
             $lookbook->original_image = 'lookbooks/' . $request->image;
@@ -78,6 +79,10 @@ class LookbookController extends Controller
             $lookbook->medium_image = 'lookbooks/md/' . $request->image;
             $lookbook->large_image = 'lookbooks/lg/' . $request->image;
             $lookbook->thumbnail = 'lookbooks/thumbnail/' . $request->image;
+
+            if ($oldLookbook->original_image !== $lookbook->original_image) {
+                $this->deleteImage($lookbook);
+            }
         }
         $lookbook->name = $request->name;
         $lookbook->gender = $request->gender;
