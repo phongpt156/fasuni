@@ -69,7 +69,7 @@ class LookbookController extends Controller
     {
         $lookbook = Lookbook::find($id);
 
-        if ($request->has('image') && $request->image !== explode('lookbooks/', $lookbook->original_image)[1]) {
+        if ($request->has('image')) {
             $this->deleteImage($lookbook);
             ImageUtility::resize(config('path.image.lookbook') . $request->image, config('path.image.lookbook'));
 
