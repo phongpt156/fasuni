@@ -286,7 +286,9 @@ export default {
       });
 
       if (!images.length && this.product.images && this.product.images.length) {
-        images.push(this.product.images[0]);
+        for (const image of this.product.images) {
+          images.push(image);
+        }
       }
 
       return images;
