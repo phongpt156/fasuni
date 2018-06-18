@@ -122,6 +122,10 @@ export default {
       const index = this.lookbooks.indexOf(payload.oldLookbook);
       this.lookbooks[index].name = payload.newLookbook.name;
       this.lookbooks[index].gender = payload.newLookbook.gender;
+      this.lookbooks[index].small_image = payload.newLookbook.small_image;
+      this.lookbooks[index].medium_image = payload.newLookbook.medium_image;
+      this.lookbooks[index].large_image = payload.newLookbook.large_image;
+      this.lookbooks[index].thumbnail = payload.newLookbook.thumbnail;
     },
     onDelete(lookbook) {
       const index = this.lookbooks.indexOf(lookbook);
