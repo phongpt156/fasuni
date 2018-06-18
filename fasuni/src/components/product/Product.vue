@@ -68,15 +68,15 @@
                     v-else></font-awesome-icon>
                 </a>
               </div>
-              <hr />
-              <div class="info">
+              <!-- <hr /> -->
+              <!-- <div class="info">
                 <p class="mb-1 font-size-base">Thông tin</p>
                 <p>Our best selling Balfern Biker Jacket receives a statement update this season with fringe tassels running across the back and front. Complete with our signature zip detailing, it's crafted from soft sheep nappa leather that gets more supple with each wear.</p>
                 <p class="mb-1 font-size-base">Regular fit.</p>
                 <p class="mb-0">- Fits true to size, take your normal size.</p>
                 <p class="mb-0">- Model is 5'8" / 173cm, size UK 10.</p>
                 <p class="mb-0">- See our size guide for more details.</p>
-              </div>
+              </div> -->
               <hr />
               <p class="mb-0 text-uppercase font-size-base"><a @click="isOpenSizeGuideDialog = true">Size Guide</a></p>
               <hr />
@@ -107,9 +107,9 @@
                 </div>
               </div>
               <hr />
-              <p class="mb-2 text-uppercase font-size-base">Show us your style</p>
+              <!-- <p class="mb-2 text-uppercase font-size-base">Show us your style</p>
               <p class="mb-2">Share your Fasuni look using #FASUNI or upload <u><a>here</a></u> to be featured on fasuni.vn</p>
-              <p class="mb-0 text-uppercase">#Fasuni</p>
+              <p class="mb-0 text-uppercase">#Fasuni</p> -->
             </div>
           </div>
         </div>
