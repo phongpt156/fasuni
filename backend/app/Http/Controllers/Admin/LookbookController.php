@@ -81,7 +81,7 @@ class LookbookController extends Controller
             $lookbook->thumbnail = 'lookbooks/thumbnail/' . $request->image;
 
             if ($oldLookbook->original_image !== $lookbook->original_image) {
-                $this->deleteImage($lookbook);
+                $this->deleteImage($oldLookbook);
             }
         }
         $lookbook->name = $request->name;
