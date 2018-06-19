@@ -26,7 +26,7 @@
           <router-link :to="{name: 'Cart'}">Xem giỏ hàng ({{ products.length }} sản phẩm)</router-link>
           <p class="mb-0">Tổng tiền: {{ totalBagPrice | priceFormat }}</p>
         </div>
-        <button class="payment w-100">Thanh toán</button>
+        <button class="payment w-100">Đặt hàng</button>
       </div>
     </template>
     <template v-else>

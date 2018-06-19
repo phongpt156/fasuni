@@ -52,7 +52,7 @@
         <div>
           Tổng tiền: {{ totalPrice | priceFormat }}
         </div>
-        <button class="payment mt-3">Thanh toán</button>
+        <button class="payment mt-3" @click="$router.push({name: 'Checkout'})">Đặt hàng</button>
       </div>
     </div>
     <h3 v-else class="text-center py-5">Giỏ hàng trống</h3>

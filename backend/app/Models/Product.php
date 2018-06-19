@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 class Product extends Model
 {
     protected $fillable = ['name', 'sale_price', 'discount_price', 'weight', 'description', 'slug', 'is_active', 'is_display', 'code', 'gender', 'click_count', 'like_count', 'buy_count', 'category_id', 'master_product_id', 'kiotviet_id'];
-    protected $appends = ['total_quantity', 'liked'];
+    protected $appends = ['total_quantity', 'liked', 'size', 'color'];
 
     public function subProducts()
     {
@@ -75,18 +75,28 @@ class Product extends Model
         return (int)$this->inventories()->sum('quantity');
     }
 
-    public function size()
+    public function sizes()
     {
         return $this->attributeValues()->whereHas('attribute', function ($query) {
             $query->whereName('Size');
         });
     }
 
-    public function color()
+    public function getSizeAttribute()
+    {
+        return $this->sizes()->first();
+    }
+
+    public function colors()
     {
         return $this->attributeValues()->whereHas('attribute', function ($query) {
             $query->whereName('Màu sắc');
         });
+    }
+
+    public function getColorAttribute()
+    {
+        return $this->colors()->first();
     }
 
     public function setUserId(int $userId)

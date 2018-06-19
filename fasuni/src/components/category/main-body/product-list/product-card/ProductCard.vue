@@ -3,7 +3,7 @@
     <div class="card h-100">
       <div class="card-header p-0">
         <template v-if="sizes && sizes.length">
-          <router-link class="image-wrapper image-standard d-block" :to="{name: 'Product', params: {id: product.id}, query: sizes[0].product.color.length ? {color: sizes[0].product.color[0].id} : {}}">
+          <router-link class="image-wrapper image-standard d-block" :to="{name: 'Product', params: {id: product.id}, query: sizes[0].product.color ? {color: sizes[0].product.color.id} : {}}">
             <img class="card-img-top img-fluid" :src="images[0].original" :alt="product.name" v-if="images && images.length" />
             <img class="card-img-top img-fluid" :alt="sizes[0].product.name" v-else />
           </router-link>
@@ -115,15 +115,16 @@ export default {
     colors() {
       const colors = [];
 
-      if (this.product.color.length) {
-        colors.push(this.product.color[0]);
+      if (this.product.color) {
+        colors.push(this.product.color);
       }
+
       this.product.sub_products.forEach(subProduct => {
-        if (subProduct.color.length) {
-          const existColor = colors.find(color => color.id === subProduct.color[0].id);
+        if (subProduct.color) {
+          const existColor = colors.find(color => color.id === subProduct.color.id);
 
           if (!existColor) {
-            colors.push(subProduct.color[0]);
+            colors.push(subProduct.color);
           }
         }
       });
@@ -134,29 +135,29 @@ export default {
       const sizes = [];
 
       if (this.currentColor) {
-        if (this.product.size.length && this.product.color.length && this.product.color[0].id === this.currentColor.id) {
-          const size = Object.assign({}, this.product.size[0]);
+        if (this.product.size && this.product.color && this.product.color.id === this.currentColor.id) {
+          const size = Object.assign({}, this.product.size);
           size.product = this.product;
           sizes.push(size);
         }
 
         this.product.sub_products.forEach(subProduct => {
-          if (subProduct.size.length && subProduct.color.length && subProduct.color[0].id === this.currentColor.id) {
-            const size = Object.assign({}, subProduct.size[0]);
+          if (subProduct.size && subProduct.color && subProduct.color.id === this.currentColor.id) {
+            const size = Object.assign({}, subProduct.size);
             size.product = subProduct;
             sizes.push(size);
           }
         });
       } else {
-        if (this.product.size.length) {
-          const size = Object.assign({}, this.product.size[0]);
+        if (this.product.size) {
+          const size = Object.assign({}, this.product.size);
           size.product = this.product;
           sizes.push(size);
         }
 
         this.product.sub_products.forEach(subProduct => {
-          if (subProduct.size.length && this.product.size.length && subProduct.size[0].id !== this.product.size[0].id) {
-            const size = Object.assign({}, subProduct.size[0]);
+          if (subProduct.size && this.product.size && subProduct.size.id !== this.product.size.id) {
+            const size = Object.assign({}, subProduct.size);
             size.product = subProduct;
             sizes.push(size);
           }
@@ -175,7 +176,7 @@ export default {
         }
       }
 
-      if (!images.length && this.product.images && this.product.images.length && this.currentColor && this.product.color.length && this.currentColor.id === this.product.color[0].id) {
+      if (!images.length && this.product.images && this.product.images.length && this.currentColor && this.product.color && this.currentColor.id === this.product.color.id) {
         for (const image of this.product.images) {
           images.push(image);
         }
@@ -191,6 +192,7 @@ export default {
           }
         }
       }
+      console.log(this.sizes, images);
 
       return images;
     },

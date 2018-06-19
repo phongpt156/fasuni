@@ -177,6 +177,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     });
     $router->group(['prefix' => 'user'], function () use ($router) {
         $router->get('whistlist', 'UserController@getWhistlist');
+        $router->get('delivery-info', 'UserController@getDeliveryInfo');
     });
     $router->get('like-product/{id}', 'ProductLikerController@like');
     $router->get('dislike-product/{id}', 'ProductLikerController@dislike');

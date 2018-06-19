@@ -22,5 +22,9 @@ export default {
   getWhistlist(page = 1) {
     return httpClient.get(`${USER.getWhistlist}?page=${page}`)
       .catch(handleError);
+  },
+  getDeliveryInfo() {
+    return httpClient.get(USER.getDeliveryInfo)
+      .catch(handleError);
   }
 };

@@ -80,13 +80,9 @@ class ProductController extends Controller
             'category',
             'images',
             'inventories',
-            'color',
-            'size',
             'subProducts.images',
             'subProducts.category',
-            'subProducts.inventories',
-            'subProducts.color',
-            'subProducts.size'
+            'subProducts.inventories'
         ];
 
         $product = new Product;

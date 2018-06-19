@@ -47,4 +47,9 @@ class User extends Model implements
     {
         return $this->belongsToMany(Product::class, 'product_likers');
     }
+
+    public function customer()
+    {
+        return $this->hasOne(Customer::class);
+    }
 }
