@@ -8,11 +8,11 @@ use Illuminate\Support\Facades\File;
 
 class ImageUtility
 {
-    private const API_KEY = 'HKMS4B7gBoTfa4ASZlylTuDRs1SjX5XN';
-
     public static function compress($source, $destination)
     {
-        Tinify\setKey(self::API_KEY);
+        $apiKey = env('TINYPNG_API_KEY');
+
+        Tinify\setKey($apiKey);
         Tinify\fromFile($source)->toFile($destination);
     }
 

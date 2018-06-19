@@ -18,9 +18,9 @@ class FacebookController
     public function __construct()
     {
         $this->fb = new Facebook([
-            'app_id' => '2091371807815202',
-            'app_secret' => '043a71fec7cd0080d2cfb7e72f53d358',
-            'default_graph_version' => 'v2.12'
+            'app_id' => env('FACEBOOK_APP_ID'),
+            'app_secret' => env('FACEBOOK_APP_SECRET'),
+            'default_graph_version' => env('FACEBOOK_DEFAULT_GRAPH_VERSION')
         ]);
     }
 

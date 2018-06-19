@@ -15,7 +15,7 @@ class GoogleController
     public function __construct()
     {
         $this->client = new Google_Client([
-            'client_id' => '795486559552-fpp0f56m2jd49j4j5v1ah1omlet46q55.apps.googleusercontent.com'
+            'client_id' => env('GOOGLE_CLIENT_ID')
         ]);
     }
 
