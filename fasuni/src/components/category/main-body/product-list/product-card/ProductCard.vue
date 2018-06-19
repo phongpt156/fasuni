@@ -155,7 +155,7 @@ export default {
         }
 
         this.product.sub_products.forEach(subProduct => {
-          if (subProduct.size.length) {
+          if (subProduct.size.length && this.product.size.length && subProduct.size[0].id !== this.product.size[0].id) {
             const size = Object.assign({}, subProduct.size[0]);
             size.product = subProduct;
             sizes.push(size);
@@ -175,7 +175,7 @@ export default {
         }
       }
 
-      if (!images.length && this.product.images && this.product.images.length) {
+      if (!images.length && this.product.images && this.product.images.length && this.currentColor && this.product.color.length && this.currentColor.id === this.product.color[0].id) {
         for (const image of this.product.images) {
           images.push(image);
         }
