@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Queue;
-use Intervention\Image\ImageManager as Image;
 use App\Utility\ImageUtility;
 use App\Utility\FileUtility;
 use Illuminate\Support\Facades\File;
@@ -54,7 +53,7 @@ class ImageController extends Controller
             $formatFileName = FileUtility::getFormatFileName($request->file);
             $path = config('path.image.lookbook') . $formatFileName;
 
-            File::put($path, File::get($request->file));
+            ImageUtility::save($request->file, $path);
             ImageUtility::compress($path, $path);
 
             return response()->json(['url' => $formatFileName], 200);

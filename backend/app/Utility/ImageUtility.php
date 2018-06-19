@@ -47,4 +47,22 @@ class ImageUtility
             $constraint->aspectRatio();
         })->save($thumbnailPath);
     }
+
+    public static function isTooBig($file)
+    {
+        return (new Image)->make($file)->width() > 2000;
+    }
+
+    public static function save($file, $path)
+    {
+        $image = new Image;
+
+        if (self::isTooBig($file)) {
+            $image->make($file)->resize(1500, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($path);
+        } else {
+            $image->make($file)->save();
+        }
+    }
 }
