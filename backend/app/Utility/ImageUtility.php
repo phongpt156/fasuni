@@ -50,7 +50,7 @@ class ImageUtility
 
     public static function isTooBig($file)
     {
-        return (new Image)->make($file)->width() > 2000;
+        return (new Image)->make($file)->width() > 1200;
     }
 
     public static function save($file, $path)
@@ -58,7 +58,7 @@ class ImageUtility
         $image = new Image;
 
         if (self::isTooBig($file)) {
-            $image->make($file)->resize(1500, null, function ($constraint) {
+            $image->make($file)->resize(1200, null, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($path);
         } else {
