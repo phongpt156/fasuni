@@ -271,6 +271,22 @@ export default {
             sizes.push(size);
           }
         });
+      } else {
+        if (this.product.size && this.product.size.length) {
+          const size = Object.assign({}, this.product.size[0]);
+          size.product = this.product;
+          sizes.push(size);
+        }
+
+        if (this.product.sub_products) {
+          this.product.sub_products.forEach(subProduct => {
+            if (subProduct.size.length) {
+              const size = Object.assign({}, subProduct.size[0]);
+              size.product = subProduct;
+              sizes.push(size);
+            }
+          });
+        }
       }
 
       return sizes;
@@ -278,16 +294,27 @@ export default {
     images() {
       let images = [];
 
-      this.sizes.some(size => {
+      for (const size of this.sizes) {
         if (size.product.images && size.product.images.length) {
           images = size.product.images;
-          return true;
+          break;
         }
-      });
+      }
 
       if (!images.length && this.product.images && this.product.images.length) {
         for (const image of this.product.images) {
           images.push(image);
+        }
+      }
+
+      if (!images.length && !this.sizes.length && this.product.sub_products) {
+        for (const subProduct of this.product.sub_products) {
+          if (subProduct.images.length) {
+            for (const image of (subProduct.images)) {
+              images.push(image);
+            }
+            break;
+          }
         }
       }
 
