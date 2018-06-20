@@ -14,14 +14,14 @@ class ProductController extends Controller
         $products = Product::with(
             'category',
             'category.parent',
-            'category.parent.parent',
+            'category.parent',
             'images',
             'attributeValues.attribute',
             'inventories',
             'subProducts.images',
             'subProducts.category',
             'subProducts.category.parent',
-            'subProducts.category.parent.parent',
+            'subProducts.category.parent',
             'subProducts.attributeValues.attribute',
             'subProducts.inventories'
             )
