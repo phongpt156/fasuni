@@ -15,8 +15,8 @@
               </div>
             </div>
             <div class="col-7 p-2 right">
-              <p class="mb-0"><router-link :to="{name: 'Product', params: {id: product.id}, query: product.color.length ? {color: product.color[0].id} : {}}">{{ product.name }}</router-link></p>
-              <p class="mb-0" v-if="product.size.length">Size: {{ product.size[0].name }}</p>
+              <p class="mb-0"><router-link :to="{name: 'Product', params: {id: product.id}, query: product.color ? {color: product.color.id} : {}}">{{ product.name }}</router-link></p>
+              <p class="mb-0" v-if="product.size">Size: {{ product.size.name }}</p>
               <p class="mb-0">Số lượng: {{ product.quantity }}</p>
               <p class="mb-0">Tổng tiền: {{ totalPrice(product) | priceFormat }}</p>
             </div>

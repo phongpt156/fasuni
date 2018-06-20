@@ -156,10 +156,14 @@ export default {
         }
 
         this.product.sub_products.forEach(subProduct => {
-          if (subProduct.size && this.product.size && subProduct.size.id !== this.product.size.id) {
-            const size = Object.assign({}, subProduct.size);
-            size.product = subProduct;
-            sizes.push(size);
+          if (subProduct.size && this.product.size) {
+            const existSize = sizes.find(size => size.id === subProduct.size.id);
+
+            if (!existSize) {
+              const size = Object.assign({}, subProduct.size);
+              size.product = subProduct;
+              sizes.push(size);
+            }
           }
         });
       }
@@ -172,17 +176,30 @@ export default {
       for (const size of this.sizes) {
         if (size.product.images && size.product.images.length) {
           images = size.product.images;
-          break;
+
+          return images;
         }
       }
 
-      if (!images.length && this.product.images && this.product.images.length && this.currentColor && this.product.color && this.currentColor.id === this.product.color.id) {
+      if (this.colors.length) {
+        if (this.product.images && this.product.images.length && this.currentColor && this.product.color && this.currentColor.id === this.product.color.id) {
+          for (const image of this.product.images) {
+            images.push(image);
+          }
+
+          return images;
+        }
+      }
+
+      if (this.product.images && this.product.images.length) {
         for (const image of this.product.images) {
           images.push(image);
         }
+
+        return images;
       }
 
-      if (!images.length && !this.sizes.length && this.product.sub_products) {
+      if (!this.sizes.length && this.product.sub_products) {
         for (const subProduct of this.product.sub_products) {
           if (subProduct.images.length) {
             for (const image of (subProduct.images)) {
@@ -192,7 +209,6 @@ export default {
           }
         }
       }
-      console.log(this.sizes, images);
 
       return images;
     },

@@ -77,12 +77,18 @@ export default {
   },
   watch: {
     id(newValue) {
+      document.addEventListener('scroll', this.onScroll, {
+        passive: true
+      });
       this.getHierachyCategory(newValue);
       this.setEmptyProducts();
       this.getProducts(1);
     },
     category(newValue) {
       this.setBreadcrumbs(newValue);
+      document.addEventListener('scroll', this.onScroll, {
+        passive: true
+      });
     },
     colorsString(newValue) {
       this.$router.push({name: this.$route.name, params: {id: this.id, type: this.type}, query: { colors: newValue, sizes: this.sizes }});
@@ -93,14 +99,23 @@ export default {
     colors(newValue) {
       this.setEmptyProducts();
       this.getProducts(1);
+      document.addEventListener('scroll', this.onScroll, {
+        passive: true
+      });
     },
     sizes(newValue) {
       this.setEmptyProducts();
       this.getProducts(1);
+      document.addEventListener('scroll', this.onScroll, {
+        passive: true
+      });
     },
     type(newValue) {
       this.setEmptyProducts();
       this.getProducts(1);
+      document.addEventListener('scroll', this.onScroll, {
+        passive: true
+      });
     }
   },
   methods: {
@@ -159,7 +174,7 @@ export default {
     onScroll() {
       const footerHeight = document.querySelector('.footer').offsetHeight;
 
-      if (document.documentElement.scrollTop + window.innerHeight >= document.documentElement.scrollHeight - footerHeight) {
+      if (document.documentElement.scrollTop + window.innerHeight >= document.documentElement.scrollHeight - footerHeight - 100) {
         this.getProducts(this.pagination.current + 1);
       }
     }
