@@ -111,6 +111,9 @@
         <router-link class="p-3 d-flex justify-content-between category-link" :to="{name: 'StoreFinder'}">
           Cửa hàng
         </router-link>
+        <router-link class="p-3 d-flex justify-content-between category-link" :to="{name: 'Cart'}">
+          Giỏ hàng
+        </router-link>
         <div>
           <a v-if="user" id="userDropdownMobile" data-toggle="dropdown" class="p-3 d-flex justify-content-between category-link">
             {{ userName }}

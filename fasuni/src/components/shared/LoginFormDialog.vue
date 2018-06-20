@@ -163,5 +163,10 @@ export default {
       text-decoration: underline !important;
     }
   }
+
+  .mat-input-label, .mat-select-label {
+    text-transform: uppercase;
+    font-weight: bold;
+  }
 }
 </style>

@@ -19,6 +19,21 @@ export const ERROR_MESSAGE = {
   },
   lastName: {
     required: 'Vui lòng nhập họ của bạn'
+  },
+  name: {
+    required: 'Vui lòng nhập họ tên của bạn'
+  },
+  city: {
+    required: 'Vui lòng chọn Tỉnh/Thành phố'
+  },
+  district: {
+    required: 'Vui lòng chọn Quận/Huyện'
+  },
+  ward: {
+    required: 'Vui lòng chọn Phường/Xã'
+  },
+  address: {
+    required: 'Vui lòng nhập địa chỉ'
   }
 };
 

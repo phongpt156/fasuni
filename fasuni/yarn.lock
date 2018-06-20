@@ -439,6 +439,14 @@ autoprefixer@^7.1.2:
     postcss "^6.0.17"
     postcss-value-parser "^3.2.3"
 
+autosize-input@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/autosize-input/-/autosize-input-0.4.0.tgz#a5cdb43110e31f6a1d9fb695ccb747495af0bb5e"
+
+autosize@^4.0.0:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/autosize/-/autosize-4.0.2.tgz#073cfd07c8bf45da4b9fd153437f5bafbba1e4c9"
+
 aws-sign2@~0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/aws-sign2/-/aws-sign2-0.6.0.tgz#14342dd38dbcc94d0e5b87d763cd63612c0e794f"
@@ -7801,6 +7809,13 @@ vm-browserify@0.0.4:
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-0.0.4.tgz#5d7ea45bbef9e4a6ff65f95438e0a87c357d5a73"
   dependencies:
     indexof "0.0.1"
+
+vue-autosize@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/vue-autosize/-/vue-autosize-1.0.2.tgz#d4159848a7c0f839d49dea45412ce472cdd3a48a"
+  dependencies:
+    autosize "^4.0.0"
+    autosize-input "^0.4.0"
 
 vue-bootstrap-multiselect@^1.0.13:
   version "1.0.13"
