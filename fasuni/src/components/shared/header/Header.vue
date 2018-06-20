@@ -3,7 +3,6 @@
     <nav class="navbar navbar-expand-lg navbar-light">
       <img :src="images.icon" alt="" style="width: 60px; height: 60px; position: absolute; left: 47.5%; top: -2px" class="d-xl-block d-none" />
       <router-link class="navbar-brand branding-name h-100 d-flex align-items-center mt-0" :to="{name: 'Homepage'}">Fasuni</router-link>
-      <search-form v-if="!isLargeScreen"></search-form>
       <button class="navbar-toggler" type="button" @click="isOpenSidenavOverlay = !isOpenSidenavOverlay">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -109,6 +108,7 @@
         </ul>
       </div>
     </nav>
+    <search-form v-if="!isLargeScreen"></search-form>
     <login-form-dialog :isOpenLoginFormDialog.sync="isOpenLoginFormDialog" @openRegisterFormDialog="openRegisterFormDialog"></login-form-dialog>
     <register-form-dialog :isOpenRegisterFormDialog.sync="isOpenRegisterFormDialog" @openLoginFormDialog="openLoginFormDialog"></register-form-dialog>
     <sidenav-overlay
@@ -298,11 +298,6 @@ export default {
   background-color: #fefdfd;
 
   .category-list {
-    // .dropdown-toggle {
-    //   &:after {
-    //     content: none;
-    //   }
-    // }
     .dropdown-item {
       background-color: transparent !important;
 
@@ -365,6 +360,11 @@ export default {
   @include media-breakpoint-up(lg) {
     .category-list {
       height: 50px;
+    }
+    .header {
+      &>.navbar {
+        height: 50px;
+      }
     }
   }
 }

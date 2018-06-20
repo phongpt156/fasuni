@@ -58,13 +58,21 @@ export default {
 </script>
 
 <style lang="scss">
-  .app {
-    padding-top: 3.125rem;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+@import '~bootstrap/scss/bootstrap-grid';
 
-    .body {
-      background-color: #f8f7f7;
-    }
+.app {
+  padding-top: 112px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  .body {
+    background-color: #f8f7f7;
   }
+}
+
+@include media-breakpoint-up(lg) {
+  .app {
+    padding-top: 50px;
+  }
+}
 </style>
