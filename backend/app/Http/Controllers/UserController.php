@@ -20,20 +20,13 @@ class UserController extends Controller
         if ($user) {
             $products = Product::with(
                 'images',
-                'color',
                 'masterProduct.images',
-                'masterProduct.color',
-                'subProducts.images',
-                'subProducts.color'
+                'subProducts.images'
             )
             ->whereHas('productLikers', function ($query) use ($user) {
                 return $query->whereUserId($user->id);
             })
             ->paginate(20);
-
-            // $user->each(function ($user) use (&$products) {
-            //     $products = $user->likedProducts;
-            // });
 
             return response()->json($products, 200);
         }
