@@ -1,5 +1,5 @@
 <template>
-  <form class="mat-form" ref="form" @submit.prevent="onSubmit">
+  <form class="mat-form" ref="form" @submit.prevent="onSubmit" :class="{inline: inline}">
     <slot></slot>
   </form>
 </template>
@@ -18,6 +18,10 @@ export default {
       default() {
         return {};
       }
+    },
+    inline: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -36,8 +40,10 @@ export default {
 
       this.$children.forEach((childComponent, index) => {
         childComponent.isValidateWhenTyping = true;
+
         if (childComponent.validate) {
           childComponent.validate(childComponent.value);
+
           if (childComponent.hasError && !focused) {
             isValid = false;
             focused = true;
@@ -82,3 +88,23 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.mat-form {
+  &.inline {
+    .mat-input, .mat-select {
+      &-container {
+        display: flex;
+      }
+      &-label {
+        width: 150px;
+        margin-right: 20px;
+      }
+      &-wrapper {
+        top: -5px;
+        flex-grow: 1;
+      }
+    }
+  }
+}
+</style>

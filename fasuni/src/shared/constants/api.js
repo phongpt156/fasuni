@@ -8,7 +8,12 @@ export const AUTH = {
 };
 
 export const CITY = {
-  getAll: BASE_URL + '/city'
+  getAll: BASE_URL + '/city',
+  getDistricts: BASE_URL + '/city/district/'
+};
+
+export const DISTRICT = {
+  getWards: BASE_URL + '/district/ward/'
 };
 
 export const FACEBOOK = {

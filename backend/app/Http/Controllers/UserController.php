@@ -41,9 +41,9 @@ class UserController extends Controller
         $user = $auth::guard()->user();
 
         if ($user) {
-            $info = Customer::with('orders.deliveryDetail')->whereUserId($user->id)->first();
+            $user = User::with('customer')->find($user->id)->first();
 
-            return response()->json($info, 200);
+            return response()->json($user, 200);
         }
 
         return response()->json(null, 200);

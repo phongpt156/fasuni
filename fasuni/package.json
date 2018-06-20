@@ -24,6 +24,7 @@
     "jquery": "^3.3.1",
     "jssor-slider": "^27.1.0",
     "popper.js": "^1.14.3",
+    "vue-autosize": "^1.0.2",
     "vue-bootstrap-multiselect": "^1.0.13",
     "vue-carousel": "^0.8.0",
     "vue-form-wizard": "^0.8.4",

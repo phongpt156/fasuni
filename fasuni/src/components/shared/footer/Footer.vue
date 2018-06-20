@@ -25,7 +25,7 @@
       <div class="col-md-3 d-flex flex-column">
         <p class="font-weight-bold text-uppercase text-white mt-3">Đăng ký tư vấn</p>
         <p class="mb-0 text-uppercase text-white font-size-sm">Gửi thông tin cho chúng tôi</p>
-        <form class="form-inline search-form py-2">
+        <form class="form-inline search-form py-2 flex-nowrap">
           <input class="form-control text-dark" />
           <button class="btn my-2 my-sm-0 text-white" type="button">Gửi</button>
         </form>

@@ -150,6 +150,10 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     });
     $router->group(['prefix' => 'city'], function () use ($router) {
         $router->get('', 'CityController@index');
+        $router->get('district/{id}', 'CityController@getDistricts');
+    });
+    $router->group(['prefix' => 'district'], function () use ($router) {
+        $router->get('ward/{id}', 'DistrictController@getWards');
     });
     $router->group(['prefix' => 'category'], function () use ($router) {
         $router->get('', 'CategoryController@index');

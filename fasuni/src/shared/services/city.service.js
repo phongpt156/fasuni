@@ -6,5 +6,9 @@ export default {
   getAll() {
     return httpClient.get(CITY.getAll)
       .catch(handleError);
+  },
+  getDistricts(id) {
+    return httpClient.get(`${CITY.getDistricts}${id}`)
+      .catch(handleError);
   }
 };

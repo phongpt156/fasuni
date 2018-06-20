@@ -61,7 +61,7 @@ export default {
 @import '~bootstrap/scss/bootstrap-grid';
 
 .app {
-  padding-top: 112px;
+  padding-top: 96px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 

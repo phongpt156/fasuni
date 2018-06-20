@@ -1,7 +1,7 @@
 <template>
-  <form class="form-inline search-form py-2 flex-nowrap" @submit.prevent="onSubmit">
+  <form class="form-inline search-form flex-nowrap" @submit.prevent="onSubmit">
     <input class="form-control text-dark" type="search" placeholder="Enter keyword" aria-label="Search" v-model="name">
-    <button class="btn my-2 text-white" type="submit">Search</button>
+    <button class="btn text-white" type="submit">Search</button>
   </form>
 </template>
 
@@ -29,7 +29,6 @@ export default {
 .search-form {
   input {
     width: auto;
-    flex-grow: 1;
     font-size: 0.7rem;
     display: inline-block;
     border-radius: 30px 0 0 30px;
@@ -52,8 +51,21 @@ export default {
 }
 
 @include media-breakpoint-up(lg) {
-  input {
-    min-width: 200px;
+  .search-form {
+
+    input {
+      min-width: 200px;
+    }
+  }
+}
+@include media-breakpoint-down(lg) {
+  .search-form {
+    padding-top: 1rem;
+
+    input {
+      min-width: 200px;
+      flex-grow: 1;
+    }
   }
 }
 </style>

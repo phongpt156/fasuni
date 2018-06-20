@@ -14,8 +14,8 @@ class AddDistrictIdAndWardIdColumnToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedInteger('district_id')->nullable();
-            $table->unsignedInteger('ward_id')->nullable();
+            $table->unsignedInteger('district_id')->after('living_city_id')->nullable();
+            $table->unsignedInteger('ward_id')->after('district_id')->nullable();
 
             $table->foreign('district_id')->references('id')->on('districts')->onDelete('set null');
             $table->foreign('ward_id')->references('id')->on('wards')->onDelete('set null');

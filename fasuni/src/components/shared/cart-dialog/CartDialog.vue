@@ -15,7 +15,7 @@
               </div>
             </div>
             <div class="col-7 p-2 right">
-              <p class="mb-0"><router-link :to="{name: 'Product', params: {id: product.id}, query: product.color ? {color: product.color.id} : {}}">{{ product.name }}</router-link></p>
+              <p class="mb-0"><router-link :to="{name: 'Product', params: {id: product.master_product_id || product.id}, query: product.color ? {color: product.color.id} : {}}">{{ product.name }}</router-link></p>
               <p class="mb-0" v-if="product.size">Size: {{ product.size.name }}</p>
               <p class="mb-0">Số lượng: {{ product.quantity }}</p>
               <p class="mb-0">Tổng tiền: {{ totalPrice(product) | priceFormat }}</p>
@@ -26,7 +26,7 @@
           <router-link :to="{name: 'Cart'}">Xem giỏ hàng ({{ products.length }} sản phẩm)</router-link>
           <p class="mb-0">Tổng tiền: {{ totalBagPrice | priceFormat }}</p>
         </div>
-        <button class="payment w-100">Đặt hàng</button>
+        <button class="payment w-100" @click="$router.push({name: 'Checkout'})">Đặt hàng</button>
       </div>
     </template>
     <template v-else>
@@ -70,6 +70,9 @@ export default {
     ...mapMutations('cart', {
       removeProductFromCart: 'remove'
     })
+  },
+  mounted() {
+    console.log(this.products);
   }
 };
 </script>

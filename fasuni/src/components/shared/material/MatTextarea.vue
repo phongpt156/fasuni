@@ -1,24 +1,26 @@
 <template>
-  <div class="mat-select-container mb-4" :class="{'mat-select-focus': isFocus, 'mat-select-default': value === '', 'has-error': hasError}">
-    <div class="mb-1 mat-select-label">{{ inputLabel }}</div>
-    <div class="mat-select-wrapper">
-      <div class="mat-select-flex">
-        <div class="mat-select-infix">
-          <select
-            class="mat-select-element"
-            @change="onChange($event.target.value)"
+  <div class="mat-input-container mb-4" :class="{'mat-input-focus': isFocus, 'has-error': hasError}">
+    <div class="mb-1 mat-input-label">{{ inputLabel }}</div>
+    <div class="mat-input-wrapper">
+      <div class="mat-input-flex">
+        <div class="mat-input-infix">
+          <textarea
+            class="mat-input-element"
+            :type="type"
             :value="value"
+            :placeholder="placeholder"
+            @input="onInput($event.target.value)"
             @focus="isFocus = true"
-            @blur="isFocus = false">
-            <option value="" style="color: rgb(117, 117, 117)">{{ placeholder }}</option>
-            <slot name="option"></slot>
-          </select>
+            @blur="isFocus = false"
+            v-autosize="value"
+            rows="1">
+          </textarea>
         </div>
       </div>
-      <div class="mat-select-underline">
-        <span class="mat-select-ripple"></span>
+      <div class="mat-input-underline">
+        <span class="mat-input-ripple"></span>
       </div>
-      <div class="mat-select-error text-nowrap" v-if="hasError">{{ errorMessage }}</div>
+      <div class="mat-input-error text-nowrap" v-if="hasError">{{ errorMessage }}</div>
     </div>
   </div>
 </template>
@@ -38,7 +40,7 @@ export default {
       default: 'text'
     },
     value: {
-      type: [Number, String],
+      type: String,
       default: ''
     },
     label: {
@@ -53,8 +55,10 @@ export default {
   data() {
     return {
       isFocus: false,
+      isValidateWhenTyping: false,
       errorMessage: '',
       hasError: false,
+      validator: '',
       errorMessages: {
         required: '',
         validator: ''
@@ -67,9 +71,11 @@ export default {
     }
   },
   methods: {
-    onChange(value) {
-      this.hasError = false;
+    onInput(value) {
       this.$emit('input', value);
+      if (this.isValidateWhenTyping) {
+        this.validate(value);
+      }
     },
     validate(value) {
       this.hasError = false;
@@ -96,12 +102,12 @@ export default {
 $accent-color: rgb(0, 113, 56);
 $danger-color: #f44336;
 
-.mat-select {
+.mat-input {
   &-container {
     width: 100%;
 
     &.has-error {
-      .mat-select {
+      .mat-input {
         &-label {
           color: $danger-color;
         }
@@ -115,16 +121,11 @@ $danger-color: #f44336;
         &-underline {
           background-color: $danger-color;
 
-          .mat-select-ripple {
+          .mat-input-ripple {
             background-color: $danger-color;
           }
         }
       }
-    }
-  }
-  &-default {
-    .mat-select-element {
-      color: rgb(117, 117, 117);
     }
   }
   &-wrapper {
@@ -142,13 +143,14 @@ $danger-color: #f44336;
     flex: auto;
     display: block;
 
-    .mat-select-element {
+    .mat-input-element {
       width: 100%;
       vertical-align: bottom;
+      resize: none;
       padding: 0;
       outline: 0;
       max-width: 100%;
-      cursor: pointer;
+      caret-color: $accent-color;
       border: none;
       background-color: transparent;
     }
@@ -160,7 +162,7 @@ $danger-color: #f44336;
     bottom: 0;
     background-color: rgba(0,0,0,.42);
 
-    .mat-select-ripple {
+    .mat-input-ripple {
       width: 100%;
       visibility: hidden;
       transition: background-color .3s cubic-bezier(.55,0,.55,.2);
@@ -175,7 +177,7 @@ $danger-color: #f44336;
     }
   }
   &-focus {
-    .mat-select {
+    .mat-input {
       &-ripple {
         visibility: visible;
         transition: transform .3s cubic-bezier(.25,.8,.25,1),opacity .1s cubic-bezier(.25,.8,.25,1), background-color .3s cubic-bezier(.25,.8,.25,1);
