@@ -120,12 +120,12 @@
             <slide class="px-2 relevant-product" v-for="product in relevantProducts" :key="product.id">
               <router-link
                 class="d-block image-wrapper image-standard"
-                :to="{name: 'Product', params: {id: product.id}, query: product.color.length ? {color: product.color[0].id} : {}}">
+                :to="{name: 'Product', params: {id: product.id}, query: product.color ? {color: product.color.id} : {}}">
                 <img v-if="relevantProductImage(product)" :src="relevantProductImage(product).original" :alt="product.name" />
                 <img :alt="product.name" class="img-fluid" v-else />
               </router-link>
               <p class="font-size-base text-upper-case my-1">{{ product.name }}</p>
-              <router-link class="detail-button" :to="{name: 'Product', params: {id: product.id}, query: product.color.length ? {color: product.color[0].id} : {}}">Chi tiết >></router-link>
+              <router-link class="detail-button" :to="{name: 'Product', params: {id: product.id}, query: product.color ? {color: product.color.id} : {}}">Chi tiết >></router-link>
             </slide>
           </carousel>
         </div>
@@ -136,7 +136,7 @@
             <slide class="px-2 recently-view-product" v-for="product in recentlyViewedProducts" :key="product.id">
               <router-link
                 class="d-block image-wrapper image-standard"
-                :to="{name: 'Product', params: {id: product.id}, query: product.color.length ? {color: product.color[0].id}: {}}">
+                :to="{name: 'Product', params: {id: product.id}, query: product.color ? {color: product.color.id}: {}}">
                 <img v-if="product.images && product.images.length" :src="product.images[0].original" :alt="product.name" />
                 <img :alt="product.name" class="img-fluid" v-else />
               </router-link>
@@ -228,16 +228,16 @@ export default {
     colors() {
       const colors = [];
 
-      if (this.product.color && this.product.color.length) {
-        colors.push(this.product.color[0]);
+      if (this.product.color) {
+        colors.push(this.product.color);
       }
       if (this.product.sub_products) {
         this.product.sub_products.forEach(subProduct => {
-          if (subProduct.color.length) {
-            const existColor = colors.find(color => color.id === subProduct.color[0].id);
+          if (subProduct.color) {
+            const existColor = colors.find(color => color.id === subProduct.color.id);
 
             if (!existColor) {
-              colors.push(subProduct.color[0]);
+              colors.push(subProduct.color);
             }
           }
         });
@@ -258,30 +258,30 @@ export default {
       const sizes = [];
 
       if (this.currentColor) {
-        if (this.product.size.length && this.product.color.length && this.product.color[0].id === this.currentColor.id) {
-          const size = Object.assign({}, this.product.size[0]);
+        if (this.product.size && this.product.color && this.product.color.id === this.currentColor.id) {
+          const size = Object.assign({}, this.product.size);
           size.product = this.product;
           sizes.push(size);
         }
 
         this.product.sub_products.forEach(subProduct => {
-          if (subProduct.size.length && subProduct.color.length && subProduct.color[0].id === this.currentColor.id) {
-            const size = Object.assign({}, subProduct.size[0]);
+          if (subProduct.size && subProduct.color && subProduct.color.id === this.currentColor.id) {
+            const size = Object.assign({}, subProduct.size);
             size.product = subProduct;
             sizes.push(size);
           }
         });
       } else {
-        if (this.product.size && this.product.size.length) {
-          const size = Object.assign({}, this.product.size[0]);
+        if (this.product.size) {
+          const size = Object.assign({}, this.product.size);
           size.product = this.product;
           sizes.push(size);
         }
 
         if (this.product.sub_products) {
           this.product.sub_products.forEach(subProduct => {
-            if (subProduct.size.length) {
-              const size = Object.assign({}, subProduct.size[0]);
+            if (subProduct.size) {
+              const size = Object.assign({}, subProduct.size);
               size.product = subProduct;
               sizes.push(size);
             }
@@ -325,9 +325,9 @@ export default {
         return product.images[0];
       }
 
-      if (product.color.length) {
+      if (product.color) {
         for (const subProduct of product.sub_products) {
-          if (subProduct.color.length && subProduct.color[0].id === product.color[0].id && subProduct.images.length) {
+          if (subProduct.color && subProduct.color.id === product.color.id && subProduct.images.length) {
             return subProduct.images[0];
           }
         }
@@ -477,6 +477,7 @@ export default {
       this.recentlyViewedProducts = [];
       await this.getProduct(this.$route.params.id);
       this.formatRecentlyViewedProducts();
+      this.selectedSize = {};
       this.loading = false;
     },
     scrollTop() {

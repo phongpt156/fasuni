@@ -21,14 +21,14 @@
             </td>
             <td>{{ product.name }}</td>
             <td>
-              <template v-if="product.color.length">
-                <div class="color mx-auto" :style="{backgroundColor: product.color[0].value}"></div>
-                <p class="mb-0 mt-2">{{ product.color[0].name }}</p>
+              <template v-if="product.color">
+                <div class="color mx-auto" :style="{backgroundColor: product.color.value}"></div>
+                <p class="mb-0 mt-2">{{ product.color.name }}</p>
               </template>
             </td>
             <td>
-              <template v-if="product.size.length">
-                {{ product.size[0].name }}
+              <template v-if="product.size">
+                {{ product.size.name }}
               </template>
               <template v-else>
                 Free Size
@@ -52,7 +52,7 @@
         <div>
           Tổng tiền: {{ totalPrice | priceFormat }}
         </div>
-        <button class="payment mt-3">Thanh toán</button>
+        <button class="payment mt-3" @click="$router.push({name: 'Checkout'})">Đặt hàng</button>
       </div>
     </div>
     <h3 v-else class="text-center py-5">Giỏ hàng trống</h3>

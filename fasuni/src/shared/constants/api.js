@@ -54,5 +54,6 @@ export const COLLECTION = {
 };
 
 export const USER = {
-  getWhistlist: BASE_URL + '/user/whistlist'
+  getWhistlist: BASE_URL + '/user/whistlist',
+  getDeliveryInfo: BASE_URL + '/user/delivery-info'
 };

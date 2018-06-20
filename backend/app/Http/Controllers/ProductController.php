@@ -16,9 +16,7 @@ class ProductController extends Controller
             'inventories',
             'subProducts.images',
             'subProducts.category',
-            'subProducts.inventories',
-            'color',
-            'size'
+            'subProducts.inventories'
         ];
 
         $product = new Product;
@@ -57,13 +55,9 @@ class ProductController extends Controller
                 'category',
                 'images',
                 'inventories',
-                'color',
-                'size',
                 'subProducts.images',
                 'subProducts.category',
-                'subProducts.inventories',
-                'subProducts.color',
-                'subProducts.size'
+                'subProducts.inventories'
             )
             ->whereId($id)
             ->whereNull('master_product_id')
@@ -80,13 +74,9 @@ class ProductController extends Controller
             'category',
             'images',
             'inventories',
-            'color',
-            'size',
             'subProducts.images',
             'subProducts.category',
-            'subProducts.inventories',
-            'subProducts.color',
-            'subProducts.size'
+            'subProducts.inventories'
         ];
 
         $product = new Product;
@@ -166,13 +156,9 @@ class ProductController extends Controller
             'category',
             'images',
             'inventories',
-            'color',
-            'size',
             'subProducts.images',
             'subProducts.category',
-            'subProducts.inventories',
-            'subProducts.color',
-            'subProducts.size'
+            'subProducts.inventories'
         ];
 
         $product = new Product;
@@ -242,7 +228,7 @@ class ProductController extends Controller
         if ($request->has('category')) {
             $category = $request->category;
 
-            $products = Product::with('images', 'size', 'color', 'subProducts.images', 'subProducts.color')
+            $products = Product::with('images', 'subProducts.images')
             ->whereNull('master_product_id')
             ->where(function ($query) use ($category) {
                 $query->whereHas('category', function ($query) use ($category) {
