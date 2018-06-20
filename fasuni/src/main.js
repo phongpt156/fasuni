@@ -15,7 +15,7 @@ Vue.config.productionTip = false;
 sync(store, router);
 
 // fix incorrect old storage data format
-const fixedDate = new Date('06-20-2018 10:17').toISOString();
+const fixedDate = new Date('06/20/2018 10:17').toISOString();
 
 if (localStorage.getItem('fixed')) {
   const oldFixedDate = new Date(localStorage.getItem('fixed')).toISOString();
