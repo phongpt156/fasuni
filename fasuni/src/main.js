@@ -9,6 +9,7 @@ import store from './store';
 import '@/assets/scripts';
 import '@/package/progress-bar';
 import '@/package/scroll-reveal';
+import 'babel-polyfill';
 
 Vue.config.productionTip = false;
 
