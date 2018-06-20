@@ -32,11 +32,7 @@ class LookbookController extends Controller
         $startDate = DateTime::create($year, $month)->firstOfMonth();
         $endDate = DateTime::create($year, $month)->lastOfMonth();
 
-        $lookbooks = Lookbook::with([
-                'products.size',
-                'products.color'
-            ])
-            ->where(function ($query) {
+        $lookbooks = Lookbook::where(function ($query) {
                 return $query->whereHas('products.masterProduct', function ($query) {
                     return $query->whereIsActive(1)->whereIsDisplay(1);
                 })

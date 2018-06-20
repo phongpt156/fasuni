@@ -15,14 +15,14 @@
           </div>
         </div>
         <div class="px-5 col-md-4">
-          <div class="collection-item">
-            <a class="d-block h-100 image-wrapper image-2-3"><img :src="images.collection3" alt="" class="w-100 h-100" /></a>
+          <router-link class="collection-item d-block" :to="{name: 'Lookbook', params: {gender: 1, year: 2018, month: 6}}">
+            <div class="d-block h-100 image-wrapper image-2-3"><img :src="images.collection3" alt="" class="w-100 h-100" /></div>
             <div class="name">
               <div class="d-flex align-items-center justify-content-center h-100">
                 <p class="text-center text-uppercase mt-3" style="font-size: 1.5rem">Shop Men</p>
               </div>
             </div>
-          </div>
+          </router-link>
         </div>
         <div class="px-5 col-md-4">
           <div class="collection-item">
