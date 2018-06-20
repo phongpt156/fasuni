@@ -22,7 +22,7 @@ class LookbookController extends Controller
 
     public function show($id)
     {
-        $lookbook = Lookbook::with('products', 'products.images', 'products.size', 'products.color')->find($id);
+        $lookbook = Lookbook::with('products.images')->find($id);
 
         return response()->json($lookbook, 200);
     }
@@ -151,7 +151,7 @@ class LookbookController extends Controller
     public function searchProduct(Request $request)
     {
 
-        $products = Product::with('images', 'size', 'color')
+        $products = Product::with('images')
             ->whereIsActive(true)
             ->whereIsDisplay(true);
 
