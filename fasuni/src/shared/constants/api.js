@@ -62,3 +62,7 @@ export const USER = {
   getWhistlist: BASE_URL + '/user/whistlist',
   getDeliveryInfo: BASE_URL + '/user/delivery-info'
 };
+
+export const ORDER = {
+  store: BASE_URL + '/order'
+};
