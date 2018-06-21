@@ -37,6 +37,17 @@ class HttpClient
         }
     }
 
+    public function put($url, $options = [])
+    {
+        try {
+            $response = $this->client->put($url, $options);
+
+            return $response;
+        } catch (GuzzleRequestException $e) {
+            throw new RequestException($e->getResponse()->getBody());
+        }
+    }
+
     public function delete($url, $options = [])
     {
         try {

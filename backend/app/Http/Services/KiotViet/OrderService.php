@@ -37,4 +37,42 @@ class OrderService
             die;
         }
     }
+
+    public function create($payload)
+    {
+        try {
+            $response = $this->httpClient->put('orders/520875', [
+                'json' => $payload
+            ]);
+
+            $response = $response->getBody()->getContents();
+            $response = json_decode($response);
+
+            return $response;
+        } catch (RequestException $e) {
+            $message = $e->getMessage();
+
+            \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot create order: ' . $message);
+            if (is_object(json_decode($message))) {
+                if (isset($message->ResponseStatus)) {
+                    response()->json(['error' => 'Cannot create order: ' . json_decode($message)->ResponseStatus->Message], 500)->send();
+                } else {
+                    response()->json(['error' => 'Cannot create order: ' . json_decode($message)->responseStatus->message], 500)->send();
+                }
+            } else {
+                response()->json(['error' => 'Cannot create order: ' . $message], 500)->send();
+            }
+
+            die;
+        }
+    }
+
+    public function formatPostData($payload)
+    {
+        $formatData = [
+            'json' => [
+                
+            ]
+        ];
+    }
 }
