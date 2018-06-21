@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Customer;
+use App\Models\Order;
 
 class UserController extends Controller
 {
@@ -32,20 +33,5 @@ class UserController extends Controller
         }
 
         return response()->json([], 200);
-    }
-
-    public function getDeliveryInfo()
-    {
-        $auth = new Auth;
-
-        $user = $auth::guard()->user();
-
-        if ($user) {
-            $user = User::with('customer')->find($user->id)->first();
-
-            return response()->json($user, 200);
-        }
-
-        return response()->json(null, 200);
     }
 }

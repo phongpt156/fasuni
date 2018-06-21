@@ -211,7 +211,8 @@ export default {
       userService.getDeliveryInfo()
         .then(response => {
           if (response && response.status === 200 && response.data) {
-            this.fillCheckoutForm(response.data);
+            console.log(response);
+            // this.fillCheckoutForm(response.data);
           }
         });
     },
@@ -282,7 +283,7 @@ export default {
   },
   mounted() {
     if (this.user) {
-      this.getDeliveryInfo();
+      // this.getDeliveryInfo();
     }
     this.getCities();
   }
