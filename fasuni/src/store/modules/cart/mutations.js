@@ -42,5 +42,11 @@ export default {
       product.quantity = quantity;
       this.commit('cart/saveCartToStorage');
     }
+  },
+  setDeliveryDetail(state, data) {
+    state.deliveryDetail = data;
+  },
+  updateDeliveryDetailInfo(state, payload) {
+    state.deliveryDetail[payload.field] = payload.value;
   }
 };

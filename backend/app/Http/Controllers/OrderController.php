@@ -120,7 +120,7 @@ class OrderController extends Controller
             try {
                 DeliveryDetail::updateOrCreate(
                     ['order_id' => $order->id],
-                    ['receiver_name' => $request->receiver_name, 'receiver_phone' => $request->receiver_phone, 'receiver_address' => $request->receiver_address, 'note' => $request->note, 'receiver_district_id' => $request->receiver_district_id, 'receiver_ward_id' => $request->receiver_ward_id]
+                    ['receiver_name' => $request->receiver_name, 'receiver_phone' => $request->receiver_phone, 'receiver_address' => $request->receiver_address, 'note' => $request->note, 'receiver_district_id' => $request->receiver_district_id, 'receiver_ward_id' => $request->receiver_ward_id ?? null]
                 );
             } catch (QueryException $e) {
                 \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save delivery detail: ' . $e->getMessage());

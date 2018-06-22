@@ -66,3 +66,8 @@ export const USER = {
 export const ORDER = {
   store: BASE_URL + '/order'
 };
+
+export const USER_DELIVERY_INFO = {
+  getInfoOfUser: BASE_URL + '/user-delivery-info/user',
+  store: BASE_URL + '/user-delivery-info'
+};

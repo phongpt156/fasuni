@@ -2,7 +2,7 @@
   <div class="d-flex justify-content-center my-5">
     <mat-form
       ref="checkoutForm"
-      :model="checkoutForm"
+      :model="deliveryDetail"
       :rules="checkoutRules"
       @submit="onSubmit"
       :inline="true">
@@ -12,7 +12,8 @@
           placeholder="Nhập họ tên"
           :required="true"
           type="text"
-          v-model="checkoutForm.receiver_name"
+          :value="deliveryDetail.receiver_name"
+          @input="doUpdateDeliveryDetailInfo('receiver_name', $event)"
           prop="receiver_name">
         </mat-input>
       </div>
@@ -22,7 +23,8 @@
           placeholder="Nhập số điện thoại"
           :required="true"
           type="text"
-          v-model="checkoutForm.receiver_phone"
+          :value="deliveryDetail.receiver_phone"
+          @input="doUpdateDeliveryDetailInfo('receiver_phone', $event)"
           prop="receiver_phone">
         </mat-input>
       </div>
@@ -31,7 +33,8 @@
           label="Tỉnh/Thành phố"
           placeholder="Chọn Tỉnh/Thành phố"
           type="text"
-          v-model.number="checkoutForm.receiver_city_id"
+          :value="deliveryDetail.receiver_city_id"
+          @input="changeCity"
           :required="true"
           prop="receiver_city_id">
           <option
@@ -49,7 +52,8 @@
           label="Quận/Huyện"
           placeholder="Chọn Quận/Huyện"
           type="text"
-          v-model.number="checkoutForm.receiver_district_id"
+          :value="deliveryDetail.receiver_district_id"
+          @input="changeDistrict"
           :required="true"
           prop="receiver_district_id">
           <option
@@ -67,8 +71,8 @@
           label="Phường/Xã"
           placeholder="Chọn Phường/Xã"
           type="text"
-          v-model.number="checkoutForm.receiver_ward_id"
-          :required="true"
+          :value="deliveryDetail.receiver_ward_id"
+          @input="changeWard"
           prop="receiver_ward_id">
           <option
             v-for="ward in wards"
@@ -85,7 +89,8 @@
           label="Địa chỉ"
           placeholder="Nhập địa chỉ"
           type="text"
-          v-model="checkoutForm.receiver_address"
+          :value="deliveryDetail.receiver_address"
+          @input="doUpdateDeliveryDetailInfo('receiver_address', $event)"
           :required="true"
           prop="receiver_address">
         </mat-textarea>
@@ -95,7 +100,8 @@
           label="Ghi chú"
           placeholder="Nhập ghi chú cho đơn hàng"
           type="text"
-          v-model="checkoutForm.note">
+          :value="deliveryDetail.note"
+          @input="doUpdateDeliveryDetailInfo('note', $event)">
         </mat-textarea>
       </div>
       <div class="text-center mt-5">
@@ -107,16 +113,16 @@
 
 <script>
 import { ERROR_MESSAGE, PATTERN } from '@/shared/constants';
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 import MatInput from '@/components/shared/material/MatInput';
 import MatForm from '@/components/shared/material/MatForm';
 import MatSelect from '@/components/shared/material/MatSelect';
 import MatTextarea from '@/components/shared/material/MatTextarea';
 import MatButton from '@/components/shared/material/MatButton';
-import userService from '@/shared/services/user.service';
+// import userService from '@/shared/services/user.service';
 import cityService from '@/shared/services/city.service';
 import districtService from '@/shared/services/district.service';
-import orderService from '@/shared/services/order.service';
+import userDeliveryInfoService from '@/shared/services/user-delivery-info.service';
 
 export default {
   components: {
@@ -128,16 +134,6 @@ export default {
   },
   data() {
     return {
-      checkoutForm: {
-        receiver_name: '',
-        receiver_phone: '',
-        receiver_city_id: '',
-        receiver_district_id: '',
-        receiver_ward_id: '',
-        receiver_address: '',
-        note: '',
-        products: []
-      },
       checkoutRules: {
         receiver_name: [
           { required: true, message: ERROR_MESSAGE.name.required }
@@ -151,9 +147,6 @@ export default {
         ],
         receiver_district_id: [
           { required: true, message: ERROR_MESSAGE.district.required }
-        ],
-        receiver_ward_id: [
-          { required: true, message: ERROR_MESSAGE.ward.required }
         ],
         receiver_address: [
           { required: true, message: ERROR_MESSAGE.address.required }
@@ -170,59 +163,51 @@ export default {
       'user'
     ]),
     ...mapState('cart', [
-      'products'
-    ]),
-    receiverCityId() {
-      return this.checkoutForm.receiver_city_id;
-    },
-    receiverDistrictId() {
-      return this.checkoutForm.receiver_district_id;
-    },
-    totalPrice() {
-      let total = 0;
-      this.products.forEach(product => {
-        total += product.sale_price * product.quantity;
-      });
-
-      return total;
-    }
+      'products',
+      'deliveryDetail'
+    ])
   },
   watch: {
     user(newValue) {
       if (newValue) {
-        this.getDeliveryInfo();
+        this.getInfoOfUser();
       }
-    },
-    receiverCityId(newValue) {
-      this.checkoutForm.receiver_district_id = '';
-      this.checkoutForm.receiver_ward_id = '';
-      this.getDistrictsOfCity(newValue);
-    },
-    receiverDistrictId(newValue) {
-      this.checkoutForm.receiver_ward_id = '';
-      this.getWardsOfDistrict(newValue);
-    },
-    step(newValue, oldValue) {
-      this.$refs.formWizard.changeTab(oldValue, newValue);
     }
   },
   methods: {
-    getDeliveryInfo() {
-      userService.getDeliveryInfo()
+    ...mapMutations('cart', [
+      'updateDeliveryDetailInfo',
+      'setDeliveryDetail'
+    ]),
+    getInfoOfUser() {
+      userDeliveryInfoService.getInfoOfUser()
         .then(response => {
           if (response && response.status === 200 && response.data) {
-            console.log(response);
-            // this.fillCheckoutForm(response.data);
+            this.fillCheckoutForm(response.data);
           }
         });
     },
-    fillCheckoutForm(data) {
-      this.checkoutForm.receiver_name = data.name || data.facebook_name || data.google_name || `${data.first_name} ${data.last_name}`;
-      this.checkoutForm.receiver_phone = data.phone_number;
+    async fillCheckoutForm(data) {
+      const body = {};
 
-      this.checkoutForm.city_id = data.city_id;
-      this.checkoutForm.district_id = data.district_id;
-      this.checkoutForm.ward_id = data.ward_id;
+      if (data.id) {
+        await Promise.all([this.getDistrictsOfCity(data.district.city_id), this.getWardsOfDistrict(data.receiver_district_id)]);
+
+        body.receiver_name = data.receiver_name;
+        body.receiver_phone = data.receiver_phone;
+        body.receiver_city_id = data.district.city_id;
+        body.receiver_district_id = data.receiver_district_id;
+        body.receiver_ward_id = data.receiver_ward_id;
+        body.receiver_address = data.receiver_address;
+      } else {
+        body.receiver_name = this.user.name || this.user.facebook_name || this.user.google_name || `${this.user.first_name} ${this.user.last_name}`;
+        body.receiver_phone = this.user.phone_number;
+        body.receiver_city_id = this.user.living_city_id;
+
+        this.getDistrictsOfCity(this.user.living_city_id);
+      }
+
+      this.setDeliveryDetail(body);
     },
     getCities() {
       cityService.getAll()
@@ -233,57 +218,87 @@ export default {
         });
     },
     getDistrictsOfCity(cityId) {
-      this.districts = [];
+      return new Promise(resolve => {
+        this.districts = [];
 
-      cityService.getDistricts(cityId)
-        .then(response => {
-          if (response && response.status === 200 && response.data) {
-            this.districts = response.data;
-          }
-        });
+        cityService.getDistricts(cityId)
+          .then(response => {
+            if (response && response.status === 200 && response.data) {
+              this.districts = response.data;
+              resolve();
+            }
+          });
+      });
     },
     getWardsOfDistrict(districtId) {
-      this.wards = [];
+      return new Promise(resolve => {
+        this.wards = [];
 
-      districtService.getWards(districtId)
-        .then(response => {
-          if (response && response.status === 200 && response.data) {
-            this.wards = response.data;
-          }
-        });
+        districtService.getWards(districtId)
+          .then(response => {
+            if (response && response.status === 200 && response.data) {
+              this.wards = response.data;
+              resolve();
+            }
+          });
+      });
     },
     onSubmit() {
       this.$refs.checkoutForm.validate();
 
       if (this.$refs.checkoutForm.isValid) {
         this.$emit('submit');
-        // this.loading = true;
-        // this.checkoutForm.products = [];
+        this.loading = true;
 
-        // for (const product of this.products) {
-        //   this.checkoutForm.products.push({
-        //     id: product.id,
-        //     quantity: product.quantity,
-        //     sale_price: product.sale_price
-        //   });
-        // }
+        const body = JSON.parse(JSON.stringify(this.deliveryDetail));
+        body.total_price = this.totalPrice;
+        body.products = [];
+        for (const product of this.products) {
+          body.products.push({
+            id: product.id,
+            quantity: product.quantity,
+            sale_price: product.sale_price
+          });
+        }
 
-        // const body = JSON.parse(JSON.stringify(this.checkoutForm));
-        // body.total_price = this.totalPrice;
-
-        // orderService.store(body)
-        //   .then(response => {
-        //     if (response && response.status === 200 && response.data) {
-        //       this.$emit('submit');
-        //     }
-        //     this.loading = false;
-        //   });
+        userDeliveryInfoService.store(body)
+          .then(response => {
+            if (response && response.status === 200 && response.data) {
+              this.$emit('submit');
+            }
+            this.loading = false;
+          });
       }
+    },
+    doUpdateDeliveryDetailInfo(field, value) {
+      this.updateDeliveryDetailInfo({
+        field,
+        value
+      });
+    },
+    changeCity(value) {
+      this.getDistrictsOfCity(value);
+      this.doUpdateDeliveryDetailInfo('receiver_district_id', '');
+      this.doUpdateDeliveryDetailInfo('receiver_city_id', value);
+    },
+    changeDistrict(value) {
+      value = Number(value);
+      console.log(value);
+
+      this.getWardsOfDistrict(value);
+      this.doUpdateDeliveryDetailInfo('receiver_ward_id', '');
+      this.doUpdateDeliveryDetailInfo('receiver_district_id', value);
+    },
+    changeWard(value) {
+      value = Number(value);
+
+      this.doUpdateDeliveryDetailInfo('receiver_ward_id', value);
+      console.log(this.deliveryDetail);
     }
   },
   mounted() {
     if (this.user) {
-      // this.getDeliveryInfo();
+      this.getInfoOfUser();
     }
     this.getCities();
   }

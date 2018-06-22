@@ -186,7 +186,8 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->post('', 'OrderController@store');
     });
     $router->group(['prefix' => 'user-delivery-info'], function () use ($router) {
-        $router->get('user', 'UserDeliveryInfo@getInfoOfUser');
+        $router->get('user', 'UserDeliveryInfoController@getInfoOfUser');
+        $router->post('', 'UserDeliveryInfoController@store');
     });
     $router->get('like-product/{id}', 'ProductLikerController@like');
     $router->get('dislike-product/{id}', 'ProductLikerController@dislike');
