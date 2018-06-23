@@ -44,9 +44,27 @@ export default {
     }
   },
   setDeliveryDetail(state, data) {
-    state.deliveryDetail = data;
+    Object.assign(state.deliveryDetail, data);
   },
   updateDeliveryDetailInfo(state, payload) {
     state.deliveryDetail[payload.field] = payload.value;
+  },
+  selectCity(state, value) {
+    state.selectedCity = value;
+  },
+  selectDistrict(state, value) {
+    state.selectedDistrict = value;
+  },
+  selectWard(state, value) {
+    state.selectedWard = value;
+  },
+  setCities(state, cities) {
+    state.cities = cities;
+  },
+  setDistricts(state, districts) {
+    state.districts = districts;
+  },
+  setWards(state, wards) {
+    state.wards = wards;
   }
 };

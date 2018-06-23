@@ -6,5 +6,11 @@ export default {
   component: lazyLoading('checkout/Checkout'),
   meta: {
     title: 'Thông tin giao hàng'
-  }
+  },
+  childrens: [
+    {
+      path: 'login',
+      
+    }
+  ]
 };

@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-content-center my-5">
+  <div class="d-flex justify-content-center my-5 delivery-detail-form py-4 bg-white border rounded">
     <mat-form
       ref="checkoutForm"
       :model="deliveryDetail"
@@ -119,7 +119,6 @@ import MatForm from '@/components/shared/material/MatForm';
 import MatSelect from '@/components/shared/material/MatSelect';
 import MatTextarea from '@/components/shared/material/MatTextarea';
 import MatButton from '@/components/shared/material/MatButton';
-// import userService from '@/shared/services/user.service';
 import cityService from '@/shared/services/city.service';
 import districtService from '@/shared/services/district.service';
 import userDeliveryInfoService from '@/shared/services/user-delivery-info.service';
@@ -152,9 +151,6 @@ export default {
           { required: true, message: ERROR_MESSAGE.address.required }
         ]
       },
-      cities: [],
-      districts: [],
-      wards: [],
       loading: false
     };
   },
@@ -164,7 +160,10 @@ export default {
     ]),
     ...mapState('cart', [
       'products',
-      'deliveryDetail'
+      'deliveryDetail',
+      'cities',
+      'districts',
+      'wards'
     ])
   },
   watch: {
@@ -177,7 +176,10 @@ export default {
   methods: {
     ...mapMutations('cart', [
       'updateDeliveryDetailInfo',
-      'setDeliveryDetail'
+      'setDeliveryDetail',
+      'setCities',
+      'setDistricts',
+      'setWards'
     ]),
     getInfoOfUser() {
       userDeliveryInfoService.getInfoOfUser()
@@ -213,18 +215,18 @@ export default {
       cityService.getAll()
         .then(response => {
           if (response && response.status === 200 && response.data) {
-            this.cities = response.data;
+            this.setCities(response.data);
           }
         });
     },
     getDistrictsOfCity(cityId) {
       return new Promise(resolve => {
-        this.districts = [];
+        this.setDistricts([]);
 
         cityService.getDistricts(cityId)
           .then(response => {
             if (response && response.status === 200 && response.data) {
-              this.districts = response.data;
+              this.setDistricts(response.data);
               resolve();
             }
           });
@@ -232,12 +234,12 @@ export default {
     },
     getWardsOfDistrict(districtId) {
       return new Promise(resolve => {
-        this.wards = [];
+        this.setWards([]);
 
         districtService.getWards(districtId)
           .then(response => {
             if (response && response.status === 200 && response.data) {
-              this.wards = response.data;
+              this.setWards(response.data);
               resolve();
             }
           });
@@ -251,15 +253,6 @@ export default {
         this.loading = true;
 
         const body = JSON.parse(JSON.stringify(this.deliveryDetail));
-        body.total_price = this.totalPrice;
-        body.products = [];
-        for (const product of this.products) {
-          body.products.push({
-            id: product.id,
-            quantity: product.quantity,
-            sale_price: product.sale_price
-          });
-        }
 
         userDeliveryInfoService.store(body)
           .then(response => {
@@ -279,32 +272,39 @@ export default {
     changeCity(value) {
       this.getDistrictsOfCity(value);
       this.doUpdateDeliveryDetailInfo('receiver_district_id', '');
+      this.doUpdateDeliveryDetailInfo('receiver_ward_id', '');
       this.doUpdateDeliveryDetailInfo('receiver_city_id', value);
+      this.selectCity(value);
     },
     changeDistrict(value) {
-      value = Number(value);
-      console.log(value);
-
       this.getWardsOfDistrict(value);
       this.doUpdateDeliveryDetailInfo('receiver_ward_id', '');
       this.doUpdateDeliveryDetailInfo('receiver_district_id', value);
     },
     changeWard(value) {
-      value = Number(value);
-
       this.doUpdateDeliveryDetailInfo('receiver_ward_id', value);
-      console.log(this.deliveryDetail);
     }
   },
   mounted() {
     if (this.user) {
       this.getInfoOfUser();
     }
-    this.getCities();
+    if (!this.cities.length) {
+      this.getCities();
+    }
   }
 };
 </script>
 
-<style>
+<style lang="scss">
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/_variables';
 
+.delivery-detail-form {
+  font-size: $font-size-sm;
+
+  .btn {
+    font-size: $font-size-sm;
+  }
+}
 </style>

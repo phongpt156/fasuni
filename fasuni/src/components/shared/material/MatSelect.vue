@@ -38,7 +38,7 @@ export default {
       default: 'text'
     },
     value: {
-      type: [Number, String],
+      type: [Number, String, Object],
       default: ''
     },
     label: {

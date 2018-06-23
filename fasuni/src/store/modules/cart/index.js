@@ -11,7 +11,10 @@ const state = {
     receiver_address: '',
     note: ''
   },
-  isOpenCartDialog: false
+  isOpenCartDialog: false,
+  cities: [],
+  districts: [],
+  wards: []
 };
 
 export default {

@@ -126,7 +126,7 @@ class OrderController extends Controller
                 \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save delivery detail: ' . $e->getMessage());
             }
 
-            return response()->json(['status' => 'success'], 200);
+            return response()->json($order, 200);
         }
 
         return response()->json(null, 401);
