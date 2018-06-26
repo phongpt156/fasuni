@@ -50,6 +50,9 @@ export default {
     ...mapState([
       'user'
     ]),
+    ...mapState('cart', [
+      'products'
+    ]),
     step() {
       return this.$route.meta.step;
     }
@@ -67,15 +70,19 @@ export default {
     }
   },
   mounted() {
-    if (this.$route.meta.step === 2) {
-      this.$refs.formWizard.changeTab(0, 1);
-      this.$refs.formWizard.changeTab(1, 2);
-    }
+    if (this.products.length) {
+      if (this.$route.meta.step === 2) {
+        this.$refs.formWizard.changeTab(0, 1);
+        this.$refs.formWizard.changeTab(1, 2);
+      }
 
-    if (!this.user) {
-      this.$router.push({name: 'CheckoutLogin'});
-    } else if (this.$route.name === 'Checkout' || this.$route.name === 'CheckoutLogin') {
-      this.$router.push({name: 'CheckoutShipping'});
+      if (!this.user) {
+        this.$router.push({name: 'CheckoutLogin'});
+      } else if (this.$route.name === 'Checkout' || this.$route.name === 'CheckoutLogin') {
+        this.$router.push({name: 'CheckoutShipping'});
+      }
+    } else {
+      this.$router.push({name: 'Homepage'});
     }
   }
 };
