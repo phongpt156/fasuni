@@ -30,12 +30,15 @@ export default {
 </script>
 
 <style lang="scss">
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/_variables';
+
 .mat-button {
   .spinner {
     display: inline-block;
 
     .fa-spinner {
-      font-size: 1rem !important;
+      font-size: $font-size-base !important;
     }
   }
 }

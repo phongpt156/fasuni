@@ -2,7 +2,7 @@
   <transition name="modal">
     <div class="modal-mask">
       <div class="modal-wrapper">
-        <div class="modal-container modal-lg modal-dialog">
+        <div :class="`modal-container modal-dialog modal-${size}`">
           <div class="modal-content" v-click-outside="{clickOutsideCallback: close}">
             <slot name="body"></slot>
           </div>
@@ -14,6 +14,12 @@
 
 <script>
 export default {
+  props: {
+    size: {
+      type: String,
+      default: 'lg'
+    }
+  },
   data() {
     return {
 

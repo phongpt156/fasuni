@@ -4,7 +4,7 @@
       <div class="product-list">
         <div v-for="(product, index) in products" :key="product.id" class="mb-3">
           <div class="row mx-0 product-item">
-            <div class="remove" @click="removeProductFromCart(index)">
+            <div class="remove font-size-base" @click="removeProductFromCart(index)">
               <a>&times;</a>
             </div>
             <div class="col-5 px-0">
@@ -113,7 +113,6 @@ export default {
       z-index: 1000;
       right: 0;
       position: absolute;
-      font-size: 1rem;
       color: #212529;
 
       a:hover {

@@ -20,6 +20,10 @@ export default {
     state.products.splice(index, 1);
     this.commit('cart/saveCartToStorage');
   },
+  clear(state) {
+    state.products = [];
+    localStorage.removeItem('cart');
+  },
   setProducts(state, products) {
     state.products = products;
   },

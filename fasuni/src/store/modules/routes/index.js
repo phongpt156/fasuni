@@ -9,6 +9,8 @@ import cart from './cart';
 import search from './search';
 import myWhistlist from './my-whistlist';
 import checkout from './checkout';
+import orderView from './order-view';
+import orderHistory from './order-history';
 
 const state = {
   homePage,
@@ -21,7 +23,9 @@ const state = {
   cart,
   search,
   myWhistlist,
-  checkout
+  checkout,
+  orderView,
+  orderHistory
 };
 
 export default {

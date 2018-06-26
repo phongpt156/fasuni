@@ -1,5 +1,5 @@
 <template>
-  <div class="product-card h-100">
+  <div class="product-card h-100 font-size-sm">
     <div class="card h-100">
       <div class="card-header p-0">
         <template v-if="sizes && sizes.length">
@@ -264,8 +264,6 @@ export default {
 @import '~bootstrap/scss/_variables';
 
 .product-card {
-  font-size: $font-size-sm;
-
   .price {
     white-space: nowrap;
     font-size: .75rem;

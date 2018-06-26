@@ -1,6 +1,6 @@
 <template>
-  <div class="container payment">
-    <div class="row mb-5">
+  <div class="container payment mt-5">
+    <div class="row mb-5 mt-5">
       <div class="col-md-8 bg-white border rounded py-4 mb-md-0 mb-3">
         <p>Hiện tại chúng tôi chỉ hỗ trợ hình thức thanh toán trực tiếp (nhận tiền khi quý khách đã nhận được hàng)</p>
         <mat-button type="submit" class="btn btn-success" placeholder="Đặt mua" :loading="loading" @click.native="onSubmit"></mat-button>
@@ -53,7 +53,7 @@
 
 <script>
 import { priceFormat } from '@/filters';
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 import orderService from '@/shared/services/order.service';
 import MatButton from '@/components/shared/material/MatButton';
 
@@ -112,6 +112,9 @@ export default {
     }
   },
   methods: {
+    ...mapMutations('cart', [
+      'clear'
+    ]),
     onSubmit() {
       this.loading = true;
       const body = JSON.parse(JSON.stringify(this.deliveryDetail));
@@ -128,8 +131,9 @@ export default {
 
       orderService.store(body)
         .then(response => {
-          if (response && response.status === 200 & response.data) {
-            console.log(response);
+          if (response && response.status === 200 && response.data) {
+            this.clear();
+            this.$router.push({name: 'CheckoutSuccess', query: {code: response.data.code}});
           }
 
           this.loading = false;

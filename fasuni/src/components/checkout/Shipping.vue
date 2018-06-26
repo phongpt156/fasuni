@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-content-center my-5 delivery-detail-form py-4 bg-white border rounded">
+  <div class="d-flex justify-content-center mt-5 delivery-detail-form py-4 bg-white border rounded container">
     <mat-form
       ref="checkoutForm"
       :model="deliveryDetail"
@@ -258,6 +258,7 @@ export default {
           .then(response => {
             if (response && response.status === 200 && response.data) {
               this.$emit('submit');
+              this.$router.push({name: 'CheckoutPayment'});
             }
             this.loading = false;
           });

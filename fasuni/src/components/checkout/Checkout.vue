@@ -1,6 +1,6 @@
 <template>
-  <div class="checkout">
-    <form-wizard step-size="xs" class="w-lg-50 mx-auto" color="#007138" ref="formWizard" title="Thông tin giao hàng" subtitle="">
+  <div class="checkout pb-5">
+    <form-wizard step-size="xs" class="w-lg-50 mx-auto pb-0" color="#007138" ref="formWizard" title="Thông tin giao hàng" subtitle="">
       <template slot="step" slot-scope="props">
         <wizard-step
           :tab="props.tab"
@@ -11,12 +11,10 @@
       <tab-content
         title="Đăng nhập"
         icon="ti-user">
-        <login></login>
       </tab-content>
       <tab-content
         title="Địa chỉ giao hàng"
         icon="ti-settings">
-        <shipping @submit="step = 2"></shipping>
       </tab-content>
       <tab-content
         title="Thanh toán và đặt mua"
@@ -26,7 +24,7 @@
         <div></div>
       </template>
     </form-wizard>
-    <payment v-if="step === 2" @edit-delivery-detail="step = 1"></payment>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -48,29 +46,36 @@ export default {
     Payment,
     Login
   },
-  data() {
-    return {
-      step: 0
-    };
-  },
   computed: {
     ...mapState([
       'user'
-    ])
+    ]),
+    step() {
+      return this.$route.meta.step;
+    }
   },
   watch: {
     user(newValue) {
-      if (newValue) {
-        this.step = 1;
+      if (!newValue) {
+        this.$router.push({name: 'CheckoutLogin'});
+      } else if (this.$route.name === 'Checkout' || this.$route.name === 'CheckoutLogin') {
+        this.$router.push({name: 'CheckoutShipping'});
       }
     },
-    step(newValue, oldValue) {
+    step (newValue, oldValue) {
       this.$refs.formWizard.changeTab(oldValue, newValue);
     }
   },
   mounted() {
-    if (this.user) {
-      this.step = 1;
+    if (this.$route.meta.step === 2) {
+      this.$refs.formWizard.changeTab(0, 1);
+      this.$refs.formWizard.changeTab(1, 2);
+    }
+
+    if (!this.user) {
+      this.$router.push({name: 'CheckoutLogin'});
+    } else if (this.$route.name === 'Checkout' || this.$route.name === 'CheckoutLogin') {
+      this.$router.push({name: 'CheckoutShipping'});
     }
   }
 };
@@ -87,6 +92,9 @@ export default {
   }
   .btn-success {
     background-color: rgb(0, 113, 56);
+  }
+  .wizard-tab-content {
+    display: none;
   }
 }
 </style>

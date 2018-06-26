@@ -12,4 +12,9 @@ class Order extends Model
     {
         return $this->hasOne(DeliveryDetail::class);
     }
+
+    public function orderDetails()
+    {
+        return $this->hasMany(OrderDetail::class);
+    }
 }

@@ -131,4 +131,67 @@ class OrderController extends Controller
 
         return response()->json(null, 401);
     }
+
+    public function show($code)
+    {
+        $order = Order::whereCode($code)->with('deliveryDetail.district.city', 'deliveryDetail.ward', 'orderDetails.product.images', 'orderDetails.product.masterProduct.subProducts.images', 'orderDetails.product.masterProduct.images', 'orderDetails.product.subProducts.images')->first();
+
+        return response()->json($order, 200);
+    }
+
+    public function getOrderHistoriesOfUser()
+    {
+        $auth = new Auth;
+
+        $user = $auth::guard()->user();
+        
+        if ($user) {
+            $customer = Customer::whereUserId($user->id)->first();
+
+            if ($customer) {
+                $orders = Order::whereCustomerId($customer->id)->whereSource('Website')->with('orderDetails.product')->get();
+
+                return response()->json($orders, 200);
+            }
+            return response()->json([], 200);
+        }
+
+        return response()->json([], 200);
+    }
+
+    public function destroy($id)
+    {
+        $auth = new Auth;
+
+        $user = $auth::guard()->user();
+        
+        if ($user) {
+            $customer = Customer::whereUserId($user->id)->first();
+
+            if ($customer) {
+                $order = Order::whereCustomerId($customer->id)->whereId($id)->with('orderDetails.product')->first();
+
+                if ($order) {
+                    $kiotVietService = new KiotVietService;
+                    $kiotVietService->orderService->delete($order->kiotviet_id);
+
+                    $order->status_id = 4;
+                    try {
+                        $order->save();
+
+                        return response()->json($order, 200);
+                    } catch (QueryException $e) {
+                        \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete order: ' . $e->getMessage());
+                        return response()->json(null, 500);
+                    }
+                }
+
+                return response()->json(['error' => 'You dont have permission'], 401);
+            }
+
+            return response()->json(['error' => 'You dont have permission'], 401);
+        }
+
+        return response()->json(['error' => 'You dont have permission'], 401);
+    }
 }

@@ -65,10 +65,6 @@ import { reloadApp } from '@/shared/functions';
 
 export default {
   props: {
-    dialog: {
-      type: Boolean,
-      default: false
-    },
     isOpenLoginFormDialog: {
       type: Boolean,
       default: false

@@ -1,7 +1,7 @@
 <template>
   <div class="category-page">
     <nav class="navbar navbar-expand-lg justify-content-center py-3 px-2">
-      <div class="d-md-block d-none breadcrumbs">
+      <div class="d-md-block d-none breadcrumbs font-size-sm">
         <ul class="navbar-nav align-items-center flex-row pl-4 ml-2">
           <li class="nav-item d-flex align-items-center" v-for="(breadcrumb, index) in breadcrumbs" :key="breadcrumb.id">
             <div class="nav-link p-2" :class="{'font-weight-bold': index + 1 === breadcrumbsLength}">
@@ -194,9 +194,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/_variables';
-
 .category-page {
   a {
     color: #212529;
@@ -211,7 +208,6 @@ export default {
   .breadcrumbs {
     position: absolute;
     left: 0.5rem;
-    font-size: $font-size-sm;
   }
   .hr {
     border-top: 1.5px solid rgba(0, 0, 0, 0.1);

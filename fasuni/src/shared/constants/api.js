@@ -64,7 +64,10 @@ export const USER = {
 };
 
 export const ORDER = {
-  store: BASE_URL + '/order'
+  store: BASE_URL + '/order',
+  getOne: BASE_URL + '/order/',
+  getOrderHistoriesOfUser: BASE_URL + '/order/user-history',
+  delete: BASE_URL + '/order/'
 };
 
 export const USER_DELIVERY_INFO = {
