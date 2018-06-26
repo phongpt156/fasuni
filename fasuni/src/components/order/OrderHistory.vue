@@ -1,7 +1,7 @@
 <template>
   <div class="container order-history py-5">
     <p class="mb-0">Đơn hàng của tôi</p>
-    <div class="table-responsive mt-3">
+    <div class="table-responsive mt-3" v-if="orders.length">
       <table class="table bg-white font-size-sm">
         <thead>
           <tr>
@@ -35,6 +35,9 @@
           </tr>
         </tbody>
       </table>
+    </div>
+    <div v-else class="mt-5 py-5 text-center font-weight-bold h2 mb-0">
+      Bạn chưa có đơn hàng nào
     </div>
   </div>
 </template>

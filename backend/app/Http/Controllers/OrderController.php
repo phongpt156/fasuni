@@ -134,9 +134,23 @@ class OrderController extends Controller
 
     public function show($code)
     {
-        $order = Order::whereCode($code)->with('deliveryDetail.district.city', 'deliveryDetail.ward', 'orderDetails.product.images', 'orderDetails.product.masterProduct.subProducts.images', 'orderDetails.product.masterProduct.images', 'orderDetails.product.subProducts.images')->first();
+        $auth = new Auth;
 
-        return response()->json($order, 200);
+        $user = $auth::guard()->user();
+
+        if ($user) {
+            $customer = Customer::whereUserId($user->id)->first();
+
+            if ($customer) {
+                $order = Order::whereCode($code)->with('deliveryDetail.district.city', 'deliveryDetail.ward', 'orderDetails.product.images', 'orderDetails.product.masterProduct.subProducts.images', 'orderDetails.product.masterProduct.images', 'orderDetails.product.subProducts.images')->first();
+
+                return response()->json($order, 200);
+            }
+
+            return response()->json(['error' => 'You dont have permission to view this order'], 401);
+        }
+
+        return response()->json(['error' => 'You dont have permission to view this order'], 401);
     }
 
     public function getOrderHistoriesOfUser()
