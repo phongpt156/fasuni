@@ -37,13 +37,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
 .product-list {
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
   .fa-spinner {
     font-size: 2rem;
-    animation: spin 2s linear infinite;
   }
 }
 </style>

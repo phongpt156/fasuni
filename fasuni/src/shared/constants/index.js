@@ -29,9 +29,6 @@ export const ERROR_MESSAGE = {
   district: {
     required: 'Vui lòng chọn Quận/Huyện'
   },
-  ward: {
-    required: 'Vui lòng chọn Phường/Xã'
-  },
   address: {
     required: 'Vui lòng nhập địa chỉ'
   }

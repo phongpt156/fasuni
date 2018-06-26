@@ -47,7 +47,7 @@ class OrderController extends WebhookController
             try {
                 $savedOrder = Order::updateOrCreate(
                     ['kiotviet_id' => $order['Id']],
-                    ['code' => $order['Code'], 'total_price' => $order['Total'], 'discount_price' => $discount, 'source' => 'KiotViet', 'status_id' => $order['Status'], 'customer_id' => $customerId, 'employee_id' => $employeeId, 'branch_id' => $branchId]
+                    ['code' => $order['Code'], 'total_price' => $order['Total'], 'discount_price' => $discount, 'status_id' => $order['Status'], 'customer_id' => $customerId, 'employee_id' => $employeeId, 'branch_id' => $branchId]
                 );
             } catch (QueryException $e) {
                 \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save order: ' . $e->getMessage());

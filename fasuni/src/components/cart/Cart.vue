@@ -37,20 +37,20 @@
             <td>
               <div class="number-input d-inline-block">
                 <button type="button" class="number-input__button number-input__button--minus" @click="onChangeQuantity(product, product.quantity - 1)"></button>
-                <input type="number" class="number-input__input" :value="product.quantity" @change="onChangeQuantity(product, $event)" @input="inputQuantity(product, $event)" />
+                <input type="number" class="number-input__input font-size-base" :value="product.quantity" @change="onChangeQuantity(product, $event)" @input="inputQuantity(product, $event)" />
                 <button type="button" class="number-input__button number-input__button--plus" @click="onChangeQuantity(product, product.quantity + 1)"></button>
               </div>
             </td>
             <td>{{ totalPricePerItem(product) | priceFormat }}</td>
             <td style="vertical-align: top">
-              <div class="remove"><a @click="removeProductFromCart(index)">×</a></div>
+              <div class="remove font-size-lg"><a @click="removeProductFromCart(index)">×</a></div>
             </td>
           </tr>
         </tbody>
       </table>
       <div class="text-right mt-3">
         <div>
-          Tổng tiền: {{ totalPrice | priceFormat }}
+          Tổng tiền: <span class="text-danger">{{ totalPrice | priceFormat }}</span>
         </div>
         <button class="payment my-3" @click="$router.push({name: 'Checkout'})">Đặt hàng</button>
       </div>
@@ -184,7 +184,6 @@ export default {
       min-height: 1.5rem;
       max-width: 100%;
       line-height: 1.5;
-      font-size: 1rem;
       display: inline-block;
       border-radius: .25rem;
       border: 1px solid #ddd;
@@ -199,9 +198,6 @@ export default {
         margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
       }
     }
-  }
-  .remove {
-    font-size: 1.5rem;
   }
   .payment {
     width: 12%;

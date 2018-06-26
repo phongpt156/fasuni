@@ -39,7 +39,7 @@
     </div>
     <fieldset class="view-archive mx-2 my-3">
       <legend align="center">
-        <a class="view-archive-button py-2 px-3 d-flex align-items-center" @click="isDisplayMoreLookbook = !isDisplayMoreLookbook">
+        <a class="view-archive-button font-size-base py-2 px-3 d-flex align-items-center" @click="isDisplayMoreLookbook = !isDisplayMoreLookbook">
           View Archive
           <font-awesome-icon class="ml-2" :icon="icons.angleDown" v-if="isDisplayMoreLookbook"></font-awesome-icon>
           <font-awesome-icon class="ml-2" :icon="icons.angleRight" v-else></font-awesome-icon>
@@ -171,8 +171,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/_variables';
 @import '~bootstrap/scss/bootstrap-grid';
 
 .lookbook-archive {
@@ -188,7 +186,6 @@ export default {
   .view-archive-button {
     transition: all .3s ease-in-out 0s;
     position: relative;
-    font-size: $font-size-base;
     border: 1px solid #4d4d4d;
 
     &:hover {

@@ -42,6 +42,9 @@ a {
 .font-size-sm {
   font-size: $font-size-sm;
 }
+.font-size-lg {
+  font-size: $font-size-lg;
+}
 
 .branding-name {
   font-size: 2rem;
@@ -113,4 +116,11 @@ img {
   .w-lg-50 {
     width: 50%;
   }
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.fa-spinner {
+  animation: spin 2s linear infinite;
 }

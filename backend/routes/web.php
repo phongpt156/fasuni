@@ -181,7 +181,16 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     });
     $router->group(['prefix' => 'user'], function () use ($router) {
         $router->get('whistlist', 'UserController@getWhistlist');
-        $router->get('delivery-info', 'UserController@getDeliveryInfo');
+    });
+    $router->group(['prefix' => 'order'], function () use ($router) {
+        $router->get('user-history', 'OrderController@getOrderHistoriesOfUser');
+        $router->get('{code}', 'OrderController@show');
+        $router->post('', 'OrderController@store');
+        $router->delete('{id}', 'OrderController@destroy');
+    });
+    $router->group(['prefix' => 'user-delivery-info'], function () use ($router) {
+        $router->get('user', 'UserDeliveryInfoController@getInfoOfUser');
+        $router->post('', 'UserDeliveryInfoController@store');
     });
     $router->get('like-product/{id}', 'ProductLikerController@like');
     $router->get('dislike-product/{id}', 'ProductLikerController@dislike');

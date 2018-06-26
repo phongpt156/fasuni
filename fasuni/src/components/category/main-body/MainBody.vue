@@ -4,7 +4,7 @@
       <div class="d-flex flex-wrap">
         <div class="mt-3">
           <button
-            class="btn btn-secondary dropdown-toggle button d-flex justify-content-between align-items-center mr-2"
+            class="btn btn-secondary dropdown-toggle button d-flex justify-content-between align-items-center mr-2 font-size-sm text-dark"
             type="button"
             id="dropdownSortMenuButton"
             data-toggle="dropdown"
@@ -19,7 +19,7 @@
           </div>
         </div>
         <button
-          class="btn btn-secondary button d-flex justify-content-between align-items-center mr-2 mt-3 filter-button"
+          class="btn btn-secondary button d-flex justify-content-between align-items-center mr-2 mt-3 filter-button font-size-sm text-dark"
           type="button"
           aria-haspopup="true"
           aria-expanded="false"
@@ -164,44 +164,39 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-  @import '~bootstrap/scss/functions';
-  @import '~bootstrap/scss/_variables';
-
-  .main-body {
-    .button {
-      width: 173px;
-      font-size: $font-size-sm;
-      color: $dark;
-      background-color: #dddddd;
-    }
-    .filter-button {
-      &::after {
-        width: 0;
-        vertical-align: 0.255em;
-        margin-left: 0.255em;
-        height: 0;
-        display: inline-block;
-        content: "";
-        border-top: 0.3em solid transparent;
-        border-right: 0;
-        border-left: 0.3em solid;
-        border-bottom: 0.3em solid transparent;
-      }
-    }
-    .dropdown-item {
-      &.active {
-        color: #fff;
-        background-color: #545b62;
-
-        &:hover {
-          color: #fff;
-        }
-      }
-
-      &:hover {
-        color: #fff !important;
-        background-color: #545b62;
-      }
+.main-body {
+  .button {
+    width: 173px;
+    background-color: #dddddd;
+  }
+  .filter-button {
+    &::after {
+      width: 0;
+      vertical-align: 0.255em;
+      margin-left: 0.255em;
+      height: 0;
+      display: inline-block;
+      content: "";
+      border-top: 0.3em solid transparent;
+      border-right: 0;
+      border-left: 0.3em solid;
+      border-bottom: 0.3em solid transparent;
     }
   }
+  .dropdown-item {
+    &.active {
+      color: #fff;
+      background-color: #545b62;
+
+      &:hover {
+        color: #fff;
+      }
+    }
+
+    &:hover {
+      color: #fff !important;
+      background-color: #545b62;
+    }
+  }
+}
 </style>

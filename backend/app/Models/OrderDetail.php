@@ -12,4 +12,9 @@ class OrderDetail extends Model
     protected $primaryKey = ['product_id', 'order_id'];
     protected $fillable = ['product_id', 'order_id', 'quantity', 'price', 'discount_price'];
     public $incrementing = false;
+
+    public function product()
+    {
+        return $this->hasOne(Product::class, 'id', 'product_id');
+    }
 }
