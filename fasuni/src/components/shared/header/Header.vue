@@ -99,6 +99,7 @@
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                 <router-link class="dropdown-item" :to="{name: 'MyWhistlist'}">Danh sách yêu thích</router-link>
                 <router-link class="dropdown-item" :to="{name: 'OrderHistory'}">Đơn hàng của tôi</router-link>
+                <a class="dropdown-item" href="https://m.me/fasuni.vn" @click="openFasuniFacebook">Hòm thư góp ý</a>
                 <a class="dropdown-item" @click="logout">Đăng xuất</a>
               </div>
             </a>
@@ -270,6 +271,9 @@ export default {
             this.collections = response.data.data;
           }
         });
+    },
+    openFasuniFacebook() {
+      window.open('https://m.me/fasuni.vn', '_blank');
     }
   },
   mounted() {
@@ -341,10 +345,14 @@ export default {
       }
     }
   }
-
   .navbar-brand {
     margin-top: -7px;
     line-height: normal;
+  }
+  .dropdown-item {
+    &:active {
+      color: #000;
+    }
   }
 
   &>.navbar {
