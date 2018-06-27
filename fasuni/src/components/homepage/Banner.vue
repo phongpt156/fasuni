@@ -4,22 +4,22 @@
       <div data-u="slides" style="cursor:default;position:relative;top:0px;left:0px;width:1300px;height:500px;overflow:hidden;">
         <div>
           <a>
-            <img data-u="image" :src="images.slider1" />
+            <img data-u="image" :src="`${imageUrl}/Slider1.jpg`" />
           </a>
         </div>
         <div>
           <a>
-            <img data-u="image" :src="images.slider2" />
+            <img data-u="image" :src="`${imageUrl}/Slider2.jpg`" />
           </a>
         </div>
         <div>
           <a>
-            <img data-u="image" :src="images.slider3" />
+            <img data-u="image" :src="`${imageUrl}/Slider3.jpg`" />
           </a>
         </div>
         <div>
           <a>
-            <img data-u="image" :src="images.slider4" />
+            <img data-u="image" :src="`${imageUrl}/Slider4.jpg`" />
           </a>
         </div>
       </div>
@@ -42,10 +42,7 @@
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
 import angleLeftIcon from '@fortawesome/fontawesome-free-solid/faAngleLeft';
 import angleRightIcon from '@fortawesome/fontawesome-free-solid/faAngleRight';
-import slider1 from '@/assets/images/Slider1.jpg';
-import slider2 from '@/assets/images/Slider2.jpg';
-import slider3 from '@/assets/images/Slider3.jpg';
-import slider4 from '@/assets/images/Slider4.jpg';
+import { IMAGE_URL } from '@/shared/constants';
 
 export default {
   components: {
@@ -53,12 +50,6 @@ export default {
   },
   data() {
     return {
-      images: {
-        slider1,
-        slider2,
-        slider3,
-        slider4
-      },
       icons: {
         angleLeft: angleLeftIcon,
         angleRight: angleRightIcon
@@ -69,6 +60,9 @@ export default {
   computed: {
     JssorSlider() {
       return window.$JssorSlider$;
+    },
+    imageUrl() {
+      return IMAGE_URL;
     }
   },
   methods: {

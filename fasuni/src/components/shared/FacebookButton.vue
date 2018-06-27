@@ -1,28 +1,22 @@
 <template>
-
   <a class="d-inline-block facebook-button" @click="login">
-    <img :src="images.facebook" alt="" />
+    <img :src="`${imageUrl}/facebook-icon.svg`" alt="" />
   </a>
 </template>
 
 <script>
-import facebookIcon from '@/assets/images/facebook-icon.svg';
 import FACEBOOK_SERVICE from '@/shared/services/facebook.service';
-import { GENDER } from '@/shared/constants';
+import { GENDER, IMAGE_URL } from '@/shared/constants';
 import { mapMutations } from 'vuex';
 import { reloadApp } from '@/shared/functions';
 
 export default {
-  data() {
-    return {
-      images: {
-        facebook: facebookIcon
-      }
-    };
-  },
   computed: {
     fb() {
       return window.FB;
+    },
+    imageUrl() {
+      return IMAGE_URL;
     }
   },
   methods: {

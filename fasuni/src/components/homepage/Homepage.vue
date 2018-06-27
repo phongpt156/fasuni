@@ -6,7 +6,7 @@
       <div class="row mx-0 px-5 pt-5">
         <div class="px-5 col-md-4">
           <div class="collection-item">
-            <a class="d-block h-100 image-wrapper image-2-3"><img :src="images.collection1" alt="" class="w-100 h-100" /></a>
+            <a class="d-block h-100 image-wrapper image-2-3"><img :src="`${imageUrl}/CEF_9071.jpg`" alt="" class="w-100 h-100" /></a>
             <div class="name">
               <div class="d-flex align-items-center justify-content-center h-100">
                 <p class="text-center text-uppercase mt-3" style="font-size: 1.5rem">Campaign</p>
@@ -16,7 +16,7 @@
         </div>
         <div class="px-5 col-md-4">
           <router-link class="collection-item d-block" :to="{name: 'Lookbook', params: {gender: 1, year: 2018, month: 6}}">
-            <div class="d-block h-100 image-wrapper image-2-3"><img :src="images.collection3" alt="" class="w-100 h-100" /></div>
+            <div class="d-block h-100 image-wrapper image-2-3"><img :src="`${imageUrl}/34530408_956364091204258_7630724324420222976_n.jpg`" alt="" class="w-100 h-100" /></div>
             <div class="name">
               <div class="d-flex align-items-center justify-content-center h-100">
                 <p class="text-center text-uppercase mt-3" style="font-size: 1.5rem">Shop Men</p>
@@ -26,7 +26,7 @@
         </div>
         <div class="px-5 col-md-4">
           <div class="collection-item">
-            <a class="d-block h-100 image-wrapper image-2-3"><img :src="images.collection2" alt="" class="w-100 h-100" /></a>
+            <a class="d-block h-100 image-wrapper image-2-3"><img :src="`${imageUrl}/34415303_956348787872455_5434430696678490112_n.jpg`" alt="" class="w-100 h-100" /></a>
             <div class="name">
               <div class="d-flex align-items-center justify-content-center h-100">
                 <p class="text-center text-uppercase mt-3" style="font-size: 1.5rem">Shop women</p>
@@ -104,7 +104,7 @@
           <slide class="px-3">
             <div class="post-item">
               <a class="d-block image-wrapper image-21-9">
-                <img :src="images.post1" alt="" class="w-100" />
+                <img :src="`${imageUrl}/post1.jpg`" alt="" class="w-100" />
               </a>
               <div class="py-3 px-5 post-info">
                 <p class="mb-0" style="color: #c4c4c4">Life style</p>
@@ -118,7 +118,7 @@
           <slide class="px-3">
             <div class="post-item">
               <a class="d-block image-wrapper image-21-9">
-                <img :src="images.post2" alt="" class="w-100" />
+                <img :src="`${imageUrl}/post2.jpg`" alt="" class="w-100" />
               </a>
               <div class="py-3 px-5 post-info">
                 <p class="mb-0" style="color: #c4c4c4">Life style</p>
@@ -136,17 +136,17 @@
       <div class="p-5">
         <div class="row py-5">
           <div class="col-4 text-center">
-            <img :src="images.gift" alt="" style="width: 56px; height: 57px" />
+            <img :src="`${imageUrl}/gift.png`" alt="" style="width: 56px; height: 57px" />
             <h6 class="font-weight-bold mt-3 mb-0">Free Shipping</h6>
             <p class="text-uppercase">All Order over $59</p>
           </div>
           <div class="col-4 text-center">
-            <img :src="images.support" alt="" style="width: 56px; height: 57px" />
+            <img :src="`${imageUrl}/support.png`" alt="" style="width: 56px; height: 57px" />
             <h6 class="font-weight-bold mt-3 mb-0">Support Customer</h6>
             <p class="text-uppercase">Support 24/7</p>
           </div>
           <div class="col-4 text-center">
-            <img :src="images.lock" alt="" style="width: 56px; height: 57px" />
+            <img :src="`${imageUrl}/lock.png`" alt="" style="width: 56px; height: 57px" />
             <h6 class="font-weight-bold mt-3 mb-0">Secure Payments</h6>
             <p class="text-uppercase">Support 24/7</p>
           </div>
@@ -156,7 +156,7 @@
     <div v-scroll-reveal.reset>
       <a>
         <div class="image-wrapper image-15-4">
-          <img :src="images.subBanner" alt="" />
+          <img :src="`${imageUrl}/paper-flamingo.jpg`" alt="" />
         </div>
       </a>
     </div>
@@ -167,7 +167,7 @@
         <div class="d-flex">
           <div class="px-5" style="flex-grow: 1; max-width: 15%">
             <a class="d-block image-wrapper image-1-1" href="https://mayphuongthao.com/" target="_blank">
-              <img :src="images.logoMayPhuongThao" alt="" />
+              <img :src="`${imageUrl}/logo-mayphuongthao.png`" alt="" />
             </a>
           </div>
         </div>
@@ -179,16 +179,7 @@
 <script>
 import { Carousel, Slide } from 'vue-carousel';
 import Banner from './Banner';
-import gift from '@/assets/images/gift.png';
-import lock from '@/assets/images/lock.png';
-import support from '@/assets/images/support.png';
-import collection1 from '@/assets/images/CEF_9071.jpg';
-import collection2 from '@/assets/images/34415303_956348787872455_5434430696678490112_n.jpg';
-import collection3 from '@/assets/images/34530408_956364091204258_7630724324420222976_n.jpg';
-import subBanner from '@/assets/images/paper-flamingo.jpg';
-import post1 from '@/assets/images/post1.jpg';
-import post2 from '@/assets/images/post2.jpg';
-import logoMayPhuongThao from '@/assets/images/logo-mayphuongthao.png';
+import { IMAGE_URL } from '@/shared/constants';
 
 export default {
   components: {
@@ -197,21 +188,10 @@ export default {
     Banner
   },
   name: 'Homepage',
-  data() {
-    return {
-      images: {
-        gift,
-        lock,
-        support,
-        collection1,
-        collection2,
-        collection3,
-        subBanner,
-        post1,
-        post2,
-        logoMayPhuongThao
-      }
-    };
+  computed: {
+    imageUrl() {
+      return IMAGE_URL;
+    }
   },
   created() {
     document.documentElement.scrollTo(0, 0);

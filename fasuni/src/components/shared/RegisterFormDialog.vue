@@ -5,7 +5,7 @@
       @close="$emit('update:isOpenRegisterFormDialog', false)">
       <div slot="body" class="row m-0">
         <div class="col-6 p-0">
-          <img :src="images.registerFormBanner" alt="" class="w-100 h-100" />
+          <img :src="`${imageUrl}/register-form-banner.jpg`" alt="" class="w-100 h-100" />
         </div>
         <div class="col-6 px-lg-5 pt-lg-3">
           <h5 class="text-center branding-name">Fasuni</h5>
@@ -114,9 +114,8 @@ import Modal from '@/components/shared/Modal';
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
 import googleIcon from '@fortawesome/fontawesome-free-brands/faGooglePlus';
 import { mapMutations } from 'vuex';
-import registerFormBanner from '@/assets/images/register-form-banner.jpg';
 import FacebookButton from '@/components/shared/FacebookButton';
-import { ERROR_MESSAGE, PATTERN, GENDER } from '@/shared/constants';
+import { ERROR_MESSAGE, PATTERN, GENDER, IMAGE_URL } from '@/shared/constants';
 import cityService from '@/shared/services/city.service';
 import userService from '@/shared/services/user.service';
 import { reloadApp } from '@/shared/functions';
@@ -142,9 +141,6 @@ export default {
   },
   data() {
     return {
-      images: {
-        registerFormBanner: registerFormBanner
-      },
       icons: {
         google: googleIcon
       },
@@ -177,6 +173,9 @@ export default {
   computed: {
     genders() {
       return GENDER;
+    },
+    imageUrl() {
+      return IMAGE_URL;
     }
   },
   methods: {
