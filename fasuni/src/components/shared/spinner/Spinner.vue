@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import faSpinner from '@fortawesome/fontawesome-free-solid/faSpinner';
 
 export default {

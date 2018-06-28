@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import angleLeftIcon from '@fortawesome/fontawesome-free-solid/faAngleLeft';
 import angleRightIcon from '@fortawesome/fontawesome-free-solid/faAngleRight';
 import { IMAGE_URL } from '@/shared/constants';

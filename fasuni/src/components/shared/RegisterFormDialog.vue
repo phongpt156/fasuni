@@ -111,7 +111,7 @@ import MatInput from '@/components/shared/material/MatInput';
 import MatSelect from '@/components/shared/material/MatSelect';
 import MatForm from '@/components/shared/material/MatForm';
 import Modal from '@/components/shared/Modal';
-import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import googleIcon from '@fortawesome/fontawesome-free-brands/faGooglePlus';
 import { mapMutations } from 'vuex';
 import FacebookButton from '@/components/shared/FacebookButton';

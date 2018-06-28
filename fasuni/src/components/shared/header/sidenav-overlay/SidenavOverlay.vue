@@ -132,7 +132,7 @@
 </template>
 
 <script>
-import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import VuePerfectScrollbar from 'vue-perfect-scrollbar';
 import timesIcon from '@fortawesome/fontawesome-free-solid/faTimes';
 import plusIcon from '@fortawesome/fontawesome-free-solid/faPlus';

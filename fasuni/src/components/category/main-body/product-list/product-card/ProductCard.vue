@@ -57,7 +57,7 @@
 
 <script>
 import { priceFormat } from '@/filters';
-import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import solidFaHeart from '@fortawesome/fontawesome-free-solid/faHeart';
 import regularFaHeart from '@fortawesome/fontawesome-free-regular/faHeart';
 import { mapState, mapMutations } from 'vuex';

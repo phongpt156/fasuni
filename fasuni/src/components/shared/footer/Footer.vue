@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import facebookIcon from '@fortawesome/fontawesome-free-brands/faFacebookSquare';
 import instagramIcon from '@fortawesome/fontawesome-free-brands/faInstagram';
 import youtubeIcon from '@fortawesome/fontawesome-free-brands/faYoutube';
