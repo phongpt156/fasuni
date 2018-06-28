@@ -60,7 +60,7 @@ class InvoiceController extends Controller
             try {
                 $savedInvoice = Invoice::updateOrCreate(
                     ['kiotviet_id' => $invoice->id],
-                    ['code' => $invoice->code, 'total_price' => $invoice->total, 'discount_price' => $discount, 'source' => 'KiotViet', 'customer_id' => $customerId, 'employee_id' => $employeeId, 'branch_id' => $branchId, 'order_id' => $orderId]
+                    ['code' => $invoice->code, 'total_price' => $invoice->total, 'discount_price' => $discount, 'customer_id' => $customerId, 'employee_id' => $employeeId, 'branch_id' => $branchId, 'order_id' => $orderId]
                 );
             } catch (QueryException $e) {
                 \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save invoice: ' . $e->getMessage());

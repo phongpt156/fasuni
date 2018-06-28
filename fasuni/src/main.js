@@ -10,6 +10,7 @@ import '@/assets/scripts';
 import '@/package/progress-bar';
 import '@/package/scroll-reveal';
 import '@/package/autosize';
+import '@/package/head';
 
 Vue.config.productionTip = false;
 
@@ -29,11 +30,6 @@ if (localStorage.getItem('fixed')) {
   localStorage.clear();
   localStorage.setItem('fixed', fixedDate);
 }
-
-router.beforeEach(async (to, from, next) => {
-  await store.dispatch('setTitle', to.meta.title);
-  next();
-});
 
 /* eslint-disable no-new */
 export default new Vue({

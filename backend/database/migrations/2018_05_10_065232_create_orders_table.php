@@ -18,7 +18,7 @@ class CreateOrdersTable extends Migration
             $table->string('code')->nullable();
             $table->float('total_price', 12, 3);
             $table->float('discount_price', 12, 3)->default(0);
-            $table->string('source')->default('Fasuni');
+            $table->string('source')->default('KiotViet');
             $table->unsignedInteger('status_id');
             $table->unsignedInteger('customer_id')->nullable();
             $table->unsignedInteger('employee_id')->nullable();

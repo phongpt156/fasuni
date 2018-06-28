@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import angleDownIcon from '@fortawesome/fontawesome-free-solid/faAngleDown';
 import angleRightIcon from '@fortawesome/fontawesome-free-solid/faAngleRight';
 

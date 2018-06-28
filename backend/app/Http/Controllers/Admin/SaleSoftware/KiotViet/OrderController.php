@@ -52,7 +52,7 @@ class OrderController extends Controller
             try {
                 $savedOrder = Order::updateOrCreate(
                     ['kiotviet_id' => $order->id],
-                    ['code' => $order->code, 'total_price' => $order->total, 'discount_price' => $discount, 'source' => 'KiotViet', 'status_id' => $order->status, 'customer_id' => $customerId, 'employee_id' => $employeeId, 'branch_id' => $branchId]
+                    ['code' => $order->code, 'total_price' => $order->total, 'discount_price' => $discount, 'status_id' => $order->status, 'customer_id' => $customerId, 'employee_id' => $employeeId, 'branch_id' => $branchId]
                 );
             } catch (QueryException $e) {
                 \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save order: ' . $e->getMessage());

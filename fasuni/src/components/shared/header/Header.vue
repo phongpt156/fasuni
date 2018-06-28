@@ -1,7 +1,7 @@
 <template>
   <header class="header fixed-top shadow-sm">
     <nav class="navbar navbar-expand-lg navbar-light">
-      <img :src="images.icon" alt="" style="width: 60px; height: 60px; position: absolute; left: 47.5%; top: -2px" class="d-xl-block d-none" />
+      <img :src="`${imageUrl}/icon.svg`" alt="" style="width: 60px; height: 60px; position: absolute; left: 47.5%; top: -2px" class="d-xl-block d-none" />
       <router-link class="navbar-brand branding-name h-100 d-flex align-items-center mt-0" :to="{name: 'Homepage'}">Fasuni</router-link>
       <button class="navbar-toggler" type="button" @click="isOpenSidenavOverlay = !isOpenSidenavOverlay">
         <span class="navbar-toggler-icon"></span>
@@ -99,6 +99,7 @@
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                 <router-link class="dropdown-item" :to="{name: 'MyWhistlist'}">Danh sách yêu thích</router-link>
                 <router-link class="dropdown-item" :to="{name: 'OrderHistory'}">Đơn hàng của tôi</router-link>
+                <a class="dropdown-item" href="https://m.me/fasuni.vn" @click="openFasuniFacebook">Hòm thư góp ý</a>
                 <a class="dropdown-item" @click="logout">Đăng xuất</a>
               </div>
             </a>
@@ -138,8 +139,7 @@ import userService from '@/shared/services/user.service';
 import categoryService from '@/shared/services/category.service';
 import lookbookService from '@/shared/services/lookbook.service';
 import collectionService from '@/shared/services/collection.service';
-import { GENDER } from '@/shared/constants';
-import icon from '@/assets/images/icon.svg';
+import { GENDER, IMAGE_URL } from '@/shared/constants';
 
 export default {
   components: {
@@ -166,9 +166,6 @@ export default {
         collapsed: true,
         maleCollapsed: false,
         femaleCollapsed: false
-      },
-      images: {
-        icon
       }
     };
   },
@@ -192,6 +189,9 @@ export default {
         return this.user.name;
       }
       return `${this.user.first_name} ${this.user.last_name}`;
+    },
+    imageUrl() {
+      return IMAGE_URL;
     }
   },
   methods: {
@@ -270,6 +270,9 @@ export default {
             this.collections = response.data.data;
           }
         });
+    },
+    openFasuniFacebook() {
+      window.open('https://m.me/fasuni.vn', '_blank');
     }
   },
   mounted() {
@@ -341,10 +344,14 @@ export default {
       }
     }
   }
-
   .navbar-brand {
     margin-top: -7px;
     line-height: normal;
+  }
+  .dropdown-item {
+    &:active {
+      color: #000;
+    }
   }
 
   &>.navbar {

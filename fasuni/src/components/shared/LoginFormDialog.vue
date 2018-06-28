@@ -5,7 +5,7 @@
       @close="$emit('update:isOpenLoginFormDialog', false)">
       <div slot="body" class="row m-0">
         <div class="col-6 p-0">
-          <img :src="images.loginFormBanner" alt="" class="w-100 h-100" />
+          <img :src="`${imageUrl}/login-form-banner.jpg`" alt="" class="w-100 h-100" />
         </div>
         <div class="col-6 px-lg-5 pt-lg-3">
           <h5 class="text-center branding-name">Fasuni</h5>
@@ -56,10 +56,9 @@ import MatInput from '@/components/shared/material/MatInput';
 import MatForm from '@/components/shared/material/MatForm';
 import Modal from '@/components/shared/Modal';
 import { mapMutations } from 'vuex';
-import loginFormBanner from '@/assets/images/login-form-banner.jpg';
 import FacebookButton from '@/components/shared/FacebookButton';
 import GoogleButton from '@/components/shared/GoogleButton';
-import { ERROR_MESSAGE, PATTERN } from '@/shared/constants';
+import { ERROR_MESSAGE, PATTERN, IMAGE_URL } from '@/shared/constants';
 import userService from '@/shared/services/user.service';
 import { reloadApp } from '@/shared/functions';
 
@@ -91,11 +90,13 @@ export default {
         password: [
           { required: true, message: ERROR_MESSAGE.password.required }
         ]
-      },
-      images: {
-        loginFormBanner: loginFormBanner
       }
     };
+  },
+  computed: {
+    imageUrl() {
+      return IMAGE_URL;
+    }
   },
   methods: {
     ...mapMutations('auth', [

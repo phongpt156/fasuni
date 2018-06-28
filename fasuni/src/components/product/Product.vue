@@ -153,7 +153,7 @@
 </template>
 
 <script>
-import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import checkIcon from '@fortawesome/fontawesome-free-solid/faCheck';
 import cartPlusIcon from '@fortawesome/fontawesome-free-solid/faCartPlus';
 import solidFaHeart from '@fortawesome/fontawesome-free-solid/faHeart';

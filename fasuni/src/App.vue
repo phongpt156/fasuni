@@ -33,6 +33,23 @@ export default {
     Header,
     Footer
   },
+  head: {
+    title: {
+      inner: 'Fasuni',
+      separator: '-',
+      complement: 'New Style Fashion'
+    },
+    meta: [
+      { name: 'description', content: 'Fasuni - Thay đổi phong cách thời trang của bạn' },
+      { name: 'keywords', content: 'Fasuni - Thay đổi phong cách thời trang của bạn' },
+      { property: 'og:url', content: 'https://www.fasuni.vn' },
+      { property: 'og:type', content: 'website' },
+      { property: 'og:title', content: 'Fasuni - Thay đổi phong cách thời trang của bạn' },
+      { property: 'og:description', content: 'Fasuni - Thay đổi phong cách thời trang của bạn' },
+      { property: 'og:image', content: 'https://www.fasuni.vn/images/fasuni.png' },
+      { property: 'fb:app_id', content: '2091371807815202' }
+    ]
+  },
   methods: {
     ...mapMutations(['setUser']),
     ...mapMutations('auth', [
