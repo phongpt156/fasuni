@@ -20,9 +20,9 @@ sync(store, router);
 const fixedDate = new Date('06/20/2018 10:17').toISOString();
 
 if (localStorage.getItem('fixed')) {
-  const oldFixedDate = new Date(localStorage.getItem('fixed')).toISOString();
+  let oldFixedDate = new Date(localStorage.getItem('fixed'));
 
-  if (oldFixedDate.toString() === 'Invalid Date' || oldFixedDate < fixedDate) {
+  if (oldFixedDate.toString() === 'Invalid Date' || oldFixedDate.toISOString() < fixedDate) {
     localStorage.clear();
     localStorage.setItem('fixed', fixedDate);
   }
