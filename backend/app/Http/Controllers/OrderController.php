@@ -166,7 +166,7 @@ class OrderController extends Controller
             $customer = Customer::whereUserId($user->id)->first();
 
             if ($customer) {
-                $orders = Order::whereCustomerId($customer->id)->whereSource('Website')->with('orderDetails.product')->get();
+                $orders = Order::whereCustomerId($customer->id)->whereSource('Website')->with('orderDetails.product')->latest()->get();
 
                 return response()->json($orders, 200);
             }
