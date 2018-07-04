@@ -16,7 +16,7 @@
           </li>
         </ul>
       </div>
-      <h3 class="text-uppercase font-weight-normal mb-0">Thời trang nam mùa hè</h3>
+      <h3 class="text-uppercase font-weight-normal mb-0">{{ category.name }}</h3>
     </nav>
     <hr class="hr m-0" />
     <main-body></main-body>
