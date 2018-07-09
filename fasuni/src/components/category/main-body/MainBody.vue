@@ -4,7 +4,7 @@
       <div class="d-flex flex-wrap">
         <div class="mt-3">
           <button
-            class="btn btn-secondary dropdown-toggle button d-flex justify-content-between align-items-center mr-2 font-size-sm text-dark"
+            class="btn btn-secondary dropdown-toggle button d-flex justify-content-between align-items-center mr-2 font-size-sm"
             type="button"
             id="dropdownSortMenuButton"
             data-toggle="dropdown"
@@ -19,7 +19,7 @@
           </div>
         </div>
         <button
-          class="btn btn-secondary button d-flex justify-content-between align-items-center mr-2 mt-3 filter-button font-size-sm text-dark"
+          class="btn btn-secondary button d-flex justify-content-between align-items-center mr-2 mt-3 filter-button font-size-sm"
           type="button"
           aria-haspopup="true"
           aria-expanded="false"
@@ -197,6 +197,9 @@ export default {
       color: #fff !important;
       background-color: #545b62;
     }
+  }
+  .btn {
+    color: #212529;
   }
 }
 </style>

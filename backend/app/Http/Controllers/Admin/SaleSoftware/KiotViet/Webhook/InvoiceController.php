@@ -11,6 +11,7 @@ use App\Models\Invoice;
 use App\Models\InvoiceDetail;
 use App\Models\Payment;
 use App\Models\InvoicePayment;
+use App\Models\Product;
 
 class InvoiceController extends WebhookController
 {
@@ -87,6 +88,8 @@ class InvoiceController extends WebhookController
                         ['product_id' => $productId, 'invoice_id' => $invoiceId],
                         ['quantity' => $invoiceDetail['Quantity'], 'price' => $invoiceDetail['Price'], 'discount_price' => $invoiceDetail['Discount']]
                     );
+                    Product::find($productId)->increment('buy_count');
+
                 } catch (QueryException $e) {
                     \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save invoice detail: ' . $e->getMessage());
                     response()->json(['error' => 'Cannot save invoice detail: ' . $e->getMessage()], 500)->send();

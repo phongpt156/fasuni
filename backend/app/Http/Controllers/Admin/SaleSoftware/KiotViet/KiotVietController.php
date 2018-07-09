@@ -916,6 +916,7 @@ class KiotVietController extends Controller
                         ['product_id' => $productId, 'invoice_id' => $invoiceId],
                         ['quantity' => $invoiceDetail->quantity, 'price' => $invoiceDetail->price, 'discount_price' => $invoiceDetail->discount]
                     );
+                    Product::find($productId)->increment('buy_count');
                 } catch (QueryException $e) {
                     \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot save invoice detail: ' . $e->getMessage());
                     response()->json(['error' => 'Cannot save invoice detail: ' . $e->getMessage()], 500)->send();
