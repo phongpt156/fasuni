@@ -86,7 +86,7 @@ export default {
   right: 0;
   position: absolute;
   overflow: auto;
-  min-width: 14vw;
+  min-width: 250px;
   max-height: 70vh;
   font-size: .75rem;
   border: 1px solid $black;

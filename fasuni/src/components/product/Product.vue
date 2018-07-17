@@ -182,6 +182,24 @@ export default {
   filters: {
     priceFormat
   },
+  head: {
+    title() {
+      return {
+        inner: 'Fasuni',
+        separator: '-',
+        complement: this.product.name
+      };
+    },
+    meta() {
+      return [
+        { name: 'description', content: `Fasuni - ${this.product.name}` },
+        { name: 'keywords', content: `Fasuni - ${this.product.name}` },
+        { property: 'og:url', content: `https://www.fasuni.vn${this.$route.fullPath}` },
+        { property: 'og:title', content: `Fasuni - ${this.product.name}` },
+        { property: 'og:image', content: this.images[0] ? this.images[0].original : '' }
+      ];
+    }
+  },
   data() {
     return {
       icons: {
@@ -476,6 +494,7 @@ export default {
       this.scrollTop();
       this.recentlyViewedProducts = [];
       await this.getProduct(this.$route.params.id);
+      this.$emit('updateHead');
       this.formatRecentlyViewedProducts();
       this.selectedSize = {};
       this.loading = false;

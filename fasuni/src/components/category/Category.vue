@@ -31,14 +31,37 @@ import { mapMutations, mapState } from 'vuex';
 import { Pagination } from '@/shared/classes';
 
 export default {
-  created() {
+  async created() {
     if (!this.$route.params.type) {
       this.$router.push({name: 'Category', params: {type: 'newest'}});
     }
+    this.getProducts(1);
+    document.addEventListener('scroll', this.onScroll, {
+      passive: true
+    });
+    await this.getHierachyCategory(this.id);
+    this.$emit('updateHead');
   },
   name: 'Category',
   components: {
     MainBody
+  },
+  head: {
+    title() {
+      return {
+        inner: 'Fasuni',
+        separator: '-',
+        complement: this.category.name
+      };
+    },
+    meta() {
+      return [
+        { name: 'description', content: `Fasuni - ${this.category.name}` },
+        { name: 'keywords', content: `Fasuni - ${this.category.name}` },
+        { property: 'og:url', content: `https://www.fasuni.vn${this.$route.fullPath}` },
+        { property: 'og:title', content: `Fasuni - ${this.category.name}` }
+      ];
+    }
   },
   data() {
     return {
@@ -125,12 +148,15 @@ export default {
       'setProducts'
     ]),
     getHierachyCategory(id) {
-      categoryService.getHierachyCategory(id)
-        .then(response => {
-          if (response && response.status === 200 && response.data) {
-            this.category = response.data;
-          }
-        });
+      return new Promise(resolve => {
+        categoryService.getHierachyCategory(id)
+          .then(response => {
+            if (response && response.status === 200 && response.data) {
+              this.category = response.data;
+            }
+            resolve();
+          });
+      });
     },
     setBreadcrumbs(category) {
       let tmp = JSON.parse(JSON.stringify(this.category));
@@ -178,13 +204,6 @@ export default {
         this.getProducts(this.pagination.current + 1);
       }
     }
-  },
-  mounted() {
-    this.getHierachyCategory(this.id);
-    this.getProducts(1);
-    document.addEventListener('scroll', this.onScroll, {
-      passive: true
-    });
   },
   destroyed() {
     document.removeEventListener('scroll', this.onScroll);

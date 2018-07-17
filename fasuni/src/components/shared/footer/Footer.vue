@@ -8,7 +8,7 @@
       </div>
       <div class="col-md-3 d-flex flex-column about-us">
         <p class="font-weight-bold text-uppercase text-white mt-3">Về chúng tôi</p>
-        <a>Liên hệ</a>
+        <a href="https://m.me/fasuni.vn" target="__blank">Liên hệ</a>
         <a>Sitemap</a>
         <a>Stores</a>
         <a>Login</a>
@@ -79,6 +79,8 @@ export default {
 
   .about-us, .shop-guilde {
     a {
+      color: inherit;
+
       &:hover {
         text-decoration: underline !important;
       }
