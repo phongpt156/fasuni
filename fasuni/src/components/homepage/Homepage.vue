@@ -96,7 +96,7 @@
         </carousel>
       </div>
     </div>
-    <div v-scroll-reveal.reset class="pt-5">
+    <!-- <div v-scroll-reveal.reset class="pt-5">
       <div class="py-5">
         <p class="mb-0 text-center text-uppercase font-weight-bold">Các bài viết</p>
         <hr class="mt-0 mx-2" />
@@ -131,7 +131,7 @@
           </slide>
         </carousel>
       </div>
-    </div>
+    </div> -->
     <div v-scroll-reveal.reset>
       <div class="p-5">
         <div class="row py-5">

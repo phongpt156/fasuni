@@ -1,7 +1,7 @@
-export const BASE_URL = process.env.NODE_ENV === 'production' ? location.origin + '/api/admin' : 'https://localhost/fasuni/api/admin';
-export const IMAGE_URL = process.env.NODE_ENV === 'production' ? location.origin + '/images' : 'https://localhost/fasuni/images';
-export const COLLECTION_IMAGE_URL = process.env.NODE_ENV === 'production' ? location.origin + '/images/collections' : 'https://localhost/fasuni/images/collections';
-export const LOOKBOOK_IMAGE_URL = process.env.NODE_ENV === 'production' ? location.origin + '/images/lookbooks' : 'https://localhost/fasuni/images/lookbooks';
+export const BASE_URL = process.env.NODE_ENV === 'production' ? location.origin + '/api/admin' : 'http://fasuni.localhost/api/admin';
+export const IMAGE_URL = process.env.NODE_ENV === 'production' ? location.origin + '/images' : 'http://fasuni.localhost/images';
+export const COLLECTION_IMAGE_URL = process.env.NODE_ENV === 'production' ? location.origin + '/images/collections' : 'http://fasuni.localhost/images/collections';
+export const LOOKBOOK_IMAGE_URL = process.env.NODE_ENV === 'production' ? location.origin + '/images/lookbooks' : 'http://fasuni.localhost/images/lookbooks';
 
 export const ERROR_MESSAGE = {
   email: {
