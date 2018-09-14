@@ -30,17 +30,20 @@ class CustomerController extends WebhookController
                 $districtId = null;
                 if (isset($customer['LocationName'])) {
                     preg_match('/(.+) - (.+)/', $customer['LocationName'], $matches);
-                    $cityName = $matches[1];
-                    $districtName = $matches[2];
 
-                    $city = City::whereName($cityName)->first();
-                    if ($city) {
-                        $cityId = $city->id;
-                    }
+                    if (count($matches) === 3) {
+                        $cityName = $matches[1];
+                        $districtName = $matches[2];
 
-                    $district = District::whereName($districtName)->first();
-                    if ($district) {
-                        $districtId = $district->id;
+                        $city = City::whereName($cityName)->first();
+                        if ($city) {
+                            $cityId = $city->id;
+                        }
+
+                        $district = District::whereName($districtName)->first();
+                        if ($district) {
+                            $districtId = $district->id;
+                        }
                     }
                 }
 

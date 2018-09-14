@@ -75,7 +75,7 @@ class InvoiceController extends WebhookController
 
     public function saveInvoiceDetails(Array $invoiceDetails = [], int $invoiceId, $kiotVietController)
     {
-        $oldProductIds = InvoiceDetail::whereInvoiceId($orderId)->get()->pluck('product_id')->toArray();
+        $oldProductIds = InvoiceDetail::whereInvoiceId($invoiceId)->get()->pluck('product_id')->toArray();
         $newProductIds = [];
 
         foreach ($invoiceDetails as $invoiceDetail) {
