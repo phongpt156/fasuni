@@ -11,14 +11,16 @@
 |
 */
 
+use Illuminate\Support\Facades\File;
+
 $router->get('/images/{filename}', function ($filename) use ($router) {
     $path = config('path.image.base') . $filename;
     $path = urldecode($path);
 
-    if (Illuminate\Support\Facades\File::exists($path)) {
-        $contentType = Illuminate\Support\Facades\File::mimeType($path);
+    if (File::exists($path)) {
+        $contentType = File::mimeType($path);
 
-        return response(Illuminate\Support\Facades\File::get($path), 200)->header('Content-Type', $contentType);
+        return response(File::get($path), 200)->header('Content-Type', $contentType);
     }
     abort(401);
 });
@@ -27,10 +29,10 @@ $router->get('/images/lookbooks/{filename}', function ($filename) use ($router) 
     $path = config('path.image.lookbook') . $filename;
     $path = urldecode($path);
 
-    if (Illuminate\Support\Facades\File::exists($path)) {
-        $contentType = Illuminate\Support\Facades\File::mimeType($path);
+    if (File::exists($path)) {
+        $contentType = File::mimeType($path);
 
-        return response(Illuminate\Support\Facades\File::get($path), 200)->header('Content-Type', $contentType);
+        return response(File::get($path), 200)->header('Content-Type', $contentType);
     }
 });
 
@@ -38,10 +40,10 @@ $router->get('/images/lookbooks/{size}/{filename}', function ($size, $filename) 
     $path = config('path.image.lookbook') . $size . '/' . $filename;
     $path = urldecode($path);
 
-    if (Illuminate\Support\Facades\File::exists($path)) {
-        $contentType = Illuminate\Support\Facades\File::mimeType($path);
+    if (File::exists($path)) {
+        $contentType = File::mimeType($path);
 
-        return response(Illuminate\Support\Facades\File::get($path), 200)->header('Content-Type', $contentType);
+        return response(File::get($path), 200)->header('Content-Type', $contentType);
     }
 });
 
@@ -49,10 +51,10 @@ $router->get('/images/collections/{filename}', function ($filename) use ($router
     $path = config('path.image.collection') . $filename;
     $path = urldecode($path);
 
-    if (Illuminate\Support\Facades\File::exists($path)) {
-        $contentType = Illuminate\Support\Facades\File::mimeType($path);
+    if (File::exists($path)) {
+        $contentType = File::mimeType($path);
 
-        return response(Illuminate\Support\Facades\File::get($path), 200)->header('Content-Type', $contentType);
+        return response(File::get($path), 200)->header('Content-Type', $contentType);
     }
 });
 
@@ -60,10 +62,10 @@ $router->get('/images/collections/{size}/{filename}', function ($size, $filename
     $path = config('path.image.collection') . $size . '/' . $filename;
     $path = urldecode($path);
 
-    if (Illuminate\Support\Facades\File::exists($path)) {
-        $contentType = Illuminate\Support\Facades\File::mimeType($path);
+    if (File::exists($path)) {
+        $contentType = File::mimeType($path);
 
-        return response(Illuminate\Support\Facades\File::get($path), 200)->header('Content-Type', $contentType);
+        return response(File::get($path), 200)->header('Content-Type', $contentType);
     }
 });
 
@@ -199,28 +201,28 @@ $router->group(['prefix' => 'api'], function ($router) {
 $router->get('/admin/static/{type}/{file}', function ($type, $file) use ($router) {
     $path = resource_path('admin/dist/static/' . $type . '/' . $file);
 
-    if (Illuminate\Support\Facades\File::exists($path)) {
-        $contentType = Illuminate\Support\Facades\File::mimeType($path);
+    if (File::exists($path)) {
+        $contentType = File::mimeType($path);
 
         if ($type === 'css') {
             $contentType = 'text/css';
         }
 
-        return response(Illuminate\Support\Facades\File::get($path), 200)->header('Content-Type', $contentType);
+        return response(File::get($path), 200)->header('Content-Type', $contentType);
     }
 });
 
 $router->get('/static/{type}/{file}', function ($type, $file) use ($router) {
     $path = resource_path('web/dist/static/' . $type . '/' . $file);
 
-    if (Illuminate\Support\Facades\File::exists($path)) {
-        $contentType = Illuminate\Support\Facades\File::mimeType($path);
+    if (File::exists($path)) {
+        $contentType = File::mimeType($path);
 
         if ($type === 'css') {
             $contentType = 'text/css';
         }
 
-        return response(Illuminate\Support\Facades\File::get($path), 200)->header('Content-Type', $contentType);
+        return response(File::get($path), 200)->header('Content-Type', $contentType);
     }
 });
 
