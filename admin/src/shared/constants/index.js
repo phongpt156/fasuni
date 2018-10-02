@@ -1,7 +1,8 @@
-export const BASE_URL = process.env.NODE_ENV === 'production' ? location.origin + '/api/admin' : 'http://fasuni.localhost/api/admin';
-export const IMAGE_URL = process.env.NODE_ENV === 'production' ? location.origin + '/images' : 'http://fasuni.localhost/images';
-export const COLLECTION_IMAGE_URL = process.env.NODE_ENV === 'production' ? location.origin + '/images/collections' : 'http://fasuni.localhost/images/collections';
-export const LOOKBOOK_IMAGE_URL = process.env.NODE_ENV === 'production' ? location.origin + '/images/lookbooks' : 'http://fasuni.localhost/images/lookbooks';
+export const HOSTNAME = process.env.NODE_ENV === 'production' ? location.hostname : 'http://localhost/fasuni/public_html';
+export const BASE_URL = `${HOSTNAME}/api/admin`;
+export const IMAGE_URL = `${HOSTNAME}/images`;
+export const COLLECTION_IMAGE_URL = `${HOSTNAME}/images/collections`;
+export const LOOKBOOK_IMAGE_URL = `${HOSTNAME}/images/lookbooks`;
 
 export const ERROR_MESSAGE = {
   email: {
