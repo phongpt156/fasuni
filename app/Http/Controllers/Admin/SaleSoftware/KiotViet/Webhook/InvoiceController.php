@@ -100,10 +100,10 @@ class InvoiceController extends WebhookController
             }
         }
 
-        $removeIds = array_diff($oldProductIds, $newProductIds);
-        if (count($removeIds)) {
+        $removedIds = array_diff($oldProductIds, $newProductIds);
+        if (count($removedIds)) {
             try {
-                InvoiceDetail::whereInvoiceId($orderId)->whereIn('product_id', $removeIds)->delete();
+                InvoiceDetail::whereInvoiceId($orderId)->whereIn('product_id', $removedIds)->delete();
             } catch (QueryException $e) {
                 \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete invoice details: ' . $e->getMessage());
                 response()->json(['error' => 'Cannot delete invoice details: ' . $e->getMessage()], 500)->send();

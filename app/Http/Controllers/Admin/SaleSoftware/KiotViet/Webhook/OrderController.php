@@ -90,10 +90,10 @@ class OrderController extends WebhookController
             }
         }
 
-        $removeIds = array_diff($oldProductIds, $newProductIds);
-        if (count($removeIds)) {
+        $removedIds = array_diff($oldProductIds, $newProductIds);
+        if (count($removedIds)) {
             try {
-                OrderDetail::whereOrderId($orderId)->whereIn('product_id', $removeIds)->delete();
+                OrderDetail::whereOrderId($orderId)->whereIn('product_id', $removedIds)->delete();
             } catch (QueryException $e) {
                 \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete order details: ' . $e->getMessage());
                 response()->json(['error' => 'Cannot delete order details: ' . $e->getMessage()], 500)->send();

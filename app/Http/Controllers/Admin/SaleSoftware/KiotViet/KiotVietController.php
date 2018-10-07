@@ -120,8 +120,8 @@ class KiotVietController extends Controller
     {
         $response = $this->kiotVietService->branchService->getAll();
 
-        if (isset($response->removeIds)) {
-            $this->deleteBranches($response->removeIds);
+        if (isset($response->removedIds)) {
+            $this->deleteBranches($response->removedIds);
         }
 
         $branches = $response->data;
@@ -188,8 +188,8 @@ class KiotVietController extends Controller
     {
         $response = $this->kiotVietService->categoryService->getAll();
 
-        if (isset($response->removeIds)) {
-            $this->deleteCategories($response->removeIds);
+        if (isset($response->removedIds)) {
+            $this->deleteCategories($response->removedIds);
         }
 
         $categories = $response->data;
@@ -269,8 +269,8 @@ class KiotVietController extends Controller
     {
         $response = $this->kiotVietService->productService->getAll();
 
-        if (isset($response->removeIds)) {
-            $this->deleteProducts($response->removeIds);
+        if (isset($response->removedIds)) {
+            $this->deleteProducts($response->removedIds);
         }
 
         $products = $response->data;
@@ -496,10 +496,10 @@ class KiotVietController extends Controller
             }
         }
 
-        $removeIds = array_diff($oldBranchIds, $newBranchIds);
-        if (count($removeIds)) {
+        $removedIds = array_diff($oldBranchIds, $newBranchIds);
+        if (count($removedIds)) {
             try {
-                Inventory::whereProductId($productId)->whereIn('branch_id', $removeIds)->delete();
+                Inventory::whereProductId($productId)->whereIn('branch_id', $removedIds)->delete();
             } catch (QueryException $e) {
                 \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete inventories: ' . $e->getMessage());
                 response()->json(['error' => 'Cannot delete inventories: ' . $e->getMessage()], 500)->send();
@@ -523,8 +523,8 @@ class KiotVietController extends Controller
     {
         $response = $this->kiotVietService->customerService->getAll();
 
-        if (isset($response->removeIds)) {
-            $this->deleteCustomers($response->removeIds);
+        if (isset($response->removedIds)) {
+            $this->deleteCustomers($response->removedIds);
         }
 
         $customers = $response->data;
@@ -610,8 +610,8 @@ class KiotVietController extends Controller
     {
         $response = $this->kiotVietService->employeeService->getAll();
 
-        if (isset($response->removeIds)) {
-            $this->deleteEmployees($response->removeIds);
+        if (isset($response->removedIds)) {
+            $this->deleteEmployees($response->removedIds);
         }
 
         $employees = $response->data;
@@ -685,8 +685,8 @@ class KiotVietController extends Controller
     {
         $response = $this->kiotVietService->orderService->getAll();
 
-        if (isset($response->removeIds)) {
-            $this->deleteOrders($response->removeIds);
+        if (isset($response->removedIds)) {
+            $this->deleteOrders($response->removedIds);
         }
 
         $orders = $response->data;
@@ -785,10 +785,10 @@ class KiotVietController extends Controller
             }
         }
 
-        $removeIds = array_diff($oldProductIds, $newProductIds);
-        if (count($removeIds)) {
+        $removedIds = array_diff($oldProductIds, $newProductIds);
+        if (count($removedIds)) {
             try {
-                OrderDetail::whereOrderId($orderId)->whereIn('product_id', $removeIds)->delete();
+                OrderDetail::whereOrderId($orderId)->whereIn('product_id', $removedIds)->delete();
             } catch (QueryException $e) {
                 \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete order details: ' . $e->getMessage());
                 response()->json(['error' => 'Cannot delete order details: ' . $e->getMessage()], 500)->send();
@@ -819,8 +819,8 @@ class KiotVietController extends Controller
     {
         $response = $this->kiotVietService->invoiceService->getAll();
 
-        if (isset($response->removeIds)) {
-            $this->deleteInvoices($response->removeIds);
+        if (isset($response->removedIds)) {
+            $this->deleteInvoices($response->removedIds);
         }
 
         $invoices = $response->data;
@@ -927,10 +927,10 @@ class KiotVietController extends Controller
             }
         }
 
-        $removeIds = array_diff($oldProductIds, $newProductIds);
-        if (count($removeIds)) {
+        $removedIds = array_diff($oldProductIds, $newProductIds);
+        if (count($removedIds)) {
             try {
-                InvoiceDetail::whereInvoiceId($invoiceId)->whereIn('product_id', $removeIds)->delete();
+                InvoiceDetail::whereInvoiceId($invoiceId)->whereIn('product_id', $removedIds)->delete();
             } catch (QueryException $e) {
                 \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete invoice details: ' . $e->getMessage());
                 response()->json(['error' => 'Cannot delete invoice details: ' . $e->getMessage()], 500)->send();

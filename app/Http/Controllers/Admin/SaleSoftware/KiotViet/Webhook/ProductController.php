@@ -189,10 +189,10 @@ class ProductController extends WebhookController
             }
         }
 
-        $removeIds = array_diff($oldBranchIds, $newBranchIds);
-        if (count($removeIds)) {
+        $removedIds = array_diff($oldBranchIds, $newBranchIds);
+        if (count($removedIds)) {
             try {
-                Inventory::whereProductId($productId)->whereIn('branch_id', $removeIds)->delete();
+                Inventory::whereProductId($productId)->whereIn('branch_id', $removedIds)->delete();
             } catch (QueryException $e) {
                 \Log::error($e->getFile() . ' ' . $e->getLine() . ' error: Cannot delete inventories: ' . $e->getMessage());
                 response()->json(['error' => 'Cannot delete inventories: ' . $e->getMessage()], 500)->send();
