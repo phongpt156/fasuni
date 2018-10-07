@@ -10,21 +10,21 @@ import faSpinner from '@fortawesome/fontawesome-free-solid/faSpinner';
 
 export default {
   components: {
-    FontAwesomeIcon
+    FontAwesomeIcon,
   },
   props: {
     loading: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
       icons: {
-        spinner: faSpinner
-      }
+        spinner: faSpinner,
+      },
     };
-  }
+  },
 };
 </script>
 

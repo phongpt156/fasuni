@@ -57,7 +57,7 @@ import googlePlusIcon from '@fortawesome/fontawesome-free-brands/faGooglePlus';
 
 export default {
   components: {
-    FontAwesomeIcon
+    FontAwesomeIcon,
   },
   data() {
     return {
@@ -65,10 +65,10 @@ export default {
         facebook: facebookIcon,
         instagram: instagramIcon,
         youtube: youtubeIcon,
-        googlePlus: googlePlusIcon
-      }
+        googlePlus: googlePlusIcon,
+      },
     };
-  }
+  },
 };
 </script>
 

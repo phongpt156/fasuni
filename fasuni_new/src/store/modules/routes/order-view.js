@@ -5,6 +5,6 @@ export default {
   path: '/order/view',
   component: lazyLoading('order/ViewOrder'),
   meta: {
-    title: 'Fasuni'
-  }
+    title: 'Fasuni',
+  },
 };

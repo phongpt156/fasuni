@@ -133,15 +133,14 @@
 
 <script>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { mapState, mapMutations } from 'vuex';
+import { reloadApp } from '@/shared/functions';
 import VuePerfectScrollbar from 'vue-perfect-scrollbar';
 import timesIcon from '@fortawesome/fontawesome-free-solid/faTimes';
 import plusIcon from '@fortawesome/fontawesome-free-solid/faPlus';
 import minusIcon from '@fortawesome/fontawesome-free-solid/faMinus';
-import SearchForm from './../search-form/SearchForm';
-// import Modal from '@/components/shared/Modal';
-import { mapState, mapMutations } from 'vuex';
-import { reloadApp } from '@/shared/functions';
 import userService from '@/shared/services/user.service';
+import SearchForm from './../search-form/SearchForm';
 
 export default {
   props: {
@@ -149,33 +148,33 @@ export default {
       type: Array,
       default() {
         return [];
-      }
+      },
     },
     lookbookMonthList: {
       type: Object,
       default() {
         return {};
-      }
+      },
     },
     genders: {
       type: Object,
       default() {
         return {};
-      }
-    }
+      },
+    },
   },
   components: {
     SearchForm,
     FontAwesomeIcon,
-    VuePerfectScrollbar
+    VuePerfectScrollbar,
   },
   data() {
     return {
       icons: {
         times: timesIcon,
         plus: plusIcon,
-        minus: minusIcon
-      }
+        minus: minusIcon,
+      },
     };
   },
   computed: {
@@ -188,7 +187,7 @@ export default {
         return this.user.name;
       }
       return `${this.user.first_name} ${this.user.last_name}`;
-    }
+    },
   },
   methods: {
     setToggleableCategories(categories) {
@@ -205,7 +204,7 @@ export default {
       }
     },
     ...mapMutations('auth', [
-      'removeToken'
+      'removeToken',
     ]),
     openRegisterFormDialog() {
       this.isOpenLoginFormDialog = false;
@@ -219,11 +218,11 @@ export default {
       userService.logout();
       this.removeToken();
       reloadApp();
-    }
+    },
   },
   mounted() {
     this.setToggleableCategories(this.categories);
-  }
+  },
 };
 </script>
 

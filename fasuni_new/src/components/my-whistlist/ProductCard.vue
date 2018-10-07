@@ -26,15 +26,15 @@ import { priceFormat } from '@/filters';
 
 export default {
   filters: {
-    priceFormat
+    priceFormat,
   },
   props: {
     product: {
       type: Object,
       default() {
         return {};
-      }
-    }
+      },
+    },
   },
   computed: {
     image() {
@@ -60,8 +60,8 @@ export default {
       }
 
       return null;
-    }
-  }
+    },
+  },
 };
 </script>
 

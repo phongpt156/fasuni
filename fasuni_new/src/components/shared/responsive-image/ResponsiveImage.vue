@@ -14,30 +14,30 @@ import { encodeURI } from '@/filters';
 
 export default {
   filters: {
-    encodeURI
+    encodeURI,
   },
   props: {
     sm: {
-      type: String
+      type: String,
     },
     md: {
-      type: String
+      type: String,
     },
     lg: {
-      type: String
+      type: String,
     },
     thumbnail: {
-      type: String
+      type: String,
     },
     imageClass: {
-      type: String
-    }
+      type: String,
+    },
   },
   computed: {
     imageUrl() {
       return IMAGE_URL;
-    }
-  }
+    },
+  },
 };
 </script>
 

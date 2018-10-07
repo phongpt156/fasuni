@@ -9,16 +9,16 @@ const state = {
     receiver_district_id: '',
     receiver_ward_id: '',
     receiver_address: '',
-    note: ''
+    note: '',
   },
   isOpenCartDialog: false,
   cities: [],
   districts: [],
-  wards: []
+  wards: [],
 };
 
 export default {
   namespaced: true,
   state,
-  mutations
+  mutations,
 };

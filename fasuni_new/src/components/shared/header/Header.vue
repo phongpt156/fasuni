@@ -127,19 +127,19 @@
 </template>
 
 <script>
-import LoginFormDialog from '@/components/shared/LoginFormDialog';
-import RegisterFormDialog from '@/components/shared/RegisterFormDialog';
-import SidenavOverlay from './sidenav-overlay/SidenavOverlay';
-import SearchForm from './search-form/SearchForm';
-import CartDialog from '@/components/shared/cart-dialog/CartDialog';
 import { mapState, mapMutations } from 'vuex';
 import { reloadApp } from '@/shared/functions';
 import { clickOutside } from '@/directives';
+import { GENDER, IMAGE_URL } from '@/shared/constants';
+import LoginFormDialog from '@/components/shared/LoginFormDialog';
+import RegisterFormDialog from '@/components/shared/RegisterFormDialog';
+import CartDialog from '@/components/shared/cart-dialog/CartDialog';
 import userService from '@/shared/services/user.service';
 import categoryService from '@/shared/services/category.service';
 import lookbookService from '@/shared/services/lookbook.service';
 import collectionService from '@/shared/services/collection.service';
-import { GENDER, IMAGE_URL } from '@/shared/constants';
+import SidenavOverlay from './sidenav-overlay/SidenavOverlay';
+import SearchForm from './search-form/SearchForm';
 
 export default {
   components: {
@@ -147,10 +147,10 @@ export default {
     RegisterFormDialog,
     SidenavOverlay,
     SearchForm,
-    CartDialog
+    CartDialog,
   },
   directives: {
-    clickOutside
+    clickOutside,
   },
   data() {
     return {
@@ -165,15 +165,15 @@ export default {
         female: [],
         collapsed: true,
         maleCollapsed: false,
-        femaleCollapsed: false
-      }
+        femaleCollapsed: false,
+      },
     };
   },
   computed: {
     ...mapState(['user']),
     ...mapState('cart', [
       'products',
-      'isOpenCartDialog'
+      'isOpenCartDialog',
     ]),
     genders() {
       return GENDER;
@@ -192,18 +192,20 @@ export default {
     },
     imageUrl() {
       return IMAGE_URL;
-    }
+    },
   },
   methods: {
     ...mapMutations('auth', [
-      'removeToken'
+      'removeToken',
     ]),
     ...mapMutations('cart', [
       'getCartFromStorage',
-      'setIsOpenCartDialog'
+      'setIsOpenCartDialog',
     ]),
     goToCategoryPage() {
-      this.$router.push({name: 'Category'});
+      this.$router.push({
+        name: 'Category',
+      });
     },
     openRegisterFormDialog() {
       this.isOpenLoginFormDialog = false;
@@ -221,7 +223,7 @@ export default {
     closeSidenavOverlay() {
       this.isOpenSidenavOverlay = false;
     },
-    toggleIsOpenCartDialog () {
+    toggleIsOpenCartDialog() {
       this.setIsOpenCartDialog(!this.isOpenCartDialog);
     },
     closeCart() {
@@ -273,7 +275,7 @@ export default {
     },
     openFasuniFacebook() {
       window.open('https://m.me/fasuni.vn', '_blank');
-    }
+    },
   },
   mounted() {
     if (window.matchMedia('(max-width: 992px)').matches) {
@@ -288,7 +290,7 @@ export default {
     this.getMaleMonthListSnapshot();
     this.getFemaleMonthListSnapshot();
     window.addEventListener('resize', this.onResize.bind(this));
-  }
+  },
 };
 </script>
 

@@ -52,55 +52,64 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+import { reloadApp } from '@/shared/functions';
+import { ERROR_MESSAGE, PATTERN, IMAGE_URL } from '@/shared/constants';
 import MatInput from '@/components/shared/material/MatInput';
 import MatForm from '@/components/shared/material/MatForm';
 import Modal from '@/components/shared/Modal';
-import { mapMutations } from 'vuex';
 import FacebookButton from '@/components/shared/FacebookButton';
 import GoogleButton from '@/components/shared/GoogleButton';
-import { ERROR_MESSAGE, PATTERN, IMAGE_URL } from '@/shared/constants';
 import userService from '@/shared/services/user.service';
-import { reloadApp } from '@/shared/functions';
 
 export default {
   props: {
     isOpenLoginFormDialog: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   components: {
     MatInput,
     MatForm,
     Modal,
     FacebookButton,
-    GoogleButton
+    GoogleButton,
   },
   data() {
     return {
       loginForm: {
         phone_number: '',
-        password: ''
+        password: '',
       },
       loginRules: {
         phone_number: [
-          { required: true, message: ERROR_MESSAGE.phoneNumber.required },
-          { validator: PATTERN.phoneNumber, message: ERROR_MESSAGE.phoneNumber.format }
+          {
+            required: true,
+            message: ERROR_MESSAGE.phoneNumber.required,
+          },
+          {
+            validator: PATTERN.phoneNumber,
+            message: ERROR_MESSAGE.phoneNumber.format,
+          },
         ],
         password: [
-          { required: true, message: ERROR_MESSAGE.password.required }
-        ]
-      }
+          {
+            required: true,
+            message: ERROR_MESSAGE.password.required,
+          },
+        ],
+      },
     };
   },
   computed: {
     imageUrl() {
       return IMAGE_URL;
-    }
+    },
   },
   methods: {
     ...mapMutations('auth', [
-      'setToken'
+      'setToken',
     ]),
     onSubmit() {
       this.$refs.loginForm.validate();
@@ -120,8 +129,8 @@ export default {
       for (const key of Object.keys(errors)) {
         this.$refs.loginForm.addError(key, errors[key]);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

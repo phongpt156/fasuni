@@ -12,8 +12,8 @@ export default new Router({
     ...generateRoutes(store.state.routes),
     {
       path: '*', component: NotFound, meta: { title: '404 Not Found' }
-    }
-  ]
+    },
+  ],
 });
 
 function generateRoutes(routeStores = {}) {

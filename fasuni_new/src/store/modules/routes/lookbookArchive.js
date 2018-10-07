@@ -5,6 +5,6 @@ export default {
   path: '/archive/lookbook',
   component: lazyLoading('archive/Lookbook'),
   meta: {
-    title: 'Lookbook Archive'
-  }
+    title: 'Lookbook Archive',
+  },
 };

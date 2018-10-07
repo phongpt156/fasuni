@@ -66,23 +66,23 @@ import userProductCommunication from '@/shared/services/user-product-communicati
 export default {
   name: 'ProductCard',
   filters: {
-    priceFormat
+    priceFormat,
   },
   props: {
     product: {
       type: Object,
       default: () => {
         return {};
-      }
-    }
+      },
+    },
   },
   components: {
-    FontAwesomeIcon
+    FontAwesomeIcon,
   },
   data() {
     return {
       currentHoverSize: null,
-      currentColor: null
+      currentColor: null,
     };
   },
   computed: {
@@ -97,7 +97,7 @@ export default {
       }
 
       return {
-        heart
+        heart,
       };
     },
     productSizeQuantityStatus() {
@@ -221,10 +221,10 @@ export default {
   },
   methods: {
     ...mapMutations('cart', {
-      addProductToCart: 'add'
+      addProductToCart: 'add',
     }),
     ...mapMutations('products', {
-      'toggleLikedState': 'toggleLiked'
+      'toggleLikedState': 'toggleLiked',
     }),
     enterProductSize(size) {
       this.currentHoverSize = size;
@@ -248,13 +248,13 @@ export default {
     },
     selectColor(color) {
       this.currentColor = color;
-    }
+    },
   },
   mounted() {
     if (this.colors.length) {
       this.currentColor = this.colors[0];
     }
-  }
+  },
 };
 </script>
 

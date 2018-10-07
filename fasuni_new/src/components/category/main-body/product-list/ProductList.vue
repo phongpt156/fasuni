@@ -15,22 +15,22 @@
 </template>
 
 <script>
-import ProductCard from './product-card/ProductCard';
-import Spinner from '@/components/shared/spinner/Spinner';
 import { mapState } from 'vuex';
+import Spinner from '@/components/shared/spinner/Spinner';
+import ProductCard from './product-card/ProductCard';
 
 export default {
   name: 'ProductList',
   components: {
     ProductCard,
-    Spinner
+    Spinner,
   },
   computed: {
     ...mapState('products', [
       'loading',
-      'products'
-    ])
-  }
+      'products',
+    ]),
+  },
 };
 </script>
 

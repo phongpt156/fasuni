@@ -17,17 +17,16 @@ export default {
   props: {
     size: {
       type: String,
-      default: 'lg'
-    }
+      default: 'lg',
+    },
   },
   data() {
     return {
-
     };
   },
   directives: {
     clickOutside: {
-      bind(el, binding, vnode) {
+      bind(el, binding) {
         const bindingValue = binding.value;
 
         function handler(e) {
@@ -36,21 +35,21 @@ export default {
           }
         }
         el.__vueClickOutside__ = {
-          handler: handler
+          handler,
         };
         document.addEventListener('click', handler);
       },
       unbind(el) {
         document.removeEventListener('click', el.__vueClickOutside__.handler);
         delete el.__vueClickOutside__;
-      }
-    }
+      },
+    },
   },
   methods: {
     close() {
       this.$emit('close');
-    }
-  }
+    },
+  },
 };
 </script>
 

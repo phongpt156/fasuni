@@ -10,16 +10,21 @@
 export default {
   data() {
     return {
-      name: ''
+      name: '',
     };
   },
   methods: {
     onSubmit() {
       if (this.name) {
-        this.$router.push({name: 'Search', params: {name: this.name}});
+        this.$router.push({
+          name: 'Search',
+          params: {
+            name: this.name,
+          },
+        });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

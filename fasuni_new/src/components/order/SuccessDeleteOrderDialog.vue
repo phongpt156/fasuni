@@ -24,16 +24,16 @@ export default {
   props: {
     isOpenSuccessDeleteOrderDialog: {
       type: Boolean,
-      default: false
+      default: false,
     },
     code: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   components: {
-    Modal
-  }
+    Modal,
+  },
 };
 </script>
 

@@ -17,30 +17,30 @@ export default {
       type: Array,
       default() {
         return [];
-      }
+      },
     },
     placeholder: {
       type: String,
-      default: 'Chọn'
+      default: 'Chọn',
     },
     label: {
-      type: String
+      type: String,
     },
     value: {
-      type: [String, Array]
+      type: [String, Array],
     },
     content: {
-      type: String
+      type: String,
     },
     distinct: {
-      type: String
+      type: String,
     },
     trackBy: {
-      type: String
-    }
+      type: String,
+    },
   },
   directives: {
-    clickOutside
+    clickOutside,
   },
   computed: {
     isActive() {
@@ -54,11 +54,11 @@ export default {
         }
         return false;
       };
-    }
+    },
   },
   data() {
     return {
-      isOpenOptionList: false
+      isOpenOptionList: false,
     };
   },
   methods: {
@@ -67,8 +67,8 @@ export default {
     },
     selectOption(option) {
       this.$emit('click', option);
-    }
-  }
+    },
+  },
 };
 </script>
 

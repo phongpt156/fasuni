@@ -11,23 +11,23 @@ export default {
       type: Object,
       default() {
         return {};
-      }
+      },
     },
     rules: {
       type: Object,
       default() {
         return {};
-      }
+      },
     },
     inline: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
       isValid: true,
-      fields: {}
+      fields: {},
     };
   },
   methods: {
@@ -60,7 +60,7 @@ export default {
       if (input) {
         input.focus();
       }
-    }
+    },
   },
   mounted() {
     if (this.$refs.form[0]) {
@@ -85,7 +85,7 @@ export default {
         }
       });
     }
-  }
+  },
 };
 </script>
 

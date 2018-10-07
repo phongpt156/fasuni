@@ -70,5 +70,5 @@ export default {
   },
   setWards(state, wards) {
     state.wards = wards;
-  }
+  },
 };

@@ -5,6 +5,6 @@ export default {
   path: '/order/history',
   component: lazyLoading('order/OrderHistory'),
   meta: {
-    title: 'Fasuni'
-  }
+    title: 'Fasuni',
+  },
 };

@@ -25,10 +25,10 @@ const state = {
   myWhistlist,
   checkout,
   orderView,
-  orderHistory
+  orderHistory,
 };
 
 export default {
   namespaced: true,
-  state
+  state,
 };

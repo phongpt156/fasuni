@@ -29,28 +29,28 @@
 export default {
   props: {
     placeholder: {
-      type: String
+      type: String,
     },
     required: {
       type: Boolean,
-      default: false
+      default: false,
     },
     type: {
       type: String,
-      default: 'text'
+      default: 'text',
     },
     value: {
       type: String,
-      default: ''
+      default: '',
     },
     label: {
       type: String,
-      default: ''
+      default: '',
     },
     prop: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   data() {
     return {
@@ -61,14 +61,14 @@ export default {
       validator: '',
       errorMessages: {
         required: '',
-        validator: ''
-      }
+        validator: '',
+      },
     };
   },
   computed: {
     inputLabel() {
       return this.required ? `${this.label}*` : this.label;
-    }
+    },
   },
   methods: {
     onInput(value) {
@@ -93,8 +93,8 @@ export default {
           this.errorMessage = this.errorMessages.validator;
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
