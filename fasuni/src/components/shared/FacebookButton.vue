@@ -17,11 +17,11 @@ export default {
     },
     imageUrl() {
       return IMAGE_URL;
-    }
+    },
   },
   methods: {
     ...mapMutations('auth', [
-      'setToken'
+      'setToken',
     ]),
     login() {
       this.fb.login(response => {
@@ -64,12 +64,12 @@ export default {
         gender: genderId,
         facebook_id: data.id,
         last_name: data.last_name,
-        location: location,
+        location,
         facebook_name: data.name,
-        avatar: (data.picture && data.picture.data) ? data.picture.data.url : ''
+        avatar: (data.picture && data.picture.data) ? data.picture.data.url : '',
       };
-    }
-  }
+    },
+  },
 };
 </script>
 

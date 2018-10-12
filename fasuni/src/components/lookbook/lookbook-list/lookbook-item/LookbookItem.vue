@@ -26,15 +26,15 @@ import ResponsiveImage from '@/components/shared/responsive-image/ResponsiveImag
 
 export default {
   components: {
-    ResponsiveImage
+    ResponsiveImage,
   },
   props: {
     lookbook: {
       type: Object,
       default() {
         return {};
-      }
-    }
+      },
+    },
   },
   data() {
     return {
@@ -44,8 +44,8 @@ export default {
   computed: {
     priceFormat() {
       return (price) => getFormatPrice(price);
-    }
-  }
+    },
+  },
 };
 </script>
 

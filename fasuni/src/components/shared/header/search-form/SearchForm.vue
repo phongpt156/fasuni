@@ -10,16 +10,21 @@
 export default {
   data() {
     return {
-      name: ''
+      name: '',
     };
   },
   methods: {
     onSubmit() {
       if (this.name) {
-        this.$router.push({name: 'Search', params: {name: this.name}});
+        this.$router.push({
+          name: 'Search',
+          params: {
+            name: this.name,
+          },
+        });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -29,6 +34,7 @@ export default {
 .search-form {
   input {
     width: auto;
+    height: auto;
     font-size: 0.7rem;
     display: inline-block;
     border-radius: 30px 0 0 30px;
@@ -58,7 +64,7 @@ export default {
     }
   }
 }
-@include media-breakpoint-down(lg) {
+@include media-breakpoint-down(md) {
   .search-form {
     padding-top: 1rem;
 

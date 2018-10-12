@@ -34,5 +34,5 @@ export default {
   },
   toggleLiked(state, product) {
     product.liked = !product.liked;
-  }
+  },
 };

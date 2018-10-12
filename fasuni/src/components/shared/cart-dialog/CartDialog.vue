@@ -43,7 +43,7 @@ import { priceFormat } from '@/filters';
 
 export default {
   filters: {
-    priceFormat
+    priceFormat,
   },
   data() {
     return {
@@ -51,7 +51,7 @@ export default {
   },
   computed: {
     ...mapState('cart', [
-      'products'
+      'products',
     ]),
     totalPrice: () => product => {
       return product.sale_price * product.quantity;
@@ -64,16 +64,13 @@ export default {
       });
 
       return total;
-    }
+    },
   },
   methods: {
     ...mapMutations('cart', {
-      removeProductFromCart: 'remove'
-    })
+      removeProductFromCart: 'remove',
+    }),
   },
-  mounted() {
-    console.log(this.products);
-  }
 };
 </script>
 

@@ -25,21 +25,21 @@ export default {
   props: {
     isOpenConfirmDeleteOrderDialog: {
       type: Boolean,
-      default: false
+      default: false,
     },
     code: {
       type: String,
-      default: ''
+      default: '',
     },
     loading: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   components: {
     Modal,
-    MatButton
-  }
+    MatButton,
+  },
 };
 </script>
 

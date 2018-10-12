@@ -25,18 +25,18 @@ export default {
       next();
     });
 
-    this.$router.afterEach((to, from) => {
+    this.$router.afterEach(() => {
       this.$Progress.finish();
     });
   },
   components: {
     Header,
-    Footer
+    Footer,
   },
   methods: {
     ...mapMutations(['setUser']),
     ...mapMutations('auth', [
-      'removeToken'
+      'removeToken',
     ]),
     authUser() {
       userService.index()
@@ -48,12 +48,12 @@ export default {
             this.removeToken();
           }
         });
-    }
+    },
   },
   mounted() {
     this.$Progress.finish();
     this.authUser();
-  }
+  },
 };
 </script>
 

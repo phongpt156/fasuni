@@ -156,23 +156,23 @@ import Modal from '@/components/shared/Modal';
 
 export default {
   components: {
-    Modal
+    Modal,
   },
   props: {
     isOpenSizeGuideDialog: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
       currentSizeType: 'inches',
       sizeType: {
         inches: 'inches',
-        cm: 'cm'
-      }
+        cm: 'cm',
+      },
     };
-  }
+  },
 };
 </script>
 

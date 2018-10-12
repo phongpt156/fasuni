@@ -1,4 +1,4 @@
-import homePage from './homepage';
+import home from './home';
 import category from './category';
 import product from './product';
 import lookbook from './lookbook';
@@ -13,7 +13,7 @@ import orderView from './order-view';
 import orderHistory from './order-history';
 
 const state = {
-  homePage,
+  home,
   category,
   product,
   lookbook,
@@ -25,10 +25,10 @@ const state = {
   myWhistlist,
   checkout,
   orderView,
-  orderHistory
+  orderHistory,
 };
 
 export default {
   namespaced: true,
-  state
+  state,
 };

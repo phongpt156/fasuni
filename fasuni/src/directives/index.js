@@ -17,12 +17,12 @@ export const clickOutside = {
     }
 
     el.__vueClickOutside__ = {
-      handler: handler
+      handler,
     };
     document.addEventListener('click', handler);
   },
   unbind(el) {
     document.removeEventListener('click', el.__vueClickOutside__.handler);
     delete el.__vueClickOutside__;
-  }
+  },
 };

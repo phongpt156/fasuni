@@ -16,19 +16,20 @@
 </template>
 
 <script>
-import LookbookItem from './lookbook-item/LookbookItem';
-import lookbookService from '@/shared/services/lookbook.service';
 import Spinner from '@/components/shared/spinner/Spinner';
+import lookbookService from '@/shared/services/lookbook.service';
+import LookbookItem from './lookbook-item/LookbookItem';
+
 
 export default {
   components: {
     LookbookItem,
-    Spinner
+    Spinner,
   },
   data() {
     return {
       lookbooks: [],
-      loading: true
+      loading: true,
     };
   },
   computed: {
@@ -40,7 +41,7 @@ export default {
     },
     gender() {
       return this.$route.params.gender;
-    }
+    },
   },
   watch: {
     gender() {
@@ -51,7 +52,7 @@ export default {
     },
     year() {
       this.getLookbooks();
-    }
+    },
   },
   methods: {
     getLookbooks() {
@@ -65,11 +66,11 @@ export default {
           }
           this.loading = false;
         });
-    }
+    },
   },
   mounted() {
     this.getLookbooks();
-  }
+  },
 };
 </script>
 

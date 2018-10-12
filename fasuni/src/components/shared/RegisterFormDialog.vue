@@ -107,29 +107,29 @@
 </template>
 
 <script>
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { mapMutations } from 'vuex';
+import { ERROR_MESSAGE, PATTERN, GENDER, IMAGE_URL } from '@/shared/constants';
+import { reloadApp } from '@/shared/functions';
 import MatInput from '@/components/shared/material/MatInput';
 import MatSelect from '@/components/shared/material/MatSelect';
 import MatForm from '@/components/shared/material/MatForm';
 import Modal from '@/components/shared/Modal';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import googleIcon from '@fortawesome/fontawesome-free-brands/faGooglePlus';
-import { mapMutations } from 'vuex';
 import FacebookButton from '@/components/shared/FacebookButton';
-import { ERROR_MESSAGE, PATTERN, GENDER, IMAGE_URL } from '@/shared/constants';
 import cityService from '@/shared/services/city.service';
 import userService from '@/shared/services/user.service';
-import { reloadApp } from '@/shared/functions';
 
 export default {
   props: {
     dialog: {
       type: Boolean,
-      default: false
+      default: false,
     },
     isOpenRegisterFormDialog: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   components: {
     MatInput,
@@ -137,12 +137,12 @@ export default {
     MatForm,
     FontAwesomeIcon,
     Modal,
-    FacebookButton
+    FacebookButton,
   },
   data() {
     return {
       icons: {
-        google: googleIcon
+        google: googleIcon,
       },
       registerForm: {
         phone_number: '',
@@ -150,24 +150,39 @@ export default {
         last_name: '',
         password: '',
         gender: '',
-        city_id: ''
+        city_id: '',
       },
       registerRules: {
         phone_number: [
-          { required: true, message: ERROR_MESSAGE.phoneNumber.required },
-          { validator: PATTERN.phoneNumber, message: ERROR_MESSAGE.phoneNumber.format }
+          {
+            required: true,
+            message: ERROR_MESSAGE.phoneNumber.required,
+          },
+          {
+            validator: PATTERN.phoneNumber,
+            message: ERROR_MESSAGE.phoneNumber.format,
+          },
         ],
         first_name: [
-          { required: true, message: ERROR_MESSAGE.firstName.required }
+          {
+            required: true,
+            message: ERROR_MESSAGE.firstName.required,
+          },
         ],
         last_name: [
-          { required: true, message: ERROR_MESSAGE.lastName.required }
+          {
+            required: true,
+            message: ERROR_MESSAGE.lastName.required,
+          },
         ],
         password: [
-          { required: true, message: ERROR_MESSAGE.password.required }
-        ]
+          {
+            required: true,
+            message: ERROR_MESSAGE.password.required,
+          },
+        ],
       },
-      cities: []
+      cities: [],
     };
   },
   computed: {
@@ -176,11 +191,11 @@ export default {
     },
     imageUrl() {
       return IMAGE_URL;
-    }
+    },
   },
   methods: {
     ...mapMutations('auth', [
-      'setToken'
+      'setToken',
     ]),
     onSubmit() {
       this.$refs.registerForm.validate();
@@ -200,14 +215,14 @@ export default {
       for (const key of Object.keys(errors)) {
         this.$refs.registerForm.addError(key, errors[key]);
       }
-    }
+    },
   },
   mounted() {
     cityService.getAll()
       .then(response => {
         this.cities = response.data;
       });
-  }
+  },
 };
 </script>
 

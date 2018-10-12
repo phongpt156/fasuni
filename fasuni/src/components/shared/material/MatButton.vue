@@ -10,22 +10,22 @@ import Spinner from '@/components/shared/spinner/Spinner';
 
 export default {
   components: {
-    Spinner
+    Spinner,
   },
   props: {
     type: {
       type: String,
-      default: 'button'
+      default: 'button',
     },
     placeholder: {
       type: String,
-      default: ''
+      default: '',
     },
     loading: {
       type: Boolean,
-      default: false
-    }
-  }
+      default: false,
+    },
+  },
 };
 </script>
 

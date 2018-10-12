@@ -6,5 +6,5 @@ Vue.use(VueScrollReveal, {
   duration: 800,
   scale: 1,
   distance: '10px',
-  mobile: false
+  mobile: false,
 });

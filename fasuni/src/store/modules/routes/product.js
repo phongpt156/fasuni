@@ -3,8 +3,8 @@ import lazyLoading from './lazy-loading';
 export default {
   name: 'Product',
   path: '/product/:id',
-  component: lazyLoading('product/Product'),
+  component: lazyLoading('Product'),
   meta: {
-    title: 'Fasuni'
-  }
+    title: 'Fasuni',
+  },
 };

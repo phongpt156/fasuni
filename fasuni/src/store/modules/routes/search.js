@@ -3,8 +3,8 @@ import lazyLoading from './lazy-loading';
 export default {
   name: 'Search',
   path: '/search/:name/:type?',
-  component: lazyLoading('search/Search'),
+  component: lazyLoading('Search'),
   meta: {
-    title: 'Fasuni'
-  }
+    title: 'Fasuni',
+  },
 };

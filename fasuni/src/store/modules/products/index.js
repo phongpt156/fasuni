@@ -9,19 +9,19 @@ const state = {
       colors: {
         name: 'Màu sắc',
         children: [],
-        selectedList: []
+        selectedList: [],
       },
       sizes: {
         name: 'Size',
         children: [],
-        selectedList: []
-      }
-    }
-  }
+        selectedList: [],
+      },
+    },
+  },
 };
 
 export default {
   namespaced: true,
   state,
-  mutations
+  mutations,
 };

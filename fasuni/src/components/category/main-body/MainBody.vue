@@ -61,20 +61,20 @@ export default {
   name: 'Body',
   components: {
     ProductList,
-    MultiSelect
+    MultiSelect,
   },
   data() {
     return {
-      isOpenFilter: false
+      isOpenFilter: false,
     };
   },
   computed: {
     ...mapState('products', [
-      'filterButton'
+      'filterButton',
     ]),
     type() {
       return this.$route.params.type;
-    }
+    },
   },
   methods: {
     ...mapMutations('products', [
@@ -83,7 +83,7 @@ export default {
       'pushSelectedColors',
       'pushSelectedSizes',
       'pushSelectedList',
-      'removeItemFromSelectedList'
+      'removeItemFromSelectedList',
     ]),
     toggleIsOpenFilter() {
       this.isOpenFilter = !this.isOpenFilter;
@@ -148,17 +148,23 @@ export default {
       });
 
       if (index === -1) {
-        this.pushSelectedList({selectedList: children, item: option});
+        this.pushSelectedList({
+          selectedList: children,
+          item: option,
+        });
       } else {
-        this.removeItemFromSelectedList({selectedList: children, index});
+        this.removeItemFromSelectedList({
+          selectedList: children,
+          index,
+        });
       }
-    }
+    },
   },
   async mounted() {
     await Promise.all([this.getColors(), this.getSizes()]);
     this.parseColorsFromUrl();
     this.parseSizesFromUrl();
-  }
+  },
 };
 </script>
 
