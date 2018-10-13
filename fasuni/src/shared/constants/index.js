@@ -1,6 +1,6 @@
-export const BASE_URL = process.env.NODE_ENV === 'production' ? '' : 'http://localhost/fasuni/public_html/';
-export const API_BASE_URL = `${BASE_URL}api`;
-export const IMAGE_URL = `${BASE_URL}images`;
+export const BASE_URL = process.env.NODE_ENV === 'production' ? location.origin : 'http://localhost/fasuni/public_html';
+export const API_BASE_URL = `${BASE_URL}/api`;
+export const IMAGE_URL = `${BASE_URL}/images`;
 
 export const ERROR_MESSAGE = {
   email: {
