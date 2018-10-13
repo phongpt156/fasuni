@@ -1,14 +1,14 @@
 import axios from 'axios';
-import { BASE_URL } from './../constants';
+import { API_BASE_URL } from './../constants';
 
 const httpClient = axios.create({
-  baseURL: BASE_URL,
+  baseURL: API_BASE_URL,
   headers: {
     common: {
       'X-Requested-With': 'XMLHttpRequest',
-      'Content-Type': 'application/json'
-    }
-  }
+      'Content-Type': 'application/json',
+    },
+  },
 });
 
 httpClient.interceptors.request.use(config => {

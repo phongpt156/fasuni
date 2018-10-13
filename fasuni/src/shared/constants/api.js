@@ -1,76 +1,74 @@
-import { BASE_URL } from './';
-
 export const AUTH = {
-  index: `${BASE_URL}/auth`,
-  login: `${BASE_URL}/auth/login`,
-  logout: `${BASE_URL}/auth/logout`,
-  register: `${BASE_URL}/auth/register`,
+  index: '/auth',
+  login: '/auth/login',
+  logout: '/auth/logout',
+  register: '/auth/register',
 };
 
 export const CITY = {
-  getAll: `${BASE_URL}/city`,
-  getDistricts: `${BASE_URL}/city/district/`,
+  getAll: '/city',
+  getDistricts: '/city/district/',
 };
 
 export const DISTRICT = {
-  getWards: `${BASE_URL}/district/ward/`,
+  getWards: '/district/ward/',
 };
 
 export const FACEBOOK = {
-  login: `${BASE_URL}/auth/facebook/login`,
+  login: '/auth/facebook/login',
 };
 
 export const GOOGLE = {
-  login: `${BASE_URL}/auth/google/login`,
+  login: '/auth/google/login',
 };
 
 export const CATEGORY = {
-  getAll: `${BASE_URL}/category`,
-  getHierachyCategory: `${BASE_URL}/category/hierachy/`,
+  getAll: '/category',
+  getHierachyCategory: '/category/hierachy/',
 };
 
 export const PRODUCT = {
-  getAll: `${BASE_URL}/product`,
-  getOne: `${BASE_URL}/product/`,
-  getByCategory: `${BASE_URL}/product/category/`,
-  getRelevant: `${BASE_URL}/product/relevant/`,
-  searchByName: `${BASE_URL}/product/search/`,
+  getAll: '/product',
+  getOne: '/product/',
+  getByCategory: '/product/category/',
+  getRelevant: '/product/relevant/',
+  searchByName: '/product/search/',
 };
 
 export const USER_PRODUCT_COMMUNICATION = {
-  like: `${BASE_URL}/like-product/`,
-  dislike: `${BASE_URL}/dislike-product/`,
+  like: '/like-product/',
+  dislike: '/dislike-product/',
 };
 
 export const LOOKBOOK = {
-  getMaleMonthListSnapshot: `${BASE_URL}/lookbook/get-male-month-list-snapshot`,
-  getFemaleMonthListSnapshot: `${BASE_URL}/lookbook/get-female-month-list-snapshot`,
-  getLookbooksOfMonth: `${BASE_URL}/lookbook/get-lookbooks-of-month/`,
+  getMaleMonthListSnapshot: '/lookbook/get-male-month-list-snapshot',
+  getFemaleMonthListSnapshot: '/lookbook/get-female-month-list-snapshot',
+  getLookbooksOfMonth: '/lookbook/get-lookbooks-of-month/',
 };
 
 export const ATTRIBUTE_VALUE = {
-  getColors: `${BASE_URL}/attribute-value/color`,
-  getSizes: `${BASE_URL}/attribute-value/size`,
+  getColors: '/attribute-value/color',
+  getSizes: '/attribute-value/size',
 };
 
 export const COLLECTION = {
-  getAll: `${BASE_URL}/collection`,
-  getOne: `${BASE_URL}/collection/`,
+  getAll: '/collection',
+  getOne: '/collection/',
 };
 
 export const USER = {
-  getWhistlist: `${BASE_URL}/user/whistlist`,
-  getDeliveryInfo: `${BASE_URL}/user/delivery-info`,
+  getWhistlist: '/user/whistlist',
+  getDeliveryInfo: '/user/delivery-info',
 };
 
 export const ORDER = {
-  store: `${BASE_URL}/order`,
-  getOne: `${BASE_URL}/order/`,
-  getOrderHistoriesOfUser: `${BASE_URL}/order/user-history`,
-  delete: `${BASE_URL}/order/`,
+  store: '/order',
+  getOne: '/order/',
+  getOrderHistoriesOfUser: '/order/user-history',
+  delete: '/order/',
 };
 
 export const USER_DELIVERY_INFO = {
-  getInfoOfUser: `${BASE_URL}/user-delivery-info/user`,
-  store: `${BASE_URL}/user-delivery-info`,
+  getInfoOfUser: '/user-delivery-info/user',
+  store: '/user-delivery-info',
 };
