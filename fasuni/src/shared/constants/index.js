@@ -1,4 +1,4 @@
-export const BASE_URL = process.env.NODE_ENV === 'production' ? location.origin : 'http://localhost/fasuni/public_html';
+export const BASE_URL = process.env.NODE_ENV === 'production' ? location.origin : 'http://fasuni.localhost';
 export const API_BASE_URL = `${BASE_URL}/api`;
 export const IMAGE_URL = `${BASE_URL}/images`;
 
